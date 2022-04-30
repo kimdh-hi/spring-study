@@ -1,0 +1,4 @@
+
+spring.mvcstatic-path-pattern: /webapp/**
+
+file.path: ./files

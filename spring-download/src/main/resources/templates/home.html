@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html
+        lang="ko"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.1/css/bootstrap.min.css}"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="file">파일 업로드: </label>
+            <input type="file" id="file" name="file" multiple>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">업로드</button>
+        </div>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>파일이름</td>
+                <td>파일경로</td>
+                <td>-</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="file: ${files}">
+                <td th:text="${file.fileName}"></td>
+                <td th:text="${file.savePath}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
