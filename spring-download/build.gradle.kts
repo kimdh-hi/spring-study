@@ -35,8 +35,12 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("commons-io:commons-io:2.11.0")
+
+    implementation("org.springframework.boot:spring-boot-devtools:2.6.7")
 
     implementation("org.webjars:bootstrap:4.6.1")
+    implementation("org.webjars:jquery:3.6.0")
 
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 

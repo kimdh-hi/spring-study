@@ -10,16 +10,18 @@
 </head>
 <body>
 <div class="container">
+    <h1>업로드</h1>
     <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
-        <div>
+        <div class="form-group">
             <label for="file">파일 업로드: </label>
-            <input type="file" id="file" name="file" multiple>
+            <input type="file" id="file" name="file" multiple >
         </div>
-        <div>
+        <div class="form-group">
             <button class="btn btn-primary" type="submit">업로드</button>
         </div>
     </form>
 
+    <h1>파일목록</h1>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -32,9 +34,15 @@
             <tr th:each="file: ${files}">
                 <td th:text="${file.fileName}"></td>
                 <td th:text="${file.savePath}"></td>
+                <td>
+                    <button class="btn btn-primary" th:onclick="download('[[${file.id}]]')">다운로드</button>
+                </td>
             </tr>
         </tbody>
     </table>
 </div>
+<script th:src="@{/js/index.js}"></script>
+<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.6.1/js/bootstrap.min.js}"></script>
 </body>
 </html>
