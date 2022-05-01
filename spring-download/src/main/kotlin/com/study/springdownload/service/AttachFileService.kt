@@ -4,12 +4,14 @@ import com.study.springdownload.config.AttachFileProperties
 import com.study.springdownload.domain.AttachFile
 import com.study.springdownload.repository.AttachFileRepository
 import org.apache.commons.io.FileUtils
-import org.springframework.beans.factory.annotation.Value
+import org.slf4j.LoggerFactory
+import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
-import java.io.FileInputStream
+import java.net.URLEncoder
+import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.UUID
 import javax.servlet.http.HttpServletRequest
@@ -21,6 +23,8 @@ class AttachFileService(
     private val attachFileRepository: AttachFileRepository,
     private val attachFileProperties: AttachFileProperties) {
 
+    val log = LoggerFactory.getLogger(javaClass)
+
     @Transactional
     fun upload(file: List<MultipartFile>, request: HttpServletRequest) {
         val basePath = attachFileProperties.path
@@ -29,14 +33,16 @@ class AttachFileService(
             File(basePath).mkdirs()
         }
         file.forEach { f ->
-            val fileName = f.originalFilename
-            val saveFileName = fileName?.lastIndexOf(".")?.let {
-                UUID.randomUUID().toString() + fileName.substring(it)
+            var originalFileName = f.originalFilename
+            val saveFileName = originalFileName?.lastIndexOf(".")?.let {
+                UUID.randomUUID().toString() + originalFileName?.substring(it)
             } ?: UUID.randomUUID().toString()
+
+            originalFileName = originalFileName ?: saveFileName
 
             f.transferTo(File("$uploadPath/$saveFileName"))
 
-            val attachFile = AttachFile.newInstance(saveFileName, "$uploadPath/$saveFileName")
+            val attachFile = AttachFile.newInstance(originalFileName, "$uploadPath/$saveFileName")
             attachFileRepository.save(attachFile)
         }
     }
@@ -48,15 +54,14 @@ class AttachFileService(
 
         val file = File(attachFile.savePath)
 
-        val bytes = FileUtils.readFileToByteArray(file)
-
         response.contentType = "application/octet-stream";
-        response.setHeader("Content-Disposition", "attachment;filename=" + file.name)
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(attachFile.fileName, "UTF-8") + "\";")
         response.setHeader("Content-Transfer-Encoding", "binary");
 
-        val outputStream = response.outputStream
-        outputStream.write(bytes)
-        outputStream.flush()
-        outputStream.close()
+        val bytes = FileUtils.readFileToByteArray(file)
+
+        response.outputStream.write(bytes)
+        response.outputStream.flush()
+        response.outputStream.close()
     }
 }

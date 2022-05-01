@@ -35,7 +35,7 @@
                 <td th:text="${file.fileName}"></td>
                 <td th:text="${file.savePath}"></td>
                 <td>
-                    <button class="btn btn-primary" th:onclick="download('[[${file.id}]]')">다운로드</button>
+                    <a class="btn btn-primary" th:href="@{/download/{id}(id=${file.id})}">다운로드</a>
                 </td>
             </tr>
         </tbody>
