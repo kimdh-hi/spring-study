@@ -35,6 +35,7 @@ class AttachFileController(
         return "redirect:/home"
     }
 
+    @ResponseBody
     @GetMapping("/download/{id}")
     fun download(@PathVariable id: Long, response: HttpServletResponse) {
         log.info("download id: {}", id)

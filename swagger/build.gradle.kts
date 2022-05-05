@@ -25,8 +25,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     //swagger
+    implementation("io.springfox:springfox-swagger2:3.0.0")
     implementation("io.springfox:springfox-boot-starter:3.0.0")
-    implementation("'io.springfox:springfox-swagger-ui:3.0.0")
+    implementation("io.springfox:springfox-swagger-ui:3.0.0")
 
     runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

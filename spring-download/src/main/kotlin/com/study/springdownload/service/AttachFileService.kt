@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
+import java.io.IOException
 import java.net.URLEncoder
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -52,16 +53,23 @@ class AttachFileService(
             throw IllegalArgumentException("존재하지 않는 파일입니다.")
         }
 
-        val file = File(attachFile.savePath)
+        try {
+            val file = File(attachFile.savePath)
 
-        response.contentType = "application/octet-stream";
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(attachFile.fileName, "UTF-8") + "\";")
-        response.setHeader("Content-Transfer-Encoding", "binary");
+            response.contentType = "application/octet-stream";
+            response.setHeader(
+                "Content-Disposition",
+                "attachment; filename=\"" + URLEncoder.encode(attachFile.fileName, "UTF-8") + "\";"
+            )
+            response.setHeader("Content-Transfer-Encoding", "binary");
 
-        val bytes = FileUtils.readFileToByteArray(file)
+            val bytes = FileUtils.readFileToByteArray(file)
 
-        response.outputStream.write(bytes)
-        response.outputStream.flush()
-        response.outputStream.close()
+            response.outputStream.write(bytes)
+            response.outputStream.flush()
+            response.outputStream.close()
+        } catch (ex: IOException) {
+
+        }
     }
 }

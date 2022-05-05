@@ -19,5 +19,6 @@ class Event (
     var location: String,
     var basePrice: Int,
     var maxPrice: Int,
-    var limitOfEnrollment: Int
+    var limitOfEnrollment: Int,
+
 )
