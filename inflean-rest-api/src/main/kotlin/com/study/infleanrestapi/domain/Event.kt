@@ -17,6 +17,8 @@ class Event (
     var basePrice: Int,
     var maxPrice: Int,
     var limitOfEnrollment: Int, // 참가인원 제한
+    var offline: Boolean = false,
+    var free: Boolean = false,
     @Enumerated(EnumType.STRING)
     var eventStatus: EventStatus,
 ) {
@@ -25,13 +27,15 @@ class Event (
         fun newInstance (name: String, description: String,
                          beginEnrollmentDateTime: LocalDateTime, closeEnrollmentDateTime: LocalDateTime,
                          beginEventDateTime: LocalDateTime, endEventDateTime: LocalDateTime,
-                         location: String, basePrice: Int, maxPrice: Int, limitOfEnrollment: Int, eventStatus: EventStatus): Event {
+                         location: String, basePrice: Int, maxPrice: Int, limitOfEnrollment: Int, eventStatus: EventStatus,
+                        offline: Boolean, free: Boolean): Event {
 
             return Event (
                 name = name, description = description,
                 beginEnrollmentDateTime = beginEnrollmentDateTime, closeEnrollmentDateTime = closeEnrollmentDateTime, endEventDateTime = endEventDateTime,
                 beginEventDateTime = beginEventDateTime, location = location, basePrice = basePrice, maxPrice = maxPrice,
-                limitOfEnrollment = limitOfEnrollment, eventStatus = eventStatus)
+                limitOfEnrollment = limitOfEnrollment, eventStatus = eventStatus,
+                offline = offline, free = free)
         }
     }
 }

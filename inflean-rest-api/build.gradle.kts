@@ -36,6 +36,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("org.modelmapper:modelmapper:3.1.0")
 	runtimeOnly("com.h2database:h2")
 
 	testImplementation("io.mockk:mockk:1.10.4")
