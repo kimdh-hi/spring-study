@@ -21,7 +21,7 @@ class Event (
     var offline: Boolean?,
     var free: Boolean?,
     @Enumerated(EnumType.STRING)
-    var eventStatus: EventStatus,
+    var eventStatus: EventStatus = EventStatus.DRAFT,
 ) {
 
     init {

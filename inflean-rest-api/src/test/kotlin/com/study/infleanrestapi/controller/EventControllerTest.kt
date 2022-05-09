@@ -45,9 +45,10 @@ internal class EventControllerTest(
         //then
         result.andExpect {
             status { isCreated() }
-            jsonPath("$.id") {
-                exists()
-            }
+            jsonPath("$.id") { exists() }
+            jsonPath("$._links.self.href") { exists() }
+            jsonPath("$._links.events") { exists() }
+            jsonPath("$._links.update-event") { exists() }
             header { exists("Location") }
         }
 

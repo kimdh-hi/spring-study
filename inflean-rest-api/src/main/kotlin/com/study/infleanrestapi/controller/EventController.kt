@@ -5,6 +5,8 @@ import com.study.infleanrestapi.domain.Event
 import com.study.infleanrestapi.repository.EventRepository
 import com.study.infleanrestapi.vo.EventVO
 import org.modelmapper.ModelMapper
+import org.springframework.hateoas.EntityModel
+import org.springframework.hateoas.Link
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.BindingResult
@@ -26,9 +28,14 @@ class EventController(
         }
         val event = modelMapper.map(eventVO, Event::class.java)
         val savedEvent = eventRepository.save(event)
-        val uri = linkTo(EventController::class.java).slash(savedEvent.id).toUri()
 
-        return ResponseEntity.created(uri).body(savedEvent)
+        val selfLink = linkTo(EventController::class.java).slash(savedEvent.id)
+        val entityModel = EntityModel.of(event)
+        entityModel.add(selfLink.withSelfRel())
+        entityModel.add(linkTo(EventController::class.java).withRel("events"))
+        entityModel.add(selfLink.withRel("update-event"))
+
+        return ResponseEntity.created(selfLink.toUri()).body(entityModel)
     }
 
     @GetMapping("/{id}")
