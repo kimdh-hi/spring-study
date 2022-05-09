@@ -3,29 +3,28 @@ package com.study.infleanrestapi.vo
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.validation.constraints.Min
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
-data class EventVO (
-    @field:NotBlank
+data class Event2VO (
+    @NotEmpty
     val name: String? = null,
-    @field:NotEmpty
+    @NotEmpty
     val description: String? = null,
-    @field:NotNull
+    @NotNull
     val beginEnrollmentDateTime: LocalDateTime? = null,
-    @field:NotNull
+    @NotNull
     val closeEnrollmentDateTime: LocalDateTime? = null,
-    @field:NotNull
+    @NotNull
     val beginEventDateTime: LocalDateTime? = null,
-    @field:NotNull
+    @NotNull
     val endEventDateTime: LocalDateTime? = null,
     val location: String? = null,
-    @field:Min(0)
+    @Min(0)
     val basePrice: Int? = null,
-    @field:Min(0)
+    @Min(0)
     val maxPrice: Int? = null,
-    @field:Min(0)
+    @Min(0)
     val limitOfEnrollment: Int? = null,
 ): Serializable {
     companion object {

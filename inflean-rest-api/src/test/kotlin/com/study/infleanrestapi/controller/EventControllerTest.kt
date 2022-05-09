@@ -34,7 +34,7 @@ internal class EventControllerTest(
         val eventVO = EventTestHelper.createEventVO()
 
         //when
-        val result = mockMvc.post("/api/events/") {
+        val result = mockMvc.post("/api/events") {
             content = objectMapper.writeValueAsString(eventVO)
             contentType = MediaType.APPLICATION_JSON
             accept = MediaTypes.HAL_JSON
@@ -62,7 +62,7 @@ internal class EventControllerTest(
         val event = EventTestHelper.createEvent()
 
         //when
-        val result = mockMvc.post("/api/events/") {
+        val result = mockMvc.post("/api/events") {
             content = objectMapper.writeValueAsString(event)
             contentType = MediaType.APPLICATION_JSON
             accept = MediaTypes.HAL_JSON
@@ -76,4 +76,44 @@ internal class EventControllerTest(
         }
     }
 
+    @Test
+    fun `이벤트 생성 - validation 위반` () {
+        //given
+        val event = EventTestHelper.createEventVO(name = " ", description = "")
+
+        //when
+        val result = mockMvc.post("/api/events") {
+            content = objectMapper.writeValueAsString(event)
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaTypes.HAL_JSON
+        }.andDo {
+            print()
+        }
+
+        //then
+        result.andExpect {
+            status { isBadRequest() }
+        }
+    }
+
+
+    @Test
+    fun `이벤트 생성 - custom validation 위반` () {
+        //given
+        val event = EventTestHelper.createEventVO(basePrice = 1000, maxPrice = 100)
+
+        //when
+        val result = mockMvc.post("/api/events") {
+            content = objectMapper.writeValueAsString(event)
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaTypes.HAL_JSON
+        }.andDo {
+            print()
+        }
+
+        //then
+        result.andExpect {
+            status { isBadRequest() }
+        }
+    }
 }
