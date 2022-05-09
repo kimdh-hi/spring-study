@@ -19,10 +19,10 @@ class EventController(
     private val modelMapper: ModelMapper, private val eventValidator: EventValidator) {
 
     @PostMapping
-    fun create(@RequestBody @Valid eventVO: EventVO, bindingResult: BindingResult) : ResponseEntity<Event> {
+    fun create(@RequestBody @Valid eventVO: EventVO, bindingResult: BindingResult) : ResponseEntity<Any> {
         eventValidator.validate(eventVO, bindingResult)
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().build()
+            return ResponseEntity.badRequest().body(bindingResult)
         }
         val event = modelMapper.map(eventVO, Event::class.java)
         val savedEvent = eventRepository.save(event)

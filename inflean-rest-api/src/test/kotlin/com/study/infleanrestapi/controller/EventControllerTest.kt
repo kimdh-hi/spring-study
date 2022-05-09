@@ -116,4 +116,28 @@ internal class EventControllerTest(
             status { isBadRequest() }
         }
     }
+
+    @Test
+    fun `이벤트 생성 - validation body 응답` () {
+        //given
+        val event = EventTestHelper.createEventVO(name = "")
+
+        //when
+        val result = mockMvc.post("/api/events") {
+            content = objectMapper.writeValueAsString(event)
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaTypes.HAL_JSON
+        }.andDo {2
+            print()
+        }
+
+        //then
+        result.andExpect {
+            status { isBadRequest() }
+            jsonPath("$[0].field") { exists() }
+            jsonPath("$[0].objectName") { exists() }
+            jsonPath("$[0].message") { exists() }
+            jsonPath("$[0].code") { exists() }
+        }
+    }
 }

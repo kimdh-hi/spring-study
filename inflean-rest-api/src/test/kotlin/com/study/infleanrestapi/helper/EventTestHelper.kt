@@ -11,12 +11,12 @@ object EventTestHelper {
     const val NAME = "name"
     const val DESCRIPTION = "description"
 
-    fun createEvent(): Event {
+    fun createEvent(basePrice: Int = 100, maxPrice: Int = 1000, location: String? = "location"): Event {
         return Event.newInstance(
             name = NAME, description = DESCRIPTION,
             beginEventDateTime = LocalDateTime.now(), closeEnrollmentDateTime = LocalDateTime.now().plusDays(1),
             beginEnrollmentDateTime = LocalDateTime.now(), endEventDateTime = LocalDateTime.now().plusMonths(1),
-            location = "location", basePrice = 100, maxPrice = 1000, limitOfEnrollment = 100, eventStatus = EventStatus.BEGAN_ENROLLMENT,
+            location = location, basePrice = basePrice, maxPrice = maxPrice, limitOfEnrollment = 100, eventStatus = EventStatus.BEGAN_ENROLLMENT,
             offline = false, free = false
         )
     }
