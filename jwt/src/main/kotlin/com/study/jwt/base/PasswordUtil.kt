@@ -1,4 +1,4 @@
-package com.study.jwt
+package com.study.jwt.base
 
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 

@@ -1,6 +1,6 @@
 package com.study.jwt.controller
 
-import com.study.jwt.auth.JwtRequestVO
+import com.study.jwt.auth.JwtPrincipal
 import com.study.jwt.auth.JwtResponseVO
 import com.study.jwt.auth.JwtUtil
 import com.study.jwt.service.AccountService
@@ -26,7 +26,7 @@ class AccountController(private val accountService: AccountService) {
     @PostMapping("/login")
     fun login(@RequestBody loginRequestVO: LoginRequestVO): ResponseEntity<JwtResponseVO> {
         val account = accountService.authenticate(loginRequestVO.username, loginRequestVO.password)
-        val token = JwtUtil.generateToken(JwtRequestVO.fromAccount(account))
+        val token = JwtUtil.generateToken(JwtPrincipal.fromAccount(account))
         return ResponseEntity.ok(JwtResponseVO.newInstance(token))
     }
 }

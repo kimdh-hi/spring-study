@@ -1,6 +1,6 @@
 package com.study.jwt.vo
 
-import com.study.jwt.PasswordUtil
+import com.study.jwt.base.PasswordUtil
 import com.study.jwt.base.TestData
 import com.study.jwt.domain.Account
 import com.study.jwt.domain.Role

@@ -1,6 +1,6 @@
 package com.study.jwt.service
 
-import com.study.jwt.PasswordUtil
+import com.study.jwt.base.PasswordUtil
 import com.study.jwt.domain.Account
 import com.study.jwt.repository.AccountRepository
 import com.study.jwt.vo.SignupRequestVO
