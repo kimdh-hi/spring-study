@@ -38,8 +38,7 @@ class SecurityConfig(
                 header.contentTypeOptions { it.disable() }
             }
             .authorizeHttpRequests {
-                it.antMatchers("/accounts/signup", "/accounts/login").permitAll()
-                it.anyRequest().authenticated()
+                it.anyRequest().permitAll()
             }
             .sessionManagement {
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

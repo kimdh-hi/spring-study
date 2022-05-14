@@ -2,27 +2,15 @@ package com.study.jwt.controller
 
 import com.study.jwt.auth.JwtPrincipal
 import com.study.jwt.auth.JwtUtil
+import com.study.jwt.base.AbstractIntegrationTest
 import com.study.jwt.base.TestData
 import com.study.jwt.repository.AccountRepository
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
-import org.springframework.test.context.TestConstructor
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
-import org.springframework.transaction.annotation.Transactional
 
-@Transactional
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-@AutoConfigureMockMvc
-@SpringBootTest
-internal class AuthUserControllerTest (
-    val mockMvc: MockMvc, val accountRepository: AccountRepository) {
-
-    val BEARER_PREFIX = "bearer "
+internal class AuthUserControllerTest (): AbstractIntegrationTest() {
 
     @Test
     fun `토큰인증 성공 - user - userApi`() {

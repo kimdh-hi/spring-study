@@ -16,6 +16,7 @@ class JwtAuthenticationException(message: String, errorCode: String): BaseExcept
 object ErrorCodes {
     const val RESOURCE_NOT_FOUND = "9001"
     const val INVALID_TOKEN = "9002"
+    const val ACCESS_DENIED = "9003"
     const val UNDEFINED = "9999"
 }
 
