@@ -1,6 +1,7 @@
 package com.study.jwt.controller
 
 import com.study.jwt.base.AbstractIntegrationTest
+import com.study.jwt.base.SecurityConstants
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpHeaders
 import org.springframework.test.web.servlet.MockMvc
@@ -22,7 +23,7 @@ internal class PublicControllerTest(): AbstractIntegrationTest() {
     @Test
     fun `인증을 필요로 하지 않은 api에 토큰을 포함하고 접근`() {
         mockMvc.get("/api/public") {
-            header(HttpHeaders.AUTHORIZATION, "${BEARER_PREFIX}${userToken}")
+            header(HttpHeaders.AUTHORIZATION, "${SecurityConstants.BEARER_TYPE_PREFIX}${userToken}")
         }.andExpect { status { isOk() } }
     }
 }

@@ -23,8 +23,6 @@ import org.springframework.web.context.WebApplicationContext
 @SpringBootTest
 abstract class AbstractIntegrationTest() {
 
-    val BEARER_PREFIX = "bearer "
-
     @Autowired lateinit var mockMvc: MockMvc
     @Autowired private lateinit var context: WebApplicationContext
     @Autowired lateinit var objectMapper: ObjectMapper

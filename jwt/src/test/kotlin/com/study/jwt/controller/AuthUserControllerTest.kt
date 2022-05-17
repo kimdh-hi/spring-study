@@ -3,6 +3,7 @@ package com.study.jwt.controller
 import com.study.jwt.auth.JwtPrincipal
 import com.study.jwt.auth.JwtUtil
 import com.study.jwt.base.AbstractIntegrationTest
+import com.study.jwt.base.SecurityConstants
 import com.study.jwt.base.TestData
 import com.study.jwt.repository.AccountRepository
 import org.junit.jupiter.api.Test
@@ -20,7 +21,7 @@ internal class AuthUserControllerTest (): AbstractIntegrationTest() {
 
         //when
         val result = mockMvc.get("/api/user/hello") {
-            header(HttpHeaders.AUTHORIZATION, "$BEARER_PREFIX$token")
+            header(HttpHeaders.AUTHORIZATION, "${SecurityConstants.BEARER_TYPE_PREFIX}$token")
         }.andDo { print() }
 
         //then
@@ -35,7 +36,7 @@ internal class AuthUserControllerTest (): AbstractIntegrationTest() {
 
         //when
         val result = mockMvc.get("/api/user/hello") {
-            header(HttpHeaders.AUTHORIZATION, "$BEARER_PREFIX$token")
+            header(HttpHeaders.AUTHORIZATION, "${SecurityConstants.BEARER_TYPE_PREFIX}$token")
         }.andDo { print() }
 
         //then

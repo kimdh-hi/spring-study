@@ -10,6 +10,10 @@ object TestData {
     const val ACCOUNT_ADMIN_USERNAME = "admin"
     const val ACCOUNT_ADMIN_PASSWORD = "admin"
 
+    const val ACCOUNT_ADMIN2_ID = "account-03"
+    const val ACCOUNT_ADMIN2_USERNAME = "admin2"
+    const val ACCOUNT_ADMIN2_PASSWORD = "admin"
+
     const val ACCOUNT_USER_ID = "account-02"
     const val ACCOUNT_USER_USERNAME = "user"
     const val ACCOUNT_USER_PASSWORD = "user"

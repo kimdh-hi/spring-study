@@ -40,10 +40,24 @@ data class SignupResponseVO(
 data class LoginRequestVO (
     val username: String,
     val password: String,
+    val passwordUpdateLater: Boolean = false,
 ): BaseVO() {
 
     companion object {
         private const val serialVersionUID: Long = -8729089149853359450L
     }
 
+}
+
+data class LoginResponseVO (
+    val token: String? = null,
+    var passwordExpired: Boolean = false
+): BaseVO() {
+    companion object {
+        private const val serialVersionUID: Long = 5426543278829396386L
+
+        fun newInstance(token: String? = null, expired: Boolean = false)
+            = LoginResponseVO(token = token, passwordExpired = expired)
+
+    }
 }

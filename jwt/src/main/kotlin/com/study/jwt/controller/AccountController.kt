@@ -1,17 +1,14 @@
 package com.study.jwt.controller
 
 import com.study.jwt.auth.JwtPrincipal
-import com.study.jwt.auth.JwtResponseVO
 import com.study.jwt.auth.JwtUtil
 import com.study.jwt.service.AccountService
 import com.study.jwt.vo.LoginRequestVO
+import com.study.jwt.vo.LoginResponseVO
 import com.study.jwt.vo.SignupRequestVO
 import com.study.jwt.vo.SignupResponseVO
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/accounts")
 @RestController
@@ -24,9 +21,20 @@ class AccountController(private val accountService: AccountService) {
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody loginRequestVO: LoginRequestVO): ResponseEntity<JwtResponseVO> {
+    fun login(@RequestBody loginRequestVO: LoginRequestVO): ResponseEntity<LoginResponseVO> {
         val account = accountService.authenticate(loginRequestVO.username, loginRequestVO.password)
-        val token = JwtUtil.generateToken(JwtPrincipal.fromAccount(account))
-        return ResponseEntity.ok(JwtResponseVO.newInstance(token))
+
+        val loginResponseVO: LoginResponseVO = if (!account.hasExpiredPasswordUpdateDate()) { // 기한 만료 X
+            val token = JwtUtil.generateToken(JwtPrincipal.fromAccount(account))
+            LoginResponseVO(token, passwordExpired = false)
+        } else if (account.hasExpiredPasswordUpdateDate() && loginRequestVO.passwordUpdateLater) { // 기한 만료 & 나중에 변경
+            accountService.extendPasswordUpdateDate(account)
+            val token = JwtUtil.generateToken(JwtPrincipal.fromAccount(account))
+            LoginResponseVO(token, passwordExpired = false)
+        } else { // 기한 만료 & 지금 변경
+            LoginResponseVO(passwordExpired = true)
+        }
+
+        return ResponseEntity.ok(loginResponseVO)
     }
 }

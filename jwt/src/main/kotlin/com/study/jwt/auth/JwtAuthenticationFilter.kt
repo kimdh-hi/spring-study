@@ -1,7 +1,9 @@
 package com.study.jwt.auth
 
+import com.study.jwt.base.SecurityConstants
 import com.study.jwt.exception.ErrorCodes
 import com.study.jwt.exception.JwtAuthenticationException
+import com.study.jwt.util.SecurityUtil
 import com.study.jwt.vo.ErrorResponseVO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
@@ -13,10 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.authority.AuthorityUtils
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.stereotype.Component
 import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
@@ -36,14 +35,17 @@ class JwtAuthenticationFilter (
         setAuthenticationSuccessHandler(JwtAuthenticationSuccessHandler())
     }
 
-    private val bearerPrefix = "bearer "
-
     /**
      * filterProcessingUrl에 매칭되는 요청은 모두 첫번째로 doFilter 메서드를 타게 된다.
      * 토큰이 존재하지 않다면 인증을 수행하고, Authentication 을 세팅하는 등의 작업을 수행하는 필터를 타지 않는다.
      */
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
         val httpServletRequest = request as HttpServletRequest
+        if (checkSkipUrl(request)) {
+            chain.doFilter(request, response)
+            return
+        }
+
         val token = getToken(httpServletRequest)
         if (token.isNullOrBlank()) {
             chain.doFilter(request, response)
@@ -56,12 +58,11 @@ class JwtAuthenticationFilter (
     override fun attemptAuthentication(request: HttpServletRequest, response: HttpServletResponse): Authentication {
         val token = getToken(request) ?: throw JwtAuthenticationException("token not exists.", ErrorCodes.INVALID_TOKEN)
         val jwtPrincipal = jwtUtil.parseToken(token)
-        val authentication = UsernamePasswordAuthenticationToken(jwtPrincipal, null, AuthorityUtils.createAuthorityList(jwtPrincipal.authority))
-//        SecurityContextHolder.getContext().authentication = authentication
 
-        return authentication
+        return UsernamePasswordAuthenticationToken(
+            jwtPrincipal, null, AuthorityUtils.createAuthorityList(jwtPrincipal.authority)
+        )
     }
-
     override fun successfulAuthentication(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -83,6 +84,10 @@ class JwtAuthenticationFilter (
         return
     }
 
+    private fun checkSkipUrl(request: HttpServletRequest): Boolean {
+        return SecurityConstants.JWT_FILTER_SKIP_URL.contains(request.requestURI)
+    }
+
     private fun getToken(request: HttpServletRequest): String? {
         return getAuthorizationHeader(request)?.let { bearerToken ->
             extractTokenFromBearer(bearerToken)
@@ -90,7 +95,7 @@ class JwtAuthenticationFilter (
     }
 
     private fun extractTokenFromBearer(bearerToken: String): String {
-        return bearerToken.substring(bearerPrefix.length)
+        return bearerToken.substring(SecurityConstants.BEARER_TYPE_PREFIX.length)
     }
 
     private fun getAuthorizationHeader(request: HttpServletRequest): String? {

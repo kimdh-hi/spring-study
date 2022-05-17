@@ -2,14 +2,14 @@ package com.study.jwt.config
 
 import com.study.jwt.auth.JwtAuthenticationFilter
 import com.study.jwt.auth.JwtUtil
+import com.study.jwt.base.SecurityConstants
 import com.study.jwt.domain.Authority
+import org.apache.catalina.startup.Constants
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl
-import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
@@ -25,10 +25,8 @@ class SecurityConfig(
     private val jwtUtil: JwtUtil
 ): WebSecurityConfigurerAdapter() {
 
-    val JWT_FILETER_PROCESSING_URL = "/api/**"
-
     @Bean
-    fun jwtAuthenticationFilter() = JwtAuthenticationFilter(jwtUtil, JWT_FILETER_PROCESSING_URL)
+    fun jwtAuthenticationFilter() = JwtAuthenticationFilter(jwtUtil, SecurityConstants.JWT_FILTER_PROCESSING_URL_PREFIX)
 
     override fun configure(http: HttpSecurity) {
         http

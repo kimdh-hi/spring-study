@@ -29,6 +29,11 @@ class AccountService(private val accountRepository: AccountRepository) {
         } ?: throw BadCredentialsException("failed to login. user not found ....")
     }
 
+    @Transactional
+    fun extendPasswordUpdateDate(account: Account) {
+        account.extendPasswordUpdateDate()
+    }
+
     private fun usernameExistsCheck(username: String) {
         val exists = accountRepository.existsByUsername(username)
         if (exists)

@@ -3,13 +3,16 @@ package com.study.jwt.controller
 import com.study.jwt.base.AbstractIntegrationTest
 import com.study.jwt.base.TestData
 import com.study.jwt.vo.LoginRequestVO
+import com.study.jwt.vo.LoginResponseVO
 import com.study.jwt.vo.SignupRequestVO
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.provider.Arguments
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.post
+import java.time.LocalDateTime
 
 internal class AccountControllerTest(): AbstractIntegrationTest() {
 
@@ -43,22 +46,66 @@ internal class AccountControllerTest(): AbstractIntegrationTest() {
     inner class LoginTest {
 
         @Test
-        fun `로그인 성공 - 토큰 발급`() {
+        fun `로그인 성공`() {
             //given
-            val loginRequestVO =
-                LoginRequestVO(username = TestData.ACCOUNT_ADMIN_USERNAME, password = TestData.ACCOUNT_ADMIN_PASSWORD)
+            val loginRequestVO = LoginRequestVO(TestData.ACCOUNT_ADMIN_USERNAME, TestData.ACCOUNT_ADMIN_PASSWORD)
 
             //when
             val result = mockMvc.post("/accounts/login") {
                 contentType = MediaType.APPLICATION_JSON
                 content = objectMapper.writeValueAsString(loginRequestVO)
-            }.andDo { print() }
+            }
 
             //then
             result.andExpect {
                 status { isOk() }
                 jsonPath("$.token") { exists() }
+                jsonPath("$.passwordExpired") { value(false) }
             }
+        }
+
+        @Test
+        fun `90일 경과`() {
+            //given
+            val loginRequestVO =
+                LoginRequestVO(TestData.ACCOUNT_ADMIN2_USERNAME, TestData.ACCOUNT_ADMIN2_PASSWORD)
+
+            //when
+            val result = mockMvc.post("/accounts/login") {
+                contentType = MediaType.APPLICATION_JSON
+                content = objectMapper.writeValueAsString(loginRequestVO)
+            }
+
+            //then
+            result.andExpect {
+                status { isOk() }
+                jsonPath("$.token") { doesNotExist() }
+                jsonPath("$.passwordExpired") { value(true) }
+            }
+        }
+
+        @Test
+        fun `90일 경과, 나중에 변경`() {
+            //given
+            val loginRequestVO =
+                LoginRequestVO(TestData.ACCOUNT_ADMIN2_USERNAME, TestData.ACCOUNT_ADMIN2_PASSWORD, true)
+
+            //when
+            val result = mockMvc.post("/accounts/login") {
+                contentType = MediaType.APPLICATION_JSON
+                content = objectMapper.writeValueAsString(loginRequestVO)
+            }
+
+            //then
+            result.andExpect {
+                status { isOk() }
+                jsonPath("$.token") { exists() }
+                jsonPath("$.passwordExpired") { value(false)}
+            }
+            val passwordUpdateDate =
+                accountRepository.findByUsername(TestData.ACCOUNT_ADMIN2_USERNAME)!!.passwordUpdateDate
+
+            assertTrue(passwordUpdateDate.isAfter(LocalDateTime.now().plusDays(30).minusSeconds(1)))
         }
     }
 
