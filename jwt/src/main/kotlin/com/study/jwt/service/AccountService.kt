@@ -30,8 +30,8 @@ class AccountService(private val accountRepository: AccountRepository) {
     }
 
     @Transactional
-    fun extendPasswordUpdateDate(account: Account) {
-        account.extendPasswordUpdateDate()
+    fun extendsPasswordUpdateDate(account: Account) {
+        account.extendsPasswordUpdateDate()
     }
 
     private fun usernameExistsCheck(username: String) {

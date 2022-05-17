@@ -37,7 +37,7 @@ class Account (
         private const val serialVersionUID: Long = -5546758764761299602L
     }
 
-    fun extendPasswordUpdateDate() {
+    fun extendsPasswordUpdateDate() {
         this.passwordUpdateDate = LocalDateTime.now().plusDays(30)
     }
 
