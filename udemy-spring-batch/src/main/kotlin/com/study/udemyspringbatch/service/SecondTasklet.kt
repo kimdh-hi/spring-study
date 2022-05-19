@@ -11,6 +11,9 @@ class SecondTasklet: Tasklet {
 
     override fun execute(contribution: StepContribution, chunkContext: ChunkContext): RepeatStatus? {
         println("Second Tasklet step")
+        println("Second Tasklet jobExecutionContext: ${chunkContext.stepContext.jobExecutionContext}")
+        val value = chunkContext.stepContext.jobExecutionContext.get("jec-key")
+        println("Second Tasklet jobExecutionContext.get: $value")
         return RepeatStatus.FINISHED
     }
 }
