@@ -4,6 +4,6 @@ spring:
     username: root
     password: 1234
 
-  batch:
-    jdbc:
-      initialize-schema: always
+#  batch:
+#    jdbc:
+#      initialize-schema: always

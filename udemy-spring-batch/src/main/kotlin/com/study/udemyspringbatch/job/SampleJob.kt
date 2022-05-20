@@ -1,5 +1,8 @@
-package com.study.udemyspringbatch.config
+package com.study.udemyspringbatch.job
 
+import com.study.udemyspringbatch.chunk.MyItemProcessor
+import com.study.udemyspringbatch.chunk.MyItemReader
+import com.study.udemyspringbatch.chunk.MyItemWriter
 import com.study.udemyspringbatch.listner.FirstJobListener
 import com.study.udemyspringbatch.listner.FirstStepListener
 import com.study.udemyspringbatch.service.SecondTasklet
@@ -9,6 +12,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory
 import org.springframework.batch.core.launch.support.RunIdIncrementer
 import org.springframework.batch.core.step.tasklet.Tasklet
+import org.springframework.batch.item.ItemWriter
 import org.springframework.batch.repeat.RepeatStatus
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,11 +21,12 @@ import org.springframework.context.annotation.Configuration
 class SampleJob(
     val jbf: JobBuilderFactory, val sbf: StepBuilderFactory,
     val secondTasklet: SecondTasklet,
-    val firstJobListener: FirstJobListener, val firstStepListener: FirstStepListener) {
+    val firstJobListener: FirstJobListener, val firstStepListener: FirstStepListener,
+    val myItemReader: MyItemReader, val myItemProcessor: MyItemProcessor, val myItemWriter: MyItemWriter) {
 
-    @Bean
+//    @Bean
     fun firstJob(): Job {
-        return jbf.get("First Job Name")
+        return jbf.get("First Job")
             .incrementer(RunIdIncrementer()) // parameter for unique job instance id
             .start(firstStep())
             .next(secondStep()) // start -> next -> next ... sequential
@@ -30,7 +35,7 @@ class SampleJob(
     }
 
     private fun firstStep(): Step {
-        return sbf.get("First Step Name")
+        return sbf.get("First Step")
             .tasklet(firstTasklet())
             .listener(firstStepListener)
             .build()
@@ -56,4 +61,22 @@ class SampleJob(
 //            RepeatStatus.FINISHED
 //        }
 //    }
+
+    @Bean
+    fun secondJob(): Job {
+        return jbf.get("Second Job")
+            .incrementer(RunIdIncrementer())
+            .start(chunkStep())
+            .build()
+    }
+
+    private fun chunkStep(): Step {
+        return sbf.get("Chunk Step")
+            .chunk<Int, Long>(3)
+            .reader(myItemReader)
+            .processor(myItemProcessor)
+            .writer(myItemWriter)
+            .build()
+
+    }
 }
