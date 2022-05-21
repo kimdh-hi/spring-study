@@ -1,4 +1,4 @@
-package com.study.gof.factorymethod.ex1
+package com.study.gof.factorymethod.`1-before`
 
 import com.study.gof.factorymethod.Ship
 
@@ -14,7 +14,7 @@ class ShipFactory {
 
         fun orderShip(name: String, email: String) : Ship {
             validate(name, email)
-            prepareFor(name)
+            prepare(name)
 
             val ship = Ship()
             ship.name = name
@@ -40,8 +40,8 @@ class ShipFactory {
             }
         }
 
-
         private fun setColor(ship: Ship, name: String) {
+            // 요구사항에 따라 다른 생산 방식의 Ship 이 생성되어야 한다면 if-else 구문이 계속해서 늘어나게 됨
             if (name.equals("whiteship", ignoreCase = true)) {
                 ship.color = "white"
             } else if(name.equals("blackship", ignoreCase = true)) {
@@ -54,7 +54,7 @@ class ShipFactory {
             if (email.isBlank()) throw IllegalArgumentException("이메일을 입력하세요.")
         }
 
-        private fun prepareFor(name: String) {
+        private fun prepare(name: String) {
             println("$name 생산중 ...")
         }
     }

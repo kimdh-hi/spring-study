@@ -31,13 +31,6 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
             .httpBasic()
     }
 
-//    override fun configure(auth: AuthenticationManagerBuilder) {
-//        auth.inMemoryAuthentication()
-//            .withUser("admin").password("{noop}1234").authorities("admin")
-//            .and()
-//            .withUser("user").password("{noop}1234").authorities("user")
-//    }
-
     override fun configure(auth: AuthenticationManagerBuilder) {
         val userDetailsManager = InMemoryUserDetailsManager()
         userDetailsManager.createUser(
