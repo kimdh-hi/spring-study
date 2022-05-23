@@ -1,0 +1,1 @@
+insert into member(id, username) values('1', 'kim')
