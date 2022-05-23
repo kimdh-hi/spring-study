@@ -9,6 +9,7 @@ import org.springframework.util.PatternMatchUtils
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.servlet.LocaleResolver
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
+import org.springframework.web.servlet.support.RequestContextUtils
 import org.springframework.web.util.WebUtils
 import java.util.Locale
 import javax.servlet.FilterChain
@@ -19,6 +20,11 @@ import javax.servlet.http.HttpServletResponse
 class LocaleFilter: OncePerRequestFilter() {
 
     private val LOG = LoggerFactory.getLogger(javaClass)
+
+    companion object {
+        private val LOCALE = "locale"
+        private val SESSION_LOCALE_KEY = "org.apache.struts2.action.LOCALE";
+    }
 
     val SKIP_URI = arrayOf(
         "/static/**"
@@ -36,7 +42,7 @@ class LocaleFilter: OncePerRequestFilter() {
             return
         }
 
-        var localeParam = request.getParameter("locale")
+        var localeParam = request.getParameter(LOCALE)
         if (StringUtils.isBlank(localeParam)) {
             localeParam = getLocaleFromSessionOrDefaultLocale(request)
         }
@@ -49,17 +55,17 @@ class LocaleFilter: OncePerRequestFilter() {
     }
 
     private fun setLocale(request: HttpServletRequest, locale: Locale) {
-        LOG.debug("filter-locale: {}", locale)
         WebUtils.setSessionAttribute(request, SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale)
+
+        val session = request.session
+        session.setAttribute(SESSION_LOCALE_KEY, locale)
+
+        LocaleContextHolder.setLocale(locale)
     }
 
     private fun getLocaleFromSessionOrDefaultLocale(request: HttpServletRequest): String {
-        val locale = request.session.getAttribute("locale")
-        if (locale == null) {
-            return DEFAULT_LOCALE
-        } else {
-            return locale.toString()
-        }
+        val locale = request.session.getAttribute(SESSION_LOCALE_KEY)
+        return locale?.toString() ?: DEFAULT_LOCALE
     }
 
     private fun convertStringToLocale(locale: String): Locale {
