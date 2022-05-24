@@ -16,7 +16,6 @@ class LocalizationApiController(private val messageSourceService: MessageSourceS
 
     @GetMapping
     fun localization(request: HttpServletRequest): ResponseEntity<String> {
-        LOG.info("request.locale: {}", request.locale)
         val message = messageSourceService.getMessage("key1")
         return ResponseEntity.ok(message)
     }

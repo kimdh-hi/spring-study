@@ -1,11 +1,11 @@
-package com.toy.springcloudconfig
+package com.toy.testservice
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SpringCloudConfigApplication
+class TestServiceApplication
 
 fun main(args: Array<String>) {
-    runApplication<SpringCloudConfigApplication>(*args)
+    runApplication<TestServiceApplication>(*args)
 }

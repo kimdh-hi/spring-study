@@ -23,7 +23,6 @@ class LocaleFilter: OncePerRequestFilter() {
 
     companion object {
         private val LOCALE = "locale"
-        private val SESSION_LOCALE_KEY = "org.apache.struts2.action.LOCALE";
     }
 
     val SKIP_URI = arrayOf(
@@ -58,13 +57,13 @@ class LocaleFilter: OncePerRequestFilter() {
         WebUtils.setSessionAttribute(request, SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale)
 
         val session = request.session
-        session.setAttribute(SESSION_LOCALE_KEY, locale)
+        session.setAttribute(LOCALE, locale)
 
         LocaleContextHolder.setLocale(locale)
     }
 
     private fun getLocaleFromSessionOrDefaultLocale(request: HttpServletRequest): String {
-        val locale = request.session.getAttribute(SESSION_LOCALE_KEY)
+        val locale = request.session.getAttribute(LOCALE)
         return locale?.toString() ?: DEFAULT_LOCALE
     }
 
