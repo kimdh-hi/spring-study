@@ -1,1 +1,20 @@
+spring:
+  application:
+    name: test-service
+  config:
+    import: optional:configserver:http://localhost:8888/
+  cloud:
+    config:
+      name: config # 저장소의 config 파일이름
+      profile: dev # 사용 profile
+management:
+  endpoints:
+    web:
+      exposure:
+        include: busrefresh
 
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: madplay
+#    password: madplay

@@ -3,9 +3,14 @@ server:
 
 spring:
   application:
-    name: my-config-server
+    name: config-server
   cloud:
     config:
       server:
         git:
           uri: https://github.com/kimdh-hi/config-repo.git
+
+#  rabbitmq:
+#    addresses: localhost:5672
+#    username: guest
+#    password: guest
