@@ -101,4 +101,12 @@ internal class LocalizationApiControllerTest(val mockMvc: MockMvc) {
         }.andReturn()
 
     }
+
+    @Test
+    fun `accept-header` () {
+        mockMvc.get("/api/localization/header")
+            .andDo {
+                print()
+            }
+    }
 }
