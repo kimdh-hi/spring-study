@@ -1,4 +1,4 @@
-package com.study.udemyspringbatch.chunk
+package com.study.udemyspringbatch.job.chunk
 
 import org.springframework.batch.item.ItemProcessor
 import org.springframework.batch.item.ItemReader
@@ -8,12 +8,13 @@ import org.springframework.stereotype.Component
 
 @Component
 class MyItemReader: ItemReader<Int> {
-    val list = listOf<Int>(1,2,3,4,5,6,7,8,9,10)
+    val list = listOf(1,2,3,4,5,6,7,8,9,10)
 
     override fun read(): Int? {
         println("Item [ Reader ] ...")
-        list.forEach {
-            return it
+        var i = 0
+        if (i < list.size) {
+            return list[i++]
         }
         return null
     }

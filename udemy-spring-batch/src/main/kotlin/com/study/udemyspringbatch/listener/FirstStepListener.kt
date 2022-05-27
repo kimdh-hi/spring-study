@@ -1,10 +1,9 @@
-package com.study.udemyspringbatch.listner
+package com.study.udemyspringbatch.listener
 
 import org.springframework.batch.core.ExitStatus
 import org.springframework.batch.core.StepExecution
 import org.springframework.batch.core.StepExecutionListener
 import org.springframework.stereotype.Component
-import javax.batch.api.listener.StepListener
 
 @Component
 class FirstStepListener: StepExecutionListener {

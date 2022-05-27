@@ -1,4 +1,4 @@
-package com.study.udemyspringbatch.listner
+package com.study.udemyspringbatch.listener
 
 import org.springframework.batch.core.JobExecution
 import org.springframework.batch.core.JobExecutionListener
