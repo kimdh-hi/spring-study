@@ -6,8 +6,6 @@
  * User Manual available at https://docs.gradle.org/7.4.2/userguide/building_java_projects.html
  */
 
-
-
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
     id("org.jetbrains.kotlin.jvm") version "1.5.31"
@@ -16,8 +14,21 @@ plugins {
     application
 }
 
+project.description = "First Kotlin Project"
+project.version = "1.0"
+project.ext.set("custom-property-key", "custom-property-value")
+
 repositories {
     // Use Maven Central for resolving dependencies.
+    println("project-name: ${project.name}")
+    println("project-description: ${project.description}")
+    println("project-version: ${project.version}")
+    println("project-path: ${project.path}")
+    println("project-projectDir: ${project.projectDir}")
+
+    println("=======================")
+    println("project.xyz: ${project.ext.get("custom-property-key")}")
+    println("project.property('xyz'): ${project.property("custom-property-key")}")
     mavenCentral()
 }
 
