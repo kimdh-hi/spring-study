@@ -31,3 +31,4 @@ logging:
     "[com.toy.currencyconversionservice]": debug
   pattern:
     console: "[%d{HH:mm:ss}] [%thread] %clr([%-5level]) %class{0}.%M%clr(\\(%L\\)){magenta}| %msg%n"
+

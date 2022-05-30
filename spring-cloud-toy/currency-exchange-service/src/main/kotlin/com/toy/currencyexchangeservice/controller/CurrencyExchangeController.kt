@@ -23,7 +23,7 @@ class CurrencyExchangeController(
         @PathVariable from: String,
         @PathVariable to: String): CurrencyExchange? {
 
-        val port = env.getProperty("server.port")
+        val port = env.getProperty("local.server.port")
         val currencyExchange = currencyExchangeRepository.findByFromAndTo(from, to)?.let {
             it.environment = port
             it
