@@ -38,9 +38,6 @@ tasks.withType<Test> {
 fun loadSettingsToProperties(): MutableMap<String, String> {
     val settingsProperty = project.properties["settingsPropertiesPath"] ?: "settings/settings.properties"
 
-    /**
-     * ext.set : ext에 custom property 등록
-     */
     val settingsProperties = mutableMapOf<String, String>()
     loadProperties(settingsProperty as String).forEach { entry ->
         settingsProperties[entry.key as String] = entry.value as String

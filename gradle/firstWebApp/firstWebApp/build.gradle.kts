@@ -15,6 +15,7 @@ plugins {
 
     id("war")
     id("org.gretty") version "4.0.1"
+    id("jacoco")
     // gradle bootRun run war on jetty server
 }
 
