@@ -1,14 +1,19 @@
 spring:
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ${google_mail_username}
-    password: ${google_mail_password}
-
-    properties:
-      smtp.auth: true
-      smtp.starttls.enable: true
-      transport.protocol: smtp
-      mime.charset: utf-8
+  thymeleaf:
+    prefix: classpath:/static/mail_templates/
+    cache: false
+aws-secret:
+  access-key: ${aws_access_key}
+  secret-key: ${aws_secret_key}
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: ${google_mail_username}
+#    password: ${google_mail_password} # gmail 앱 비밀번호
+#    properties:
+#      smtp.auth: true
+#      smtp.starttls.enable: true
+#      transport.protocol: smtp
+#      mime.charset: utf-8
 
 
