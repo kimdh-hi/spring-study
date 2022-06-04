@@ -14,5 +14,5 @@ interface TourPlanBuilder {
 
     fun addPlan(day: Int, plain: String): TourPlanBuilder
 
-    fun getPlain(): TourPlan
+    fun build(): TourPlan
 }
