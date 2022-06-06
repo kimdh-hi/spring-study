@@ -9,7 +9,4 @@ class GithubIssue (
   var id: String,
   var title: String,
   var githubRepository: GithubRepository
-): Cloneable {
-
-
-}
+)

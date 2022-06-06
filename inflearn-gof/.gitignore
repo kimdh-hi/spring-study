@@ -43,7 +43,3 @@ out/
 
 **/static/files
 **/static/test
-
-core-module/src/test/resources/google
-
-!core-module/src/main/resources/messages/message**

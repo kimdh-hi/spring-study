@@ -5,5 +5,5 @@ fun main() {
 
   val githubIssue = GithubIssue(id = "issue-01", title = "title", githubRepository = githubRepository)
 
-  githubIssue
+  // 두번째 github issue를 생성하려면 ?
 }
