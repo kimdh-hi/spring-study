@@ -16,7 +16,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl
 import java.util.*
 import javax.mail.internet.InternetAddress
 
-@Configuration
+//@Configuration
 class MailConfig(
     private val env: Environment
 ) {
@@ -24,46 +24,34 @@ class MailConfig(
     private val log = LoggerFactory.getLogger(javaClass)
 
     @Bean
-    fun amazonSimpleEmailService(): AmazonSimpleEmailService {
-        val accessKey = env.getProperty("aws-secret.access-key")
-        val secretKey = env.getProperty("aws-secret.secret-key")
-        return AmazonSimpleEmailServiceClientBuilder.standard()
-            .withCredentials(
-                AWSStaticCredentialsProvider(BasicAWSCredentials(accessKey, secretKey))
-            )
-            .withRegion(Regions.AP_NORTHEAST_2)
-            .build()
+    fun javaMailSender(): JavaMailSenderImpl {
+        val mailSender= JavaMailSenderImpl()
+
+        mailSender.host = env.getProperty("spring.mail.host")
+        mailSender.port = env.getProperty("spring.mail.port")?.toInt() ?: 587
+        mailSender.username = env.getProperty("spring.mail.username")
+        mailSender.password = env.getProperty("spring.mail.password")
+        mailSender.defaultEncoding = env.getProperty("spring.mail.properties.mime.charset")
+        mailSender.javaMailProperties = getJavaMailProperties()
+        return mailSender
     }
 
-//    @Bean
-//    fun javaMailSender(): JavaMailSenderImpl {
-//        val mailSender= JavaMailSenderImpl()
-//
-//        mailSender.host = env.getProperty("spring.mail.host")
-//        mailSender.port = env.getProperty("spring.mail.port")?.toInt() ?: 587
-//        mailSender.username = env.getProperty("spring.mail.username")
-//        mailSender.password = env.getProperty("spring.mail.password")
-//        mailSender.defaultEncoding = env.getProperty("spring.mail.properties.mime.charset")
-//        mailSender.javaMailProperties = getJavaMailProperties()
-//        return mailSender
-//    }
-//
-//    private fun getJavaMailProperties(): Properties {
-//        val properties = Properties()
-//        properties.setProperty("mail.transport.protocol", env.getProperty("spring.mail.properties.transport.protocol"))
-//        properties.setProperty("mail.smtp.port", env.getProperty("spring.mail.port"))
-//        properties.setProperty("mail.smtp.auth", env.getProperty("spring.mail.properties.smtp.auth"))
-//        properties.setProperty("mail.smtp.starttls.enable", env.getProperty("spring.mail.properties.smtp.starttls.enable"))
-//        properties.setProperty("mail.smtp.ssl.trust", env.getProperty("spring.mail.host"))
-//        //properties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2")
-//        return properties
-//    }
-//
-//    @Bean
-//    fun fromAddress(): InternetAddress {
-//        val address = InternetAddress()
-//        address.personal = "test-personal"
-//        address.address = env.getProperty("spring.mail.username")
-//        return address
-//    }
+    private fun getJavaMailProperties(): Properties {
+        val properties = Properties()
+        properties.setProperty("mail.transport.protocol", env.getProperty("spring.mail.properties.transport.protocol"))
+        properties.setProperty("mail.smtp.port", env.getProperty("spring.mail.port"))
+        properties.setProperty("mail.smtp.auth", env.getProperty("spring.mail.properties.smtp.auth"))
+        properties.setProperty("mail.smtp.starttls.enable", env.getProperty("spring.mail.properties.smtp.starttls.enable"))
+        properties.setProperty("mail.smtp.ssl.trust", env.getProperty("spring.mail.host"))
+        //properties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2")
+        return properties
+    }
+
+    @Bean
+    fun fromAddress(): InternetAddress {
+        val address = InternetAddress()
+        address.personal = "test-personal"
+        address.address = env.getProperty("spring.mail.username")
+        return address
+    }
 }

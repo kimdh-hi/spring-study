@@ -6,7 +6,7 @@ import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.stereotype.Component
 import javax.mail.internet.InternetAddress
 
-@Component
+//@Component
 class MailSender (
     private val javaMailSender: JavaMailSender,
     private val from: InternetAddress,

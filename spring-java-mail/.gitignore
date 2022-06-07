@@ -18,6 +18,11 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
+.http
+*.p12
+#*.yml
+*.xml
+*.properties
 .idea
 *.iws
 *.iml
@@ -35,5 +40,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-/secret-properties.properties

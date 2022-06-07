@@ -1,8 +1,23 @@
 package com.toy.springjavamail.service
 
-import com.amazonaws.services.simpleemail.AmazonSimpleEmailService
+import com.toy.springjavamail.common.SesMailSender
+import org.springframework.stereotype.Service
+import org.thymeleaf.context.Context
 
-class MailService(private val emailService: AmazonSimpleEmailService) {
+@Service
+class MailService(
+  private val mailSender: SesMailSender
+) {
 
+  fun send(to: String, template: String) {
 
+    val context = Context()
+    context.setVariable("test", "test-value")
+
+    mailSender.send(
+      to = to,
+      subject = "test subject",
+      template = template,
+      context = context)
+  }
 }
