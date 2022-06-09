@@ -21,7 +21,7 @@ class TemplateEngineConfig {
   @Bean
   fun htmlTemplateResolver(): SpringResourceTemplateResolver {
     val templateResolver = SpringResourceTemplateResolver()
-    templateResolver.prefix = "classpath:/static/mail_templates/"
+    templateResolver.prefix = "classpath:/static/templates/"
     templateResolver.suffix = ".html"
     templateResolver.templateMode = TemplateMode.HTML
     templateResolver.characterEncoding = StandardCharsets.UTF_8.name()
