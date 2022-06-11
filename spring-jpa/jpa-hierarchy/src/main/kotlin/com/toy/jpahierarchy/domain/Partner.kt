@@ -9,9 +9,10 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
+import javax.persistence.Table
 
-@Suppress("NAME_SHADOWING")
 @Entity
+@Table(name = "tb_partner")
 class Partner (
   @Id
   @GeneratedValue(generator = "uuid")
@@ -31,9 +32,9 @@ class Partner (
 ) {
   companion object {
     fun newInstance(name: String, parentPartner: Partner? = null): Partner {
-      return parentPartner?.let { parentPartner ->
-        val partner = Partner(name = name, parentPartner = parentPartner)
-        parentPartner.addChildPartner(partner)
+      return parentPartner?.let { parent ->
+        val partner = Partner(name = name, parentPartner = parent)
+        parent.addChildPartner(partner)
         partner
       } ?: run {
         Partner(name = name)

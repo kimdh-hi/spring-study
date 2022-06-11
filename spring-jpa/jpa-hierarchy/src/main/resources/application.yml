@@ -8,12 +8,17 @@ spring:
       enabled: true
 
   jpa:
+    defer-datasource-initialization: true
     properties:
       hibernate:
         show_sql: false
         format_sql: true
     hibernate:
       ddl-auto: create-drop
+
+  sql:
+    init:
+      data-locations: classpath:sql/data.sql
 
 logging:
   level:
