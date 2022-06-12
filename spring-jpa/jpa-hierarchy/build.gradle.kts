@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
   id("org.springframework.boot") version "2.7.0"
@@ -7,6 +8,7 @@ plugins {
   kotlin("plugin.spring") version "1.6.21"
   kotlin("plugin.jpa") version "1.6.21"
   kotlin("plugin.noarg") version "1.6.21"
+  kotlin("kapt") version "1.6.21"
 }
 
 allOpen {
@@ -30,6 +32,13 @@ repositories {
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-web")
+
+  api("com.querydsl:querydsl-jpa")
+  kapt(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
+  kotlin.sourceSets.main {
+    setBuildDir("$buildDir")
+  }
+
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

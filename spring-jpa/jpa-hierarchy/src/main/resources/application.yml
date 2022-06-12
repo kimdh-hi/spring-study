@@ -7,6 +7,11 @@ spring:
     console:
       enabled: true
 
+
+  sql:
+    init:
+      data-locations: classpath:sql/data.sql
+
   jpa:
     defer-datasource-initialization: true
     properties:
@@ -15,10 +20,6 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: create-drop
-
-  sql:
-    init:
-      data-locations: classpath:sql/data.sql
 
 logging:
   level:

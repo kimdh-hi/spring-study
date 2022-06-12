@@ -2,14 +2,7 @@ package com.toy.jpahierarchy.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.GenericGenerator
-import javax.persistence.CascadeType
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.OneToMany
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "tb_partner")
@@ -21,12 +14,11 @@ class Partner (
 
   var name: String,
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "parent_partner_id")
   var parentPartner: Partner? = null,
 
-  @JsonIgnore
-  @OneToMany(mappedBy = "parentPartner", cascade = [CascadeType.PERSIST])
+  @OneToMany(mappedBy = "parentPartner", orphanRemoval = true)
   var childPartners: MutableList<Partner> = mutableListOf()
 
 ) {

@@ -2,6 +2,7 @@ package com.toy.jpahierarchy.service
 
 import com.toy.jpahierarchy.domain.Partner
 import com.toy.jpahierarchy.repository.PartnerRepository
+import com.toy.jpahierarchy.vo.PartnerDetailResponseVO
 import com.toy.jpahierarchy.vo.PartnerResponseVO
 import com.toy.jpahierarchy.vo.PartnerSaveRequestVO
 import org.springframework.data.repository.findByIdOrNull
@@ -24,15 +25,28 @@ class PartnerService(private val partnerRepository: PartnerRepository) {
     return partnerRepository.save(partner)
   }
 
-  fun read(id: String): PartnerResponseVO {
+  fun read(id: String): PartnerDetailResponseVO {
     val partner = partnerRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("data not found ...")
-    return PartnerResponseVO.fromEntity(partner)
+    return PartnerDetailResponseVO.fromEntity(partner)
   }
 
-  fun readChildList(id: String): List<PartnerResponseVO> {
+  fun readV2(id: String): Partner {
+    return partnerRepository.findPartner(id) ?: throw IllegalArgumentException("data not found ...")
+  }
+
+  fun readChildList(id: String): List<PartnerDetailResponseVO> {
     val partner = partnerRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("data not found ...")
     return partner.childPartners.map {
-      PartnerResponseVO.fromEntity(it)
+      PartnerDetailResponseVO.fromEntity(it)
     }.toList()
   }
+
+  fun listV1() {
+    val partner = partnerRepository.findAll()
+    return partner.map {
+      PartnerResponseVO(it.id!!, it.name, it.childPartners)
+    }.toList()
+  }
+
+
 }

@@ -20,16 +20,24 @@ data class PartnerSaveResponseVO (
   }
 }
 
-data class PartnerResponseVO(
+data class PartnerDetailResponseVO(
   val id: String,
   val name: String,
   val parentId: String? = null
 ) {
   companion object {
-    fun fromEntity(parent: Partner): PartnerResponseVO {
+    fun fromEntity(parent: Partner): PartnerDetailResponseVO {
       parent.run {
-        return PartnerResponseVO(id as String, name, parent.id)
+        return PartnerDetailResponseVO(id as String, name, parent.id)
       }
     }
   }
+}
+
+data class PartnerResponseVO(
+  val id: String,
+  val name: String,
+  val childPartners: MutableList<Partner>
+) {
+
 }
