@@ -41,12 +41,4 @@ class PartnerService(private val partnerRepository: PartnerRepository) {
     }.toList()
   }
 
-  fun listV1() {
-    val partner = partnerRepository.findAll()
-    return partner.map {
-      PartnerResponseVO(it.id!!, it.name, it.childPartners)
-    }.toList()
-  }
-
-
 }

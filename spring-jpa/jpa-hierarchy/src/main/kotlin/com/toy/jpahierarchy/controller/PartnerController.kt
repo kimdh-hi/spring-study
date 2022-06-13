@@ -25,12 +25,6 @@ class PartnerController(
     return ResponseEntity.ok(PartnerSaveResponseVO.fromEntity(partner))
   }
 
-  @GetMapping
-  fun listV1(): ResponseEntity<List<PartnerResponseVO>> {
-    val list = partnerService.listV1()
-    return ResponseEntity.ok(list)
-  }
-
   @GetMapping("/{id}")
   fun read(@PathVariable id: String) = ResponseEntity.ok(partnerService.read(id))
 
