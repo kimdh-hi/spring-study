@@ -1,9 +1,8 @@
-package com.toy.`coroutines-basic`.basic
+package com.toy.`coroutines-basic`.`01-basic`
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlin.concurrent.thread
 
 // thread 보다 가볍고 빠르다
 fun main() = runBlocking {

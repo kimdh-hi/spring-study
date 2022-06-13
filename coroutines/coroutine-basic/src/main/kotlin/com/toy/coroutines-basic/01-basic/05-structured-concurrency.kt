@@ -1,4 +1,4 @@
-package com.toy.`coroutines-basic`.basic
+package com.toy.`coroutines-basic`.`01-basic`
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
