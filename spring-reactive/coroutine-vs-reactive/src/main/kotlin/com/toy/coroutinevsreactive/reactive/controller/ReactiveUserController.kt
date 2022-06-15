@@ -1,8 +1,8 @@
 package com.toy.coroutinevsreactive.reactive.controller
 
 import com.toy.coroutinevsreactive.reactive.service.ReactiveMemberService
-import com.toy.coroutinevsreactive.vo.UserResponseVO
-import com.toy.coroutinevsreactive.vo.UserSaveRequestVO
+import com.toy.coroutinevsreactive.reactive.vo.UserResponseVO
+import com.toy.coroutinevsreactive.reactive.vo.UserSaveRequestVO
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono

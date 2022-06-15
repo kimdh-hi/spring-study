@@ -1,4 +1,4 @@
-package com.toy.coroutinevsreactive.vo
+package com.toy.coroutinevsreactive.reactive.vo
 
 import com.toy.coroutinevsreactive.domain.User
 import reactor.core.publisher.Mono
@@ -17,9 +17,6 @@ data class UserResponseVO (
   var username: String
 ) {
   companion object {
-    fun fromEntity(user: User): Mono<UserResponseVO> {
-      return Mono.just(UserResponseVO(user.id!!, user.username))
+    fun fromEntity(user: User): Mono<UserResponseVO> = Mono.just(UserResponseVO(user.id!!, user.username))
     }
-  }
-
 }

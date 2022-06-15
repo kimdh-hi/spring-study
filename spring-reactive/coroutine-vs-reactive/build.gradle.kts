@@ -28,8 +28,6 @@ repositories {
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-//  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-  implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
 
