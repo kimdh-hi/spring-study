@@ -9,4 +9,5 @@ interface PartnerRepository: CrudRepository<Partner, String>, PartnerRepositoryC
 
 interface PartnerRepositoryCustom {
   fun findPartner(id: String): Partner?
+  fun findMeAndChild(id: String): Partner?
 }

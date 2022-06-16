@@ -1,6 +1,5 @@
 package com.toy.jpahierarchy.domain
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.GenericGenerator
 import javax.persistence.*
 
@@ -18,7 +17,7 @@ class Partner (
   @JoinColumn(name = "parent_partner_id")
   var parentPartner: Partner? = null,
 
-  @OneToMany(mappedBy = "parentPartner", orphanRemoval = true)
+  @OneToMany(mappedBy = "parentPartner", orphanRemoval = true, cascade = [CascadeType.PERSIST])
   var childPartners: MutableList<Partner> = mutableListOf()
 
 ) {

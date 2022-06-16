@@ -25,13 +25,17 @@ class PartnerController(
     return ResponseEntity.ok(PartnerSaveResponseVO.fromEntity(partner))
   }
 
+  @GetMapping
+  fun list() = ResponseEntity.ok(partnerService.list())
+
+  @GetMapping("/{id}/child")
+  fun meAndChild(@PathVariable id: String) = ResponseEntity.ok(partnerService.getMeAndChildPartners(id))
+
+
   @GetMapping("/{id}")
   fun read(@PathVariable id: String) = ResponseEntity.ok(partnerService.read(id))
 
   @GetMapping("/v2/{id}")
   fun readV2(@PathVariable id: String) = ResponseEntity.ok(partnerService.readV2(id))
-
-  @GetMapping("/{id}/child")
-  fun readChild(@PathVariable id: String) = ResponseEntity.ok(partnerService.readChildList(id))
 
 }

@@ -1,6 +1,7 @@
 package com.toy.jpahierarchy.vo
 
 import com.toy.jpahierarchy.domain.Partner
+import javax.servlet.http.Part
 
 data class PartnerSaveRequestVO (
   val name: String,
@@ -26,9 +27,9 @@ data class PartnerDetailResponseVO(
   val parentId: String? = null
 ) {
   companion object {
-    fun fromEntity(parent: Partner): PartnerDetailResponseVO {
-      parent.run {
-        return PartnerDetailResponseVO(id as String, name, parent.id)
+    fun fromEntity(partner: Partner): PartnerDetailResponseVO {
+      partner.run {
+        return PartnerDetailResponseVO(id as String, name, partner.id)
       }
     }
   }
@@ -37,7 +38,26 @@ data class PartnerDetailResponseVO(
 data class PartnerResponseVO(
   val id: String,
   val name: String,
-  val childPartners: MutableList<Partner>
 ) {
+  companion object {
+    fun fromEntity(partner: Partner): PartnerResponseVO {
+      return PartnerResponseVO(partner.id!!, partner.name)
+    }
+  }
+}
 
+data class PartnerMeAndChildResponse(
+  val id: String,
+  val name: String,
+  val childList: List<PartnerResponseVO>
+) {
+  companion object {
+    fun fromEntity(partner: Partner): PartnerMeAndChildResponse {
+      val childList = partner.childPartners.map {
+        PartnerResponseVO.fromEntity(it)
+      }.toList()
+
+      return PartnerMeAndChildResponse(partner.id!!, partner.name, childList)
+    }
+  }
 }

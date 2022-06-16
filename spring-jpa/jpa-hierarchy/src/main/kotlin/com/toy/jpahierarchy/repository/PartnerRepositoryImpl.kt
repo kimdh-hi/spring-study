@@ -12,4 +12,11 @@ class PartnerRepositoryImpl(private val query: JPAQueryFactory): PartnerReposito
       .where(partner.id.eq(id))
       .fetchOne()
   }
+
+  override fun findMeAndChild(id: String): Partner? {
+    return query.selectFrom(partner)
+      .leftJoin(partner.parentPartner).fetchJoin()
+      .where(partner.id.eq(id))
+      .fetchOne()
+  }
 }
