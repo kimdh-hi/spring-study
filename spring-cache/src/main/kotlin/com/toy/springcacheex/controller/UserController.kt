@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(private val userRepository: UserRepository) {
 
   @GetMapping("/{id}")
-  @Cacheable(value = ["user-get"], key="#id" )
+  @Cacheable(value = ["user-get"], key = "#id")
   fun get(@PathVariable id: String): ResponseEntity<User> {
     val user = userRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("not found ...")
     return ResponseEntity.ok(user)
