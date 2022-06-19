@@ -8,8 +8,8 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
 
-@Table(name = "tb_user")
 @Entity
+@Table(name = "tb_user")
 class User (
   @Id
   @GeneratedValue(generator = "uuid")
