@@ -20,6 +20,7 @@ class RedisConfig(private val redisProperties: RedisProperties) {
   fun redisCacheManager(redisConnectionFactory: RedisConnectionFactory): RedisCacheManager {
 
     val redisCacheDefaultConfig = RedisCacheConfiguration.defaultCacheConfig()
+      .disableCachingNullValues() // null value does not caching...
       .serializeKeysWith(
         RedisSerializationContext.SerializationPair.fromSerializer(
           StringRedisSerializer()
