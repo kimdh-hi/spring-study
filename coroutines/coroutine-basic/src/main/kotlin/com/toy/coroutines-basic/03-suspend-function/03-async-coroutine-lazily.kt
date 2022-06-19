@@ -1,4 +1,4 @@
-package com.toy.`coroutines-basic`.`03`
+package com.toy.`coroutines-basic`.`03-suspend-function`
 
 import kotlinx.coroutines.CoroutineStart.LAZY
 import kotlinx.coroutines.async
