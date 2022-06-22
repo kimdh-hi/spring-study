@@ -9,9 +9,9 @@
 </head>
 <body>
 <!--<h1 th:text="${#strings.replace(message, T(org.apache.commons.lang3.StringUtils).LF, '&lt;br /&gt;')}"></h1>-->
-<h1 th:utext="${message}"></h1>
+<!--<h1 th:utext="${message}"></h1>-->
 
-
+<h1 th:utext="#{key1(${name})}"></h1>
 
 </body>
 </html>

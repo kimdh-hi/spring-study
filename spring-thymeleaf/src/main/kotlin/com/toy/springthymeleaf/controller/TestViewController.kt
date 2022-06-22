@@ -14,7 +14,7 @@ class TestViewController(
   fun home(model: Model): String {
     val message = messageSourceResolver.getMessage("key1", "daehyun Kim")
     model.addAttribute("message", message)
-
+    model.addAttribute("name", "kim")
     return "home"
   }
 }
