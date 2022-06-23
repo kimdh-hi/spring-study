@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.6.10"
     kotlin("plugin.jpa") version "1.6.10"
     kotlin("kapt") version "1.6.10"
+    kotlin("plugin.noarg") version "1.6.10"
 }
 
 group = "com.example"
@@ -15,6 +16,11 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
+}
+
+noArg {
+    annotation("com.example.ex.common.annotation.NoArg")
+    invokeInitializers = true
 }
 
 dependencies {
