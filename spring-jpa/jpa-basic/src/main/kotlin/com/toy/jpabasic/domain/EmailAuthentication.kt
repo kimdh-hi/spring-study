@@ -1,15 +1,12 @@
 package com.toy.jpabasic.domain
 
 import org.hibernate.annotations.GenericGenerator
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.Table
+import java.io.Serial
+import java.io.Serializable
+import javax.persistence.*
 
-@Entity
-@Table(name = "tb_email_authentication")
+@Table
+@Entity(name = "tb_email_authentication")
 class EmailAuthentication (
 
   @Id
@@ -20,4 +17,10 @@ class EmailAuthentication (
   @ManyToOne(optional = false)
   @JoinColumn(name = "user_id")
   var user: User
-)
+): Serializable {
+  companion object {
+    @Serial
+    private const val serialVersionUID: Long = 2426676276920502136L
+  }
+
+}

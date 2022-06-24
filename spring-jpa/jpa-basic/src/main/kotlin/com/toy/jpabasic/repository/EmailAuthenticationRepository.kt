@@ -1,6 +1,6 @@
 package com.toy.jpabasic.repository
 
 import com.toy.jpabasic.domain.EmailAuthentication
-import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.repository.CrudRepository
 
-interface EmailAuthenticationRepository: JpaRepository<EmailAuthentication, String>
+interface EmailAuthenticationRepository: CrudRepository<EmailAuthentication, String>
