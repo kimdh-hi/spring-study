@@ -11,8 +11,6 @@ class DefaultTourPlanBuilder: TourPlanBuilder {
     private var whereToStay: String = ""
     private var plans: MutableList<Plan> = mutableListOf()
 
-
-
     override fun title(title: String): TourPlanBuilder {
         this.title = title
         return this

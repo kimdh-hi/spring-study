@@ -15,5 +15,4 @@ fun main() {
     .addPlan(3, "plan3")
     .build() // 완전한 인스턴스를 생성하도록 서포트 (검증로직을 포함할 수 있음)
 
-  println(tourPlan)
 }
