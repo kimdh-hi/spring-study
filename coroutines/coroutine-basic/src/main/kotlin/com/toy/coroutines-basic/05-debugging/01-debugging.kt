@@ -4,11 +4,12 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 
 /**
- * VM Option: -Dkotlinx.coroutines.debug
- */
-
+ * JVM Option: -Dkotlinx.coroutines.debug
+ *
+ * 어떤 쓰레드의 `어떤 코루틴` 에서 실행된 것인지
+ * */
 fun log(message: String)
-  = println("thread-name: ${Thread.currentThread().name}, $message")
+  = println("[${Thread.currentThread().name}] : $message")
 
 fun main() = runBlocking {
   val a = async {
