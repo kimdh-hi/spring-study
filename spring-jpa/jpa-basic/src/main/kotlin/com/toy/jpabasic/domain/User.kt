@@ -3,12 +3,7 @@ package com.toy.jpabasic.domain
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serial
 import java.io.Serializable
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.Table
+import javax.persistence.*
 
 @Table
 @Entity(name = "tb_user")
@@ -23,7 +18,11 @@ class User (
 
   @ManyToOne(optional = false)
   @JoinColumn(name = "company_id")
-  var company: Company
+  var company: Company,
+
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "role_id")
+  var role: Role
 ): Serializable {
 
   override fun toString(): String {

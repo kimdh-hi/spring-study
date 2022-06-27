@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import org.springframework.transaction.annotation.Transactional
 
@@ -34,6 +35,24 @@ internal class UserControllerTest(
     //then
     val updatedUser = userRepository.findByIdOrNull(targetUserId)!!
     assertEquals("updateUsername", updatedUser.username)
+  }
+
+  @Test
+  fun readOsivTest() {
+    //given
+    val userId = "user-01"
+
+    //when
+    mockMvc.get("/api/users/$userId")
+  }
+
+  @Test
+  fun readOsivTest2() {
+    //given
+    val userId = "user-01"
+
+    //when
+    mockMvc.get("/api/users/$userId/company")
   }
 
 //  @Test

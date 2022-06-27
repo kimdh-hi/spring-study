@@ -15,4 +15,9 @@ class Company (
   var id: String? = null,
 
   var name: String,
-)
+) {
+
+  override fun toString(): String {
+    return "Company(id=$id, name='$name')"
+  }
+}
