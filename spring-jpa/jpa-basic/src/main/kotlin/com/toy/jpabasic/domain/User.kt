@@ -25,12 +25,12 @@ class User (
   var role: Role
 ): Serializable {
 
-  override fun toString(): String {
-    return "User(id=$id, username='$username', company=$company)"
-  }
-
   companion object {
     @Serial
     private const val serialVersionUID: Long = 425994759014562522L
+  }
+
+  override fun toString(): String {
+    return "User(id=$id, username='$username', company=$company, role=$role)"
   }
 }

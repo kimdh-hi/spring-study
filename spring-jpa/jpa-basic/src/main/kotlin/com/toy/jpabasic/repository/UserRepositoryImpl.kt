@@ -6,7 +6,9 @@ import com.toy.jpabasic.domain.QRole.role
 import com.toy.jpabasic.domain.QUser.user
 import com.toy.jpabasic.domain.User
 import com.toy.jpabasic.vo.QUserListResponseVO
+import com.toy.jpabasic.vo.QUserListV3ResponseVO
 import com.toy.jpabasic.vo.UserListResponseVO
+import com.toy.jpabasic.vo.UserListV3ResponseVO
 
 class UserRepositoryImpl(
   private val query: JPAQueryFactory
@@ -30,6 +32,14 @@ class UserRepositoryImpl(
       .from(user)
       .join(user.role, role)
       .join(role.authorities, AuthorityEnumPathSupporter.enumPath)
+      .fetch()
+  }
+
+  override fun searchListV3(): MutableList<UserListV3ResponseVO> {
+    return query.select(QUserListV3ResponseVO(
+      user.id, user.username, user.role
+    )).from(user)
+      .join(user.role, role)
       .fetch()
   }
 }
