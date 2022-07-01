@@ -4,7 +4,7 @@ import com.toy.springcoroutineexample.service.A_Service
 import com.toy.springcoroutineexample.service.B_Service
 import com.toy.springcoroutineexample.service.C_Service
 import com.toy.springcoroutineexample.service.ConcatService
-import com.toy.springcoroutineexample.vo.ConcatRequest
+import com.toy.springcoroutineexample.vo.ConcatenatedRequestResult
 import kotlinx.coroutines.*
 import org.slf4j.LoggerFactory
 import org.springframework.util.StopWatch
@@ -27,34 +27,47 @@ class MainController(
     val stopWatch = StopWatch()
     stopWatch.start()
 
-   val concatRequest = runBlocking {
-      val resultA = async { aService.executeSuspend() }
-      val resultB = async { bService.executeSuspend() }
-      val resultC = async { cService.executeSuspend() }
+   val concatenatedRequestResult = coroutineScope {
+      val resultA = async { aService.execute() }
+      val resultB = async { bService.execute() }
+      val resultC = async { cService.execute() }
 
-      ConcatRequest(listOf(resultA.await(), resultB.await(), resultC.await()))
+      ConcatenatedRequestResult(listOf(resultA.await(), resultB.await(), resultC.await()))
     }
 
     stopWatch.stop()
     log.info("time: {}", stopWatch.totalTimeSeconds)
 
-    return concatService.concate(concatRequest)
+    return concatService.concate(concatenatedRequestResult)
   }
 
+//  @GetMapping("/reactor")
+//  fun reactor(): String {
+//    val stopWatch = StopWatch()
+//    stopWatch.start()
+//
+//
+//
+//    stopWatch.stop()
+//    log.info("time: {}", stopWatch.totalTimeSeconds)
+//
+//    return concatService.concate(concatenatedRequestResult)
+//  }
+
   @GetMapping("/normal")
-  fun normal(): String {
+  suspend fun normal(): String {
     val stopWatch = StopWatch()
     stopWatch.start()
 
-    val resultA = aService.executeNormal()
-    val resultB = bService.executeNormal()
-    val resultC = cService.executeNormal()
+    val resultA = aService.execute()
+    val resultB = bService.execute()
+    val resultC = cService.execute()
 
-    val concatRequest = ConcatRequest(listOf(resultA, resultB, resultC))
+    val concatenatedRequestResult = ConcatenatedRequestResult(listOf(resultA, resultB, resultC))
 
     stopWatch.stop()
     log.info("time: {}", stopWatch.totalTimeSeconds)
 
-    return concatService.concate(concatRequest)
+    return concatService.concate(concatenatedRequestResult)
   }
 }

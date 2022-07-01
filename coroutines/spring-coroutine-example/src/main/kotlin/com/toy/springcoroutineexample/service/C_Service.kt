@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 @Service
 class C_Service {
 
-  suspend fun executeSuspend(): String {
+  suspend fun execute(): String {
     delay(1000L)
     return "C_Service_OK"
   }
