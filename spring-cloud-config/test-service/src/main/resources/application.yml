@@ -1,0 +1,26 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: test-service-1
+
+  config:
+    import: optional:configserver:http://localhost:8888/ # config-server
+  cloud:
+    config:
+      name: config # 저장소의 config 파일이름
+      profile: dev # 사용 profile
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+

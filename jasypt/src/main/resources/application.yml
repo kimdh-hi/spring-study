@@ -1,0 +1,14 @@
+
+jasypt:
+  encryptor:
+    # gradle build -Djasypt.encryptor.password=password
+    password: dhs1d90dihdsdh82
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+
+  #custom:
+#  test-value: ENC(raP2zKf9IP4vJYrup3HHisBP0W9WOr4o)
+
+custom:
+  enc-value: ENC(R3ZEMzlOo2tGlXj+F2OZbrYtDp/RtlBa)
+  plain-value: plain-value

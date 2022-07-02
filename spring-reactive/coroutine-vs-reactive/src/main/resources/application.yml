@@ -1,0 +1,6 @@
+logging:
+  level:
+    org:
+      springframework:
+        r2dbc: DEBUG
+debug: true
