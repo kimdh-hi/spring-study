@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserService(
-  private val userRepository: UserRepository
+  private val userRepository: UserRepository,
 ) {
 
   suspend fun get(id: Long): User {
@@ -18,12 +18,13 @@ class UserService(
   }
 
   fun list(): Flow<User> {
-    val users = userRepository.findAll()
 
-    return users
+    return userRepository.findAll()
   }
 
   suspend fun save(requestVO: UserSaveRequestVO): UserSaveResponseVO {
+    if(userRepository.existsByUsername(requestVO.username))
+      throw IllegalArgumentException("username is duplicated ...")
     val user = requestVO.toEntity()
     val savedUser = userRepository.save(user)
     return UserSaveResponseVO.of(savedUser)

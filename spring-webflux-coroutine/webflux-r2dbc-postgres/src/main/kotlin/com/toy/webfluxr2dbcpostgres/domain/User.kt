@@ -5,7 +5,7 @@ import org.springframework.data.relational.core.mapping.Table
 
 @Table(name = "tb_user")
 class User (
-  @Id
+  @field:Id
   var id: Long? = null,
   var name: String,
   var username: String,

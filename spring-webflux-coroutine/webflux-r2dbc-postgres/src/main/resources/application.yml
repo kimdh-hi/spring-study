@@ -1,8 +1,15 @@
 spring:
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/postgres?schema=test_schema
+    url: r2dbc:postgresql://localhost:5432/root
     username: root
     password: root
+  flyway:
+    baseline-on-migrate: true
+
+flyway:
+  url: jdbc:postgresql://localhost:5432/root
+  username: root
+  password: root
 
 logging:
   level:
