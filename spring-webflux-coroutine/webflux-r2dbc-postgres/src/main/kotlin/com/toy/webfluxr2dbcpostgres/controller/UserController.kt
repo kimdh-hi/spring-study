@@ -6,6 +6,7 @@ import com.toy.webfluxr2dbcpostgres.vo.UserUpdateRequestVO
 import com.toy.webfluxr2dbcpostgres.vo.UserSaveRequestVO
 import kotlinx.coroutines.flow.Flow
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -32,7 +33,12 @@ class UserController(
   @PutMapping("/{id}")
   suspend fun update(@PathVariable id: Long, @RequestBody requestVO: UserUpdateRequestVO): ResponseEntity<Unit> {
     userService.update(id, requestVO)
+    return ResponseEntity.noContent().build()
+  }
 
+  @DeleteMapping("/{id}")
+  suspend fun delete(@PathVariable id: Long): ResponseEntity<Unit> {
+    userService.delete(id)
     return ResponseEntity.noContent().build()
   }
 }

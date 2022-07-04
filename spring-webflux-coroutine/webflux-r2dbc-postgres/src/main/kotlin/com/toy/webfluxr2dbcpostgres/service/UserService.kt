@@ -30,9 +30,14 @@ class UserService(
   }
 
   suspend fun update(id: Long, requestVO: UserUpdateRequestVO) {
-    val user = userRepository.findById(id) ?: throw IllegalArgumentException("user not found ...")
+    val user = get(id)
     user.update(requestVO.name, requestVO.username, requestVO.password)
 
     userRepository.save(user)
+  }
+
+  suspend fun delete(id: Long) {
+    val user = get(id)
+    userRepository.deleteById(user.id!!)
   }
 }
