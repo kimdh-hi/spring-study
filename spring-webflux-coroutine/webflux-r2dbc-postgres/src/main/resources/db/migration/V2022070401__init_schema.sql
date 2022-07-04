@@ -3,7 +3,9 @@ create table tb_user
     id       serial constraint tb_user_pk primary key,
     name     varchar not null,
     username varchar not null,
-    password varchar not null
+    password varchar not null,
+    created_date date,
+    updated_date date
 );
 
 alter table tb_user

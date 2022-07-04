@@ -20,10 +20,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 //    implementation("io.projectreactor.tools:blockhound:1.0.6.RELEASE")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-security:2.7.1")
 
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-debug")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    implementation("org.reactivestreams:reactive-streams:1.0.4")
+
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
