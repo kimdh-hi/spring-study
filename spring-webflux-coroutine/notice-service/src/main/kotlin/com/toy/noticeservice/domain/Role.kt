@@ -2,10 +2,12 @@ package com.toy.noticeservice.domain
 
 import com.toy.noticeservice.domain.enum.Authority
 import java.io.Serial
+import javax.persistence.Id
 import javax.persistence.Table
 
 @Table(name = "tb_role")
 class Role (
+  @Id
   var id: String,
   var name: String,
   var authorities: Set<Authority>

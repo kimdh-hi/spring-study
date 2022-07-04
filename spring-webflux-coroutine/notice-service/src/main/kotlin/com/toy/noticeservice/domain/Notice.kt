@@ -1,11 +1,13 @@
 package com.toy.noticeservice.domain
 
 import java.io.Serial
+import javax.persistence.Id
 import javax.persistence.Table
 
 @Table(name = "tb_notice")
 class Notice (
-  var id: String,
+  @Id
+  var id: String? = null,
 
   var title: String,
   var content: String,

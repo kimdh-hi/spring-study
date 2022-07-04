@@ -1,16 +1,18 @@
 package com.toy.noticeservice.domain
 
 import java.io.Serial
+import javax.persistence.Id
 import javax.persistence.Table
 
 @Table(name = "tb_user")
 class User (
-  var id: String,
+  @Id
+  var id: String?,
 
   var name: String,
   var username: String,
   var password: String,
-  var role: Role
+//  var role: Role
 ): AbstractTraceByEntity() {
 
   companion object {
@@ -31,10 +33,6 @@ class User (
 
   override fun hashCode(): Int {
     return username.hashCode()
-  }
-
-  override fun toString(): String {
-    return "User(id='$id', name='$name', username='$username', password='$password', role=$role)"
   }
 
 }
