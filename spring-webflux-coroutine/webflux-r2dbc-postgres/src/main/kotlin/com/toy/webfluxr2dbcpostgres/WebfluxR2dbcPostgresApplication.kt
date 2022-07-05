@@ -6,17 +6,7 @@ import org.springframework.boot.runApplication
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
-class WebfluxR2dbcPostgresApplication {
-//    init {
-//        val allowBlockingCall = BlockHoundIntegration { builder ->
-//            builder
-//                .allowBlockingCallsInside("java.util.UUID", "randomUUID")
-//                .allowBlockingCallsInside("java.io.InputStream", "readNBytes")
-//                .allowBlockingCallsInside("java.io.FilterInputStream", "read")
-//        }
-//        BlockHound.install(CoroutinesBlockHoundIntegration(), allowBlockingCall)
-//    }
-}
+class WebfluxR2dbcPostgresApplication
 
 fun main(args: Array<String>) {
     runApplication<WebfluxR2dbcPostgresApplication>(*args)

@@ -33,3 +33,12 @@ data class UserUpdateRequestVO(
   val username: String? = null,
   val password: String? = null
 )
+
+data class LoginRequestVO(
+  val username: String,
+  val password: String
+)
+
+data class LoginResponseVO(
+  val token: String
+)

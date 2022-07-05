@@ -4,8 +4,8 @@ create table tb_user
     name     varchar not null,
     username varchar not null,
     password varchar not null,
-    created_date date,
-    updated_date date
+    created_date timestamp,
+    updated_date timestamp
 );
 
 alter table tb_user

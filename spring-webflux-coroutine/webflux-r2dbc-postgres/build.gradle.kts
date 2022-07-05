@@ -18,9 +18,10 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-//    implementation("io.projectreactor.tools:blockhound:1.0.6.RELEASE")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security:2.7.1")
+    implementation("com.nimbusds:nimbus-jose-jwt:9.23")
+    implementation("com.google.crypto.tink:tink:1.6.1")
 
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-debug")
@@ -44,7 +45,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.3")
+    testImplementation("io.projectreactor.tools:blockhound:1.0.6.RELEASE")
 //    testImplementation("io.projectreactor.tools:blockhound-junit-platform:1.0.6.RELEASE")
+//    testImplementation("org.junit.platform:junit-platform-launcher:1.8.0-M1")
+    testImplementation("com.google.auto.service:auto-service:1.0")
 }
 
 tasks.withType<KotlinCompile> {
@@ -56,4 +60,7 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    if (JavaVersion.current() >= JavaVersion.VERSION_13) {
+        jvmArgs = listOf("-XX:+AllowRedefinitionToAddDeleteMethods")
+    }
 }

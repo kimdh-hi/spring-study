@@ -1,7 +1,10 @@
 package com.toy.webfluxr2dbcpostgres.service
 
+import com.toy.webfluxr2dbcpostgres.auth.JwtPrincipal
+import com.toy.webfluxr2dbcpostgres.auth.JwtUtil
 import com.toy.webfluxr2dbcpostgres.domain.User
 import com.toy.webfluxr2dbcpostgres.repository.UserRepository
+import com.toy.webfluxr2dbcpostgres.vo.LoginRequestVO
 import com.toy.webfluxr2dbcpostgres.vo.UserSaveRequestVO
 import com.toy.webfluxr2dbcpostgres.vo.UserSaveResponseVO
 import com.toy.webfluxr2dbcpostgres.vo.UserUpdateRequestVO
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(
   private val userRepository: UserRepository,
+  private val jwtUtil: JwtUtil
 ) {
 
   suspend fun get(id: Long): User {
@@ -40,5 +44,12 @@ class UserService(
   suspend fun delete(id: Long) {
     val user = get(id)
     userRepository.deleteById(user.id!!)
+  }
+
+  suspend fun login(requestVO: LoginRequestVO): String {
+    val user = userRepository.findByUsername(requestVO.username) ?: throw IllegalArgumentException("user not found ...")
+    user.checkPassword(requestVO.password)
+
+    return jwtUtil.createToken(user)
   }
 }

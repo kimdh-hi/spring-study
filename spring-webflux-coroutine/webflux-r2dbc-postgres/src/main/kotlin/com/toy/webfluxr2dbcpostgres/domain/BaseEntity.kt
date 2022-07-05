@@ -5,10 +5,10 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import org.springframework.data.relational.core.mapping.Column
 import java.io.Serial
 import java.io.Serializable
 import java.time.LocalDateTime
-import javax.persistence.Column
 import javax.persistence.EntityListeners
 
 abstract class AbstractBaseEntity(): Serializable {
@@ -21,11 +21,11 @@ abstract class AbstractBaseEntity(): Serializable {
 
 @EntityListeners(AuditingEntityListener::class)
 abstract class AbstractDateTraceEntity(
-  @Column(name = "created_date", updatable = false)
+  @Column("created_date")
   @CreatedDate
   var createdDate: LocalDateTime? = null,
 
-  @Column(name = "updated_date")
+  @Column("updated_date")
   @LastModifiedDate
   var updatedDate: LocalDateTime? = null
 ): AbstractBaseEntity() {
@@ -37,11 +37,11 @@ abstract class AbstractDateTraceEntity(
 
 @EntityListeners(AuditingEntityListener::class)
 abstract class AbstractByTraceEntity(
-  @Column(name = "created_by", updatable = false)
+  @Column("created_by")
   @CreatedBy
   var createdBy: String? = null,
 
-  @Column(name = "updated_by")
+  @Column("updated_by")
   @LastModifiedBy
   var updatedBy: String? = null
 ): AbstractBaseEntity() {
