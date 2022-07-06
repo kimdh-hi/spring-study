@@ -5,10 +5,12 @@ import com.toy.jpabasic.vo.UserListResponseVO
 import com.toy.jpabasic.vo.UserListV3ResponseVO
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.findByIdOrNull
 
-interface UserRepository: CrudRepository<User, String>, UserRepositoryCustom {
+fun UserRepository.get(id: String)
+  = findByIdOrNull(id) ?: throw RuntimeException("user not found ...")
 
-}
+interface UserRepository: CrudRepository<User, String>, UserRepositoryCustom
 
 interface UserRepositoryCustom {
 

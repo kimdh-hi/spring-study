@@ -1,6 +1,8 @@
 package com.toy.jpabasic.repository
 
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestConstructor
 
@@ -21,6 +23,19 @@ class UserRepositoryTest(
     val list = userRepository.findAll()
     list.forEach {
       println(it)
+    }
+  }
+
+  @Test
+  fun `get 성공`() {
+    val user = userRepository.get("admin-01")
+    assertTrue(user.id == "admin-01")
+  }
+
+  @Test
+  fun `get 예외`() {
+    assertThrows<RuntimeException> {
+      userRepository.get("not-exists-user-01")
     }
   }
 }
