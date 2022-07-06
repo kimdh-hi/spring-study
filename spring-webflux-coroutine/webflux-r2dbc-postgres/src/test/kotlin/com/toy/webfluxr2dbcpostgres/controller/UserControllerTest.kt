@@ -4,14 +4,29 @@ import com.toy.webfluxr2dbcpostgres.base.AbstractIntegrationTest
 import com.toy.webfluxr2dbcpostgres.base.TestData
 import com.toy.webfluxr2dbcpostgres.vo.UserSaveRequestVO
 import com.toy.webfluxr2dbcpostgres.vo.UserSaveResponseVO
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.web.reactive.function.BodyInserters
 import reactor.blockhound.BlockHound
+import java.io.FilterInputStream
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class UserControllerTest: AbstractIntegrationTest() {
+
+  @BeforeAll
+  fun beforeAll() {
+    BlockHound.builder()
+      .allowBlockingCallsInside("java.util.UUID", "randomUUID")
+      .allowBlockingCallsInside(FilterInputStream::class.java.name, "read")
+      .install()
+  }
 
   @Test
   fun `save`() = runTest {
@@ -32,20 +47,15 @@ internal class UserControllerTest: AbstractIntegrationTest() {
   }
 
   @Test
-  fun `get`() = runTest {
-
-    BlockHound.install()
-
+  fun `get`() {
     //given
     val token = jwtUtil.createToken(TestData.USER)
 
-//    Thread.sleep(1000L)
     //expect
     webTestClient.get()
       .uri("/api/users")
       .header(HttpHeaders.AUTHORIZATION, token)
       .exchange()
       .expectStatus().isOk
-
   }
 }
