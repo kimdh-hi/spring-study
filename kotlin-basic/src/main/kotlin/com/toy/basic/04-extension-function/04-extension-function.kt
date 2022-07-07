@@ -1,4 +1,4 @@
-package com.toy.basic
+package com.toy.basic.`04-extension-function`
 
 
 fun String.lastChar() = get(length-1)
