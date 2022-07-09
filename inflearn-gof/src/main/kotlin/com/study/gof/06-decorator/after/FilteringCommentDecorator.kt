@@ -6,7 +6,7 @@ class FilteringCommentDecorator(
 
   override fun addComment(comment: String) {
     if(check(comment))
-      println(comment)
+      commentService.addComment(comment)
   }
 
   private fun check(comment: String) = !comment.contains("http")
