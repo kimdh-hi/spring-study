@@ -31,4 +31,8 @@ class User(
         company = company
       )
   }
+
+  override fun toString(): String {
+    return "User(id=$id, name='$name', username='$username', password='$password', company=$company)"
+  }
 }

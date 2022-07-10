@@ -21,4 +21,8 @@ class Company (
 
     fun newCompany(name: String):Company = Company(name = name)
   }
+
+  override fun toString(): String {
+    return "Company(id=$id, name='$name')"
+  }
 }

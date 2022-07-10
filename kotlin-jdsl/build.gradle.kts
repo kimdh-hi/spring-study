@@ -28,9 +28,21 @@ repositories {
 }
 
 dependencies {
-  implementation("com.linecorp.kotlin-jdsl:hibernate-kotlin-jdsl:2.0.4.RELEASE")
 //  implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-core:2.0.4.RELEASE")
-//  implementation("com.linecorp.kotlin-jdsl:hibernate-reactive-kotlin-jdsl:2.0.4.RELEASE")
+//  implementation("com.linecorp.kotlin-jdsl:hibernate-kotlin-jdsl:2.0.4.RELEASE")
+//  implementation("org.hibernate:hibernate-core:2.0.4.RELEASE")
+
+  val kotlinJdslVersion = "2.0.4.RELEASE"
+  implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter:${kotlinJdslVersion}") {
+    exclude(group = "com.linecorp.kotlin-jdsl", module = "hibernate-kotlin-jdsl")
+  }
+  implementation("com.linecorp.kotlin-jdsl:eclipselink-kotlin-jdsl:${kotlinJdslVersion}")
+//  dependencies {
+//    implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter:${kotlinJdslVersion}") {
+//      exclude(group = "com.linecorp.kotlin-jdsl", module = "hibernate-kotlin-jdsl")
+//    }
+//    implementation("com.linecorp.kotlin-jdsl:eclipselink-kotlin-jdsl:${kotlinJdslVersion}")
+//  }
 
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-web")
