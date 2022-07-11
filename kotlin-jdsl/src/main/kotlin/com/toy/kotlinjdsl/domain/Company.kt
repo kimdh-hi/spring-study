@@ -6,8 +6,10 @@ import java.io.Serializable
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.Table
 
 @Entity(name = "tb_company")
+@Table
 class Company (
   @Id
   @GenericGenerator(name = "uuid", strategy = "uuid2")
