@@ -21,6 +21,35 @@ import org.springframework.test.context.TestConstructor
 internal class UserQueryImplTest(val userRepository: UserRepository) {
 
   @Test
+  fun findByUsername() {
+    //given
+    val username = "kim@gmail.com"
+
+    //when
+    val user = userRepository.findByUsername(username)
+
+    //then
+    assertNotNull(user)
+  }
+
+  @Test
+  fun existsByUsername() {
+    //given
+    val existsUsername = "kim@gmail.com"
+    val notExistsUsername = "notExists@gmail.com"
+
+    //when
+    val exists = userRepository.existsByUsername(existsUsername)
+    val notExists = userRepository.existsByUsername(notExistsUsername)
+
+    //then
+    assertAll({
+      assertTrue(exists)
+      assertFalse(notExists)
+    })
+  }
+
+  @Test
   fun findAll() {
     //given
     val pageable = PageRequest.of(0, 2, Sort.by(Direction.DESC, "name"))
@@ -91,7 +120,7 @@ internal class UserQueryImplTest(val userRepository: UserRepository) {
     @MethodSource("parametersForSearch")
     fun search(searchVO: UserSearchVO) {
       //given
-      val pageable = PageRequest.of(0, 2, Sort.by(Direction.DESC, "name"))
+      val pageable = PageRequest.of(0, 1, Sort.by(Direction.DESC, "name"))
 
       //when
       val page = userRepository.searchV3(searchVO, pageable)

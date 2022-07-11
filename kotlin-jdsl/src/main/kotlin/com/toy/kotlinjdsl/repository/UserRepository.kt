@@ -3,13 +3,16 @@ package com.toy.kotlinjdsl.repository
 import com.linecorp.kotlinjdsl.query.spec.predicate.PredicateSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
+import com.linecorp.kotlinjdsl.querydsl.from.fetch
 import com.linecorp.kotlinjdsl.querydsl.from.join
 import com.linecorp.kotlinjdsl.spring.data.SpringDataQueryFactory
 import com.linecorp.kotlinjdsl.spring.data.listQuery
+import com.linecorp.kotlinjdsl.spring.data.selectQuery
 import com.linecorp.kotlinjdsl.spring.data.singleQuery
 import com.toy.kotlinjdsl.domain.Company
 import com.toy.kotlinjdsl.domain.Role
 import com.toy.kotlinjdsl.domain.User
+import com.toy.kotlinjdsl.vo.ExistsVO
 import com.toy.kotlinjdsl.vo.UserResponseVO
 import com.toy.kotlinjdsl.vo.UserSearchVO
 import org.springframework.data.domain.Page
@@ -26,13 +29,28 @@ interface UserQuery {
   fun searchV1(pageable: Pageable): Page<User>
   fun searchV2(pageable: Pageable): Page<UserResponseVO>
   fun searchV3(searchVO: UserSearchVO, pageable: Pageable): Page<UserResponseVO>
+
   fun get(id: String): User?
+  fun findByUsername(username: String): User?
+  fun existsByUsername(username: String): Boolean
 }
 
 @Repository
 class UserQueryImpl(
   private val queryFactory: SpringDataQueryFactory
 ): UserQuery {
+
+  override fun findByUsername(username: String): User? {
+    return queryFactory.singleQuery {
+      select(entity(User::class))
+      from(entity(User::class))
+      join(User::company)
+      fetch(User::company)
+      join(User::role)
+      fetch(User::role)
+      where(col(User::username).equal(username))
+    }
+  }
 
   override fun searchV0(pageable: Pageable): List<User> {
     return queryFactory.listQuery {
@@ -65,15 +83,14 @@ class UserQueryImpl(
   }
 
   override fun searchV3(searchVO: UserSearchVO, pageable: Pageable): Page<UserResponseVO> {
+
     return queryFactory.pageQuery(UserResponseVO::class.java, pageable) {
-      select(
-        listOf(
+      select(listOf(
           column(User::id),
           column(User::name),
           column(User::username),
           column(Company::name),
-          column(Role::name)
-        ))
+          column(Role::name)))
       from(entity(User::class))
       join(User::company)
       join(User::role)
@@ -93,5 +110,16 @@ class UserQueryImpl(
       from(entity(User::class))
       where(col(User::id).equal(id))
     }
+  }
+
+  override fun existsByUsername(username: String): Boolean {
+    val result = queryFactory.selectQuery<ExistsVO> {
+      select(listOf(column(User::id)))
+      from(entity(User::class))
+      where(col(User::username).equal(username))
+      limit(1)
+    }
+
+    return result.resultList.isNotEmpty()
   }
 }
