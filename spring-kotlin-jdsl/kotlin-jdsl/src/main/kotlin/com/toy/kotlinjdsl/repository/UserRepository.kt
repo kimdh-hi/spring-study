@@ -5,6 +5,7 @@ import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
 import com.linecorp.kotlinjdsl.querydsl.from.fetch
 import com.linecorp.kotlinjdsl.querydsl.from.join
+import com.linecorp.kotlinjdsl.querydsl.where.WhereDsl
 import com.linecorp.kotlinjdsl.spring.data.SpringDataQueryFactory
 import com.linecorp.kotlinjdsl.spring.data.listQuery
 import com.linecorp.kotlinjdsl.spring.data.selectQuery
@@ -94,14 +95,18 @@ class UserQueryImpl(
       from(entity(User::class))
       join(User::company)
       join(User::role)
-      where(
-        searchVO.keyword?.let {
-          col(User::name).like("%$it%").or(col(User::username).like("$it%")) } ?: PredicateSpec.empty
-      )
-      where(
-        searchVO.roleId?.let { col(Role::id).equal(it) } ?: PredicateSpec.empty
-      )
+      where(searchCondition(searchVO))
     }
+  }
+
+  private fun WhereDsl.searchCondition(searchVO: UserSearchVO): PredicateSpec {
+    return and(
+      searchVO.roleId?.let { col(Role::id).equal(it) } ?: PredicateSpec.empty
+    ).and(
+      searchVO.keyword?.let {
+        col(User::name).like("%$it%").or(col(User::username).like("$it%"))
+      } ?: PredicateSpec.empty
+    )
   }
 
   override fun get(id: String): User? {
