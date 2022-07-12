@@ -2,11 +2,14 @@ package com.toy.reactivejdsl.repository
 
 import com.linecorp.kotlinjdsl.query.spec.predicate.PredicateSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
+import com.linecorp.kotlinjdsl.querydsl.expression.column
 import com.linecorp.kotlinjdsl.querydsl.from.join
 import com.linecorp.kotlinjdsl.querydsl.where.WhereDsl
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQuery
+import com.toy.reactivejdsl.common.ExistsVO
 import com.toy.reactivejdsl.domain.Company
 import com.toy.reactivejdsl.domain.Role
 import com.toy.reactivejdsl.domain.User
@@ -16,7 +19,6 @@ import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
 
 interface UserRepository {
@@ -24,6 +26,7 @@ interface UserRepository {
   suspend fun findById(id: String): User?
   suspend fun findByUsername(username: String): User?
   suspend fun search(pageable: Pageable, searchVO: UserSearchVO): Page<UserResponseVO>
+  suspend fun existsByUsername(username: String): Boolean
 }
 
 @Repository
@@ -70,6 +73,17 @@ class UserRepositoryImpl (
       join(User::role)
       where(searchCondition(searchVO))
     }
+  }
+
+  override suspend fun existsByUsername(username: String): Boolean {
+    val result = queryFactory.listQuery<ExistsVO> {
+      select(listOf(column(User::id)))
+      from(entity(User::class))
+      where(col(User::username).equal(username))
+      limit(1)
+    }
+
+    return result.isNotEmpty()
   }
 
   private fun WhereDsl.searchCondition(searchVO: UserSearchVO) =

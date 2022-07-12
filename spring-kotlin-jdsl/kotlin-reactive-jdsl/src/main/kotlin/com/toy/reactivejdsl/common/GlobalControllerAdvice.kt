@@ -15,7 +15,7 @@ class GlobalControllerAdvice {
   @ExceptionHandler(RuntimeException::class)
   fun handleRuntimeException(ex: RuntimeException): ResponseEntity<ErrorVO> {
     log.error(ex.message!!)
-    val vo = ErrorVO(errorCode = "9000", message = "error...")
+    val vo = ErrorVO(errorCode = "9000", message = ex.message ?: "error...")
     return ResponseEntity(vo, HttpStatus.INTERNAL_SERVER_ERROR)
   }
 }

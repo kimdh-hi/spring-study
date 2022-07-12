@@ -10,20 +10,36 @@ import org.springframework.test.context.TestConstructor
 
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-internal class UserRepositoryImplTest(
-  val userRepository: UserRepository
-) {
+internal class UserRepositoryImplTest(val userRepository: UserRepository) {
 
   @Test
   fun search() = runBlocking {
     //given
-    val pageable = PageRequest.of(0, 2)
+    val pageable = PageRequest.of(0, 10)
     val searchVO = UserSearchVO(roleId = "role-09", keyword = null)
 
     //when
     val page = userRepository.search(pageable, searchVO)
 
     //then
-    println(page.content)
+    assertAll({
+      assertEquals(10, page.size)
+      assertEquals(0, page.number)
+    })
+  }
+
+  @Test
+  fun existsByUsername() = runBlocking {
+    //given
+    val username = "kim@gmail.com"
+    val notExistsUsername = "notExists@adsad.com"
+
+    //when
+    val exists = userRepository.existsByUsername(username)
+    val notExists = userRepository.existsByUsername(notExistsUsername)
+
+    //then
+    assertTrue(exists)
+    assertFalse(notExists)
   }
 }

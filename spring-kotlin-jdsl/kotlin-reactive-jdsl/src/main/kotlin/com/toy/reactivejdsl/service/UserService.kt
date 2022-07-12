@@ -4,10 +4,8 @@ import com.toy.reactivejdsl.domain.Role
 import com.toy.reactivejdsl.domain.User
 import com.toy.reactivejdsl.repository.CompanyRepository
 import com.toy.reactivejdsl.repository.UserRepository
-import com.toy.reactivejdsl.vo.UserResponseVO
-import com.toy.reactivejdsl.vo.UserSaveRequestVO
-import com.toy.reactivejdsl.vo.UserSaveResponseVO
-import com.toy.reactivejdsl.vo.UserSearchVO
+import com.toy.reactivejdsl.security.JwtUtil
+import com.toy.reactivejdsl.vo.*
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -15,7 +13,8 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(
   private val userRepository: UserRepository,
-  private val companyRepository: CompanyRepository
+  private val companyRepository: CompanyRepository,
+  private val jwtUtil: JwtUtil
 ) {
 
   suspend fun search(pageable: Pageable, searchVO: UserSearchVO): Page<UserResponseVO> = userRepository.search(pageable, searchVO)
@@ -40,4 +39,11 @@ class UserService(
   }
 
   suspend fun findUserByUsername(username: String) = userRepository.findByUsername(username)
+
+  suspend fun login(requestVO: LoginRequestVO): String {
+    val user = userRepository.findByUsername(requestVO.username) ?: throw IllegalArgumentException("user not found ...")
+    user.checkPassword(requestVO.password)
+
+    return jwtUtil.createToken(user)
+  }
 }

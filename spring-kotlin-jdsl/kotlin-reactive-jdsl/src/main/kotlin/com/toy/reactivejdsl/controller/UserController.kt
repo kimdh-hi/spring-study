@@ -1,10 +1,12 @@
 package com.toy.reactivejdsl.controller
 
+import com.toy.reactivejdsl.common.SecurityUtils
 import com.toy.reactivejdsl.service.UserService
 import com.toy.reactivejdsl.vo.UserResponseVO
 import com.toy.reactivejdsl.vo.UserSaveRequestVO
 import com.toy.reactivejdsl.vo.UserSaveResponseVO
 import com.toy.reactivejdsl.vo.UserSearchVO
+import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
@@ -21,8 +23,14 @@ class UserController(
   private val userService: UserService
 ) {
 
+  private val log = LoggerFactory.getLogger(javaClass)
+
   @PostMapping
   suspend fun save(@RequestBody requestVO: UserSaveRequestVO): ResponseEntity<UserSaveResponseVO> {
+    val jwtPrincipal = SecurityUtils.getPrincipal()
+
+    log.info("jwtPrinipal: {}", jwtPrincipal)
+
     val responseVO = userService.save(requestVO)
     return ResponseEntity.ok(responseVO)
   }

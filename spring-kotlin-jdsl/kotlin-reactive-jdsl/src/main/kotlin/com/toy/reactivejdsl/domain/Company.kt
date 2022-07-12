@@ -2,11 +2,7 @@ package com.toy.reactivejdsl.domain
 
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serial
-import java.io.Serializable
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "company")
@@ -16,7 +12,11 @@ class Company (
   @GeneratedValue(generator = "uuid")
   var id: String? = null,
   var name: String,
-): Serializable {
+): AbstractDateTraceEntity() {
+
+  @OneToMany(mappedBy = "company", cascade = [CascadeType.REMOVE], orphanRemoval = true)
+  val users: MutableSet<User> = mutableSetOf()
+
   companion object {
     @Serial
     private const val serialVersionUID: Long = 6604375143529578887L
