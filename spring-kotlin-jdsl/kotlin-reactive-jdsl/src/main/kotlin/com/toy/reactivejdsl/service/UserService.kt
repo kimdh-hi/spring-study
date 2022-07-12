@@ -2,8 +2,10 @@ package com.toy.reactivejdsl.service
 
 import com.toy.reactivejdsl.domain.Role
 import com.toy.reactivejdsl.domain.User
+import com.toy.reactivejdsl.repository.CommonCrudRepository
 import com.toy.reactivejdsl.repository.CompanyRepository
 import com.toy.reactivejdsl.repository.UserRepository
+import com.toy.reactivejdsl.repository.get
 import com.toy.reactivejdsl.security.JwtUtil
 import com.toy.reactivejdsl.vo.*
 import org.springframework.data.domain.Page
@@ -14,7 +16,8 @@ import org.springframework.stereotype.Service
 class UserService(
   private val userRepository: UserRepository,
   private val companyRepository: CompanyRepository,
-  private val jwtUtil: JwtUtil
+  private val jwtUtil: JwtUtil,
+  private val commonCurdRepository: CommonCrudRepository<User, String>
 ) {
 
   suspend fun search(pageable: Pageable, searchVO: UserSearchVO): Page<UserResponseVO> = userRepository.search(pageable, searchVO)
@@ -34,7 +37,10 @@ class UserService(
   }
 
   suspend fun get(id: String): UserResponseVO {
-    val user = userRepository.findById(id) ?: throw RuntimeException("user not found...")
+    val user = commonCurdRepository.get(id) ?: throw RuntimeException("user not found...")
+    println(user)
+
+//    val user = userRepository.findById(id) ?: throw RuntimeException("user not found...")
     return UserResponseVO.of(user)
   }
 

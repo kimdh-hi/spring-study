@@ -18,6 +18,7 @@ class CompanyRepositoryImpl (
   private val sessionFactory: Mutiny.SessionFactory,
   private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ): CompanyRepository {
+
   override suspend fun save(company: Company): Company {
     return company.also {
       sessionFactory.withSession { session ->

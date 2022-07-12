@@ -3,6 +3,7 @@ package com.toy.reactivejdsl.repository
 import com.linecorp.kotlinjdsl.query.spec.predicate.PredicateSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
+import com.linecorp.kotlinjdsl.querydsl.from.fetch
 import com.linecorp.kotlinjdsl.querydsl.from.join
 import com.linecorp.kotlinjdsl.querydsl.where.WhereDsl
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
@@ -22,11 +23,12 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 
 interface UserRepository {
-  suspend fun save(user: User): User
   suspend fun findById(id: String): User?
   suspend fun findByUsername(username: String): User?
   suspend fun search(pageable: Pageable, searchVO: UserSearchVO): Page<UserResponseVO>
   suspend fun existsByUsername(username: String): Boolean
+  suspend fun get(id: String): User?
+  suspend fun save(user: User): User
 }
 
 @Repository
@@ -36,6 +38,14 @@ class UserRepositoryImpl (
 ): UserRepository {
 
   override suspend fun findById(id: String): User? {
+    return queryFactory.singleQuery {
+      select(entity(User::class))
+      from(entity(User::class))
+      where(col(User::id).equal(id))
+    }
+  }
+
+  override suspend fun get(id: String): User? {
     return queryFactory.singleQuery {
       select(entity(User::class))
       from(entity(User::class))
@@ -56,6 +66,10 @@ class UserRepositoryImpl (
       select(entity(User::class))
       from(entity(User::class))
       where(col(User::username).equal(username))
+      join(User::company)
+      fetch(User::company)
+      join(User::role)
+      fetch(User::role)
     }
   }
 

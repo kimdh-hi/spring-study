@@ -17,8 +17,6 @@ class JwtAuthenticationFilter(
   private val jwtUtil: JwtUtil,
 ): WebFilter {
 
-  private val log = LoggerFactory.getLogger(javaClass)
-
   override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
 
     val token = getToken(exchange)
