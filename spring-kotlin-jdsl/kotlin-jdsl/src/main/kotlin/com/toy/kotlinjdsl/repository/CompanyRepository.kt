@@ -6,6 +6,7 @@ import com.linecorp.kotlinjdsl.spring.data.SpringDataQueryFactory
 import com.linecorp.kotlinjdsl.spring.data.selectQuery
 import com.toy.kotlinjdsl.domain.Company
 import com.toy.kotlinjdsl.vo.ExistsVO
+import org.hibernate.SessionFactory
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
@@ -16,7 +17,8 @@ interface CompanyQuery {
 }
 
 @Repository
-class CompanyQueryImpl(private val queryFactory: SpringDataQueryFactory): CompanyQuery {
+class CompanyQueryImpl(
+  private val queryFactory: SpringDataQueryFactory): CompanyQuery {
 
   override fun existsByName(name: String): Boolean {
     val result = queryFactory.selectQuery<ExistsVO> {

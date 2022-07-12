@@ -16,6 +16,7 @@ import com.toy.kotlinjdsl.domain.User
 import com.toy.kotlinjdsl.vo.ExistsVO
 import com.toy.kotlinjdsl.vo.UserResponseVO
 import com.toy.kotlinjdsl.vo.UserSearchVO
+import org.hibernate.SessionFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.CrudRepository
@@ -38,6 +39,7 @@ interface UserQuery {
 
 @Repository
 class UserQueryImpl(
+  private val sessionFactory: SessionFactory,
   private val queryFactory: SpringDataQueryFactory
 ): UserQuery {
 
