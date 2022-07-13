@@ -1,1 +1,1 @@
-rootProject.name = "reactive-jdsl"
+rootProject.name = "xr-coroutine-sample"

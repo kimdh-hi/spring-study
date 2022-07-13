@@ -42,8 +42,15 @@ class UserController(
   }
 
   @GetMapping("/{id}")
-  suspend fun getByName(@PathVariable id: String): ResponseEntity<UserResponseVO> {
+  suspend fun get(@PathVariable id: String): ResponseEntity<UserResponseVO> {
     val user = userService.get(id)
+
+    return ResponseEntity.ok(user)
+  }
+
+  @GetMapping("/v2/{id}")
+  suspend fun getV2(@PathVariable id: String): ResponseEntity<UserResponseVO> {
+    val user = userService.getV2(id)
 
     return ResponseEntity.ok(user)
   }

@@ -24,6 +24,10 @@ class Company (
     fun newCompany(name: String): Company = Company(name = name)
   }
 
+  override fun getPk(): Any? = id
+
+  override fun getType(): Any? = id!!::class
+
   override fun toString(): String {
     return "Company(id=$id, name='$name')"
   }

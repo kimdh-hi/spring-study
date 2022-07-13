@@ -1,4 +1,4 @@
-package com.toy.reactivejdsl.repository
+package com.toy.reactivejdsl.repository.query
 
 import com.linecorp.kotlinjdsl.query.spec.predicate.PredicateSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
@@ -16,26 +16,25 @@ import com.toy.reactivejdsl.domain.Role
 import com.toy.reactivejdsl.domain.User
 import com.toy.reactivejdsl.vo.UserResponseVO
 import com.toy.reactivejdsl.vo.UserSearchVO
-import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 
-interface UserRepository {
+interface UserQuery {
   suspend fun findById(id: String): User?
   suspend fun findByUsername(username: String): User?
   suspend fun search(pageable: Pageable, searchVO: UserSearchVO): Page<UserResponseVO>
   suspend fun existsByUsername(username: String): Boolean
   suspend fun get(id: String): User?
-  suspend fun save(user: User): User
+//  suspend fun save(user: User): User
 }
 
 @Repository
-class UserRepositoryImpl (
+class UserQueryImpl (
   private val sessionFactory: Mutiny.SessionFactory,
   private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
-): UserRepository {
+): UserQuery {
 
   override suspend fun findById(id: String): User? {
     return queryFactory.singleQuery {
@@ -53,15 +52,16 @@ class UserRepositoryImpl (
     }
   }
 
-  override suspend fun save(user: User): User {
-    return user.also {
-      sessionFactory.withSession { session -> session.persist(it).flatMap {
-        session.flush()
-      } }.awaitSuspending()
-    }
-  }
+//  override suspend fun save(user: User): User {
+//    return user.also {
+//      sessionFactory.withSession { session -> session.persist(it).flatMap {
+//        session.flush()
+//      } }.awaitSuspending()
+//    }
+//  }
 
   override suspend fun findByUsername(username: String): User? {
+
     return queryFactory.singleQuery {
       select(entity(User::class))
       from(entity(User::class))

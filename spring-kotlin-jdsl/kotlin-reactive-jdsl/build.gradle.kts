@@ -29,16 +29,25 @@ repositories {
 }
 
 dependencies {
+  implementation("org.springframework.boot:spring-boot-starter-webflux")
+
   val jdslVersion = "2.0.4.RELEASE"
   implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter:$jdslVersion")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
+  // security
   implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("com.nimbusds:nimbus-jose-jwt:9.23")
   implementation("com.google.crypto.tink:tink:1.6.1")
-  implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.9")
-  implementation("io.projectreactor.tools:blockhound:1.0.6.RELEASE")
 
+  //swagger
+  implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.9")
+
+  // hibernate-reactive 지원 x
+  // https://github.com/hibernate/hibernate-reactive/issues/394
+//  implementation("org.hibernate:hibernate-envers")
+
+  // coroutine
   val coroutineVersion = "1.6.3"
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$coroutineVersion")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:$coroutineVersion")
@@ -57,11 +66,15 @@ dependencies {
   implementation("io.vertx:vertx-jdbc-client:4.3.1")
   implementation("org.mariadb.jdbc:mariadb-java-client")
 
-  implementation("org.springframework.boot:spring-boot-starter-webflux")
+
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+  //test
   testImplementation("org.springframework.boot:spring-boot-starter-test")
+  testImplementation("io.projectreactor.tools:blockhound:1.0.6.RELEASE")
+  testImplementation("com.google.auto.service:auto-service:1.0")
 
   implementation("io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64")
 }
@@ -75,4 +88,7 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
   useJUnitPlatform()
+  if (JavaVersion.current() >= JavaVersion.VERSION_13) { // jdk13+ blockhound issue
+    jvmArgs = listOf("-XX:+AllowRedefinitionToAddDeleteMethods")
+  }
 }

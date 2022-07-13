@@ -1,14 +1,18 @@
-package com.toy.reactivejdsl
+package com.toy.reactivejdsl.base
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.google.auto.service.AutoService
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
 import org.springframework.test.context.TestConstructor
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
+import reactor.blockhound.BlockHound
+import reactor.blockhound.integration.BlockHoundIntegration
+import java.io.FilterInputStream
 
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 abstract class BaseTest {
@@ -52,5 +56,16 @@ abstract class BaseTest {
       log.error("Parameter 변환중 오류가 발생했습니다.", e)
       throw IllegalStateException("Parameter 변환중 오류가 발생했습니다.")
     }
+  }
+}
+
+@AutoService(BlockHoundIntegration::class)
+class CustomBlockHoundIntegration: BlockHoundIntegration {
+
+  override fun applyTo(builder: BlockHound.Builder) {
+    builder
+      .allowBlockingCallsInside("java.util.UUID", "randomUUID")
+      .allowBlockingCallsInside("java.io.RandomAccessFile", "readBytes")
+      .allowBlockingCallsInside(FilterInputStream::class.java.name, "read")
   }
 }

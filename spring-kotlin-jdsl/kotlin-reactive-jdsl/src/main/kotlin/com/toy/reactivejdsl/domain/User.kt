@@ -43,4 +43,8 @@ class User(
   override fun toString(): String {
     return "User(id=$id, name='$name', username='$username', password='$password', company=$company)"
   }
+
+  override fun getPk(): Any? = id
+
+  override fun getType() = id
 }

@@ -10,12 +10,16 @@ import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.EntityListeners
 import javax.persistence.MappedSuperclass
+import kotlin.reflect.typeOf
 
 abstract class BaseEntity: Serializable{
   companion object {
     @Serial
     private const val serialVersionUID: Long = -5774120770574498000L
   }
+
+  abstract fun getPk(): Any?
+  abstract fun getType(): Any?
 }
 
 @MappedSuperclass

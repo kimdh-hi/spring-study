@@ -18,8 +18,12 @@ class Role(
   @Column(name = "authority", nullable = false)
   @Enumerated(EnumType.STRING)
   val authorities: Set<Authority> = mutableSetOf()
-) {
+): BaseEntity() {
   companion object {
     fun of(id: String) = Role(id = id)
   }
+
+  override fun getPk(): Any? = id
+
+  override fun getType(): Any? = id::class
 }
