@@ -27,10 +27,12 @@ class TestBase {
     em.persist(teamA)
     em.persist(teamB)
 
+    val memeber0 = Member(username = "member0", age = 10, team = teamA)
     val memeber1 = Member(username = "member1", age = 20, team = teamA)
     val memeber2 = Member(username = "member2", age = 21, team = teamA)
     val memeber3 = Member(username = "member3", age = 30, team = teamB)
     val memeber4 = Member(username = "member4", age = 31, team = teamB)
+    em.persist(memeber0)
     em.persist(memeber1)
     em.persist(memeber2)
     em.persist(memeber3)
