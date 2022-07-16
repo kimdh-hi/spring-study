@@ -18,6 +18,8 @@ allOpen {
 
 noArg {
 	annotation("javax.persistence.Entity")
+	annotation("com.toy.springquerydsl.common.NoArg")
+	invokeInitializers = true
 }
 
 group = "com.toy"

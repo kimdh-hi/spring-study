@@ -53,7 +53,7 @@ class Case: TestBase() {
     val members = query
       .select(member.username, member.age, rankPath)
       .from(member)
-      .orderBy(rankPath.asc())
+      .orderBy(rankPath.desc())
       .fetch()
 
     println(members)
