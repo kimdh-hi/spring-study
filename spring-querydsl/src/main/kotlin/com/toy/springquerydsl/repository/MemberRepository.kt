@@ -1,10 +1,10 @@
 package com.toy.springquerydsl.repository
 
 import com.querydsl.core.BooleanBuilder
+import com.querydsl.core.types.dsl.Wildcard
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.toy.springquerydsl.domain.Member
-import com.toy.springquerydsl.domain.QMember.*
-import com.toy.springquerydsl.vo.MemberDetailsResponseVO
+import com.toy.springquerydsl.domain.QMember.member
 import com.toy.springquerydsl.vo.MemberResponseVO
 import com.toy.springquerydsl.vo.MemberSearchVO
 import com.toy.springquerydsl.vo.QMemberResponseVO
@@ -20,11 +20,14 @@ interface MemberRepository: CrudRepository<Member, String>, MemberRepositoryCust
 interface MemberRepositoryCustom {
   fun searchV0deprecated(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO>
   fun searchV1deprecated(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO>
+
+  fun search(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO>
+  fun searchV2(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO>
 }
 
 class MemberRepositoryImpl(
   val query: JPAQueryFactory
-): MemberRepositoryCustom {
+): MemberRepositoryCustom, QueryDslSupportCustom(Member::class.java) {
 
   override fun searchV0deprecated(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO> {
     val content = getContents(searchVO, pageable)
@@ -45,6 +48,30 @@ class MemberRepositoryImpl(
       .offset(pageable.offset)
 
     return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount)
+  }
+
+  override fun search(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO> {
+    val content = query.select(QMemberResponseVO(member.username, member.age))
+      .from(member)
+      .where(memberSearchCondition(searchVO))
+      .fetch()
+
+    val countQuery = query.select(Wildcard.count)
+      .from(member)
+      .where(memberSearchCondition(searchVO))
+
+    // sort not working...
+    return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchFirst)
+  }
+
+  override fun searchV2(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO> {
+    val jpaQuery = query
+      .from(member)
+      .where(memberSearchCondition(searchVO))
+
+    val selectClause = QMemberResponseVO(member.username, member.age)
+
+    return getPage(jpaQuery, selectClause, pageable)
   }
 
   private fun getContents(
