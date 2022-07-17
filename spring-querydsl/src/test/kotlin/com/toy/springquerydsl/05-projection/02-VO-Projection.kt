@@ -1,9 +1,8 @@
 package com.toy.springquerydsl.`05-projection`
 
 import com.toy.springquerydsl.`00-base`.TestBase
-import com.toy.springquerydsl.domain.QMember
 import com.toy.springquerydsl.domain.QMember.member
-import com.toy.springquerydsl.vo.QUserResponseVO
+import com.toy.springquerydsl.vo.QMemberResponseVO
 import org.junit.jupiter.api.Test
 
 class `02-VO-Projection`: TestBase() {
@@ -14,7 +13,7 @@ class `02-VO-Projection`: TestBase() {
   @Test
   fun `vo - projection`() {
     val result = query
-      .select(QUserResponseVO(member.username, member.age))
+      .select(QMemberResponseVO(member.username, member.age))
       .from(member)
       .fetch()
 

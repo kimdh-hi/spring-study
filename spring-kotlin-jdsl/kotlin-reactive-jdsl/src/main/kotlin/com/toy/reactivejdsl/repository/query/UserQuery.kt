@@ -1,5 +1,6 @@
 package com.toy.reactivejdsl.repository.query
 
+import com.linecorp.kotlinjdsl.query.spec.expression.ExpressionSpec
 import com.linecorp.kotlinjdsl.query.spec.predicate.PredicateSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
@@ -11,6 +12,7 @@ import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQuery
 import com.toy.reactivejdsl.common.ExistsVO
+import com.toy.reactivejdsl.domain.Authority
 import com.toy.reactivejdsl.domain.Company
 import com.toy.reactivejdsl.domain.Role
 import com.toy.reactivejdsl.domain.User
@@ -82,6 +84,11 @@ class UserQueryImpl (
         col(Company::name),
         col(Role::name)
       ))
+//      case(
+//        `when`(col(Role::id).equal("role-01")).then(literal(Authority.USER)),
+//        `when`(col(Role::id).equal("role-09")).then(literal(Authority.ADMIN)),
+//        `else` = literal(Authority.USER)
+//      )
       from(entity(User::class))
       join(User::company)
       join(User::role)

@@ -6,7 +6,7 @@ import com.querydsl.jpa.JPAExpressions
 import com.toy.springquerydsl.`00-base`.TestBase
 import com.toy.springquerydsl.domain.QMember
 import com.toy.springquerydsl.domain.QMember.member
-import com.toy.springquerydsl.vo.UserResponseVO
+import com.toy.springquerydsl.vo.MemberResponseVO
 import org.junit.jupiter.api.Test
 
 class `03-Projections`: TestBase() {
@@ -16,7 +16,7 @@ class `03-Projections`: TestBase() {
   fun `Projections bean`() {
     val result = query
       .select(
-        Projections.bean(UserResponseVO::class.java,
+        Projections.bean(MemberResponseVO::class.java,
           member.username, member.age))
       .from(member)
       .fetch()
@@ -28,7 +28,7 @@ class `03-Projections`: TestBase() {
   fun `Projections fields`() {
     val result = query
       .select(
-        Projections.fields(UserResponseVO::class.java,
+        Projections.fields(MemberResponseVO::class.java,
           member.username, member.age)
       )
       .from(member)
@@ -43,11 +43,11 @@ class `03-Projections`: TestBase() {
 
     val result = query
       .select(
-        Projections.fields(UserResponseVO::class.java,
+        Projections.fields(MemberResponseVO::class.java,
           member.username.`as`("name"),
           ExpressionUtils.`as`(
             JPAExpressions
-              .select(m2.age.avg())
+              .select(m2.age.max())
               .from(m2), "age")
         )
       )

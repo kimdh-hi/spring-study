@@ -26,4 +26,9 @@ class Role(
   override fun getPk(): Any? = id
 
   override fun getType(): Any? = id::class
+
+  fun getAuthority(): Authority {
+    val admin = authorities.firstOrNull { authority -> Authority.ADMIN == authority }
+    return admin ?: Authority.USER
+  }
 }

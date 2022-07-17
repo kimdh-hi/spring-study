@@ -1,6 +1,7 @@
 package com.toy.reactivejdsl.vo
 
 import com.toy.reactivejdsl.common.BaseVO
+import com.toy.reactivejdsl.domain.Authority
 import com.toy.reactivejdsl.domain.User
 import java.io.Serial
 
