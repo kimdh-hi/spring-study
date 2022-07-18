@@ -25,7 +25,7 @@ import java.time.LocalDateTime
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @AutoConfigureMockMvc
 @SpringBootTest
-internal class ApiTestControllerTest(
+internal class ApiTestControllerException(
     val mockMvc: MockMvc,
     val memberRepository: MemberRepository,
     val objectMapper: ObjectMapper

@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.post
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @AutoConfigureMockMvc
 @SpringBootTest
-internal class EnumMappingTestControllerTest(val mockMvc: MockMvc) {
+internal class EnumMappingTestControllerException(val mockMvc: MockMvc) {
 
   @Test
   fun `success`() {

@@ -4,6 +4,8 @@ import com.toy.reactivejdsl.common.BaseVO
 import com.toy.reactivejdsl.domain.Authority
 import com.toy.reactivejdsl.domain.User
 import java.io.Serial
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 data class UserSearchVO(
   val roleId: String?,
@@ -16,10 +18,15 @@ data class UserSearchVO(
 }
 
 data class UserSaveRequestVO(
+  @field:NotBlank
   val name: String,
+  @field:NotBlank
   val username: String,
+  @field:NotBlank
   val password: String,
+  @field:NotNull
   val roleId: String,
+  @field:NotBlank
   val companyId: String
 ): BaseVO() {
   companion object {
@@ -30,8 +37,11 @@ data class UserSaveRequestVO(
 }
 
 data class UserSaveResponseVO(
+  @field:NotBlank
   val id: String,
+  @field:NotBlank
   val name: String,
+  @field:NotBlank
   val username: String,
 ): BaseVO() {
   companion object {
@@ -69,7 +79,9 @@ data class UserResponseVO(
 }
 
 data class LoginRequestVO(
+  @field:NotBlank
   val username: String,
+  @field:NotBlank
   val password: String
 )
 
@@ -78,6 +90,8 @@ data class LoginResponseVO(
 )
 
 data class SignupRequestVO(
+  @field:NotBlank
   val username: String,
+  @field:NotBlank
   val password: String
 )

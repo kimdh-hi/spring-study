@@ -14,18 +14,8 @@ import org.springframework.test.web.servlet.get
 class ExceptionControllerTest(val mockMvc: MockMvc) {
 
     @Test
-    fun test1() {
-        mockMvc.get("/api/exception")
-            .andDo {
-                print()
-            }
-    }
-
-    @Test
-    fun test2() {
-        mockMvc.get("/view/exception")
-            .andDo {
-                print()
-            }
+    fun base() {
+        mockMvc.get("/exceptions/base")
+            .andDo { print() }
     }
 }

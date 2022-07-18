@@ -2,6 +2,7 @@ package com.toy.reactivejdsl.config
 
 import com.toy.reactivejdsl.common.PasswordUtils
 import com.toy.reactivejdsl.common.UrlConstants.SWAGGER_V3
+import com.toy.reactivejdsl.security.JwtAuthenticationEntryPoint
 import com.toy.reactivejdsl.security.JwtAuthenticationFilter
 import com.toy.reactivejdsl.security.JwtUtil
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
@@ -44,6 +45,9 @@ class SecurityConfig(
       .logout().disable()
       .httpBasic().disable()
       .formLogin().disable()
+      .exceptionHandling {
+        it.authenticationEntryPoint(JwtAuthenticationEntryPoint())
+      }
       .addFilterAt(JwtAuthenticationFilter(jwtUtil), SecurityWebFiltersOrder.AUTHENTICATION)
       .build()
 

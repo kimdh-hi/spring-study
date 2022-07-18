@@ -2,7 +2,6 @@ package com.example.ex.controller
 
 import com.example.ex.dto.request.TestDto
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -12,8 +11,8 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 
 @AutoConfigureMockMvc
-@WebMvcTest(controllers = [TestController::class])
-class TestControllerTest {
+@WebMvcTest(controllers = [ExceptionController::class])
+class TestControllerException {
 
     @Autowired lateinit var mockMvc: MockMvc
     @Autowired lateinit var om: ObjectMapper

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
+import javax.validation.Valid
 
 @RequestMapping("/api/users")
 @RestController
@@ -31,7 +32,7 @@ class UserController(
   private val log = LoggerFactory.getLogger(javaClass)
 
   @PostMapping("/signup")
-  suspend fun signup(@RequestBody requestVO: UserSaveRequestVO) = userService.save(requestVO)
+  suspend fun signup(@RequestBody @Valid requestVO: UserSaveRequestVO) = userService.save(requestVO)
 
   @GetMapping
   fun list(): ResponseEntity<Flow<User>> {

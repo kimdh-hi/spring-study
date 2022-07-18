@@ -28,4 +28,4 @@ logging:
     "[org.springframework.web.filter]": debug
     "[org.hibernate.SQL]": debug
     "[org.hibernate.type.descriptor.sql.BasicBinder]": trace
-    "[com.assignment]": debug
+    "[com.toy]": debug

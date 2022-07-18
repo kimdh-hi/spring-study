@@ -24,6 +24,7 @@ dependencies {
     implementation("com.google.crypto.tink:tink:1.6.1")
     implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.9")
     implementation("io.projectreactor.tools:blockhound:1.0.6.RELEASE")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-debug")

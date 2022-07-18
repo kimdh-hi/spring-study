@@ -26,7 +26,7 @@ import javax.validation.Valid
 
 @RequestMapping("/api")
 @RestController
-class ApiTestController(private val memberRepository: MemberRepository): ApiExceptionHandler() {
+class ApiTestController(private val memberRepository: MemberRepository) {
 
     private val LOG = LoggerFactory.getLogger(javaClass)
 

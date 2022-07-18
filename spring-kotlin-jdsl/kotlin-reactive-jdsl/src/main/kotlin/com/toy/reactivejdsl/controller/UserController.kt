@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/users")
@@ -26,7 +27,7 @@ class UserController(
   private val log = LoggerFactory.getLogger(javaClass)
 
   @PostMapping
-  suspend fun save(@RequestBody requestVO: UserSaveRequestVO): ResponseEntity<UserSaveResponseVO> {
+  suspend fun save(@RequestBody @Valid requestVO: UserSaveRequestVO): ResponseEntity<UserSaveResponseVO> {
     val jwtPrincipal = SecurityUtils.getPrincipal()
 
     log.info("jwtPrinipal: {}", jwtPrincipal)

@@ -5,8 +5,10 @@ import com.toy.webfluxr2dbcpostgres.base.TestData
 import com.toy.webfluxr2dbcpostgres.vo.UserSaveRequestVO
 import com.toy.webfluxr2dbcpostgres.vo.UserSaveResponseVO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
@@ -17,10 +19,9 @@ import org.springframework.web.reactive.function.BodyInserters
 import reactor.blockhound.BlockHound
 import java.io.FilterInputStream
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class UserControllerTest: AbstractIntegrationTest() {
 
-  @BeforeAll
+//  @BeforeAll
   fun beforeAll() {
     BlockHound.builder()
       .allowBlockingCallsInside("java.util.UUID", "randomUUID")
@@ -28,8 +29,9 @@ internal class UserControllerTest: AbstractIntegrationTest() {
       .install()
   }
 
+  @Disabled
   @Test
-  fun `save`() = runTest {
+  fun `save`() = runBlocking {
     //given
     val requestVO = UserSaveRequestVO(name = "test-name", username = "test-username", password = "test1234")
     val token = jwtUtil.createToken(TestData.USER)
@@ -43,9 +45,25 @@ internal class UserControllerTest: AbstractIntegrationTest() {
       .exchange()
       .expectStatus().isOk
       .expectBody(UserSaveResponseVO::class.java)
-
   }
 
+  @Test
+  fun `saveFail`() = runTest {
+    //given
+    val requestVO = UserSaveRequestVO(name = " ", username = "test-username", password = "test1234")
+    val token = jwtUtil.createToken(TestData.USER)
+
+    //expect
+    webTestClient.post()
+      .uri("/api/users")
+      .header(HttpHeaders.AUTHORIZATION, token)
+      .contentType(MediaType.APPLICATION_JSON)
+      .body(BodyInserters.fromValue(requestVO))
+      .exchange()
+      .expectStatus().is4xxClientError
+  }
+
+  @Disabled
   @Test
   fun `get`() {
     //given

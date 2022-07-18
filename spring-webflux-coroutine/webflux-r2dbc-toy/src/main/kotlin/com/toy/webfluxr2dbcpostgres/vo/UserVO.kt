@@ -1,10 +1,14 @@
 package com.toy.webfluxr2dbcpostgres.vo
 
 import com.toy.webfluxr2dbcpostgres.domain.User
+import javax.validation.constraints.NotBlank
 
 data class UserSaveRequestVO(
+  @field:NotBlank
   val name: String,
+  @field:NotBlank
   val username: String,
+  @field:NotBlank
   val password: String
 ) {
   fun toEntity() = User.newUser(

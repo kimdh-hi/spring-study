@@ -1,13 +1,20 @@
 package com.example.ex.exception
 
 import org.springframework.validation.BindingResult
+import java.io.Serial
 
-abstract class BaseException: RuntimeException {
+open class BaseException(
+    private val errorCode: String? = ErrorCodes.UNKNOWN,
+    message: String? = null,
+    cause: Throwable? = null
+) : RuntimeException(message, cause) {
 
-    constructor(): super()
-    constructor(message: String): super(message)
-    constructor(message: String, cause: Throwable): super(message, cause)
+    fun getErrorCode() = errorCode!!
 
+    companion object {
+        @Serial
+        private const val serialVersionUID: Long = 3416992995011541346L
+    }
 }
 
 class ParameterException(bindingResult: BindingResult): BaseException() {
