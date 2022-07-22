@@ -1,6 +1,7 @@
 package com.toy.webfluxcache.service
 
 import com.toy.webfluxcache.config.cache.ReactorCache
+import com.toy.webfluxcache.repository.TestRepository
 import com.toy.webfluxcache.vo.TestResponseVO
 import kotlinx.coroutines.*
 import org.slf4j.LoggerFactory
@@ -9,26 +10,36 @@ import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 
 @Service
-class TestService {
+class TestService(
+  private val testRepository: TestRepository
+) {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
-  fun service(): Mono<TestResponseVO> {
+  @Cacheable("testReactorDefault")
+  fun serviceReactorDefault(): Mono<TestResponseVO> {
     log.info("service called ...")
 
-    return Mono.just(TestResponseVO("data"))
+    return Mono.just(TestResponseVO( "1", "data"))
   }
 
-  @Cacheable("test")
+  @ReactorCache("testReactorCache")
+  fun serviceReactorCache(): Mono<TestResponseVO> {
+    log.info("service called ...")
+
+    return Mono.just(TestResponseVO("1", "data"))
+  }
+
+  @Cacheable("testSuspendDefault")
+  suspend fun suspendServiceDefault(): TestResponseVO {
+    log.info("service called ...")
+    return TestResponseVO("1", "data")
+  }
+
+  @Cacheable("testSuspendDeferred")
   fun suspendServiceAsync(): Deferred<TestResponseVO> = CoroutineScope(Dispatchers.Default).async {
     log.info("service called ...")
-    return@async TestResponseVO("data")
-  }
-
-  @ReactorCache("test")
-  fun serviceReactive(): Mono<TestResponseVO> {
-    log.info("service called ...")
-
-    return Mono.just(TestResponseVO("data"))
+    val testEntity = testRepository.findById("1")
+    return@async TestResponseVO.of(testEntity)
   }
 }
