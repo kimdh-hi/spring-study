@@ -13,4 +13,7 @@ object ConsumerUtils {
 
 object FakerUtils {
   val FAKER = Faker.instance()
+
+  fun getFullName() = FAKER.name().fullName()
+  fun getFirstName() = FAKER.name().firstName()
 }
