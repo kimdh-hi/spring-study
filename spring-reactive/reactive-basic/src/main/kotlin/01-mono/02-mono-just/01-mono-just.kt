@@ -1,4 +1,4 @@
-package `02-mono-just`
+package `01-mono`.`02-mono-just`
 
 import reactor.core.publisher.Mono
 

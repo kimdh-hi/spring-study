@@ -1,4 +1,4 @@
-package `01-stream`
+package `01-mono`.`01-stream`
 
 import java.util.stream.Stream
 

@@ -1,4 +1,4 @@
-package `03-subscribe`
+package `01-mono`.`03-subscribe`
 
 import `00-base`.ConsumerUtils
 import reactor.core.publisher.Mono

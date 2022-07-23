@@ -1,4 +1,4 @@
-package `05-mono-funtional_interface`
+package `01-mono`.`05-mono-funtional_interface`
 
 import `00-base`.ConsumerUtils
 import `00-base`.FakerUtils

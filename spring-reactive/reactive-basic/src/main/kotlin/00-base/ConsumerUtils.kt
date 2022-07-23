@@ -1,6 +1,7 @@
 package `00-base`
 
 import com.github.javafaker.Faker
+import org.reactivestreams.Subscriber
 import java.util.function.Consumer
 
 object ConsumerUtils {
@@ -9,6 +10,8 @@ object ConsumerUtils {
   fun onError(): Consumer<Throwable> = Consumer { e -> println("Error...: ${e.message}") }
 
   fun onComplete(): Runnable = Runnable { println("Complete...") }
+
+  fun subscriber(name: String? = null): Subscriber<Any> = DefaultSubscriber(name)
 }
 
 object FakerUtils {

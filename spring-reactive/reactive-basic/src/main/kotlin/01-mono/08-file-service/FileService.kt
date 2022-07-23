@@ -1,4 +1,4 @@
-package `08-file-service`
+package `01-mono`.`08-file-service`
 
 import reactor.core.publisher.Mono
 import java.io.FileReader

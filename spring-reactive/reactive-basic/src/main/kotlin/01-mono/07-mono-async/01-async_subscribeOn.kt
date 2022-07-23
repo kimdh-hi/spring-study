@@ -1,4 +1,4 @@
-package `07-mono-async`
+package `01-mono`.`07-mono-async`
 
 import `00-base`.ConsumerUtils
 import `00-base`.FakerUtils
