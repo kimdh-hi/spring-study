@@ -1,9 +1,0 @@
-http://localhost:8000/currency-exchange/from/USD/to/KRW
-
-{
-   "id":10001,
-   "from":"USD",
-   "to":"KRW",
-   "conversionMultiple":65.00,
-   "environment":"8000 instance-id"
-}
