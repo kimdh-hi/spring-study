@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: limits-service
+  config:
+    import: optional:configserver:http://localhost:8888
+  profiles:
+    active: dev
+
+limits-service:
+  minimum: 2
+  maximun: 998
