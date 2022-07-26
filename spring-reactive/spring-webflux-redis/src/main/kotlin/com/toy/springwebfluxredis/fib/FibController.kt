@@ -17,4 +17,9 @@ class FibController(
   fun fib(@PathVariable n: Int, @PathVariable name: String): Mono<Int> {
     return Mono.fromSupplier { fibService.getFib(n, name) }
   }
+
+  @GetMapping("/{n}/clear")
+  fun fibClear(@PathVariable n: Int): Mono<Unit> {
+    return Mono.fromSupplier { fibService.clearCache(n) }
+  }
 }
