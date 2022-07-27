@@ -25,6 +25,9 @@ spring:
     host: localhost
     port: 6379
 
+cache:
+  cache-name: redis
+
 logging:
   level:
     "[org.springframework.web.filter]": debug

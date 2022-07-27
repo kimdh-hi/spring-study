@@ -15,3 +15,9 @@ data class RedisProperties(
   val host: String,
   val port: Int
 )
+
+@ConfigurationProperties(prefix = "cache")
+@ConstructorBinding
+data class CacheProperties(
+  val cacheName: String
+)

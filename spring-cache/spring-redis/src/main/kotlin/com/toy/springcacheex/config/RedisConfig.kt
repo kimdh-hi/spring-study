@@ -1,6 +1,8 @@
 package com.toy.springcacheex.config
 
 import com.toy.springcacheex.common.RedisConstants
+import org.slf4j.LoggerFactory
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -16,12 +18,15 @@ import org.springframework.data.redis.serializer.StringRedisSerializer
 import java.time.Duration
 
 @Configuration
+@ConditionalOnProperty(value = ["cache.cache-name"], havingValue = "redis")
 @EnableCaching
 class RedisConfig(private val redisProperties: RedisProperties) {
 
-  @Bean
-  fun redisCacheManager(redisConnectionFactory: RedisConnectionFactory): RedisCacheManager {
+  private val log = LoggerFactory.getLogger(javaClass)
 
+  @Bean
+  fun cacheManager(redisConnectionFactory: RedisConnectionFactory): RedisCacheManager {
+    log.info("redis cacheManager bean register")
     val redisCacheDefaultConfig = RedisCacheConfiguration.defaultCacheConfig()
       .disableCachingNullValues() // null value does not caching...
       .serializeKeysWith(
