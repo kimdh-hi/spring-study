@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration
 cache.ehcache 가 true 인 경우 동작하는 Configuration
  */
 @Configuration
-@ConditionalOnProperty(value = ["cache.ehcache"], havingValue = true.toString())
+@ConditionalOnProperty(value = ["cache.cache-name"], havingValue = "ehcache")
 class EhcacheConfig: AbstractCacheConfig() {
 
   @Bean

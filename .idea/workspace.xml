@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0720cc7e-cffb-4283-b7bd-f25bea6c2e3c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/gradle/firstKotlinProject/firstKotlinProject/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/firstKotlinProject/firstKotlinProject/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/udemy-spring-batch/src/main/kotlin/com/study/udemyspringbatch/chunk/ChunkStep.kt" beforeDir="false" afterPath="$PROJECT_DIR$/udemy-spring-batch/src/main/kotlin/com/study/udemyspringbatch/chunk/ChunkStep.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/udemy-spring-batch/src/main/kotlin/com/study/udemyspringbatch/job/SampleJob.kt" beforeDir="false" afterPath="$PROJECT_DIR$/udemy-spring-batch/src/main/kotlin/com/study/udemyspringbatch/job/SampleJob.kt" afterDir="false" />
-    </list>
+    <list default="true" id="0720cc7e-cffb-4283-b7bd-f25bea6c2e3c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,6 +29,7 @@
       <option name="presentableId" value="Default" />
       <updated>1653648483290</updated>
       <workItem from="1653648484514" duration="154000" />
+      <workItem from="1659051495864" duration="71000" />
     </task>
     <servers />
   </component>

@@ -5,7 +5,12 @@ import org.springframework.boot.context.properties.ConstructorBinding
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "cache")
-data class CustomProperties(
-  val redis: Boolean?,
-  val ehcache: Boolean?,
+data class CacheProperties(
+  val cacheName: String,
+)
+
+@ConstructorBinding
+@ConfigurationProperties(prefix = "amqp")
+data class AmqpProperties(
+  val enabled: Boolean
 )

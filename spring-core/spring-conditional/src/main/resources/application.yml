@@ -1,3 +1,5 @@
 cache:
-  ehcache: true
+  cache-name: redis
 
+amqp:
+  enabled: true

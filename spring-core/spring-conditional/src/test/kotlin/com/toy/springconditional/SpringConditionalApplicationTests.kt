@@ -1,9 +1,10 @@
 package com.toy.springconditional
 
+import com.toy.springconditional.config.AmqpInfo
+import com.toy.springconditional.config.AmqpProperties
 import com.toy.springconditional.config.CacheConfigInfo
-import com.toy.springconditional.config.CustomProperties
-import com.toy.springconditional.config.RedisConfig
-import org.junit.jupiter.api.Assertions.assertEquals
+import com.toy.springconditional.config.CacheProperties
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestConstructor
@@ -11,8 +12,10 @@ import org.springframework.test.context.TestConstructor
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 class SpringConditionalApplicationTests(
-	val customProperties: CustomProperties,
-	val cacheConfigInfo: CacheConfigInfo
+  val cacheProperties: CacheProperties,
+	val amqpProperties: AmqpProperties,
+  val cacheConfigInfo: CacheConfigInfo,
+	val amqpInfo: AmqpInfo
 ) {
 
 	@Test
@@ -20,16 +23,29 @@ class SpringConditionalApplicationTests(
 	}
 
 	@Test
-	fun test() {
-		customProperties.redis?.let {
-			println("REDIS")
-			assertEquals("REDIS", cacheConfigInfo.getName())
-		}
+	fun `@ConditionalOnProperty cacheConfigTest`() {
 
-		customProperties.ehcache?.let {
-			println("EHCACHE")
-			assertEquals("EHCACHE", cacheConfigInfo.getName())
+		when (cacheProperties.cacheName) {
+			"redis" -> {
+				println("REDIS")
+				assertEquals("REDIS", cacheConfigInfo.getName())
+			}
+			"ehcache" -> {
+				println("EHCACHE")
+				assertEquals("EHCACHE", cacheConfigInfo.getName())
+			}
 		}
 	}
 
+	@Test
+	fun `@Conditional amqpConfigTest`() {
+		if(amqpProperties.enabled) {
+			println("amqpInfo bean registered")
+			assertNotNull(amqpInfo)
+		}
+		else {
+			println("amqpInfo bean not registered")
+			assertNull(amqpInfo)
+		}
+	}
 }
