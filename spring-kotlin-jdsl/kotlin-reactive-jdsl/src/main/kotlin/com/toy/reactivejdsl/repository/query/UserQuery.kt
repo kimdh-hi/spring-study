@@ -1,15 +1,13 @@
 package com.toy.reactivejdsl.repository.query
 
+import com.linecorp.kotlinjdsl.query.spec.expression.EntitySpec
 import com.linecorp.kotlinjdsl.query.spec.predicate.PredicateSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
 import com.linecorp.kotlinjdsl.querydsl.from.fetch
 import com.linecorp.kotlinjdsl.querydsl.from.join
 import com.linecorp.kotlinjdsl.querydsl.where.WhereDsl
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQuery
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.*
 import com.toy.reactivejdsl.common.ExistsVO
 import com.toy.reactivejdsl.domain.Company
 import com.toy.reactivejdsl.domain.Role
@@ -27,7 +25,8 @@ interface UserQuery {
   suspend fun search(pageable: Pageable, searchVO: UserSearchVO): Page<UserResponseVO>
   suspend fun existsByUsername(username: String): Boolean
   suspend fun get(id: String): User?
-//  suspend fun save(user: User): User
+
+  suspend fun findByUsernameV2(username: String): User?
 }
 
 @Repository
@@ -103,6 +102,23 @@ class UserQueryImpl (
     }
 
     return result.isNotEmpty()
+  }
+
+  override suspend fun findByUsernameV2(username: String): User {
+    return queryFactory.singleQuery {
+      val user1 = User::class.alias("user1")
+      val user2 = User::class.alias("user2")
+
+      select(user1)
+      from(user1)
+      where(col(user1, User::username).equal(
+          queryFactory.subquery {
+            select(col(user2, User::username))
+            from(user2)
+            where(col(user2, User::username).equal(username))
+          })
+      )
+    }
   }
 
   private fun WhereDsl.searchCondition(searchVO: UserSearchVO) =

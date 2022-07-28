@@ -59,13 +59,13 @@ abstract class BaseTest {
   }
 }
 
-@AutoService(BlockHoundIntegration::class)
-class CustomBlockHoundIntegration: BlockHoundIntegration {
-
-  override fun applyTo(builder: BlockHound.Builder) {
-    builder
-      .allowBlockingCallsInside("java.util.UUID", "randomUUID")
-      .allowBlockingCallsInside("java.io.RandomAccessFile", "readBytes")
-      .allowBlockingCallsInside(FilterInputStream::class.java.name, "read")
-  }
-}
+//@AutoService(BlockHoundIntegration::class)
+//class CustomBlockHoundIntegration: BlockHoundIntegration {
+//
+//  override fun applyTo(builder: BlockHound.Builder) {
+//    builder
+//      .allowBlockingCallsInside("java.util.UUID", "randomUUID")
+//      .allowBlockingCallsInside("java.io.RandomAccessFile", "readBytes")
+//      .allowBlockingCallsInside(FilterInputStream::class.java.name, "read")
+//  }
+//}

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
 import org.springframework.test.context.TestConstructor
-import reactor.blockhound.BlockHound
 
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
@@ -18,7 +17,6 @@ internal class UserQueryImplTest(val userQuery: UserQuery): BaseTest() {
 
   @Test
   fun get() = runBlocking {
-    BlockHound.install()
     //given
     val id = TestData.USER.id!!
 
@@ -58,5 +56,17 @@ internal class UserQueryImplTest(val userQuery: UserQuery): BaseTest() {
     //then
     assertTrue(exists)
     assertFalse(notExists)
+  }
+
+  @Test
+  fun findByUsernameSubquery() = runBlocking {
+    //given
+    val username = "kim@gmail.com"
+
+    //when
+    val user = userQuery.findByUsernameV2(username)
+
+    //then
+    assertNotNull(user)
   }
 }
