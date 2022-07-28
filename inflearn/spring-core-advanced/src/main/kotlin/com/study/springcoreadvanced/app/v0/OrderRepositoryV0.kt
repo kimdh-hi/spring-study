@@ -1,4 +1,4 @@
-package com.study.springcoreadvanced.v0.app
+package com.study.springcoreadvanced.app.v0
 
 import org.springframework.stereotype.Repository
 

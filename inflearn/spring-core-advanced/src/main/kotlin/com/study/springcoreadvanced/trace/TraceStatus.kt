@@ -1,4 +1,4 @@
-package com.study.springcoreadvanced.v0.trace
+package com.study.springcoreadvanced.trace
 
 data class TraceStatus (
   val traceId: TraceId,

@@ -1,4 +1,4 @@
-package com.study.springcoreadvanced.v0.trace
+package com.study.springcoreadvanced.trace
 
 import java.util.UUID
 

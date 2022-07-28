@@ -1,7 +1,7 @@
-package com.study.springcoreadvanced.v0.trace.hellotrace
+package com.study.springcoreadvanced.trace.hellotrace
 
-import com.study.springcoreadvanced.v0.trace.TraceId
-import com.study.springcoreadvanced.v0.trace.TraceStatus
+import com.study.springcoreadvanced.trace.TraceId
+import com.study.springcoreadvanced.trace.TraceStatus
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
