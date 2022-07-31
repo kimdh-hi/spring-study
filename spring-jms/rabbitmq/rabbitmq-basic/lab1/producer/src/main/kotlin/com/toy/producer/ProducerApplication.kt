@@ -1,20 +1,21 @@
 package com.toy.producer
 
-import com.toy.producer.domain.Employee
-import com.toy.producer.producer.`02-json-producer`.EmployeeJsonProducer
+import com.toy.producer.domain.User
+import com.toy.producer.producer.exchange.`01-fanout`.FanoutProducer
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.scheduling.annotation.EnableScheduling
 import java.time.LocalDateTime
 
 @SpringBootApplication
 //@EnableScheduling
 class ProducerApplication(
-	private val employeeJsonProducer: EmployeeJsonProducer
+	private val producer: FanoutProducer
 ): CommandLineRunner {
 	override fun run(vararg args: String?) {
-		employeeJsonProducer.sendMessage(Employee("e1", "name", LocalDateTime.now()))
+		for (i in 1..10) {
+			producer.sendMessage(User("u-$i", "name$i", LocalDateTime.now()))
+		}
 	}
 }
 

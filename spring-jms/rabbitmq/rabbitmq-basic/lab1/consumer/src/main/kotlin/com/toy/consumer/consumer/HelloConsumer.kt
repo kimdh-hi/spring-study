@@ -9,7 +9,7 @@ class HelloConsumer {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
-  @RabbitListener(queues = ["test.hello"])
+//  @RabbitListener(queues = ["test.hello"])
   fun helloConsumer(message: String) {
     log.info(message)
   }

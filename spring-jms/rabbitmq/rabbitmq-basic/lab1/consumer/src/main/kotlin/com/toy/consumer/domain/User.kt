@@ -1,9 +1,11 @@
-package com.toy.producer.domain
+package com.toy.consumer.domain
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.toy.consumer.base.NoArg
 import java.time.LocalDateTime
 
-data class Employee (
+@NoArg
+data class User (
    var id: String,
    var name: String,
    @field:JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

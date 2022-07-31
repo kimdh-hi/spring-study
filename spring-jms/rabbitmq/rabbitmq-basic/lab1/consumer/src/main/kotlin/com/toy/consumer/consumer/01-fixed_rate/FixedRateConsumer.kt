@@ -12,7 +12,7 @@ class FixedRateConsumer {
   private val log = LoggerFactory.getLogger(javaClass)
 
   // multi-thread concurrency consuming (multi-consumer...)
-  @RabbitListener(queues = ["test.fixrate"], concurrency = "7")
+//  @RabbitListener(queues = ["test.fixrate"], concurrency = "7")
   fun listener(message: String) {
     TimeUnit.MILLISECONDS.sleep(ThreadLocalRandom.current().nextLong(1000, 2000))
     log.info("{} - Consume message: {}", Thread.currentThread().name, message)
