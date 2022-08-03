@@ -9,5 +9,6 @@ import org.springframework.data.repository.CrudRepository
 interface PartnerRepository: CrudRepository<Partner, String>, PartnerRepositoryCustom
 
 interface PartnerRepositoryCustom {
-  fun findAllV1(pageable: Pageable): Page<PartnerResponseVO>
+  fun search(partnerId: String, pageable: Pageable): Page<PartnerResponseVO>
+  fun getChildPartnerIds(partnerId: String): HashSet<String>
 }
