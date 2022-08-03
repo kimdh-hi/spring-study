@@ -50,6 +50,16 @@ class StrategyEx {
     contextV1.execute()
   }
 
+  @Test
+  fun `V4 - 람다 - kotlin sam`(){
+    val contextV1 = ContextV1 {
+      Thread.sleep(500L)
+      log.info("business logic 1 ...")
+    }
+
+    contextV1.execute()
+  }
+
   private fun `logic1`() {
     // 부가기능 ...
     val stopWatch = StopWatch()

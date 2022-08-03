@@ -2,7 +2,7 @@ package com.study.springcoreadvanced.`strategy-pattern`.strategy
 
 import org.slf4j.LoggerFactory
 
-interface Strategy {
+fun interface Strategy {
   fun call()
 }
 
