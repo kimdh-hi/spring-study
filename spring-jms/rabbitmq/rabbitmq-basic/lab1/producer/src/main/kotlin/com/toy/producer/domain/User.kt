@@ -8,7 +8,7 @@ data class User (
    var name: String,
    @field:JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
    var createdDate: LocalDateTime,
-   var role: UserRole? = null
+   var role: UserRole? = null,
 )
 
 enum class UserRole {

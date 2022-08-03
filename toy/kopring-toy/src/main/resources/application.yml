@@ -23,6 +23,7 @@ spring:
     basename: messages,config.i18n.messages
 #  main:
 #    allow-bean-definition-overriding: true
+
 logging:
   level:
     "[org.springframework.web.filter]": debug

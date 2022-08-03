@@ -1,4 +1,4 @@
-package com.toy.producer.producer.exchange.`01-fanout`
+package com.toy.producer.producer.`03-exchange`.`01-fanout`
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.toy.producer.domain.User

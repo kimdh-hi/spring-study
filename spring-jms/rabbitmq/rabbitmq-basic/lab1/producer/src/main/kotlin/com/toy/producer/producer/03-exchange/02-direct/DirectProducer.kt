@@ -1,4 +1,4 @@
-package com.toy.producer.producer.exchange.`02-direct`
+package com.toy.producer.producer.`03-exchange`.`02-direct`
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.toy.producer.domain.User

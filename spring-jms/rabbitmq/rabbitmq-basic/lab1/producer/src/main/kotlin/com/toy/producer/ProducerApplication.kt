@@ -2,8 +2,7 @@ package com.toy.producer
 
 import com.toy.producer.domain.User
 import com.toy.producer.domain.UserRole
-import com.toy.producer.producer.exchange.`01-fanout`.FanoutProducer
-import com.toy.producer.producer.exchange.`02-direct`.DirectProducer
+import com.toy.producer.producer.`03-exchange`.`02-direct`.DirectProducer
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
