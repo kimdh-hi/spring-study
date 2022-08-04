@@ -11,7 +11,7 @@ import org.springframework.util.StopWatch
  * 템플릿 패턴과 동일하게 부가기능과 주요로직을 분리할 수 있는 디자인 패턴이다.
  * 템플릿 패턴의 경우 상속을 사용하지만 전략패턴은 인터페이스를 통해 위임을 사용한다.
  */
-class StrategyEx {
+class ContextV1Test {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
