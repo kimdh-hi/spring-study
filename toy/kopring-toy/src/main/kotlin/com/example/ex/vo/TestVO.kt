@@ -6,3 +6,8 @@ import com.example.ex.common.annotation.NoArg
 data class TestRequestVO(
   val data: String
 )
+
+@kotlinx.serialization.Serializable
+data class TestResponseVO(
+  val data: String
+)

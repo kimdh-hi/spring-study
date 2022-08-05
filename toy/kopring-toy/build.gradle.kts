@@ -8,6 +8,7 @@ plugins {
     kotlin("plugin.jpa") version "1.6.10"
     kotlin("kapt") version "1.6.10"
     kotlin("plugin.noarg") version "1.6.10"
+    kotlin("plugin.serialization") version "1.6.10"
 }
 
 group = "com.example"
@@ -30,6 +31,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    // kotlinx-serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.2.0")
+    runtimeOnly("org.jetbrains.kotlinx:kotlinx-serialization-runtime:1.0-M1-1.4.0-rc")
+    runtimeOnly("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.3.3")
+
 
     // Google API
     implementation("com.google.api-client:google-api-client:1.34.1")
