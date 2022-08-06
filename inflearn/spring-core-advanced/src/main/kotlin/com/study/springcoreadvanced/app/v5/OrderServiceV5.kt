@@ -1,17 +1,20 @@
-package com.study.springcoreadvanced.app.v4
+package com.study.springcoreadvanced.app.v5
 
 import com.study.springcoreadvanced.trace.callback.TraceTemplate
 import com.study.springcoreadvanced.trace.logtrace.LogTrace
+import com.study.springcoreadvanced.trace.template.AbstractTemplate
 import org.springframework.stereotype.Service
 
 @Service
-class OrderServiceV4(
-  private val orderRepository: OrderRepositoryV4,
+class OrderServiceV5(
+  private val orderRepository: OrderRepositoryV5,
   private val logTrace: LogTrace
 ) {
 
+  var template: TraceTemplate = TraceTemplate(logTrace)
+
   fun orderItem(id: String) {
-    TraceTemplate(logTrace).execute("OrderService.orderItem") {
+    template.execute("OrderService.orderItem") {
       orderRepository.save(id)
     }
   }
