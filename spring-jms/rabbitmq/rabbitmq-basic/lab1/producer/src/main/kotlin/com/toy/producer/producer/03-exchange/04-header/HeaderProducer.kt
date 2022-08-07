@@ -21,11 +21,15 @@ q.promotion.free-delivery
 x.promotion (header type exchange)
 
 q.promotion.discount Arguments
-- color:white, material:wood
-- color:red, material:steel
+- color:white, material:wood // color가 white 이고 material이 wood 인 경우 q.promotion.discount 로 전달
+- color:red, material:steel // color가 red 이고 material이 steel 인 경우 q.promotion.discount 로 전달
 
 q.promotion.free-delivery Arguments
-- color:red, material:wood, x-match:any
+- color:red, material:wood, x-match:any // color가 red 이거나 material이 wood 인경우 q.promotion.free-delivery로 전달
+
+x-match
+- all: 모든 key-value 와 매칭여부 검사 후 해당 큐로 전달 (각 key-value 간 and 조건)
+- any: 한 개 key-value 와 매칭시 해당 큐로 전달        (각 ke-value 간 or 조건)
  */
 @Service
 class HeaderProducer(
