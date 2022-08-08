@@ -1,1 +1,1 @@
-rootProject.name = "spring-batch"
+rootProject.name = "batch-basic"

@@ -1,12 +1,8 @@
 spring:
-  datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
-
   batch:
-    jdbc:
-      initialize-schema: embedded
+    job:
+      names: {job.name:NONE}
+
+
+# spring.batch.job.names: {job.name:NONE}
+  # Program Arguments ? job.name=job_name ?? ?? ??
