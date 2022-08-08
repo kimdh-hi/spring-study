@@ -1,4 +1,4 @@
- package com.toy.springcloudconfig
+package com.toy.springcloudconfig
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
