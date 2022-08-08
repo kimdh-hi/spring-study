@@ -1,7 +1,7 @@
-package com.study.springcoreadvanced.trace.callback
+package com.toy.proxyex.trace.callback
 
-import com.study.springcoreadvanced.trace.TraceStatus
-import com.study.springcoreadvanced.trace.logtrace.LogTrace
+import com.toy.proxyex.trace.TraceStatus
+import com.toy.proxyex.trace.logtrace.LogTrace
 
 class TraceTemplate(
   private val logTrace: LogTrace

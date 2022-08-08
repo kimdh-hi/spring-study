@@ -1,7 +1,7 @@
-package com.study.springcoreadvanced.trace.template
+package com.toy.proxyex.trace.template
 
-import com.study.springcoreadvanced.trace.TraceStatus
-import com.study.springcoreadvanced.trace.logtrace.LogTrace
+import com.toy.proxyex.trace.TraceStatus
+import com.toy.proxyex.trace.logtrace.LogTrace
 
 abstract class AbstractTemplate<T>(
   private val logTrace: LogTrace

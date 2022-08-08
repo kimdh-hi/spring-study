@@ -1,6 +1,6 @@
-package com.study.springcoreadvanced.trace.logtrace
+package com.toy.proxyex.trace.logtrace
 
-import com.study.springcoreadvanced.trace.TraceStatus
+import com.toy.proxyex.trace.TraceStatus
 
 interface LogTrace {
 

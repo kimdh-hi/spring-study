@@ -1,4 +1,4 @@
-package com.study.springcoreadvanced.trace
+package com.toy.proxyex.trace
 
 data class TraceStatus (
   val traceId: TraceId,
