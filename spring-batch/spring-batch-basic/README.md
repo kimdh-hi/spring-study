@@ -22,3 +22,27 @@ BATCH_STEP_EXECUTION
 
 BATCH_STEP_EXECUTION_CONTEXT
 - Step 이 실행되면서 공유되어야 할 데이터를 직렬화하여 저장
+
+```
+배치 메타 테이블 스키마 확인
+spring-batch-core
+
+org.springframework.batch.core.schema-{dbVendor}.sql
+```
+
+--- 
+
+### Batch meta table mapping
+
+JobInstance
+- BATCH_JOB_INSTANCE 테이블과 매핑
+
+JobExecution
+- BATCH_JOB_EXECUTION 테이블과 매핑
+
+JobParameters
+- BATCH_JOB_EXECUTION_PARAMS 테이블과 매핑
+
+ExecutionContext
+- BATCH_JOB_EXECUTION_CONTEXT 테이블과 매핑
+

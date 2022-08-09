@@ -1,11 +1,11 @@
 version: "3.8"
 services:
-  mysql:
-    container_name: "mysql_batch_basic"
-    image: mysql:8.0.30
+  mariadb:
+    container_name: "mariadb"
+    image: mariadb:10
     environment:
       - MYSQL_USER=root
       - MYSQL_ROOT_PASSWORD=111111
     ports:
-      - 13306:3306
+      - 3306:3306
     command: mysqld --lower_case_table_names=1 --skip-ssl --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --lower_case_table_names=1
