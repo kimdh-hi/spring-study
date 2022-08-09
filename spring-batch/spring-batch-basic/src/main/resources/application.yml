@@ -1,7 +1,7 @@
 spring:
   batch:
     job:
-      names: {job.name:NONE}
+      names: ${job.name:NONE}
     initializa-schema: never
 
   datasource:
