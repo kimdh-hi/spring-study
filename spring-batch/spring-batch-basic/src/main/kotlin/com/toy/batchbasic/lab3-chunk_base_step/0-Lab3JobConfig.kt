@@ -3,6 +3,7 @@ package com.toy.batchbasic.`lab3-chunk_base_step`
 import org.slf4j.LoggerFactory
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
+import org.springframework.batch.core.configuration.annotation.JobScope
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory
 import org.springframework.batch.core.launch.support.RunIdIncrementer
 import org.springframework.batch.core.step.tasklet.Tasklet
@@ -11,11 +12,12 @@ import org.springframework.batch.item.ItemReader
 import org.springframework.batch.item.ItemWriter
 import org.springframework.batch.item.support.ListItemReader
 import org.springframework.batch.repeat.RepeatStatus
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class Lab3JobConfig(
+class `Lab3JobConfig`(
   private val jbf: JobBuilderFactory,
   private val sbf: StepBuilderFactory
 ) {
@@ -26,11 +28,13 @@ class Lab3JobConfig(
   fun itemsProcessingJob(): Job = jbf.get("itemsProcessingJob")
     .incrementer(RunIdIncrementer())
     .start(taskBaseStep())
-    .next(chunkBaseStep())
+    .next(chunkBaseStep(null))
     .build()
 
-  private fun chunkBaseStep() = sbf.get("chunkBaseStep")
-    .chunk<String, String>(10)
+  @Bean
+  @JobScope
+  fun chunkBaseStep(@Value("#{jobParameters[chunkSize]}") chunkSize: String?) = sbf.get("chunkBaseStep")
+    .chunk<String, String>(chunkSize!!.toInt())
     .reader(itemReader())
     .processor(itemProcessor())
     .writer(itemWriter())
@@ -54,7 +58,7 @@ class Lab3JobConfig(
     return ListItemReader(items)
   }
 
-  private fun taskBaseStep() = sbf.get("taskBaseStep")
+  fun taskBaseStep() = sbf.get("taskBaseStep")
     .tasklet(tasklet())
     .build()
 
