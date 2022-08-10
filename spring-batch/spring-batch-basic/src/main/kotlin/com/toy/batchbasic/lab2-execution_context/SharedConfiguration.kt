@@ -1,4 +1,4 @@
-package com.toy.batchbasic.lab2_execution_context
+package com.toy.batchbasic.`lab2-execution_context`
 
 import org.slf4j.LoggerFactory
 import org.springframework.batch.core.Job
