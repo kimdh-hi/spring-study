@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a087fad1-fb62-422a-af94-ce45e79c16a8" name="Changes" comment="" />
+    <list default="true" id="ff62a6e3-fed7-456b-b2c9-9f236dbab6f6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../lab1/docker/docker-compose.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab1/self-join-query/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab1/spring-core/.idea/workspace.xml" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,12 +20,12 @@
     </projectState>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2ChDG1y41WKgwvi0HKQkFYm2oww" />
+  <component name="ProjectId" id="2DNMdGhweAShusGdUJtHTpZzN8h" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
@@ -30,31 +34,18 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="nodejs_package_manager_path" value="npm" />
-  </component>
-  <component name="RunManager">
-    <configuration name="SpringCoreApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="spring-core.main" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.toy.springcore.SpringCoreApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a087fad1-fb62-422a-af94-ce45e79c16a8" name="Changes" comment="" />
-      <created>1659245825489</created>
+      <changelist id="ff62a6e3-fed7-456b-b2c9-9f236dbab6f6" name="Changes" comment="" />
+      <created>1660535175228</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1659245825489</updated>
-      <workItem from="1659245828378" duration="681000" />
+      <updated>1660535175228</updated>
+      <workItem from="1660535176286" duration="139000" />
     </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
