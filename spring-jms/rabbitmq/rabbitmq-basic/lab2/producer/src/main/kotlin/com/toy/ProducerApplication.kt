@@ -12,8 +12,11 @@ class ProducerApplication(
   private val producer: DummyProducer
 ): CommandLineRunner {
   override fun run(vararg args: String?) {
-    val message = DummyMessage("message: ${LocalTime.now()}", 1)
-    producer.sendMessage(message)
+    for (i in 0 .. 1_000) {
+      val message = DummyMessage("message: ${LocalTime.now()}", 1)
+      producer.sendMessage(message)
+      Thread.sleep(1000L)
+    }
   }
 }
 
