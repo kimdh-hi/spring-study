@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff62a6e3-fed7-456b-b2c9-9f236dbab6f6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../lab1/docker/docker-compose.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/self-join-query/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lab1/spring-core/.idea/workspace.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../spring-mapper/src/main/kotlin/com/toy/springmapper/config/MapperConfig.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../spring-mapper/src/main/kotlin/com/toy/springmapper/controller/TestController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../spring-mapper/src/main/kotlin/com/toy/springmapper/vo/TestVO.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +34,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -44,8 +45,12 @@
       <option name="presentableId" value="Default" />
       <updated>1660535175228</updated>
       <workItem from="1660535176286" duration="139000" />
+      <workItem from="1660641024226" duration="34000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

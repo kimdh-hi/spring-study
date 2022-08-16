@@ -1,11 +1,10 @@
-package com.toy.producer
+package com.toy
 
-import com.toy.producer.domain.DummyMessage
-import com.toy.producer.producer.DummyProducer
+import com.toy.domain.DummyMessage
+import com.toy.producer.DummyProducer
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import java.time.LocalDateTime
 import java.time.LocalTime
 
 @SpringBootApplication

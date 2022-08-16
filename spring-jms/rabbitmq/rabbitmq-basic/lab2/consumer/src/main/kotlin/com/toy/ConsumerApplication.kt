@@ -1,4 +1,4 @@
-package com.toy.consumer
+package com.toy
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

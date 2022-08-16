@@ -1,6 +1,6 @@
-package com.toy.producer.producer
+package com.toy.producer
 
-import com.toy.producer.domain.DummyMessage
+import com.toy.domain.DummyMessage
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.stereotype.Service
 
