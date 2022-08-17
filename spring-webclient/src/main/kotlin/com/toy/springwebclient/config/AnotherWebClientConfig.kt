@@ -13,5 +13,8 @@ class AnotherWebClientConfig(
   @Bean(WebClientConstants.ANOTHER)
   fun anotherWebClient(): WebClient = webClientBuilder
     .baseUrl("https://fakerestapi.azurewebsites.net")
+    .defaultCookies {
+      it.add("test111", "test222")
+    }
     .build()
 }
