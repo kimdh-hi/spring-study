@@ -1,5 +1,6 @@
 package com.toy.springwebclient.config
 
+import com.toy.springwebclient.common.WebClientConstants
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.client.WebClient
@@ -9,7 +10,7 @@ class AnotherWebClientConfig(
   private val webClientBuilder: WebClient.Builder
 ) {
 
-  @Bean("anotherWebClient")
+  @Bean(WebClientConstants.ANOTHER)
   fun anotherWebClient(): WebClient = webClientBuilder
     .baseUrl("https://fakerestapi.azurewebsites.net")
     .build()
