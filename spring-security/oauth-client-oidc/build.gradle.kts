@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.konan.properties.loadProperties
 
 plugins {
   id("org.springframework.boot") version "2.7.2"
@@ -19,6 +20,9 @@ repositories {
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+  implementation("org.apache.commons:commons-lang3")
+
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -35,4 +39,23 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
   useJUnitPlatform()
+}
+
+fun loadSettingsToProperties(): MutableMap<String, String> {
+  val settingsProperty =  "settings/secrets.properties"
+
+  val settingsProperties = mutableMapOf<String, String>()
+  loadProperties(settingsProperty).forEach { entry ->
+    settingsProperties[entry.key as String] = entry.value as String
+  }
+
+  return settingsProperties
+}
+
+tasks.processResources {
+  val properties = loadSettingsToProperties()
+
+  filesMatching("**/application.yml") {
+    expand(properties)
+  }
 }

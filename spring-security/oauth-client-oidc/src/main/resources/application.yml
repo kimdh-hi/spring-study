@@ -1,0 +1,13 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-name: google
+            client-id: ${googleClentId}
+            client-secret: ${googleClientSecret}
+          naver:
+            client-name: naver
+            client-id: ${naverCleintId}
+            client-secret: ${naverClientSecret}
