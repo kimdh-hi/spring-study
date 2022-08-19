@@ -41,6 +41,27 @@ class JwtTest {
     println(verifiedToken.claims)
   }
 
+  @Test
+  fun `java-jwt - invalid token decode`() {
+    val algorithm = Algorithm.HMAC256("secret-key")
+    val token = JWT.create()
+      .withSubject("sub")
+      .withNotBefore(Date(System.currentTimeMillis() + 1000))
+      .withExpiresAt(Date(System.currentTimeMillis() + 3000))
+      .sign(algorithm)
+
+    try {
+      val verifiedToken = JWT.require(algorithm)
+        .build()
+        .verify(token)
+      println(verifiedToken.claims)
+    } catch (e: Exception) {
+      println("not valid token ...")
+      val decodedToken = JWT.decode(token)
+      println(decodedToken.claims)
+    }
+  }
+
   private fun print(token: String) {
     val splitToken = token.split(".")
     println("header: ${String(Base64.getDecoder().decode(splitToken[0]))}")

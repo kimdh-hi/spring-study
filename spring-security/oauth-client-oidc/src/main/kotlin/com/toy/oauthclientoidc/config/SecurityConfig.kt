@@ -1,5 +1,6 @@
 package com.toy.oauthclientoidc.config
 
+import com.toy.oauthclientoidc.auth.HttpCookieOAuth2AuthorizationRequestRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -11,16 +12,21 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-  private val clientRegistrationRepository: ClientRegistrationRepository
+  private val clientRegistrationRepository: ClientRegistrationRepository,
+  private val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository
 ) {
 
   @Bean
   fun configure(http: HttpSecurity): SecurityFilterChain {
     return http
       .oauth2Login{ it
+        .loginPage("/login")
         .clientRegistrationRepository(clientRegistrationRepository)
-          .userInfoEndpoint()
-          .oidcUserService(OidcUserService())
+        .authorizationEndpoint()
+        .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository)
+        .and()
+        .userInfoEndpoint()
+        .oidcUserService(OidcUserService())
       }
       .build()
   }

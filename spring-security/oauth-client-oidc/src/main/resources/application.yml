@@ -11,3 +11,12 @@ spring:
             client-name: naver
             client-id: ${naverCleintId}
             client-secret: ${naverClientSecret}
+
+custom:
+  mailPersonalName: RFICE
+  mailFromAddress: rfice@de.rfice.com
+  max-byte-count: 16777216
+  read-write-timeout-seconds: 30
+  response-timeout-seconds: 30
+  connect-timeout-millis: 3000
+  max-idle-and-life-time-seconds: 18

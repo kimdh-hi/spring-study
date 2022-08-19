@@ -1,4 +1,4 @@
-package com.toy.oauthclientoidc.oauth
+package com.toy.oauthclientoidc.auth
 
 import com.toy.oauthclientoidc.common.Oauth2Properties
 import com.toy.oauthclientoidc.common.Oauth2Resource
