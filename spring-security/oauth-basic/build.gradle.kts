@@ -37,3 +37,22 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
   useJUnitPlatform()
 }
+
+fun loadSettingsToProperties(): MutableMap<String, String> {
+  val settingsProperty =  "settings/secrets.properties"
+
+  val settingsProperties = mutableMapOf<String, String>()
+  org.jetbrains.kotlin.konan.properties.loadProperties(settingsProperty).forEach { entry ->
+    settingsProperties[entry.key as String] = entry.value as String
+  }
+
+  return settingsProperties
+}
+
+tasks.processResources {
+  val properties = loadSettingsToProperties()
+
+  filesMatching("**/application.yml") {
+    expand(properties)
+  }
+}

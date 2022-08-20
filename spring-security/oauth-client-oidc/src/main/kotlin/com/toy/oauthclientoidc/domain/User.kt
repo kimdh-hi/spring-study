@@ -16,4 +16,10 @@ class User(
   var name: String,
   var username: String,
   var password: String
-)
+) {
+  companion object {
+    fun newUser(name: String, username: String, encodedPassword: String): User {
+      return User(name = name, username = username, password = encodedPassword)
+    }
+  }
+}
