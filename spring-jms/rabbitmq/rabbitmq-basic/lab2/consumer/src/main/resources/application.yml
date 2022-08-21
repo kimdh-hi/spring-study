@@ -1,3 +1,13 @@
-
 server:
   port: 8001
+
+spring:
+  main:
+    banner-mode: OFF
+  rabbitmq:
+    addresses: localhost
+    username: guest
+    password: guest
+    listener:
+      simple:
+        prefetch: 1
