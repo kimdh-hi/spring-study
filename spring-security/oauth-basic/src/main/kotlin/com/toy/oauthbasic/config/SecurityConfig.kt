@@ -18,7 +18,8 @@ import org.springframework.security.web.SecurityFilterChain
 class SecurityConfig(
   private val customOauth2UserService: CustomOAuth2UserService,
   private val customOidcUserService: CustomOidcUserService,
-  private val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository
+  private val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository,
+  private val oAuth2SuccessHandler: OAuth2SuccessHandler
 ) {
 
   @Bean
@@ -32,7 +33,7 @@ class SecurityConfig(
         oauth2Login.authorizationEndpoint { it
           .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository)
         }
-        oauth2Login.successHandler(OAuth2SuccessHandler())
+        oauth2Login.successHandler(oAuth2SuccessHandler)
       }
       .sessionManagement { it
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

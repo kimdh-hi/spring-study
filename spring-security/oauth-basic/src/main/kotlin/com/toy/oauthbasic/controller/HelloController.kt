@@ -20,8 +20,12 @@ class HelloController {
   }
 
   @GetMapping("/login/oauth2/code/{registrationId}")
-  fun redirect(@PathVariable registrationId: String): String {
+  fun redirect(
+    @PathVariable registrationId: String,
+    @AuthenticationPrincipal oAuth2User: OAuth2User
+  ): OAuth2User {
     log.info("[redirect] {}", registrationId)
-    return registrationId
+    log.info("[redirect] {}", oAuth2User)
+    return oAuth2User
   }
 }

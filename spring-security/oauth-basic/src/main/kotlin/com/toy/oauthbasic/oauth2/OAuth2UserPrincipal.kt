@@ -1,9 +1,7 @@
 package com.toy.oauthbasic.oauth2
 
-import com.sun.security.auth.UserPrincipal
 import com.toy.oauthbasic.domain.User
 import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService
 import org.springframework.security.oauth2.core.OAuth2Token
 import org.springframework.security.oauth2.core.oidc.OidcIdToken
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo
