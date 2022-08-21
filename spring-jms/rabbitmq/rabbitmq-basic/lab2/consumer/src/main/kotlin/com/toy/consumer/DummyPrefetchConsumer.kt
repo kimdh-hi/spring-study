@@ -27,8 +27,13 @@ prefetch 값을 조정해서 새로운 consumer 를 추가하는 상황에도 �
 
 global 설정 (yml)
 spring.batch.listener.simple.prefetch=1 (default: 250)
+
+++
+prefetch 설정 팁
+consumer 의 작업시간이 오래 걸린다면 prefetch 값은 적게 설정하자.
+consumer 의 작업시간이 오래 걸린다면 미리 메모리에 메시지를 잔뜩 올려놓을 필요가 있을까?
  */
-@Service
+//@Service
 class DummyPrefetchConsumer {
 
   private val log = LoggerFactory.getLogger(javaClass)

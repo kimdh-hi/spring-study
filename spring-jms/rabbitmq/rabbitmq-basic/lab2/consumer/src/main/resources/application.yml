@@ -8,6 +8,6 @@ spring:
     addresses: localhost
     username: guest
     password: guest
-    listener:
-      simple:
-        prefetch: 1
+#    listener:
+#      simple:
+#        prefetch: 1

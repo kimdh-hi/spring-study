@@ -1,6 +1,7 @@
 package com.toy
 
 import com.toy.domain.DummyMessage
+import com.toy.producer.DummyMultiplePrefetchProducer
 import com.toy.producer.DummyPrefetchProducer
 import com.toy.producer.DummyProducer
 import org.springframework.boot.CommandLineRunner
@@ -10,10 +11,11 @@ import java.time.LocalTime
 
 @SpringBootApplication
 class ProducerApplication(
-  private val producer: DummyPrefetchProducer
+  private val producer: DummyMultiplePrefetchProducer
 ): CommandLineRunner {
   override fun run(vararg args: String?) {
-    producer.sendMessage()
+    producer.sendLongTimeProcessingMessage()
+    producer.sendShortTimeProcessingMessage()
   }
 }
 
