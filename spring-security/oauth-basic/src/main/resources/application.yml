@@ -43,6 +43,10 @@ spring:
         format_sql: true
     defer-datasource-initialization: true
 
+jwt:
+  jwt-key: test-secretasdhuasid-ad01289sdhas9dh12=0-ddadasd
+  jwt-auth-token-expiry-hours: 12
+
 logging:
   level:
     "[org.springframework.web.filter]": debug

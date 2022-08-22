@@ -1,5 +1,6 @@
 package com.toy.oauthbasic.oauth2
 
+import com.toy.oauthbasic.utils.JwtUtils
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse
 
 @Component
 class OAuth2SuccessHandler(
+  private val jwtUtils: JwtUtils,
   private val jacksonConverter: MappingJackson2HttpMessageConverter
 ): AuthenticationSuccessHandler {
 
@@ -27,12 +29,9 @@ class OAuth2SuccessHandler(
   ) {
     log.info("[OAuth2SuccessHandler] authentication: {}", authentication)
     val principal = authentication.principal as OAuth2UserPrincipal
-    val responseVO = OAuth2TokenResponseVO(
-      accessToken = principal.oAuth2Token.tokenValue,
-      idToken = principal.idToken?.tokenValue
-    )
-    log.info("[OAuth2SuccessHandler] principal: {}", principal)
-    log.info("[OAuth2SuccessHandler] responseVO: {}", responseVO)
+    val token = jwtUtils.generateToken(principal.user)
+    val responseVO = JwtResponseVO(token)
+
     response.status = HttpStatus.OK.value()
     jacksonConverter.write(responseVO, MediaType.APPLICATION_JSON, ServletServerHttpResponse(response))
   }

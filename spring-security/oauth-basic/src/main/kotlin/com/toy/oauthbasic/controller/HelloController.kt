@@ -14,18 +14,7 @@ class HelloController {
   private val log = LoggerFactory.getLogger(javaClass)
 
   @GetMapping("/hello")
-  @PreAuthorize("isAuthenticated()")
   fun hello(@AuthenticationPrincipal oAuth2User: OAuth2User): OAuth2User {
-    return oAuth2User
-  }
-
-  @GetMapping("/login/oauth2/code/{registrationId}")
-  fun redirect(
-    @PathVariable registrationId: String,
-    @AuthenticationPrincipal oAuth2User: OAuth2User
-  ): OAuth2User {
-    log.info("[redirect] {}", registrationId)
-    log.info("[redirect] {}", oAuth2User)
     return oAuth2User
   }
 }
