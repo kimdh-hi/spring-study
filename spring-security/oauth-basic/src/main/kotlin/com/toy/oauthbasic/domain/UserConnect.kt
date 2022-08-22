@@ -5,8 +5,8 @@ import org.hibernate.annotations.GenericGenerator
 import javax.persistence.*
 
 @Entity
-@Table(name = "tb_user_oauth2_login")
-class UserOAuth2Login(
+@Table(name = "tb_user_connect")
+class UserConnect(
   @Id
   @GeneratedValue(generator = "uuid")
   @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -20,8 +20,8 @@ class UserOAuth2Login(
   val idp: Idp
 ) {
   companion object {
-    fun of(user: User, idp: Idp): UserOAuth2Login {
-      return UserOAuth2Login(user = user, idp = idp)
+    fun of(user: User, idp: Idp): UserConnect {
+      return UserConnect(user = user, idp = idp)
     }
   }
 }

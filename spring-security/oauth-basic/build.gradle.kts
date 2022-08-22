@@ -6,6 +6,7 @@ plugins {
   kotlin("jvm") version "1.6.21"
   kotlin("plugin.spring") version "1.6.21"
   kotlin("plugin.jpa") version "1.6.21"
+  kotlin("plugin.noarg") version "1.6.21"
 }
 
 group = "com.toy"
@@ -14,6 +15,17 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
   mavenCentral()
+}
+
+allOpen {
+  annotation("javax.persistence.Entity")
+  annotation("javax.persistence.Embeddable")
+  annotation("javax.persistence.MappedSuperclass")
+}
+
+noArg {
+  annotation("javax.persistence.Entity")
+  invokeInitializers = true
 }
 
 dependencies {

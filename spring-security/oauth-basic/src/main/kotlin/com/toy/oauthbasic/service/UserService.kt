@@ -1,9 +1,10 @@
 package com.toy.oauthbasic.service
 
 import com.toy.oauthbasic.domain.User
-import com.toy.oauthbasic.domain.UserOAuth2Login
+import com.toy.oauthbasic.domain.UserConnect
 import com.toy.oauthbasic.oauth2.Idp
-import com.toy.oauthbasic.repository.UserOAuth2LoginRepository
+import com.toy.oauthbasic.oauth2.OAuth2Attributes
+import com.toy.oauthbasic.repository.UserConnectRepository
 import com.toy.oauthbasic.repository.UserRepository
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
@@ -14,39 +15,31 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class UserService(
+class UserConnectService(
   private val userRepository: UserRepository,
-  private val userOAuth2LoginRepository: UserOAuth2LoginRepository
+  private val userConnectRepository: UserConnectRepository
 ) {
 
-  @Transactional
-  fun getUserByOAuth2(request: OidcUserRequest, oidcUser: OidcUser): User {
-    return userRepository.findByUsername(oidcUser.email) ?: run {
-      // 최초 oauth2 로그인을 시도한 경우
-      val user = User(
-        name = oidcUser.name,
-        username = oidcUser.email,
-        password = ""
-      )
-      val savedUser = userRepository.save(user)
-      val userOAuth2Login = UserOAuth2Login.of(user = savedUser, idp = Idp.GOOGLE)
-      userOAuth2LoginRepository.save(userOAuth2Login)
-      savedUser
-    }
+  fun getUserByOidc(userRequest: OidcUserRequest, oidcUser: OidcUser): User {
+    val oAuth2Attributes = OAuth2Attributes.of(userRequest.clientRegistration.registrationId, oidcUser.attributes)
+    return getUser(oAuth2Attributes, userRequest.clientRegistration.registrationId)
   }
 
-  @Transactional
-  fun getUserByOAuth2(request: OAuth2UserRequest, oAuth2User: OAuth2User): User {
-    return userRepository.findByUsername(oAuth2User.attributes["username"] as String) ?: run {
-      // 최초 oauth2 로그인을 시도한 경우
+  fun getUserByOAuth2(userRequest: OAuth2UserRequest, oAuth2User: OAuth2User): User {
+    val oAuth2Attributes = OAuth2Attributes.of(userRequest.clientRegistration.registrationId, oAuth2User.attributes)
+    return getUser(oAuth2Attributes, userRequest.clientRegistration.registrationId)
+  }
+
+  private fun getUser(oAuth2Attributes: OAuth2Attributes, registrationId: String): User {
+    return userRepository.findByUsername(oAuth2Attributes.email) ?: run {
       val user = User(
-        name = oAuth2User.name,
-        username = oAuth2User.attributes["username"] as String,
+        name = oAuth2Attributes.name,
+        username = oAuth2Attributes.email,
         password = ""
       )
       val savedUser = userRepository.save(user)
-      val userOAuth2Login = UserOAuth2Login.of(user = savedUser, idp = Idp.GOOGLE)
-      userOAuth2LoginRepository.save(userOAuth2Login)
+      val userConnect = UserConnect.of(user = savedUser, idp = Idp.valueOf(registrationId.uppercase()))
+      userConnectRepository.save(userConnect)
       savedUser
     }
   }
