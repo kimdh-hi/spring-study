@@ -37,6 +37,7 @@ class OAuth2SuccessHandler(
   }
 }
 
+@Component
 class OAuth2FailureHandler: AuthenticationFailureHandler {
 
   private val log = LoggerFactory.getLogger(javaClass)

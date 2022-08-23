@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse
 class HttpCookieOAuth2AuthorizationRequestRepository : AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
   override fun loadAuthorizationRequest(request: HttpServletRequest): OAuth2AuthorizationRequest? {
-    return CookieUtils.get(request, "oauth2_auth_request")?.let {
-      CookieUtils.deserialize(it, OAuth2AuthorizationRequest::class.java)
+    return CookieUtils.get(request, "oauth2_auth_request")?.let { cookie ->
+      CookieUtils.deserialize(cookie, OAuth2AuthorizationRequest::class.java)
     }
   }
 
@@ -23,19 +23,11 @@ class HttpCookieOAuth2AuthorizationRequestRepository : AuthorizationRequestRepos
     response: HttpServletResponse
   ) {
     if (authRequest == null) return
-    CookieUtils.add(
-      response,
-      "oauth2_auth_request",
-      CookieUtils.serialize(authRequest),
-      COOKIE_EXPIRE_SECONDS
-    )
+    CookieUtils.add(response, "oauth2_auth_request", CookieUtils.serialize(authRequest), COOKIE_EXPIRE_SECONDS)
     val redirectUriAfterLogin = request.getParameter("redirect_uri")
-    if (StringUtils.hasText(redirectUriAfterLogin)) CookieUtils.add(
-      response,
-      "redirect_uri",
-      redirectUriAfterLogin,
-      COOKIE_EXPIRE_SECONDS
-    )
+    if (StringUtils.hasText(redirectUriAfterLogin)) {
+      CookieUtils.add(response, "redirect_uri", redirectUriAfterLogin, COOKIE_EXPIRE_SECONDS)
+    }
   }
 
   override fun removeAuthorizationRequest(request: HttpServletRequest): OAuth2AuthorizationRequest? {

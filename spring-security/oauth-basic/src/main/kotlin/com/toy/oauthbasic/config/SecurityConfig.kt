@@ -1,9 +1,6 @@
 package com.toy.oauthbasic.config
 
-import com.toy.oauthbasic.oauth2.CustomOAuth2UserService
-import com.toy.oauthbasic.oauth2.CustomOidcUserService
-import com.toy.oauthbasic.oauth2.HttpCookieOAuth2AuthorizationRequestRepository
-import com.toy.oauthbasic.oauth2.OAuth2SuccessHandler
+import com.toy.oauthbasic.oauth2.*
 import com.toy.oauthbasic.utils.JwtUtils
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -27,6 +24,7 @@ class SecurityConfig(
   private val customOidcUserService: CustomOidcUserService,
   private val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository,
   private val oAuth2SuccessHandler: OAuth2SuccessHandler,
+  private val oAuth2FailureHandler: OAuth2FailureHandler,
   private val clientRegistrationRepository: ClientRegistrationRepository,
   private val authorizedClientService: OAuth2AuthorizedClientService,
   private val jwtUtils: JwtUtils
@@ -58,6 +56,7 @@ class SecurityConfig(
           .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository)
         }
         oauth2Login.successHandler(oAuth2SuccessHandler)
+        oauth2Login.failureHandler(oAuth2FailureHandler)
       }
       .sessionManagement { it
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
