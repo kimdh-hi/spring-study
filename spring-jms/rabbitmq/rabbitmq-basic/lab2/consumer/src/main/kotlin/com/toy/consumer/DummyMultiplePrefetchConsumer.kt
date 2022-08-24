@@ -13,7 +13,7 @@ prefetch 에 대한 글로벌한 설정은 yml 로 가능하지만 consumer 의 
 메시지 처리 시간이 길다 => prefetch 작게
 메시지 처리 시간이 짧다 => prefetch 길게 or default
  */
-@Service
+//@Service
 class DummyMultiplePrefetchConsumer(
   private val rabbitListenerContainerFactory: SimpleRabbitListenerContainerFactory
 ) {
