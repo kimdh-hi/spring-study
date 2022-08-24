@@ -25,4 +25,12 @@ class InvoiceConsumer {
   fun handleInvoicePaid(message: InvoicePaidMessage) {
     log.info("invoice-paid message: {}", message)
   }
+
+  /*
+  isDefault 로 Any 타입에 메시지를 매핑시킬 수 있지만 __TypeId__ (패키지경로) 에 매핑 가능한 타입이 있어야 됨
+   */
+  @RabbitHandler(isDefault = true)
+  fun defaultHandler(message: Any) {
+    log.warn("not supported type message... {}", message)
+  }
 }

@@ -1,5 +1,6 @@
 package com.toy.producer
 
+import com.toy.domain.InvoiceCanceledMessage
 import com.toy.domain.InvoiceCreatedMessage
 import com.toy.domain.InvoicePaidMessage
 import org.springframework.amqp.rabbit.core.RabbitTemplate
@@ -24,6 +25,10 @@ class InvoiceProducer(
   }
 
   fun sendInvoicePaid(message: InvoicePaidMessage) {
+    rabbitTemplate.convertAndSend(EXCHANGE, "", message)
+  }
+
+  fun sendInvoiceCanceled(message: InvoiceCanceledMessage) {
     rabbitTemplate.convertAndSend(EXCHANGE, "", message)
   }
 }
