@@ -21,14 +21,14 @@ class InvoiceProducer(
   }
 
   fun sendInvoiceCreated(message: InvoiceCreatedMessage) {
-    rabbitTemplate.convertAndSend(EXCHANGE, "", message)
+    rabbitTemplate.convertAndSend(EXCHANGE, message.invoiceNumber, message)
   }
 
   fun sendInvoicePaid(message: InvoicePaidMessage) {
-    rabbitTemplate.convertAndSend(EXCHANGE, "", message)
+    rabbitTemplate.convertAndSend(EXCHANGE, message.invoiceNumber, message)
   }
 
   fun sendInvoiceCanceled(message: InvoiceCanceledMessage) {
-    rabbitTemplate.convertAndSend(EXCHANGE, "", message)
+    rabbitTemplate.convertAndSend(EXCHANGE, message.invoiceNumber, message)
   }
 }

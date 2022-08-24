@@ -45,3 +45,25 @@ class RabbitmqScheduler(
 }
 
 ```
+
+---
+
+## consistent_hash_exchange plugins
+
+```bash
+docker exec -it rabbitmq bash
+
+rabbitmq-plugins list
+
+rabbitmq-plugins enable rabbitmq_consistent_hash_exchange
+```
+
+https://github.com/rabbitmq/rabbitmq-consistent-hash-exchange
+
+consistent_hash_exchange 는 라우팅 키를 통해 각 큐에 전달된 메시지의 가중치를 조절할 수 있다.
+
+한 개 Exchange 에서 바인딩 된 모든 큐에 가중치에 따라 메시지를 전달한다.
+(라우팅 키로 가중치가 높게 설정된 큐는 메시지를 더 많이 받게 된다.)
+
+
+

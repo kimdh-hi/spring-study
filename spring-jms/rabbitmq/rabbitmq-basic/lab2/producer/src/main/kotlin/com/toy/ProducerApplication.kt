@@ -1,8 +1,6 @@
 package com.toy
 
-import com.toy.domain.InvoiceCanceledMessage
 import com.toy.domain.InvoiceCreatedMessage
-import com.toy.domain.InvoicePaidMessage
 import com.toy.producer.InvoiceProducer
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -16,18 +14,11 @@ class ProducerApplication(
 ): CommandLineRunner {
   override fun run(vararg args: String) {
 
-    val invoiceNumber = "ivn-${ThreadLocalRandom.current().nextInt(1000, 2000)}"
-    val invoiceCreatedMessage = InvoiceCreatedMessage(111.11, LocalDate.now().minusDays(1), "USD", invoiceNumber)
-    producer.sendInvoiceCreated(invoiceCreatedMessage)
-
-    val invoiceNumber2 = "ivn-${ThreadLocalRandom.current().nextInt(1000, 2000)}"
-    val paymentNumber = "pay-${ThreadLocalRandom.current().nextInt(1000, 2000)}"
-    val invoicePaidMessage = InvoicePaidMessage(invoiceNumber2, LocalDate.now(), paymentNumber)
-    producer.sendInvoicePaid(invoicePaidMessage)
-
-    val invoiceNumber3 = "ivn-${ThreadLocalRandom.current().nextInt(1000, 2000)}"
-    val canceledMessage = InvoiceCanceledMessage(LocalDate.now(), invoiceNumber3, "umm...")
-    producer.sendInvoiceCanceled(canceledMessage)
+    for (i in 0 until 200) {
+      val invoiceNumber = "inv-${i%60}"
+      val createdMessage = InvoiceCreatedMessage(ThreadLocalRandom.current().nextInt(200), LocalDate.now(), "USD", invoiceNumber)
+      producer.sendInvoiceCreated(createdMessage)
+    }
   }
 }
 
