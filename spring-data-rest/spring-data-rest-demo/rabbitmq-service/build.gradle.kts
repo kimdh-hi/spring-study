@@ -5,6 +5,12 @@ plugins {
   id("io.spring.dependency-management") version "1.0.13.RELEASE"
   kotlin("jvm") version "1.6.21"
   kotlin("plugin.spring") version "1.6.21"
+  kotlin("plugin.noarg") version "1.6.21"
+}
+
+noArg {
+  annotation("com.toy.rabbitmqservice.config.NoArg")
+  invokeInitializers = true
 }
 
 group = "com.toy"

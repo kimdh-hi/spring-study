@@ -8,7 +8,11 @@
 rabbitmq:
   queue:
     name: test-queue
+    json:
+      name: json-queue
   exchange:
     name: test-exchange
   routing:
     key: test-key
+    json:
+      key: json-key

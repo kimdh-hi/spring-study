@@ -1,4 +1,4 @@
-package com.toy.rabbitmqservice.consumer
+package com.toy.rabbitmqservice.controller
 
 import com.toy.rabbitmqservice.producer.RabbitmqProducer
 import org.springframework.http.ResponseEntity
