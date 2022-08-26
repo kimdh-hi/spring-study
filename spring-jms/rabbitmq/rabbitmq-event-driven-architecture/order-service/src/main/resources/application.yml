@@ -1,2 +1,19 @@
 server:
   port: 8080
+
+#spring:
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
+
+rabbitmq:
+  queue:
+    order:
+      name: order_email
+  exchange:
+    name: order_exchange
+  binding:
+    routing:
+      key: order_routing_key
