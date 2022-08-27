@@ -1,0 +1,3 @@
+okhttp:
+  connect-timeout-second: 3
+  write-and-read-timout-second: 30
