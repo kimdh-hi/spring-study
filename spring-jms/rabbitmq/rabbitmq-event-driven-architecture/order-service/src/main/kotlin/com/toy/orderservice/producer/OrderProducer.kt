@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service
 @Service
 class OrderProducer(
   @Value("\${rabbitmq.exchange.name}") val exchange: String,
-  @Value("\${rabbitmq.binding.routing.key}") val routingKey: String,
+  @Value("\${rabbitmq.binding.routing.key}") val orderRoutingKey: String,
+  @Value("\${rabbitmq.binding.email.routing.key}") val emailRoutingKey: String,
 
   private val rabbitTemplate: RabbitTemplate
 ) {
@@ -18,6 +19,7 @@ class OrderProducer(
 
   fun sendMessage(orderEvent: OrderEvent) {
     log.info("send orderEvent: {}", orderEvent)
-    rabbitTemplate.convertAndSend(exchange, routingKey, orderEvent)
+    rabbitTemplate.convertAndSend(exchange, orderRoutingKey, orderEvent)
+    rabbitTemplate.convertAndSend(exchange, emailRoutingKey, orderEvent)
   }
 }

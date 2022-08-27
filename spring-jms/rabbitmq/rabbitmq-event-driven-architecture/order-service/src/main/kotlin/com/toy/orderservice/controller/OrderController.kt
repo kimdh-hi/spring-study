@@ -24,5 +24,6 @@ class OrderController(
     orderProducer.sendMessage(orderEvent)
 
     return ResponseEntity.ok("order...")
+
   }
 }

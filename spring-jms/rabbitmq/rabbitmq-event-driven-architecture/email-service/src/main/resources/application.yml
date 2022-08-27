@@ -1,2 +1,7 @@
 server:
   port: 8082
+
+rabbitmq:
+  queue:
+    email:
+      name: email

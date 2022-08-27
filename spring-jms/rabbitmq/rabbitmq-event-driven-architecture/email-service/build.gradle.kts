@@ -5,6 +5,7 @@ plugins {
   id("io.spring.dependency-management") version "1.0.13.RELEASE"
   kotlin("jvm") version "1.6.21"
   kotlin("plugin.spring") version "1.6.21"
+  kotlin("plugin.noarg") version "1.6.21"
 }
 
 group = "com.toy"
@@ -13,6 +14,10 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
   mavenCentral()
+}
+
+noArg {
+  annotation("com.toy.emailservice.config.NoArg")
 }
 
 dependencies {

@@ -10,10 +10,11 @@ server:
 
 rabbitmq:
   queue:
-    order:
-      name: order_email
+    order.name: order
+    email.name: email
   exchange:
     name: order_exchange
   binding:
-    routing:
-      key: order_routing_key
+    routing.key: order_routing_key
+    email:
+      routing.key: email_routing_key

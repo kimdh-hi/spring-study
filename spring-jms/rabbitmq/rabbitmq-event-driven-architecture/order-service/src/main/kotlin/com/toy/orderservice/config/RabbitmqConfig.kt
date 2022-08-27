@@ -10,26 +10,37 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class RabbitmqConfig(
-  @Value("\${rabbitmq.queue.order.name}") val queue: String,
   @Value("\${rabbitmq.exchange.name}") val exchange: String,
-  @Value("\${rabbitmq.binding.routing.key}") val routingKey: String,
+
+  @Value("\${rabbitmq.queue.order.name}") val orderQueue: String,
+  @Value("\${rabbitmq.binding.routing.key}") val orderRoutingKey: String,
+
+  @Value("\${rabbitmq.queue.email.name}") val emailQueue: String,
+  @Value("\${rabbitmq.binding.email.routing.key}") val emailRoutingKey: String,
 ) {
 
   @Bean
-  fun orderQueue(): Queue {
-    return Queue(queue)
-  }
+  fun topicExchange(): Exchange = TopicExchange(exchange)
 
   @Bean
-  fun topicExchange(): Exchange {
-    return TopicExchange(exchange)
-  }
+  fun orderQueue(): Queue = Queue(orderQueue)
 
   @Bean
-  fun bindingBuilder(): Binding {
+  fun emailQueue(): Queue = Queue(emailQueue)
+
+  @Bean
+  fun orderBinding(): Binding {
     return BindingBuilder.bind(orderQueue())
       .to(topicExchange())
-      .with(routingKey)
+      .with(orderRoutingKey)
+      .noargs()
+  }
+
+  @Bean
+  fun emailBinding(): Binding {
+    return BindingBuilder.bind(orderQueue())
+      .to(topicExchange())
+      .with(emailRoutingKey)
       .noargs()
   }
 
