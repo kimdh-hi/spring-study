@@ -12,7 +12,6 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import java.util.concurrent.TimeUnit
 
-
 @Configuration
 class OkHttpConfig(
   private val okHttpProperties: OkHttpProperties
