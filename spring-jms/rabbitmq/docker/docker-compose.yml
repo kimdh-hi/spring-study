@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  rabbitmq-study:
+    container_name: "rabbitmq-study"
+    image: rabbitmq:management
+    ports:
+      - "25672:5672"
+      - "15672:15672"

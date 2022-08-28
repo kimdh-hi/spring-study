@@ -1,2 +1,12 @@
 server:
   port: 8000
+
+spring:
+  rabbitmq:
+    addresses: localhost
+    username: guest
+    password: guest
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
