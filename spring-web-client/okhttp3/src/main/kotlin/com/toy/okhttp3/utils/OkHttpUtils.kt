@@ -1,10 +1,8 @@
 package com.toy.okhttp3.utils
 
-import okhttp3.Headers
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.ResponseBody
 import org.springframework.stereotype.Component
 import kotlin.reflect.KClass
 
@@ -30,8 +28,18 @@ class OkHttpUtils(
   fun <T: Any> get(
     url: String, headers: Map<String, String>? = null, returnType: KClass<T>, params: Map<String, String>? = null
   ): T {
+    val httpUrl = url.toHttpUrl().newBuilder()
+      .let {
+        params?.let { param ->
+          params.keys.forEach { key ->
+            it.addQueryParameter(key, param[key])
+          }
+        }
+        it
+      }.build()
+
     val request = Request.Builder()
-      .url(url)
+      .url(httpUrl)
       .headers(createHeader(headers))
       .get()
       .build()

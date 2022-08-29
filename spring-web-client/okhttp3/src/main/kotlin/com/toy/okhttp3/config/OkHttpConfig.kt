@@ -1,9 +1,6 @@
 package com.toy.okhttp3.config
 
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.context.annotation.Bean
@@ -20,19 +17,31 @@ class OkHttpConfig(
   @Bean
   fun okHttpClient(): OkHttpClient {
     return OkHttpClient.Builder()
-      .connectTimeout(okHttpProperties.connectTimeoutSecond, TimeUnit.SECONDS)
-      .writeTimeout(okHttpProperties.writeAndReadTimeoutSecond, TimeUnit.SECONDS)
-      .readTimeout(okHttpProperties.writeAndReadTimeoutSecond, TimeUnit.SECONDS)
+      .connectTimeout(okHttpProperties.connectTimeoutSeconds, TimeUnit.SECONDS)
+      .writeTimeout(okHttpProperties.writeAndReadTimeoutSeconds, TimeUnit.SECONDS)
+      .readTimeout(okHttpProperties.writeAndReadTimeoutSeconds, TimeUnit.SECONDS)
+      .connectionPool(connectionPool())
+      .retryOnConnectionFailure(false)
       .addInterceptor(DefaultContentTypeInterceptor())
       .build()
+  }
+
+  fun connectionPool(): ConnectionPool {
+    return ConnectionPool(
+      maxIdleConnections = okHttpProperties.maxIdleConnection,
+      keepAliveDuration = okHttpProperties.keepAliveDurationMinutes,
+      timeUnit = TimeUnit.MINUTES
+    )
   }
 }
 
 @ConfigurationProperties(prefix = "okhttp")
 @ConstructorBinding
 data class OkHttpProperties(
-  val connectTimeoutSecond: Long,
-  val writeAndReadTimeoutSecond: Long
+  val connectTimeoutSeconds: Long,
+  val writeAndReadTimeoutSeconds: Long,
+  val maxIdleConnection: Int,
+  val keepAliveDurationMinutes: Long
 )
 
 class DefaultContentTypeInterceptor : Interceptor {
