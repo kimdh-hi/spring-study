@@ -23,13 +23,16 @@ class ReliableProducer(
 
       if (ack)
         log.info("[valid exchange] correlation.id {}", correlationData.id)
-      else
-        log.warn("[invalid exchange] correlation.id {}", correlationData.id)
+      else {
+        log.warn("[invalid exchange log1] correlation.id {}", correlationData.id)
+        log.warn("[invalid exchange log2] cause {}", cause.toString())
+      }
     }
 
     rabbitTemplate.setReturnsCallback { returned ->
       log.info("return callback")
       if (returned.replyText != null && StringUtils.equalsIgnoreCase(returned.replyText, "NO_ROUTE")) {
+        log.info("replyText: {}", returned.replyText)
         val id = returned.message.messageProperties.getHeader<String>("spring_returned_message_correlation")
         log.warn("invalid routing key for message {}", id)
       }
