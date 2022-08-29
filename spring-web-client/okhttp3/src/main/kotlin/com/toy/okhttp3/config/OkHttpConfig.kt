@@ -41,7 +41,7 @@ data class OkHttpProperties(
   val connectTimeoutSeconds: Long,
   val writeAndReadTimeoutSeconds: Long,
   val maxIdleConnection: Int,
-  val keepAliveDurationMinutes: Long
+  val keepAliveDurationMinutes: Long,
 )
 
 class DefaultContentTypeInterceptor : Interceptor {

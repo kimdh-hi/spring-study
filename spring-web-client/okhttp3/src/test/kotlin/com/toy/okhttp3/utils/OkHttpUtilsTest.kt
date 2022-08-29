@@ -1,6 +1,7 @@
 package com.toy.okhttp3.utils
 
 import com.toy.okhttp3.common.NoArg
+import com.toy.okhttp3.config.OkHttpProperties
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -9,7 +10,8 @@ import org.springframework.test.context.TestConstructor
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 internal class OkHttpUtilsTest(
-  val okHttpUtils: OkHttpUtils
+  val okHttpUtils: OkHttpUtils,
+  val okHttpProperties: OkHttpProperties
 ) {
 
   companion object {

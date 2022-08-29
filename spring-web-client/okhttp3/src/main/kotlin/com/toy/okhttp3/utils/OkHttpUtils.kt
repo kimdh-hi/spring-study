@@ -3,7 +3,9 @@ package com.toy.okhttp3.utils
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import java.io.IOException
 import kotlin.reflect.KClass
 
 @Component
@@ -11,7 +13,9 @@ class OkHttpUtils(
   private val client: OkHttpClient
 ) {
 
-  fun <T : Any> post(url: String, headers: Map<String, String>? = null, returnType: KClass<T>, body: Any ): T {
+  private val log = LoggerFactory.getLogger(javaClass)
+
+  fun <T : Any> post(url: String, headers: Map<String, String>? = null, returnType: KClass<T>, body: Any): T {
     val jsonBody = toJson(body)
     val request = Request.Builder()
       .url(url)
@@ -23,6 +27,30 @@ class OkHttpUtils(
     val responseBodyString = responseBody.string()
 
     return fromJsonToObj(responseBodyString, returnType)
+  }
+
+  fun <T: Any> postAsyc(url: String, headers: Map<String, String>? = null, returnType: KClass<T>, body: Any) {
+    val jsonBody = toJson(body)
+    val request = Request.Builder()
+      .url(url)
+      .headers(createHeader(headers))
+      .post(jsonBody.toRequestBody())
+      .build()
+
+    client.newCall(request).enqueue(object: Callback {
+      override fun onFailure(call: Call, e: IOException) {
+        log.error("okHttp error...", e)
+        throw RuntimeException("okHttp error...")
+      }
+
+      override fun onResponse(call: Call, response: Response) {
+        response.use {
+          if (it.body == null)
+            throw RuntimeException("okHttp error...")
+          log.info("body.string {}", it.body!!.string())
+        }
+      }
+    })
   }
 
   fun <T: Any> get(
