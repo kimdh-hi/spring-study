@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  mosquitto:
+    restart: always
+    image: "eclipse-mosquitto"
+    ports:
+      - "1883:1883"
+      - "9001:9001"

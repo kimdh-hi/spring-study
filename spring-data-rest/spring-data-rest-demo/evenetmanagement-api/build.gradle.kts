@@ -5,12 +5,7 @@ plugins {
   id("io.spring.dependency-management") version "1.0.13.RELEASE"
   kotlin("jvm") version "1.6.21"
   kotlin("plugin.spring") version "1.6.21"
-  kotlin("plugin.noarg") version "1.6.21"
-}
-
-noArg {
-  annotation("com.toy.rabbitmqservice.config.NoArg")
-  invokeInitializers = true
+  kotlin("plugin.jpa") version "1.6.21"
 }
 
 group = "com.toy"
@@ -22,16 +17,13 @@ repositories {
 }
 
 dependencies {
-  implementation("org.springframework.boot:spring-boot-starter-amqp")
-  implementation("org.springframework.integration:spring-integration-amqp:5.5.14")
-  implementation("com.rabbitmq:http-client:4.1.2")
-
-  implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+  implementation("org.springframework.boot:spring-boot-starter-data-rest")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+  runtimeOnly("com.h2database:h2")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
-  testImplementation("org.springframework.amqp:spring-rabbit-test")
 }
 
 tasks.withType<KotlinCompile> {

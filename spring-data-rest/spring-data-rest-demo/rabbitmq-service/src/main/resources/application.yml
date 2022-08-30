@@ -1,9 +1,16 @@
-#spring:
-#  rabbitmq:
-#    host: localhost
-#    port: 5672
-#    username: guest
-#    password: guest
+server:
+  port: 8000
+
+spring:
+  rabbitmq:
+    addresses: localhost
+    host: localhost
+    port: 15672
+    username: guest
+    password: guest
+    connection-timeout: 5000
+    management-uri: http://localhost:15672/
+
 
 rabbitmq:
   queue:

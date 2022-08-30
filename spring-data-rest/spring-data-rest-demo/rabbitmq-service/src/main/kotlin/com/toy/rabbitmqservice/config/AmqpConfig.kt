@@ -1,11 +1,13 @@
 package com.toy.rabbitmqservice.config
 
+import com.rabbitmq.http.client.Client
+import com.rabbitmq.http.client.ClientParameters
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.BindingBuilder
 import org.springframework.amqp.core.Queue
 import org.springframework.amqp.core.TopicExchange
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory
-import org.springframework.amqp.rabbit.connection.ConnectionFactory
+import org.springframework.amqp.rabbit.core.RabbitAdmin
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
 import org.springframework.amqp.support.converter.MessageConverter
@@ -14,7 +16,10 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class RabbitmqConfig(
+class AmqpConfig(
+
+  private val rabbitmqProperties: RabbitmqProperties,
+
   @Value("\${rabbitmq.queue.name}")
   private val queueName: String,
 
@@ -66,12 +71,37 @@ class RabbitmqConfig(
   }
 
   @Bean
-  fun connectionFactory(): CachingConnectionFactory
+  fun connectionFactory(): CachingConnectionFactory {
+    val connectionFactory = CachingConnectionFactory()
+    connectionFactory.apply {
+      setAddresses(rabbitmqProperties.addresses)
+      username = rabbitmqProperties.username
+      setPassword(rabbitmqProperties.password)
+      setConnectionTimeout(rabbitmqProperties.connectionTimeout)
+    }
+    return connectionFactory
+  }
 
   @Bean
-  fun rabbitTemplate(connectionFactory: ConnectionFactory): RabbitTemplate {
-    val rabbitTemplate = RabbitTemplate(connectionFactory)
+  fun rabbitTemplate(): RabbitTemplate {
+    val rabbitTemplate = RabbitTemplate(connectionFactory())
     rabbitTemplate.messageConverter = messageConverter()
     return rabbitTemplate
+  }
+
+  @Bean
+  fun rabbitAdmin(): RabbitAdmin = RabbitAdmin(rabbitTemplate())
+
+  @Bean
+  fun rabbitmqClient(): Client {
+    val url = rabbitmqProperties.managementUri
+    val username = rabbitmqProperties.username
+    val password = rabbitmqProperties.username
+    return Client(
+      ClientParameters()
+        .url(url)
+        .username(username)
+        .password(password)
+    )
   }
 }
