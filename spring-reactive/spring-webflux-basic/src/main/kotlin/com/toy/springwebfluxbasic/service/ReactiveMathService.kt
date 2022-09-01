@@ -1,10 +1,13 @@
 package com.toy.springwebfluxbasic.service
 
+import com.toy.springwebfluxbasic.dto.MultiplyRequestDto
 import com.toy.springwebfluxbasic.dto.Response
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.time.Duration
+import java.util.stream.Collectors
+import java.util.stream.IntStream
 
 @Service
 class ReactiveMathService {
@@ -22,5 +25,22 @@ class ReactiveMathService {
       .delayElements(Duration.ofSeconds(1))
       .doOnNext { println("multiplication table: [$input * $it]") }
       .map { Response(output = input * it) }
+  }
+
+
+  fun multiplicationTable2(input: Int): Flux<Response> {
+    val list: List<Response> = IntStream.rangeClosed(1, 9)
+      .peek { Thread.sleep(1000L) }
+      .peek { println("multiplication table: [$input * $it]") }
+      .mapToObj { Response(output = input * it) }
+      .collect(Collectors.toList())
+
+    return Flux.fromIterable(list)
+  }
+
+  fun multiply(requestDto: Mono<MultiplyRequestDto>): Mono<Response> {
+    return requestDto
+      .map { it.first * it.second }
+      .map { Response(output = it) }
   }
 }
