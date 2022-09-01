@@ -13,10 +13,10 @@ class MathService {
   }
 
   fun multiplicationTable(input: Int): List<Response> {
-    return IntStream.rangeClosed(1, 10)
+    return IntStream.rangeClosed(1, 9)
       .peek { Thread.sleep(1000L) }
-      .peek { println("math-service value: $it") }
-      .mapToObj { Response(output = it * input) }
+      .peek { println("multiplication table: [$input * $it]") }
+      .mapToObj { Response(output = input * it) }
       .collect(Collectors.toList())
   }
 }
