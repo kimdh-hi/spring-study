@@ -1,7 +1,9 @@
 package com.toy.springwebfluxbasic.config
 
+import com.toy.springwebfluxbasic.dto.ErrorResponse
 import com.toy.springwebfluxbasic.dto.MultiplyRequestDto
 import com.toy.springwebfluxbasic.dto.Response
+import com.toy.springwebfluxbasic.exception.InputValidationException
 import com.toy.springwebfluxbasic.service.ReactiveMathService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -12,6 +14,7 @@ import org.springframework.web.reactive.function.server.RouterFunctions
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.core.publisher.Mono
+import java.util.function.BiFunction
 
 @Configuration
 class RouterConfig(
@@ -25,7 +28,20 @@ class RouterConfig(
       .GET("/router/table/{input}", requestHandler::tableHandler)
       .GET("/router/table/{input}/stream", requestHandler::tableStreamHandler)
       .POST("/router/multiply", requestHandler::multiplyHandler)
+      .GET("/router/square/{input}/error", requestHandler::squareHandlerWithValidation)
+      .onError(InputValidationException::class.java, exceptionHandler())
       .build()
+  }
+
+  private fun exceptionHandler(): BiFunction<Throwable, ServerRequest, Mono<ServerResponse>> {
+    return BiFunction { ex, _ ->
+      val inputValidationException = ex as InputValidationException
+      val response = ErrorResponse(
+        errorCode = inputValidationException.errorCode,
+        message = inputValidationException.message!!
+      )
+      return@BiFunction ServerResponse.badRequest().bodyValue(response)
+    }
   }
 }
 
@@ -59,5 +75,17 @@ class RequestHandler(
     val responseMono = mathService.multiply(requestMono)
     return ServerResponse.ok()
       .body(responseMono, Response::class.java)
+  }
+
+  fun squareHandlerWithValidation(serverRequest: ServerRequest): Mono<ServerResponse> {
+    val input = serverRequest.pathVariable("input").toInt()
+    if(input > 20 || input < 10) {
+//      val inputValidationException = InputValidationException()
+//      return ServerResponse.badRequest().bodyValue(inputValidationException)
+      return Mono.error(InputValidationException())
+    }
+
+    val responseMono = mathService.getSquare(input)
+    return ServerResponse.ok().body(responseMono, Response::class.java)
   }
 }

@@ -1,6 +1,9 @@
 package com.toy.springwebfluxbasic.exception
 
-class InputValidationException: RuntimeException(MESSAGE) {
+class InputValidationException(
+  message: String = MESSAGE,
+  val errorCode: String = ERROR_CODE
+): RuntimeException(message) {
 
   companion object {
     const val MESSAGE = "allowed range is 10 to 20"
