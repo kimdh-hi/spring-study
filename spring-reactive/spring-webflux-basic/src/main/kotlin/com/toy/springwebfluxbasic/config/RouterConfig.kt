@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
+import org.springframework.web.reactive.function.server.RequestPredicates
 import org.springframework.web.reactive.function.server.RouterFunction
 import org.springframework.web.reactive.function.server.RouterFunctions
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -22,13 +23,30 @@ class RouterConfig(
 ) {
 
   @Bean
+  fun highLevelRouter(): RouterFunction<ServerResponse> {
+    return RouterFunctions.route()
+      .path("/router", this::serverFunctionalRouterFunction)
+      .build()
+  }
+
+  @Bean
   fun serverFunctionalRouterFunction(): RouterFunction<ServerResponse> {
     return RouterFunctions.route()
-      .GET("/router/square/{input}", requestHandler::squareHandler)
-      .GET("/router/table/{input}", requestHandler::tableHandler)
-      .GET("/router/table/{input}/stream", requestHandler::tableStreamHandler)
-      .POST("/router/multiply", requestHandler::multiplyHandler)
-      .GET("/router/square/{input}/error", requestHandler::squareHandlerWithValidation)
+      // RequestPredicates.path("*/1?") -> 경로변수 input 이 "1x" 혹은 20 인 경우에만 squareHandler 와 매칭시킨다. ex) 11, 12 ok  1, 21 no
+      .GET("/square/{input}",
+        RequestPredicates.path("*/1?").or(RequestPredicates.path("*/20")),
+        requestHandler::squareHandler
+      )
+      // 위 패턴과 매칭되지 않은 모든 /router/square/{input} 요청은 아래 핸들러로 매칭된다.
+      .GET("/square/{input}") {
+        ServerResponse
+          .badRequest()
+          .bodyValue(ErrorResponse(errorCode = InputValidationException.ERROR_CODE, message = InputValidationException.MESSAGE))
+      }
+      .GET("/table/{input}", requestHandler::tableHandler)
+      .GET("/table/{input}/stream", requestHandler::tableStreamHandler)
+      .POST("/multiply", requestHandler::multiplyHandler)
+      .GET("/square/{input}/error", requestHandler::squareHandlerWithValidation)
       .onError(InputValidationException::class.java, exceptionHandler())
       .build()
   }
