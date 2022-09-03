@@ -77,4 +77,17 @@ ObjectInputStream(FileInputStream("settings.obj")).use {
 역질렬화 시 새로운 인스턴스가 생성되는 문제는 readResolve 메서드를 커스텀하여 해결할 수 있다.
 readResolve 는 객체 역직렬화시 호출되는 메서드 정도로 알자.
 
+
+### 완벽한 싱글턴을 위한 enum class
+```kotlin
+enum class SettingsEnum {
+  INSTANCE
+}
+```
+
+리플랙션으로도 새로운 인스턴스를 생성할 수 없다.
+
+Enum 의 경우 Serializable 을 구현하고 있다. (`java.lang.Enum`)
+
+
 ---

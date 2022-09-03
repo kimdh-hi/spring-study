@@ -24,6 +24,10 @@ open class Settings private constructor(): Serializable {
 //  }
 }
 
+enum class SettingsEnum {
+  INSTANCE
+}
+
 fun main() {
   val settings1 = Settings.getInstance()
   val settings2 = Settings.getInstance()

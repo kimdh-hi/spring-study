@@ -1,4 +1,4 @@
-package com.toy.springwebfluxbasic.`01-get-single-response`
+package com.toy.springwebfluxbasic
 
 import com.toy.springwebfluxbasic.base.BaseTest
 import com.toy.springwebfluxbasic.dto.Response
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.test.StepVerifier
 
-class WebClientTestBasic1(val webClient: WebClient): BaseTest() {
+class `01-WebClientTest-Mono`(val webClient: WebClient): BaseTest() {
 
   @Test
   fun `block`() {
