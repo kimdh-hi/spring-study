@@ -1,11 +1,9 @@
-package com.toy.springwebfluxbasic.base
+package com.toy.springwebfluxbasic
 
+import com.toy.springwebfluxbasic.base.BaseTest
 import org.junit.jupiter.api.Test
 import org.springframework.util.LinkedMultiValueMap
-import org.springframework.util.MultiValueMap
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.bodyToFlux
-import org.springframework.web.util.UriComponentsBuilder
 import reactor.test.StepVerifier
 
 class `07-WebClient-QueryParams`(val webClient: WebClient): BaseTest() {
