@@ -9,4 +9,8 @@ class InputValidationException(
     const val MESSAGE = "allowed range is 10 to 20"
     const val ERROR_CODE = "9001"
   }
+
+  override fun toString(): String {
+    return "InputValidationException(errorCode='$errorCode', message='$message')"
+  }
 }
