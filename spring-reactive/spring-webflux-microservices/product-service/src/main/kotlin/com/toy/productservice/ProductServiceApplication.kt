@@ -1,11 +1,11 @@
-package com.toy.springxssprotection
+package com.toy.productservice
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SpringXssProtectionApplication
+class ProductServiceApplication
 
 fun main(args: Array<String>) {
-  runApplication<SpringXssProtectionApplication>(*args)
+	runApplication<ProductServiceApplication>(*args)
 }
