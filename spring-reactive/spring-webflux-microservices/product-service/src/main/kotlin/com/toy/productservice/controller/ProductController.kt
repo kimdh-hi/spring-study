@@ -3,14 +3,7 @@ package com.toy.productservice.controller
 import com.toy.productservice.dto.ProductDto
 import com.toy.productservice.service.ProductService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
 
 @RestController
@@ -21,6 +14,10 @@ class ProductController(
 
   @GetMapping
   fun getAll() = productService.getAll()
+
+  @GetMapping("/price-range")
+  fun searchByPriceRange(@RequestParam min: String, @RequestParam max: String) =
+    productService.searchByPriceRange(min.toInt(), max.toInt())
 
   @GetMapping("/{id}")
   fun get(@PathVariable id: String) = productService.getById(id)
