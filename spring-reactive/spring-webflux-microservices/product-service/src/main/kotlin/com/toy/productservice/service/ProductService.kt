@@ -1,6 +1,5 @@
 package com.toy.productservice.service
 
-import com.toy.productservice.domain.Product
 import com.toy.productservice.dto.ProductDto
 import com.toy.productservice.repository.ProductRepository
 import com.toy.productservice.utils.EntityConvertUtils

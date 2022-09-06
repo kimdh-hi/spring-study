@@ -1,1 +1,14 @@
+server:
+  port: 8001
 
+spring:
+  mongodb:
+    embedded:
+      version: 4.0.21
+  data:
+    mongodb:
+      database: productdb
+#      host: 10.11.12.13
+#      port: 27017
+#      username:
+#      password:
