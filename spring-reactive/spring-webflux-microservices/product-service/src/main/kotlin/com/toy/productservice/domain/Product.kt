@@ -4,7 +4,12 @@ import org.springframework.data.annotation.Id
 
 data class Product(
   @Id
-  val id: String,
-  val description: String,
-  val price: Int
-)
+  var id: String,
+  var description: String,
+  var price: Int
+) {
+  fun update(description: String, price: Int) {
+    this.description = description
+    this.price = price
+  }
+}

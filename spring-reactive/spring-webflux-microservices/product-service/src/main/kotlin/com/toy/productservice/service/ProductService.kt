@@ -13,21 +13,24 @@ class ProductService(
   private val productRepository: ProductRepository
 ) {
 
-  fun getAll(): Flux<ProductDto> {
-    return productRepository.findAll()
+  fun getAll(): Flux<ProductDto> = productRepository.findAll()
       .map { EntityConvertUtils.toDto(it) }
-  }
 
-  fun getById(id: String): Mono<ProductDto> {
-    return productRepository.findById(id)
+  fun getById(id: String): Mono<ProductDto> = productRepository.findById(id)
       .map { EntityConvertUtils.toDto(it) }
-  }
 
-  fun save(productDtoMono: Mono<ProductDto>): Mono<ProductDto> {
-    return productDtoMono
+  fun save(productDtoMono: Mono<ProductDto>): Mono<ProductDto> = productDtoMono
       .map { EntityConvertUtils.toEntity(it) }
       .flatMap { productRepository.insert(it) }
       .map { EntityConvertUtils.toDto(it) }
-  }
 
+  fun update(id: String, productDtoMono: Mono<ProductDto>) = productRepository.findById(id)
+    .flatMap { productDtoMono
+      .map {EntityConvertUtils.toEntity(it)}
+      .doOnNext { it.id = id }
+    }
+    .flatMap { productRepository.save(it) }
+    .map { EntityConvertUtils.toDto(it)}
+
+  fun delete(id: String) = productRepository.deleteById(id)
 }
