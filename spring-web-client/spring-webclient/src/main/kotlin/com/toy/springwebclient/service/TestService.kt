@@ -16,7 +16,7 @@ class TestService(
 }
 
 data class FakeUser(
-  val id: Int,
-  val username: String,
-  val password: String
+  val id: Int? = null,
+  val userName: String? = null,
+  val password: String? = null
 )

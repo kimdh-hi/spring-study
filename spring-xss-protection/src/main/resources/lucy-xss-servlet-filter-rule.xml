@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config xmlns="http://www.navercorp.com/lucy-xss-servlet">
+    <defenders>
+        <defender>
+            <name>xssPreventerDefender</name>
+            <class>com.navercorp.lucy.security.xss.servletfilter.defender.XssPreventerDefender</class>
+        </defender>
+
+        <defender>
+            <name>xssSaxFilterDefender</name>
+            <class>com.navercorp.lucy.security.xss.servletfilter.defender.XssSaxFilterDefender</class>
+            <init-param>
+                <param-value>lucy-xss-superset-sax.xml</param-value>
+                <param-value>false</param-value>
+            </init-param>
+        </defender>
+
+        <defender>
+            <name>xssFilterDefender</name>
+            <class>com.navercorp.lucy.security.xss.servletfilter.defender.XssFilterDefender</class>
+            <init-param>
+                <param-value>lucy-xss.xml</param-value>
+                <param-value>false</param-value>
+            </init-param>
+        </defender>
+    </defenders>
+
+    <default>
+        <defender>xssPreventerDefender</defender>
+    </default>
+
+    <global>
+        <params>
+            <param name="globalParameter" useDefender="false" />
+            <param name="globalPrefixParameter1" usePrefix="true" useDefender="false" />
+            <param name="globalPrefixParameter2" usePrefix="true" />
+            <param name="globalPrefixParameter3" usePrefix="false" useDefender="false" />
+        </params>
+    </global>
+
+    <url-rule-set>
+        <!-- <url-rule>
+            <url disable="true">/login/login/loginAjax</url>
+        </url-rule> -->
+    </url-rule-set>
+</config>
