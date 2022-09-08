@@ -12,13 +12,19 @@ class TestController {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
-  @PostMapping("/xss")
-  fun xssTest1(@RequestBody requestVO: XssTestRequestVO): XssTestRequestVO {
+  @PostMapping("/xss-json")
+  fun xssBody(@RequestBody requestVO: XssTestRequestVO): XssTestRequestVO {
+    log.info("xss requestVO: {}", requestVO)
+    return requestVO
+  }
+
+  @PostMapping("/xss-form")
+  fun xssForm(requestVO: XssTestRequestVO): XssTestRequestVO {
     log.info("xss requestVO: {}", requestVO)
     return requestVO
   }
 }
 
 data class XssTestRequestVO(
-  val input: String = ""
+  val input: String
 )

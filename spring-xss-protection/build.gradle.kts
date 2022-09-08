@@ -18,6 +18,7 @@ repositories {
 dependencies {
   implementation("com.navercorp.lucy:lucy-xss:1.6.3")
   implementation("com.navercorp.lucy:lucy-xss-servlet:2.0.1")
+  implementation("org.apache.commons:commons-text:1.9")
 
   implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-web")

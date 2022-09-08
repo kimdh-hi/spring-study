@@ -13,11 +13,14 @@ class SecurityConfig {
   @Bean
   fun configure(http: HttpSecurity): SecurityFilterChain {
     return http
+      .csrf().disable()
       .headers { it
         .xssProtection()
         .and()
         .contentSecurityPolicy("script-src 'self'")
       }
+      .authorizeHttpRequests().anyRequest().permitAll()
+      .and()
       .build()
   }
 }
