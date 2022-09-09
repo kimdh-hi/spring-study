@@ -1,0 +1,7 @@
+server:
+  port: 8000
+
+product-service:
+  url: http://localhost:8001/products
+user-service:
+  url: http://localhost:8002/users
