@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.bodyToFlux
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import kotlin.reflect.KClass
 
@@ -42,7 +44,7 @@ class WebClientUtils(
       .onErrorResume { Mono.error { RuntimeException("webclient error...") } }
   }
 
-  fun <B : Any, T: Any> put(uri: String, body: B, returnType: KClass<T>, headers: MultiValueMap<String, String>? = null): Mono<T> {
+  fun <B : Any, T: Any> put(uri: String, body: B, returnType: KClass<T>, headers: MultiValueMap<String, String>? = null): Flux<T> {
     return webClient.put()
       .uri(uri)
       .headers { header ->
@@ -50,7 +52,7 @@ class WebClientUtils(
       }
       .bodyValue(body)
       .retrieve()
-      .bodyToMono(returnType.java)
+      .bodyToFlux(returnType.java)
       .onErrorResume { Mono.error { RuntimeException("webclient error...") } }
   }
 

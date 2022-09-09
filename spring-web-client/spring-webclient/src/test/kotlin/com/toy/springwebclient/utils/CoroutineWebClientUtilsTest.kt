@@ -1,6 +1,8 @@
 package com.toy.springwebclient.utils
 
 import com.toy.springwebclient.service.FakeUser
+import kotlinx.coroutines.reactive.asFlow
+import kotlinx.coroutines.reactive.asPublisher
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.runBlocking
@@ -8,6 +10,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestConstructor
+import reactor.test.StepVerifier
 
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
@@ -112,4 +115,14 @@ internal class CoroutineWebClientUtilsTest(
     })
   }
 
+  @Test
+  fun getFlux() = runBlocking {
+    //when
+    val responseFlow = webClientUtils.get(
+      uri = FAKE_REST_API_URI,
+      returnType = FakeUser::class
+    ).asFlow()
+
+    //then
+  }
 }
