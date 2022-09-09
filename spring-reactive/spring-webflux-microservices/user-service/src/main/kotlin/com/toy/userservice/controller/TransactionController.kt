@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
 
 @RestController
-@RequestMapping("/users/transaction")
+@RequestMapping("/transactions")
 class TransactionController(
   private val transactionService: TransactionService
 ) {

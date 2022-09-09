@@ -16,7 +16,7 @@ class TransactionService(
 
   fun save(requestDto: TransactionRequestDto): Mono<TransactionResponseDto> =
     userRepository.updateUserBalance(requestDto.userId, requestDto.amount)
-      .filter { it == false }
+      .filter { it }
       .map { requestDto.toEntity() }
       .flatMap { userTransactionRepository.save(it) }
       .map { TransactionResponseDto.of(requestDto, TransactionStatus.APPROVED) }
