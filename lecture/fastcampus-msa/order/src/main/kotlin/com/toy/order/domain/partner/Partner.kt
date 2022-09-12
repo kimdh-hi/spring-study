@@ -1,5 +1,7 @@
 package com.toy.order.domain.partner
 
+import com.toy.order.common.exception.BaseException
+import com.toy.order.common.exception.ErrorCodes
 import com.toy.order.common.utils.TokenGenerator
 import com.toy.order.domain.AbstractEntity
 import org.apache.commons.lang3.StringUtils
@@ -26,9 +28,9 @@ class Partner(
     const val PREFIX_PARTNER = "ptn_"
 
     fun newPartner(partnerName: String, businessNo: String, email: String): Partner {
-      if(StringUtils.isEmpty(partnerName)) throw RuntimeException("empty partnerName")
-      if(StringUtils.isEmpty(businessNo)) throw RuntimeException("empty partnerName")
-      if(StringUtils.isEmpty(email)) throw RuntimeException("empty partnerName")
+      if(StringUtils.isEmpty(partnerName)) throw BaseException(ErrorCodes.INVALID_PARAMETER, "empty partnerName")
+      if(StringUtils.isEmpty(businessNo)) throw BaseException(ErrorCodes.INVALID_PARAMETER, "empty partnerName")
+      if(StringUtils.isEmpty(email)) throw BaseException(ErrorCodes.INVALID_PARAMETER, "empty partnerName")
 
       return Partner(
         partnerToken = TokenGenerator.randomCharacterWithPrefix(PREFIX_PARTNER),
