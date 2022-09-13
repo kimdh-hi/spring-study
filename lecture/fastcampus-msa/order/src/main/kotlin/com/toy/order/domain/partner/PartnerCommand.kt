@@ -6,7 +6,7 @@ data class PartnerCommand(
   val email: String,
 ) {
   fun toEntity(): Partner {
-    return Partner.newPartner(
+    return Partner.new(
       partnerName = partnerName,
       businessNo = businessNo,
       email = email
