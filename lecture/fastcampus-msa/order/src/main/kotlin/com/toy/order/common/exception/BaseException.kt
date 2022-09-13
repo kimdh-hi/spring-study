@@ -2,5 +2,6 @@ package com.toy.order.common.exception
 
 class BaseException(
   val errorCode: String,
-  message: String? = null
-): RuntimeException(message)
+  override val message: String? = null,
+  override val cause: Throwable? = null
+): RuntimeException(message, cause)
