@@ -4,9 +4,12 @@ import com.toy.redissonbasic.base.BaseTest
 import com.toy.redissonbasic.base.RedissonConfig
 import com.toy.redissonbasic.base.Student
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 import org.redisson.api.LocalCachedMapOptions
 import org.redisson.api.RLocalCachedMap
 import org.redisson.codec.TypedJsonJacksonCodec
+import reactor.core.publisher.Flux
+import java.time.Duration
 
 /**
  *
@@ -30,7 +33,7 @@ class `08-LocalCahedMap`: BaseTest() {
   @BeforeAll
   fun setup() {
     val redissonConfig = RedissonConfig()
-    val redissonClient = redissonConfig.redissonClient!!
+    val redissonClient = redissonConfig.getClient()
 
     val localCachedMapOptions = LocalCachedMapOptions.defaults<Int, Student>()
       .syncStrategy(LocalCachedMapOptions.SyncStrategy.UPDATE)
@@ -41,5 +44,25 @@ class `08-LocalCahedMap`: BaseTest() {
       TypedJsonJacksonCodec(Int::class.java, Student::class.java),
       localCachedMapOptions
     )
+  }
+
+  @Test
+  fun `localCacheMap get`() {
+    val student1 = Student(name = "name1", age = 20, city = "city1", testList = listOf(1,2,3))
+    val student2 = Student(name = "name2", age = 20, city = "city2", testList = listOf(1,2,3,4))
+    localCacheMap!![1] = student1
+    localCacheMap!![2] = student2
+
+    Flux.interval(Duration.ofSeconds(1))
+      .doOnNext { i -> println("$i => ${localCacheMap!![1]}") }
+      .subscribe()
+
+    Thread.sleep(600000)
+  }
+
+  @Test
+  fun `test`() {
+    val updatedStudent = Student(name = "name1-update", age = 44, city = "city1-update", testList = listOf(1,2,3,4,5))
+    localCacheMap!![1] = updatedStudent
   }
 }
