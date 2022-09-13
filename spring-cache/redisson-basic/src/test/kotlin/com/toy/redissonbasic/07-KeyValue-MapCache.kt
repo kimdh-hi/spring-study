@@ -17,6 +17,7 @@ class `07-KeyValue-MapCache`: BaseTest() {
     val student1 = Student(name = "name1", age = 20, city = "city1", testList = listOf(1,2,3))
     val student2 = Student(name = "name2", age = 21, city = "city2", testList = listOf(1,2,3))
 
+    // MapCache 의 경우 ttl 설정 가능
     val put1 = mapCache.put(1, student1, 2, TimeUnit.SECONDS)
     val put2 = mapCache.put(2, student2, 10, TimeUnit.SECONDS)
 
