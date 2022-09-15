@@ -1,0 +1,4 @@
+package moviebuddy
+
+class MovieBuddyApplication {
+}
