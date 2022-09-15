@@ -1,0 +1,19 @@
+site:
+  author: dhkim2
+  email: dhkim2@gmail.com
+---
+spring:
+  config:
+    activate:
+      on-profile: site-local
+site:
+  author: dhkim2-local
+  email: dhkim2.local@gmail.com
+---
+spring:
+  config:
+    activate:
+      on-profile: site-dev
+site:
+  author: dhkim2-dev
+  email: dhkim2.dev@gmail.com
