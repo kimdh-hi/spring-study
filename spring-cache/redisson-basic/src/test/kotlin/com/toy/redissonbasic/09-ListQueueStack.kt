@@ -11,7 +11,7 @@ import java.util.stream.LongStream
 class `09-ListQueueStack`: BaseTest() {
 
   @Test
-  fun test() {
+  fun list() {
     val list = client!!.getList<Long>("test-list", LongCodec.INSTANCE)
 //    val longList = Flux.range(1, 10)
 //      .map { it.toLong() }
@@ -22,10 +22,34 @@ class `09-ListQueueStack`: BaseTest() {
       .boxed()
       .collect(Collectors.toList())
 
-    StepVerifier.create(list.addAll(longList))
+    StepVerifier.create(list.addAll(longList).then())
       .verifyComplete()
     StepVerifier.create(list.size())
       .expectNext(10)
+      .verifyComplete()
+  }
+
+  @Test
+  fun queue() {
+    val queue = client!!.getQueue<Long>("test-list", LongCodec.INSTANCE)
+    val pollMono = queue.poll()
+      .repeat(3)
+      .doOnNext { println(it) }
+      .then()
+
+    StepVerifier.create(pollMono)
+      .verifyComplete()
+  }
+
+  @Test
+  fun `stack-deque`() {
+    val queue = client!!.getDeque<Long>("test-list", LongCodec.INSTANCE)
+    val pollMono = queue.pollLast()
+      .repeat(3)
+      .doOnNext { println(it) }
+      .then()
+
+    StepVerifier.create(pollMono)
       .verifyComplete()
   }
 }
