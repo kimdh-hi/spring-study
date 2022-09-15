@@ -1,0 +1,7 @@
+
+custom:
+  random-value: "${random.value}"
+  random-int: "${random.int}"
+  random-long: "${random.long}"
+  random-int-between: "${random.int[1000,9999]}"
+  uuid: "${random.uuid}"
