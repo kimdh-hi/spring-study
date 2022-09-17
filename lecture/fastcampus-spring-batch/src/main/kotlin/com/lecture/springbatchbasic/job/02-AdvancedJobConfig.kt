@@ -51,9 +51,26 @@ class AdvancedJobConfig(
 
   @JobScope
   @Bean
-  fun advancedStep(advancedTasklet: Tasklet): Step = sbf.get("advancedStep")
+  fun advancedStep(
+    advancedTasklet: Tasklet,
+    stepExecutionListener: StepExecutionListener
+  ): Step = sbf.get("advancedStep")
+    .listener(stepExecutionListener)
     .tasklet(advancedTasklet)
     .build()
+
+  @StepScope
+  @Bean
+  fun stepExecutionListener(): StepExecutionListener = object: StepExecutionListener {
+    override fun beforeStep(stepExecution: StepExecution) {
+      log.info("[StepExecutionListener beforeStep] {}", stepExecution.status)
+    }
+
+    override fun afterStep(stepExecution: StepExecution): ExitStatus {
+      log.info("[StepExecutionListener afterStep] {}", stepExecution.status)
+      return stepExecution.exitStatus
+    }
+  }
 
   // --spring.batch.job.names=advancedJob -targetDate=2022-01-01
   // jobParameter 에 대한 검증이 필요함 위 경우 targetDate 가 LocalDate 타임인지 검증을 필요로 한다.
