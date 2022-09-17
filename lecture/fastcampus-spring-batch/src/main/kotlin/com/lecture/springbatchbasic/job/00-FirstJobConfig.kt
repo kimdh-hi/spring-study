@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class FirstJobConfig(
+class FirstJobConfig (
   private val jbf: JobBuilderFactory,
   private val sbf: StepBuilderFactory
 ) {

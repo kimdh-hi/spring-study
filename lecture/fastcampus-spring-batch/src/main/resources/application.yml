@@ -29,3 +29,12 @@ spring:
   batch:
     jdbc:
       initialize-schema: ALWAYS
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  jpa:
+    database: h2

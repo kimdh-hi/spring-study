@@ -63,7 +63,7 @@ class PlainTextJobConfig(
   @Bean
   @StepScope
   fun plainTextProcessor(): ItemProcessor<PlainText, String> {
-    return ItemProcessor { item -> "processed: ${item.text}" }
+    return ItemProcessor { item -> "processed-${item.text}" }
   }
 
   @Bean
