@@ -1,11 +1,9 @@
-package com.lecture.springbatchbasic.domain
+package com.lecture.springbatchbasic.core.domain
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
+@Table(name = "result_text")
 class ResultText(
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

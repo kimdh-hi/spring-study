@@ -1,5 +1,6 @@
 package com.lecture.springbatchbasic.job
 
+import com.lecture.springbatchbasic.base.AbstractBatchBaseTest
 import com.lecture.springbatchbasic.base.BatchTestConfig
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -14,15 +15,8 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
-@ActiveProfiles("test")
-@SpringBatchTest
-@SpringBootTest
-@ExtendWith(SpringExtension::class)
-@ContextConfiguration(classes = [FirstJobConfig::class, BatchTestConfig::class])
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-internal class FirstJobConfigTest(
-  private val jobLauncherTestUtils: JobLauncherTestUtils
-) {
+@SpringBootTest(classes = [FirstJobConfig::class, BatchTestConfig::class])
+internal class FirstJobConfigTest: AbstractBatchBaseTest() {
 
   @Test
   fun success() {
