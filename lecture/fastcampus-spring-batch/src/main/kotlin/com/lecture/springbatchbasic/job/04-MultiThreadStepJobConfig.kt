@@ -58,7 +58,11 @@ class `04-MultiThreadStepJobConfig`(
   // 멀티쓰레드로 동작
   // 한 개 쓰레드드가 한 개 chunkSize 를 처리
   @Bean
-  fun taskExecutor(): TaskExecutor = SimpleAsyncTaskExecutor("async-task-executor")
+  fun taskExecutor(): TaskExecutor {
+    val taskExecutor = SimpleAsyncTaskExecutor("async-task-executor")
+    taskExecutor.concurrencyLimit = 4
+    return taskExecutor
+  }
 
   @StepScope
   @Bean
