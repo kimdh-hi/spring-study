@@ -18,4 +18,17 @@ Jenkins (👍)
 
 ---
 
+### Batch 병렬처리
+
+Multi-threaded step
+- 싱글 프로세스 내에서 멀티 쓰레드 활용 
+
+Parallel step
+- 싱글 프로세스에서 멀티 쓰레드 활용
+
+Remote chunking
+- 멀티 프로세스 활용 (여러 개 서버)
+
+Partitioning
+- step을 파티셔닝한 후 여러 쓰레드에서 처리되도록 or 멀티 프로세스 활용
 
