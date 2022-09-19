@@ -135,6 +135,22 @@ public interface Comparator<T> {
 
 파라미터 위치 기준으로 **앞이 작으면 음수, 앞이 크면 양수**
 
+```java
+public static void main(String[] args) {
+List<User> users = new ArrayList<>();
+users.add(new User(1, "kim"));
+users.add(new User(3, "lee"));
+users.add(new User(2, "park"));
+
+Comparator<User> userIdComparator = (u1, u2) -> u1.getId() - u2.getId(); // id 기준 오름차순 정렬
+Collections.sort(users, userIdComparator);
+System.out.println(users);
+
+Collections.sort(users, (u1, u2) -> u2.getName().compareTo(u1.getName())); // 이름 기준 내림차순 정렬
+System.out.println(users);
+}
+```
+
 `@FunctionalInterface`
 - 하나의 추상 메서드를 가지는 인터페이스 (default, static 메서드는 상관없다.)
 
