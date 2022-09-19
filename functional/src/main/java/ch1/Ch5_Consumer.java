@@ -10,12 +10,18 @@ public class Ch5_Consumer {
     myConsumer.accept("test");
 
     Consumer myConsumer2 = item -> System.out.println("some logic applied.. " + item);
+    Consumer myConsumer3 = item -> System.out.println("some different logic applied.. " + item);
+
     List<Integer> list = Arrays.asList(1,2,3,4,5);
     process(list, myConsumer2);
+    process(list, myConsumer3);
+
+    List<Double> doubleList = Arrays.asList(1.1,2.2,3.3,4.4,5.5);
+    process(doubleList, myConsumer2);
   }
 
-  public static void process(List<Integer> list, Consumer<Integer> consumer) {
-    for(Integer item: list) {
+  public static <T> void process(List<T> list, Consumer<T> consumer) {
+    for(T item: list) {
       consumer.accept(item);
     }
   }
