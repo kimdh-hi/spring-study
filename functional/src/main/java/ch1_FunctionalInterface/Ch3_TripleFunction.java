@@ -1,6 +1,6 @@
-package ch1;
+package ch1_FunctionalInterface;
 
-import ch1.utils.TripleFunction;
+import ch1_FunctionalInterface.utils.TripleFunction;
 
 public class Ch3_TripleFunction {
   public static void main(String[] args) {

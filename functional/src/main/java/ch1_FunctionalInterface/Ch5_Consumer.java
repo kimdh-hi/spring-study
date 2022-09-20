@@ -1,4 +1,4 @@
-package ch1;
+package ch1_FunctionalInterface;
 
 import java.util.Arrays;
 import java.util.List;

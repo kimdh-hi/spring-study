@@ -1,4 +1,4 @@
-package ch1.utils;
+package ch1_FunctionalInterface.utils;
 
 import java.util.function.Function;
 

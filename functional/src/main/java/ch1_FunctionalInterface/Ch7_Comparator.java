@@ -1,6 +1,6 @@
-package ch1;
+package ch1_FunctionalInterface;
 
-import ch1.model.User;
+import ch1_FunctionalInterface.model.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
