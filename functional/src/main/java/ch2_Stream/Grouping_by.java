@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/*
+Function 의 반환값이 key 값이 되고 Function 의 입력값은 해당 key 의 값이 된다.
+ */
 public class Grouping_by {
   public static void main(String[] args) {
     // 3으로 나눈 나머지는 key로 한다
