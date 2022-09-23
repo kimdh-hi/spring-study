@@ -25,7 +25,7 @@ subprojects {
   apply(plugin = "io.spring.dependency-management")
 
   dependencies {
-    implementation("com.auth0:java-jwt:4.0.0")
+    implementation("com.auth0:java-jwt:3.19.2")
     implementation("io.github.microutils:kotlin-logging:3.0.0")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
