@@ -12,12 +12,14 @@ spring:
       enabled: true
       path: /h2-console
   jpa:
-    open-in-view: false
-    hibernate.ddl-auto: create
+    generate-ddl: true
     properties:
       hibernate:
-        show_sql: false
-        format_sql: true
+        ddl-auto: create
+        dialect: org.hibernate.dialect.H2Dialect
+      org.hibernate.envers:
+        audit_table_suffix: _h
+        store_data_at_delete: true
     defer-datasource-initialization: true
 
 logging:

@@ -37,6 +37,7 @@ dependencies {
   kotlin.sourceSets.main {
     setBuildDir("$buildDir")
   }
+  implementation("org.hibernate:hibernate-envers")
 
 
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

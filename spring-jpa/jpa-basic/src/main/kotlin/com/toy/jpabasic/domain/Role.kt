@@ -4,8 +4,8 @@ import com.toy.jpabasic.common.constants.AuthorityConstants
 import org.hibernate.annotations.GenericGenerator
 import javax.persistence.*
 
-@Table
-@Entity(name = "tb_role")
+@Entity
+@Table(name = "tb_role")
 class Role (
   @Id
   @GeneratedValue(generator = "uuid")

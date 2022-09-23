@@ -1,7 +1,8 @@
 insert into tb_role(id, name)
 values
     ('role-01', '관리자'),
-    ('role-02', '사용자');
+    ('role-02', '사용자')
+;
 
 insert into tb_join_role_authorities(role_id, authority)
 values
