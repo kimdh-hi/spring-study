@@ -1,6 +1,7 @@
 package com.lecture.issueservice.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.lecture.issueservice.domain.Comment
 import com.lecture.issueservice.domain.Issue
 import com.lecture.issueservice.domain.enums.IssuePriority
 import com.lecture.issueservice.domain.enums.IssueStatus
@@ -26,7 +27,9 @@ data class IssueResponse(
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   val createdAt: LocalDateTime?,
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  val updatedAt: LocalDateTime?
+  val updatedAt: LocalDateTime?,
+
+  val comments: List<CommentResponse> = emptyList()
 ) {
   companion object {
     operator fun invoke(issue: Issue) = with(issue) {
@@ -39,7 +42,9 @@ data class IssueResponse(
         status = status,
         userId = userId,
         createdAt = createdAt,
-        updatedAt = updatedAt
+        updatedAt = updatedAt,
+
+        comments = comments.sortedByDescending(Comment::createdAt).map { CommentResponse(it) }
       )
     }
   }

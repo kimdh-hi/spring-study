@@ -1,0 +1,18 @@
+### create comment
+POST http://localhost:8080/api/v1/issues/1/comments
+Content-Type: application/json
+
+{
+  "body": "test-comment1"
+}
+
+### edit comment
+PUT http://localhost:8080/api/v1/issues/1/comments/1
+Content-Type: application/json
+
+{
+  "body": "update-comment222"
+}
+
+### delete comment
+DELETE http://localhost:8080/api/v1/issues/1/comments/1
