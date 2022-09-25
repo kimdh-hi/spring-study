@@ -6,9 +6,11 @@ import com.lecture.issueservice.model.IssueRequest
 import com.lecture.issueservice.model.IssueResponse
 import com.lecture.issueservice.service.IssueService
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -44,5 +46,24 @@ class IssueController(
   ): ResponseEntity<IssueResponse> {
     val response = issueService.get(issueId)
     return ResponseEntity.ok(response)
+  }
+
+  @PutMapping("/{issueId}")
+  fun edit(
+    authUser: AuthUser,
+    @PathVariable issueId: Long,
+    @RequestBody request: IssueRequest
+  ): ResponseEntity<IssueResponse> {
+    val response = issueService.edit(authUser.userId, issueId, request)
+    return ResponseEntity.ok(response)
+  }
+
+  @DeleteMapping("/{issueId}")
+  fun delete(
+    authUser: AuthUser,
+    @PathVariable issueId: Long,
+  ): ResponseEntity<Unit> {
+    issueService.delete(issueId)
+    return ResponseEntity.noContent().build()
   }
 }

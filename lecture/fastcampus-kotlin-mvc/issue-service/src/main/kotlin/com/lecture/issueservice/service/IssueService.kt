@@ -2,10 +2,10 @@ package com.lecture.issueservice.service
 
 import com.lecture.issueservice.domain.Issue
 import com.lecture.issueservice.domain.enums.IssueStatus
+import com.lecture.issueservice.exception.NotFoundException
 import com.lecture.issueservice.model.IssueRequest
 import com.lecture.issueservice.model.IssueResponse
 import com.lecture.issueservice.repository.IssueRepository
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -35,7 +35,26 @@ class IssueService(
   }
 
   fun get(issueId: Long): IssueResponse {
-    val issue = issueRepository.findByIdOrNull(issueId) ?: throw NotFoundException()
+    val issue = issueRepository.findByIdOrNull(issueId) ?: throw NotFoundException("issue not found...")
     return IssueResponse(issue)
+  }
+
+  @Transactional
+  fun edit(userId: Long, issueId: Long, request: IssueRequest): IssueResponse {
+    val issue = issueRepository.findByIdOrNull(issueId) ?: throw NotFoundException("issue not found...")
+    return with(issue) {
+      summary = request.summary
+      description = request.description
+      type = request.type
+      priority = request.priority
+      status = request.status
+      this.userId = userId
+      IssueResponse(this)
+    }
+  }
+
+  @Transactional
+  fun delete(issueId: Long) {
+    issueRepository.deleteById(issueId)
   }
 }
