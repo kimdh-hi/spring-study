@@ -1,1 +1,7 @@
 server.port: 8901
+
+jwt:
+  issuer: dhkim2
+  subject: auth
+  expires-hours: 1
+  secret: secret...
