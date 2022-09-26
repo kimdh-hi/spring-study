@@ -34,5 +34,5 @@ data class JwtClaim(
   val userId: Long,
   val username: String,
   val name: String,
-  val profileUrl: String
+  val profileUrl: String?
 )

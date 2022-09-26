@@ -9,4 +9,11 @@ data class AlreadyExistsDataException(
   override val message: String = "already exists data..."
 ): ServerException(9001, message)
 
+data class NotFoundException(
+  override val message: String = "data not found..."
+): ServerException(9002, message)
+
+data class UsernameOrPasswordNotMatchedException(
+  override val message: String = "username or password not matched..."
+): ServerException(9003, message)
 
