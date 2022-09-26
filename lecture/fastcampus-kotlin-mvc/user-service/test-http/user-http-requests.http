@@ -1,0 +1,9 @@
+### signup
+POST http://localhost:8901/api/v1/users
+Content-Type: application/json
+
+{
+  "username": "test@gmail.com",
+  "password": "test1234",
+  "name": "test-name"
+}

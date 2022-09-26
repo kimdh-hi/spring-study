@@ -1,8 +1,12 @@
 package com.lecture.userservice.exception
 
 sealed class ServerException(
-  val code: Int,
+  open val code: Int,
   override val message: String
 ): RuntimeException(message)
+
+data class AlreadyExistsDataException(
+  override val message: String = "already exists data..."
+): ServerException(9001, message)
 
 
