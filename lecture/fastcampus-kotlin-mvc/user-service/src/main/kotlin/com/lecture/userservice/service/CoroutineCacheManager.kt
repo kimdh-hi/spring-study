@@ -4,19 +4,43 @@ import org.springframework.stereotype.Component
 import java.time.Duration
 import java.time.Instant
 import java.util.concurrent.ConcurrentHashMap
+import java.util.function.Supplier
 
 @Component
-class CoroutineCacheManager<T> {
+class CoroutineCacheManager<T : Any> {
 
-  private val localCache = ConcurrentHashMap<String, CacheWrapper<T>>()
+  private val localCache = ConcurrentHashMap<String, CachedData<T>>()
 
   suspend fun put(key: String, value: T, ttl: Duration) {
-    localCache[key] = CacheWrapper(value, Instant.now().plusMillis(ttl.toMillis()))
+    localCache[key] = CachedData(value, Instant.now().plusMillis(ttl.toMillis()))
   }
 
   suspend fun evict(key: String) {
     localCache.remove(key)
   }
 
-  data class CacheWrapper<T>(val data: T, val ttl: Instant)
+  suspend fun getOrPut(
+    key: String,
+    ttl: Duration,
+    supplier: suspend () -> T,
+  ): T {
+    val now = Instant.now()
+    val cachedData = localCache[key]
+    val cache = if (cachedData == null) {
+      CachedData(data = supplier(), ttl = now.plusMillis(ttl.toMillis())).also {
+        localCache[key] = it
+      }
+    } else if (now.isAfter(cachedData.ttl)) {
+      localCache.remove(key)
+      CachedData(data = supplier(), ttl = now.plusMillis(ttl.toMillis())).also {
+        localCache[key] = it
+      }
+    } else {
+      cachedData
+    }
+    checkNotNull(cache.data)
+    return cache.data
+  }
+
+  data class CachedData<T>(val data: T, val ttl: Instant)
 }

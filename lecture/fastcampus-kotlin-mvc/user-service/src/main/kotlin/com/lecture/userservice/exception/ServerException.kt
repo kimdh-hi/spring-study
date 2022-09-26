@@ -17,3 +17,7 @@ data class UsernameOrPasswordNotMatchedException(
   override val message: String = "username or password not matched..."
 ): ServerException(9003, message)
 
+data class InvalidJwtTokenException(
+  override val message: String = "jwt token is invalid..."
+): ServerException(9004, message)
+

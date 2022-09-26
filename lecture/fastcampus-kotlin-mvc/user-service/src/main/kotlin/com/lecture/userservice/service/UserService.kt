@@ -3,11 +3,13 @@ package com.lecture.userservice.service
 import com.lecture.userservice.config.JwtProperties
 import com.lecture.userservice.domain.User
 import com.lecture.userservice.exception.AlreadyExistsDataException
+import com.lecture.userservice.exception.InvalidJwtTokenException
 import com.lecture.userservice.exception.NotFoundException
 import com.lecture.userservice.exception.UsernameOrPasswordNotMatchedException
 import com.lecture.userservice.model.SignInRequest
 import com.lecture.userservice.model.SignInResponse
 import com.lecture.userservice.model.SignupRequest
+import com.lecture.userservice.model.UserMeResponse
 import com.lecture.userservice.repository.UserRepository
 import com.lecture.userservice.utils.BCryptUtils
 import com.lecture.userservice.utils.JwtClaim
@@ -39,7 +41,7 @@ class UserService(
   }
 
   suspend fun signIn(request: SignInRequest): SignInResponse =
-    with(userRepository.findByUsername(request.username) ?: throw NotFoundException("[signup] user not found...")) {
+    with(userRepository.findByUsername(request.username) ?: throw NotFoundException("user not found...")) {
       val verified = BCryptUtils.verify(request.password, password)
       if (!verified)
         throw UsernameOrPasswordNotMatchedException()
@@ -58,5 +60,14 @@ class UserService(
 
   suspend fun logout(token: String) {
     cacheManager.evict(token)
+  }
+
+  suspend fun getByToken(token: String): UserMeResponse {
+    val cachedUser = cacheManager.getOrPut(key = token, ttl = CACHE_TTL) {
+      val decodedToken = JwtUtils.decode(token, jwtProperties.secret, jwtProperties.issuer)
+      val userId = decodedToken.claims["userId"]?.asLong() ?: throw InvalidJwtTokenException()
+      userRepository.findById(userId) ?: throw NotFoundException("user not found...")
+    }
+    return UserMeResponse(cachedUser)
   }
 }
