@@ -1,4 +1,4 @@
-package ch1_FunctionalInterface.utils;
+package ch1_functionalInterface.utils;
 
 @FunctionalInterface
 public interface TripleFunction<T, U, V, R> {

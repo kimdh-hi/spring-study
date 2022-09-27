@@ -1,4 +1,4 @@
-package ch2_Stream;
+package ch2_stream;
 
 import java.util.List;
 import java.util.Set;

@@ -1,8 +1,7 @@
-package ch2_Stream;
+package ch2_stream;
 
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class ForEachWithIndex {
   public static void main(String[] args) {

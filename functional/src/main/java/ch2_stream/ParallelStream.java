@@ -1,4 +1,4 @@
-package ch2_Stream;
+package ch2_stream;
 
 /*
 중간과정은 병렬로 처리되지만 종결처리에 의해 순서가 보장된다. (collect 등의 종결처리)

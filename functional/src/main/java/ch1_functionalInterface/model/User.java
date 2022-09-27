@@ -1,4 +1,4 @@
-package ch1_FunctionalInterface.model;
+package ch1_functionalInterface.model;
 
 public class User {
   private int id;
