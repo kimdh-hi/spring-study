@@ -1,11 +1,8 @@
 package com.toy.restdocsdemo.controller
 
-import com.toy.restdocsdemo.repository.UserRepository
 import com.toy.restdocsdemo.service.UserService
 import com.toy.restdocsdemo.vo.UserCreateRequestVO
-import com.toy.restdocsdemo.vo.UserResponseVO
 import com.toy.restdocsdemo.vo.UserUpdateRequestVO
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -24,6 +21,12 @@ class UserController(
   @GetMapping
   fun list() = ResponseEntity.ok(userService.list())
 
-  @PutMapping
-  fun update(@RequestBody requestVO: UserUpdateRequestVO) = ResponseEntity.noContent()
+  @PutMapping("/{id}")
+  fun update(
+    @PathVariable id: Long,
+    @RequestBody requestVO: UserUpdateRequestVO
+  ): ResponseEntity<Unit> {
+    userService.update(id, requestVO)
+    return ResponseEntity.noContent().build()
+  }
 }

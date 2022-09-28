@@ -5,10 +5,12 @@ import com.toy.restdocsdemo.repository.UserRepository
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
 @SpringBootApplication
+@EnableJpaAuditing
 class RestDocsDemoApplication
 
 fun main(args: Array<String>) {

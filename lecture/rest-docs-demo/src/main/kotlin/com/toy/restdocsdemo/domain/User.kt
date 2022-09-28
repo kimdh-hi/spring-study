@@ -1,17 +1,23 @@
 package com.toy.restdocsdemo.domain
 
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
 @Table(name = "users")
+@EntityListeners(AuditingEntityListener::class)
 class User(
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   var id: Long? = null,
   var email: String,
   var name: String,
+  @CreatedDate
   var createdAt: LocalDateTime? = null,
+  @LastModifiedDate
   var updatedAt: LocalDateTime? = null
 ) {
 
