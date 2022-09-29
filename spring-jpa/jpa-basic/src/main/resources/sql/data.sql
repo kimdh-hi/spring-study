@@ -19,3 +19,23 @@ values
 ;
 
 insert into tb_email_authentication(id, user_id) values('auth-01', 'user-01');
+
+insert into tb_member(id, name)
+values
+    ('member-01', 'm1'),
+    ('member-02', 'm2'),
+    ('member-03', 'm3'),
+    ('member-04', 'm4')
+;
+
+insert into tb_group(id, name)
+values
+    ('group-01', 'g1'),
+    ('group-02', 'g2')
+;
+
+insert into tb_group_member(id, member_id, group_id, sb_application_id, sb_api_token)
+values
+    ('group-member-1', 'member-01', 'group-01', 'sb-appId-1111', 'sb-api-token1111'),
+    ('group-member-2', 'member-01', 'group-02', 'sb-appId-2222', 'sb-api-token222')
+;
