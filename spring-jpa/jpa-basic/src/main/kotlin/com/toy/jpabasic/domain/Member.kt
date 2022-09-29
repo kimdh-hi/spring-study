@@ -1,6 +1,8 @@
 package com.toy.jpabasic.domain
 
 import org.hibernate.annotations.GenericGenerator
+import java.util.stream.Collectors
+import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
@@ -16,6 +18,9 @@ class Member(
   var id: String? = null,
 
   var name: String,
+
+  @OneToMany(mappedBy = "member", cascade = [CascadeType.REMOVE])
+  val groupMembers: MutableList<GroupMember> = mutableListOf()
 ) {
   override fun toString(): String {
     return "Member(id=$id, name='$name')"

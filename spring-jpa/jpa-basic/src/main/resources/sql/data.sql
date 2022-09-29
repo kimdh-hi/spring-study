@@ -25,17 +25,22 @@ values
     ('member-01', 'm1'),
     ('member-02', 'm2'),
     ('member-03', 'm3'),
-    ('member-04', 'm4')
+    ('member-04', 'm4'),
+    ('member-05', 'm5'),
+    ('member-06', 'm6'),
+    ('member-07', 'm7')
 ;
 
 insert into tb_group(id, name)
 values
     ('group-01', 'g1'),
-    ('group-02', 'g2')
+    ('group-02', 'g2'),
+    ('group-03', 'g3')
 ;
 
-insert into tb_group_member(id, member_id, group_id, sb_application_id, sb_api_token)
-values
-    ('group-member-1', 'member-01', 'group-01', 'sb-appId-1111', 'sb-api-token1111'),
-    ('group-member-2', 'member-01', 'group-02', 'sb-appId-2222', 'sb-api-token222')
-;
+-- insert into tb_group_member(id, member_id, group_id, sb_application_id, sb_api_token)
+-- values
+--     ('group-member-1', 'member-01', 'group-01', 'sb-appId-1111', 'sb-api-token1-1'),
+--     ('group-member-2', 'member-01', 'group-02', 'sb-appId-2222', 'sb-api-token2-1'),
+--     ('group-member-3', 'member-01', 'group-03', 'sb-appId-3333', 'sb-api-token3-1')
+-- ;

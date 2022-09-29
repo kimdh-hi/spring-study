@@ -1,10 +1,7 @@
 package com.toy.jpabasic.domain
 
 import org.hibernate.annotations.GenericGenerator
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "tb_group")
@@ -15,6 +12,9 @@ class Group(
   var id: String? = null,
 
   var name: String,
+
+  @OneToMany(mappedBy = "member", cascade = [CascadeType.REMOVE])
+  val groupMembers: MutableList<GroupMember> = mutableListOf()
 ) {
   override fun toString(): String {
     return "Group(id=$id, name='$name')"

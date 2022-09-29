@@ -17,6 +17,7 @@ spring:
       hibernate:
         ddl-auto: create
         dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
       org.hibernate.envers:
         audit_table_suffix: _h
         store_data_at_delete: true

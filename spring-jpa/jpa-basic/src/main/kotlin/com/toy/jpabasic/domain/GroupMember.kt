@@ -1,28 +1,18 @@
 package com.toy.jpabasic.domain
 
-import org.hibernate.annotations.GenericGenerator
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.Table
+import java.io.Serial
+import java.io.Serializable
+import javax.persistence.*
 
 @Entity
 @Table(name = "tb_group_member")
 class GroupMember(
-  @Id
-  @GeneratedValue(generator = "uuid")
-  @GenericGenerator(name = "uuid", strategy = "uuid2")
-  var id: String? = null,
-
-  @ManyToOne
-  @JoinColumn(name = "member_id")
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "member_id", nullable = false, insertable = false, updatable = false)
   var member: Member,
 
-  @ManyToOne
-  @JoinColumn(name = "group_id")
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "group_id", nullable = false, insertable = false, updatable = false)
   var group: Group,
 
   @Column(nullable = false)
@@ -30,6 +20,33 @@ class GroupMember(
   @Column(nullable = false)
   var sbApiToken: String
 ) {
+
+  @EmbeddedId
+  var id: ID = ID(member.id!!, group.id!!)
+
+  companion object {
+    fun of(member: Member, group: Group, sbAppId: String, sbApiToken: String) = GroupMember(
+      member = member,
+      group = group,
+      sbApplicationId = sbAppId,
+      sbApiToken = sbApiToken
+    )
+  }
+
+  @Embeddable
+  data class ID (
+    @Column(name = "member_id")
+    var memberId: String,
+
+    @Column(name = "group_id")
+    var groupId: String
+  ): Serializable {
+    companion object {
+      @Serial
+      private const val serialVersionUID: Long = 1896183885037009588L
+    }
+  }
+
   override fun toString(): String {
     return "GroupMember(id=$id, member.id=${member.id}, group.id=${group.id}, sbApplicationId='$sbApplicationId', sbApiToken='$sbApiToken')"
   }
