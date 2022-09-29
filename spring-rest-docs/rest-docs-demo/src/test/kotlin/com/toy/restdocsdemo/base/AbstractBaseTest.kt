@@ -1,15 +1,20 @@
 package com.toy.restdocsdemo.base
 
+import com.jayway.jsonpath.internal.JsonFormatter.prettyPrint
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
+import org.springframework.boot.test.autoconfigure.restdocs.RestDocsMockMvcConfigurationCustomizer
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
 import org.springframework.restdocs.RestDocumentationContextProvider
 import org.springframework.restdocs.RestDocumentationExtension
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
+import org.springframework.restdocs.operation.preprocess.Preprocessors
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
@@ -21,10 +26,10 @@ import org.springframework.web.context.WebApplicationContext
 import org.springframework.web.filter.CharacterEncodingFilter
 
 @SpringBootTest
-@AutoConfigureMockMvc
-@Transactional
 @AutoConfigureRestDocs
-@ExtendWith(RestDocumentationExtension::class, SpringExtension::class)
+@Import(RestDocsConfiguration::class)
+@ExtendWith(RestDocumentationExtension::class)
+@Transactional
 abstract class AbstractBaseTest {
 
   protected lateinit var mockMvc: MockMvc
@@ -43,5 +48,17 @@ abstract class AbstractBaseTest {
         )
       )
       .build()
+  }
+}
+
+@TestConfiguration
+class RestDocsConfiguration {
+  @Bean
+  fun restDocsMockMvcConfigurationCustomizer(): RestDocsMockMvcConfigurationCustomizer {
+    return RestDocsMockMvcConfigurationCustomizer {
+      it.operationPreprocessors()
+        .withRequestDefaults(Preprocessors.prettyPrint())
+        .withResponseDefaults(Preprocessors.prettyPrint())
+    }
   }
 }

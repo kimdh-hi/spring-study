@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
@@ -29,6 +30,13 @@ internal class UserControllerTest: AbstractBaseTest() {
     //then
     result
       .andExpect { status { isOk() } }
+      .andDo {
+        handle(
+          document(
+            "user-list"
+          )
+        )
+      }
 
   }
 
@@ -41,6 +49,13 @@ internal class UserControllerTest: AbstractBaseTest() {
     //then
     result
       .andExpect { status { isOk() } }
+      .andDo {
+        handle(
+          document(
+            "user-read"
+          )
+        )
+      }
   }
 
   @Test
@@ -53,7 +68,13 @@ internal class UserControllerTest: AbstractBaseTest() {
       contentType = MediaType.APPLICATION_JSON
       content = ObjectMapper().writeValueAsString(requestVO)
     }
-      .andDo { print() }
+      .andDo {
+        handle(
+          document(
+            "user-create"
+          )
+        )
+      }
 
     //then
     result
@@ -70,7 +91,13 @@ internal class UserControllerTest: AbstractBaseTest() {
       contentType = MediaType.APPLICATION_JSON
       content = ObjectMapper().writeValueAsString(requestVO)
     }
-      .andDo { print() }
+      .andDo {
+        handle(
+          document(
+            "user-update"
+          )
+        )
+      }
 
     //then
     result

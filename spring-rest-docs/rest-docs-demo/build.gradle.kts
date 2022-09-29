@@ -57,11 +57,6 @@ tasks.withType<Test> {
 }
 
 tasks {
-  test {
-    useJUnitPlatform()
-    outputs.dir(snippetsDir)
-  }
-
   asciidoctor {
     dependsOn(test)
     configurations("asciidoctorExt")

@@ -12,9 +12,36 @@ Andy Wilkinson
 
 [[User-read]]
 === User read
+include::{snippets}/user-read/curl-request.adoc[]
+include::{snippets}/user-read/http-request.adoc[]
+include::{snippets}/user-read/http-response.adoc[]
+include::{snippets}/user-read/httpie-request.adoc[]
+include::{snippets}/user-read/request-body.adoc[]
+include::{snippets}/user-read/response-body.adoc[]
+
 [[User-list]]
 === User list
+include::{snippets}/user-list/curl-request.adoc[]
+include::{snippets}/user-list/http-request.adoc[]
+include::{snippets}/user-list/http-response.adoc[]
+include::{snippets}/user-list/httpie-request.adoc[]
+include::{snippets}/user-list/request-body.adoc[]
+include::{snippets}/user-list/response-body.adoc[]
+
 [[User-create]]
 === User create
+include::{snippets}/user-create/curl-request.adoc[]
+include::{snippets}/user-create/http-request.adoc[]
+include::{snippets}/user-create/http-response.adoc[]
+include::{snippets}/user-create/httpie-request.adoc[]
+include::{snippets}/user-create/request-body.adoc[]
+include::{snippets}/user-create/response-body.adoc[]
+
 [[User-update]]
 === User update
+include::{snippets}/user-update/curl-request.adoc[]
+include::{snippets}/user-update/http-request.adoc[]
+include::{snippets}/user-update/http-response.adoc[]
+include::{snippets}/user-update/httpie-request.adoc[]
+include::{snippets}/user-update/request-body.adoc[]
+include::{snippets}/user-update/response-body.adoc[]
