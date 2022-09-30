@@ -16,7 +16,6 @@ class UserController(private val userService: UserService) {
     @GetMapping("/{id}")
     fun read(@PathVariable id: String): ResponseEntity<UserVO> {
         val responseVO = userService.read(id)
-
         return ResponseEntity.ok(responseVO)
     }
 }

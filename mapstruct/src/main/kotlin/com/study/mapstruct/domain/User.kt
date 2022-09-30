@@ -11,12 +11,13 @@ class User (
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     var id: String? = null,
-    var username: String
+    var username: String,
+    var name: String
 ) {
 
     companion object {
-        fun newInstance(username: String): User {
-            return User(username = username)
+        fun newInstance(username: String, name: String): User {
+            return User(username = username, name = name)
         }
     }
 

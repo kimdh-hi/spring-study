@@ -2,15 +2,20 @@ package com.study.mapstruct.mapper
 
 import com.study.mapstruct.domain.User
 import com.study.mapstruct.vo.UserVO
+import org.mapstruct.InheritInverseConfiguration
 import org.mapstruct.Mapper
-import org.mapstruct.ReportingPolicy
+import org.mapstruct.Mapping
+import org.mapstruct.Mappings
 
-interface GenericMapper<E, V> {
-    fun toEntity(vo: V): E
-    fun toVO(entity: E): V
-}
+@Mapper
+interface UserMapper {
+//    @Mapping(source = "username", target = "username")
+    @Mappings(
+        Mapping(source = "username", target = "username"),
+        Mapping(source = "name", target = "name")
+    )
+    fun toVO(user: User): UserVO
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-interface UserMapper: GenericMapper<User, UserVO> {
-
+    @InheritInverseConfiguration
+    fun toEntity(userVO: UserVO): User
 }
