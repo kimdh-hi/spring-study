@@ -9,20 +9,19 @@ import javax.persistence.*
 class GroupMember(
   @ManyToOne(optional = false)
   @JoinColumn(name = "member_id", nullable = false, insertable = false, updatable = false)
-  var member: Member,
+  final var member: Member,
 
   @ManyToOne(optional = false)
   @JoinColumn(name = "group_id", nullable = false, insertable = false, updatable = false)
-  var group: Group,
+  final var group: Group,
 
   @Column(nullable = false)
   var sbApplicationId: String,
   @Column(nullable = false)
   var sbApiToken: String
 ) {
-
   @EmbeddedId
-  var id: ID = ID(member.id!!, group.id!!)
+  var id: ID = ID(groupId = group.id!!, memberId = member.id!!)
 
   companion object {
     fun of(member: Member, group: Group, sbAppId: String, sbApiToken: String) = GroupMember(
@@ -35,11 +34,11 @@ class GroupMember(
 
   @Embeddable
   data class ID (
-    @Column(name = "member_id")
-    var memberId: String,
-
     @Column(name = "group_id")
-    var groupId: String
+    var groupId: String? = null,
+
+    @Column(name = "member_id")
+    var memberId: String? = null,
   ): Serializable {
     companion object {
       @Serial

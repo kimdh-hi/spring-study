@@ -38,9 +38,9 @@ values
     ('group-03', 'g3')
 ;
 
--- insert into tb_group_member(id, member_id, group_id, sb_application_id, sb_api_token)
--- values
---     ('group-member-1', 'member-01', 'group-01', 'sb-appId-1111', 'sb-api-token1-1'),
---     ('group-member-2', 'member-01', 'group-02', 'sb-appId-2222', 'sb-api-token2-1'),
---     ('group-member-3', 'member-01', 'group-03', 'sb-appId-3333', 'sb-api-token3-1')
--- ;
+insert into tb_group_member(member_id, group_id, sb_application_id, sb_api_token)
+values
+    ('member-01', 'group-01', 'sb-appId-1111', 'sb-api-token1-1'),
+    ('member-01', 'group-02', 'sb-appId-2222', 'sb-api-token2-1'),
+    ('member-01', 'group-03', 'sb-appId-3333', 'sb-api-token3-1')
+;

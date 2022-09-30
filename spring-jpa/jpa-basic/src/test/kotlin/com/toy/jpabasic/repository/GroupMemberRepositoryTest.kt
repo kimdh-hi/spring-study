@@ -86,7 +86,20 @@ class GroupMemberRepositoryTest(
         assertTrue(it.group.id == groupId)
       }
     })
+  }
 
-    println(groupMembers)
+  @Test
+  fun delete() {
+    //given
+    val gm = GroupMember.of(group = TestData.GROUP_01, member = TestData.MEMBER_01, sbAppId = "app111", sbApiToken = "apptoken111")
+    val savedGM = groupMemberRepository.save(gm)
+
+    //when
+    val targetGM = groupMemberRepository.findByIdOrNull(savedGM.id)!!
+    groupMemberRepository.delete(targetGM)
+
+    //then
+    val exists = groupMemberRepository.existsById(GroupMember.ID(TestData.GROUP_01.id, TestData.MEMBER_01.id))
+    assertFalse(exists)
   }
 }
