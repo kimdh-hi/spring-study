@@ -154,7 +154,14 @@ System.out.println(users);
 `@FunctionalInterface`
 - 하나의 추상 메서드를 가지는 인터페이스 (default, static 메서드는 상관없다.)
 
+---
 
+### Stream Pipeline
+
+구성요소
+- 소스: Collection, Array ...
+- 중간처리: filter, map ... 
+- 종결처리: collect, reduce ...
 
 
 
