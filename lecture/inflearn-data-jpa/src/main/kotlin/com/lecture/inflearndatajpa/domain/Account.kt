@@ -20,16 +20,10 @@ class Account(
   )
   var address: Address,
 
-) {
-  companion object {
-    fun of(
-      username: String,
-      password: String,
-      address: Address
-    ) = Account(
-      username = username,
-      password = password,
-      address = address,
-    )
-  }
-}
+  /*
+  @OneToMany
+  default: JoinTable 방식
+   */
+  @OneToMany(mappedBy = "owner")
+  val studies: MutableSet<Study> = mutableSetOf()
+)
