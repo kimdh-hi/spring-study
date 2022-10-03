@@ -1,5 +1,6 @@
-package com.lecture.utils
+package com.lecture.snsapp.utils
 
+import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
@@ -28,5 +29,25 @@ object JwtUtils {
   private fun getKey(key: String): Key {
     val keyBytes = key.toByteArray()
     return Keys.hmacShaKeyFor(keyBytes)
+  }
+
+  private fun isValid(token: String) {
+
+  }
+
+  fun isExpired(token: String, key: String): Boolean {
+    val expiration = extractClaims(token, key).expiration
+    return expiration.before(Date())
+  }
+
+  fun getUsername(token: String, key: String): String
+    = extractClaims(token, key).get("username", String::class.java)
+
+  private fun extractClaims(token: String, key: String): Claims {
+    return Jwts.parserBuilder()
+      .setSigningKey(getKey(key))
+      .build()
+      .parseClaimsJwt(token)
+      .body
   }
 }

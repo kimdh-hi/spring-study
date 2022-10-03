@@ -41,6 +41,7 @@ class UserControllerTest(
     val password = "password"
     val requestVO = UserJoinRequestVO(username = username, password = password)
     val responseVO = UserResponseVO(id = 1L, username = username)
+
     //when
     every { userService.join(username, password) } returns responseVO
 

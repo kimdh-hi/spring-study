@@ -7,6 +7,7 @@ enum class ErrorCode(
   INTERNAL_SERVER_ERROR("90000", "Internal server error"),
 
   DUPLICATED_USER_NAME("91001", "user name is duplicated"),
-  LOGIN_FAILED("92002", "failed to login");
+  USER_NOT_FOUND("91002", "user not found"),
+  LOGIN_FAILED("92003", "failed to login");
 
 }

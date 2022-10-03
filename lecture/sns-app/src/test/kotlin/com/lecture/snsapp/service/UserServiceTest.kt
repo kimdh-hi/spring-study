@@ -2,6 +2,7 @@ package com.lecture.snsapp.service
 
 import com.lecture.snsapp.domain.User
 import com.lecture.snsapp.exception.ApplicationException
+import com.lecture.snsapp.exception.ErrorCode
 import com.lecture.snsapp.fixture.UserFixture
 import com.lecture.snsapp.repository.UserRepository
 import com.ninjasquad.springmockk.MockkBean
@@ -9,6 +10,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkClass
 import io.mockk.mockkObject
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -62,9 +64,10 @@ class UserServiceTest(
     every { passwordEncoder.encode(password) } returns "encoded-password"
 
     //then
-    assertThrows<ApplicationException> {
+    val throwsException = assertThrows<ApplicationException> {
       userService.join(username, password)
     }
+    assertEquals(ErrorCode.DUPLICATED_USER_NAME, throwsException.errorCode)
   }
 
   @Test
@@ -94,9 +97,10 @@ class UserServiceTest(
     every { userRepository.findByUsername(username) } returns null
 
     //then
-    assertThrows<ApplicationException> {
+    val throwsException = assertThrows<ApplicationException> {
       userService.login(username, password)
     }
+    assertEquals(ErrorCode.LOGIN_FAILED, throwsException.errorCode)
   }
 
   @Test
@@ -112,8 +116,9 @@ class UserServiceTest(
     every { passwordEncoder.matches(wrongPassword, any()) } returns false
 
     //then
-    assertThrows<ApplicationException> {
+    val throwsException =  assertThrows<ApplicationException> {
       userService.login(username, wrongPassword)
     }
+    assertEquals(ErrorCode.LOGIN_FAILED, throwsException.errorCode)
   }
 }

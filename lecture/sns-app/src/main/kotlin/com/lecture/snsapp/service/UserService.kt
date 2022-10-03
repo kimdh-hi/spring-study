@@ -5,8 +5,10 @@ import com.lecture.snsapp.exception.ApplicationException
 import com.lecture.snsapp.exception.ErrorCode
 import com.lecture.snsapp.repository.UserRepository
 import com.lecture.snsapp.vo.UserResponseVO
-import com.lecture.utils.JwtUtils
+import com.lecture.snsapp.utils.JwtUtils
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -37,4 +39,8 @@ class UserService(
       throw ApplicationException(ErrorCode.LOGIN_FAILED)
     return JwtUtils.generateToken(username, secretKey, expiryTimeMs.toLong())
   }
+
+  fun loadUserByUsername(username: String): User
+    = userRepository.findByUsername(username) ?: throw  ApplicationException(ErrorCode.USER_NOT_FOUND)
+
 }
