@@ -1,6 +1,8 @@
 package com.lecture.inflearndatajpa
 
 import com.lecture.inflearndatajpa.domain.*
+import com.lecture.inflearndatajpa.repository.GenericRepository
+import com.lecture.inflearndatajpa.repository.SimpleGenericRepository
 import org.hibernate.Session
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
@@ -14,6 +16,7 @@ import javax.persistence.PersistenceContext
 
 @SpringBootApplication
 //@EnableJpaRepositories(repositoryImplementationPostfix = "SomePostfix") // customRepository 구현체 클래스 네이밍 룰 default=Impl
+@EnableJpaRepositories(repositoryBaseClass = SimpleGenericRepository::class)
 class InflearnDataJpaApplication
 
 fun main(args: Array<String>) {

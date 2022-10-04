@@ -1,8 +1,7 @@
 package com.lecture.inflearndatajpa.repository
 
 import com.lecture.inflearndatajpa.domain.Post
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
