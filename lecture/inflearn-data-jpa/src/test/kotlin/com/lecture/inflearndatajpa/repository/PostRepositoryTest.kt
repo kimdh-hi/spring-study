@@ -48,4 +48,20 @@ class PostRepositoryTest(
     //then
     assertEquals(1, count)
   }
+
+  @Test
+  fun customRepositoryTest() {
+    //given
+    val post = Post(title = "title")
+    val savedPost = postRepository.save(post)
+
+    //when
+    val posts = postRepository.findPost()
+    //then
+    assertEquals(savedPost.id, posts[0].id)
+
+    //when
+    postRepository.delete(savedPost)
+    postRepository.flush()
+  }
 }
