@@ -15,9 +15,9 @@ spring:
       hibernate:
         format_sql: true
 
-logging:
-  level:
-    "[org.springframework.web.filter]": debug
-    "[org.hibernate.SQL]": debug
-    "[org.hibernate.type.descriptor.sql.BasicBinder]": trace
-    "[com.toy]": debug
+#logging:
+#  level:
+#    "[org.springframework.web.filter]": debug
+#    "[org.hibernate.SQL]": debug
+#    "[org.hibernate.type.descriptor.sql.BasicBinder]": trace
+#    "[com.toy]": debug
