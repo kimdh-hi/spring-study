@@ -1,18 +1,24 @@
 package com.lecture.inflearndatajpa.repository
 
+import com.lecture.inflearndatajpa.base.TestConfig
 import com.lecture.inflearndatajpa.domain.Post
+import com.lecture.inflearndatajpa.domain.event.PostPublishedEvent
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.context.ApplicationContext
+import org.springframework.context.annotation.Import
 import org.springframework.data.domain.PageRequest
 import org.springframework.test.annotation.Rollback
 import org.springframework.test.context.TestConstructor
 
 @DataJpaTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+@Import(TestConfig::class)
 class PostRepositoryTest(
-  private val postRepository: PostRepository
+  private val postRepository: PostRepository,
+  private val applicationContext: ApplicationContext,
 ) {
 
   @Test
@@ -62,5 +68,18 @@ class PostRepositoryTest(
     //when
     postRepository.delete(savedPost)
     postRepository.flush()
+  }
+
+  @Test
+  fun eventByApplicationContext() {
+    val post = Post(title = "title")
+    val postPublishedEvent = PostPublishedEvent(post)
+    applicationContext.publishEvent(postPublishedEvent)
+  }
+
+  @Test
+  fun eventByAbstractAggregateRoot() {
+    val post = Post(title = "title")
+    postRepository.save(post.publish())
   }
 }
