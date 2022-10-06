@@ -1,0 +1,11 @@
+### save
+POST http://localhost:8080/api/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "username"
+}
+
+### get
+GET http://localhost:8080/api/users/1
