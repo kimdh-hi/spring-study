@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("org.springframework.boot:spring-boot-starter-aop")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.apache.commons:commons-configuration2:2.7")
   implementation("commons-beanutils:commons-beanutils:1.9.4")
