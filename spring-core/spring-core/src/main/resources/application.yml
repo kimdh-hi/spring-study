@@ -1,4 +1,3 @@
-
 spring:
   sql:
     init:
@@ -29,3 +28,6 @@ logging:
     "[org.hibernate.SQL]": debug
     "[org.hibernate.type.descriptor.sql.BasicBinder]": trace
     "[com.toy]": debug
+
+custom:
+  number: 1
