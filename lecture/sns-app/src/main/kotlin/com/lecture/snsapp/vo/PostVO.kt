@@ -1,5 +1,6 @@
 package com.lecture.snsapp.vo
 
+import com.lecture.snsapp.common.NoArg
 import com.lecture.snsapp.domain.Post
 
 data class PostCreateRequestVO(
@@ -7,6 +8,7 @@ data class PostCreateRequestVO(
   val body: String
 )
 
+@NoArg
 data class PostCreateResponseVO(
   val id: Long,
   val title: String,

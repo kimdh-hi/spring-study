@@ -1,6 +1,7 @@
 package com.lecture.snsapp.controller
 
 import com.lecture.snsapp.common.Response
+import com.lecture.snsapp.domain.User
 import com.lecture.snsapp.service.PostService
 import com.lecture.snsapp.vo.PostCreateRequestVO
 import com.lecture.snsapp.vo.PostCreateResponseVO
@@ -24,7 +25,8 @@ class PostController(
     authentication: Authentication
   ): Response<PostCreateResponseVO> {
     log.info("authentication: {}", authentication)
-    val responseVO = postService.create(requestVO.title, requestVO.body, authentication.name)
+    val user = authentication.principal as User
+    val responseVO = postService.create(requestVO.title, requestVO.body, user.username)
     return Response.success(result = responseVO)
   }
 }

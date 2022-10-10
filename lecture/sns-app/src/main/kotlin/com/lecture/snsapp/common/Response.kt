@@ -12,4 +12,18 @@ class Response<T>(
       result: T
     ): Response<T> = Response(resultCode = resultCode, result = result)
   }
+
+  fun toHttpResponse(): String {
+    return result?.let {
+      """{
+          "resultCode": $resultCode,
+          "result": $result
+      }""".trimIndent()
+    } ?: run {
+      """{
+          "resultCode": $resultCode,
+          "result": ${null}              
+      }""".trimIndent()
+    }
+  }
 }

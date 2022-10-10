@@ -6,6 +6,19 @@ plugins {
   kotlin("jvm") version "1.6.21"
   kotlin("plugin.spring") version "1.6.21"
   kotlin("plugin.jpa") version "1.6.21"
+  kotlin("plugin.noarg") version "1.6.21"
+}
+
+allOpen {
+  annotation("javax.persistence.Entity")
+  annotation("javax.persistence.Embeddable")
+  annotation("javax.persistence.MappedSuperclass")
+}
+
+noArg {
+  annotation("javax.persistence.Entity")
+  annotation("com.lecture.snsapp.common")
+  invokeInitializers = true
 }
 
 group = "com.lecture"

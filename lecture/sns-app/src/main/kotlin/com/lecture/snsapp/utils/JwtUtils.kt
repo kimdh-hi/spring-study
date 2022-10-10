@@ -47,7 +47,7 @@ object JwtUtils {
     return Jwts.parserBuilder()
       .setSigningKey(getKey(key))
       .build()
-      .parseClaimsJwt(token)
+      .parseClaimsJws(token)
       .body
   }
 }
