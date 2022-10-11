@@ -12,6 +12,7 @@ import org.ehcache.core.config.DefaultConfiguration
 import org.ehcache.jsr107.EhcacheCachingProvider
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.CachingConfigurer
+import org.springframework.cache.annotation.CachingConfigurerSupport
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.cache.interceptor.*
 import org.springframework.cache.jcache.JCacheCacheManager
@@ -22,7 +23,7 @@ import javax.cache.Caching
 
 @Configuration
 @EnableCaching
-class EhCacheConfig: CachingConfigurer {
+class EhCacheConfig: CachingConfigurerSupport() {
 
   companion object {
     const val MAX_HEAP_SIZE = 1000L
@@ -46,7 +47,8 @@ class EhCacheConfig: CachingConfigurer {
   private fun getCacheExpiresMap(): MutableMap<String, CacheConfiguration<*, *>> {
     val resourcePools = getResourcePools()
     return HashMap<String, CacheConfiguration<*, *>>().apply {
-      getCacheConfig(TestVO::class.java, 5, 5, resourcePools)?.let { put("CACHE_TEST_VO", it) }
+      put("TEST_CACHE1", getCacheConfig(String::class.java, 3600, 3600, resourcePools))
+      put("TEST_CACHE2", getCacheConfig(TestVO::class.java, 3600, 3600, resourcePools))
     }
   }
 
@@ -59,7 +61,7 @@ class EhCacheConfig: CachingConfigurer {
 
   private fun getCacheConfig(
     valueType: Class<*>, timeToIdleSeconds: Long, timeToLiveSeconds: Long, resourcePools: ResourcePools
-  ): CacheConfiguration<SimpleKey, out Any>? {
+  ): CacheConfiguration<SimpleKey, out Any> {
     return CacheConfigurationBuilder.newCacheConfigurationBuilder(
       SimpleKey::class.java, valueType, resourcePools
     )
