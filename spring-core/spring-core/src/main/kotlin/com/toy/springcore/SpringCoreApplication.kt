@@ -6,22 +6,24 @@ import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.EnableAspectJAutoProxy
+import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.stereotype.Component
 
 @SpringBootApplication
+@EnableAsync
 class SpringCoreApplication
 
 fun main(args: Array<String>) {
   runApplication<SpringCoreApplication>(*args)
 }
 
-@Component
-class AppRunner(
-  private val eventService: EventService
-): ApplicationRunner {
-  override fun run(args: ApplicationArguments?) {
-    eventService.createEvent()
-    eventService.publishEvent()
-    eventService.deleteEvent()
-  }
-}
+//@Component
+//class AppRunner(
+//  private val eventService: EventService
+//): ApplicationRunner {
+//  override fun run(args: ApplicationArguments?) {
+//    eventService.createEvent()
+//    eventService.publishEvent()
+//    eventService.deleteEvent()
+//  }
+//}
