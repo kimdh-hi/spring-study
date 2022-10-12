@@ -14,7 +14,10 @@ class Group(
   var name: String,
 
   @OneToMany(mappedBy = "member", cascade = [CascadeType.REMOVE])
-  val groupMembers: MutableList<GroupMember> = mutableListOf()
+  val groupMembers: MutableList<GroupMember> = mutableListOf(),
+
+  @OneToOne(mappedBy = "group", cascade = [CascadeType.ALL], orphanRemoval = true)
+  var groupOption: GroupOption? = null
 ) {
   override fun toString(): String {
     return "Group(id=$id, name='$name')"

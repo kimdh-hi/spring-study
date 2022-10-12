@@ -44,3 +44,8 @@ values
     ('member-01', 'group-02', 'sb-appId-2222', 'sb-api-token2-1'),
     ('member-01', 'group-03', 'sb-appId-3333', 'sb-api-token3-1')
 ;
+
+insert into tb_group_option(group_id, use_option)
+values
+    ('group-01', '0')
+;
