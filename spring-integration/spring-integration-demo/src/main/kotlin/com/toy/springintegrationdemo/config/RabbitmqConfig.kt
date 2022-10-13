@@ -9,4 +9,7 @@ class RabbitmqConfig {
 
   @Bean
   fun createTestQueue() = Queue("testQueue")
+
+  @Bean
+  fun createLoggingQueue() = Queue("loggingQueue")
 }

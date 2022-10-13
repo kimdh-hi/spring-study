@@ -13,4 +13,8 @@ class TestServiceActivator {
     log.info("testService msg: $message")
   }
 
+//  @ServiceActivator
+//  fun testService2(message: String) {
+//    log.info("testService2 msg: $message")
+//  }
 }
