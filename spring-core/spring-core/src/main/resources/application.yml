@@ -31,3 +31,5 @@ logging:
 
 custom:
   number: 1
+
+test-property.data: main-yml-config
