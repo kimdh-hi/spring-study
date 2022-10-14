@@ -49,3 +49,24 @@ insert into tb_group_option(group_id, use_option)
 values
     ('group-01', '0')
 ;
+
+
+insert into tb_locker(id, number)
+values
+    ('l-01', 1),
+    ('l-02', 2),
+    ('l-03', 3),
+    ('l-04', 4),
+    ('l-05', 5),
+    ('l-06', 6)
+;
+
+
+insert into tb_locker_user(id, username, locker_id)
+values
+    ('lu-01', 'lu-01', 'l-01'),
+    ('lu-02', 'lu-02', 'l-02'),
+    ('lu-03', 'lu-03', 'l-03')
+;
+
+
