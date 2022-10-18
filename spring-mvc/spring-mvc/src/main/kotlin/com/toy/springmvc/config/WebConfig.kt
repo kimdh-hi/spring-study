@@ -1,9 +1,12 @@
 package com.toy.springmvc.config
 
+import com.toy.springmvc.domain.Person
 import com.toy.springmvc.interceptors.AnotherSampleInterceptor
 import com.toy.springmvc.interceptors.SampleInterceptor
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.CacheControl
+import org.springframework.oxm.jaxb.Jaxb2Marshaller
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
@@ -38,5 +41,12 @@ class WebConfig: WebMvcConfigurer {
     registry.addResourceHandler("/test-resource/**")
       .addResourceLocations("classpath:/test-resource/")
       .setCacheControl(CacheControl.maxAge(10, TimeUnit.MINUTES))
+  }
+
+  @Bean
+  fun jaxb2Marshaller(): Jaxb2Marshaller {
+    val marshaller = Jaxb2Marshaller()
+    marshaller.setPackagesToScan(Person::class.java.`package`.name)
+    return marshaller
   }
 }

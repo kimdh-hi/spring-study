@@ -1,6 +1,6 @@
 package com.toy.springmvc.config
 
-import com.toy.springmvc.controller.Person
+import com.toy.springmvc.domain.Person
 import org.springframework.format.Formatter
 import org.springframework.stereotype.Component
 import java.util.*

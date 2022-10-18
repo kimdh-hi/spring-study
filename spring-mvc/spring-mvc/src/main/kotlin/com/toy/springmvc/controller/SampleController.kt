@@ -1,5 +1,6 @@
 package com.toy.springmvc.controller
 
+import com.toy.springmvc.domain.Person
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
@@ -16,13 +17,5 @@ class SampleController {
   @GetMapping("/sample")
   fun sample2(@RequestParam("name") person: Person): String {
     return "sample ${person.name}"
-  }
-}
-
-data class Person(
-  val name: String
-) {
-  override fun toString(): String {
-    return "Person(name='$name')"
   }
 }

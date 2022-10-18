@@ -23,6 +23,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
+
+	implementation("javax.xml.bind:jaxb-api") // jaxb 인터페이스
+	implementation("org.glassfish.jaxb:jaxb-runtime") // jaxb 구현체
+	implementation("org.springframework:spring-oxm:5.3.23") // object -> xml, xml -> object api
+
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -38,6 +43,8 @@ allOpen {
 
 noArg {
 	annotation("javax.persistence.Entity")
+	annotation("com.toy.springmvc.config.NoArg")
+	invokeInitializers = true
 }
 
 tasks.withType<KotlinCompile> {
