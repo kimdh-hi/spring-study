@@ -7,7 +7,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.oxm.Marshaller
-import org.springframework.oxm.jaxb.Jaxb2Marshaller
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
@@ -20,7 +19,7 @@ import javax.xml.transform.stream.StreamResult
 internal class MessageConverterControllerTest(
   private val mockMvc: MockMvc,
   private val objectMapper: ObjectMapper,
-  private val marshaller: Jaxb2Marshaller
+  private val marshaller: Marshaller
 ) {
 
   @Test
@@ -49,7 +48,7 @@ internal class MessageConverterControllerTest(
 
   @Test
   fun xmlMessageConverter() {
-    val person = Person(name = "person")
+    val person = Person(name = "kim")
     val stringWriter = StringWriter()
     val streamResult = StreamResult(stringWriter)
     marshaller.marshal(person, streamResult)
@@ -61,6 +60,6 @@ internal class MessageConverterControllerTest(
       accept = MediaType.APPLICATION_XML
     }
       .andDo { print() }
-      .andExpect { content { string(xmlString) } }
+      .andExpect { xpath("person/name") { string("kim")} }
   }
 }
