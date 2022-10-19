@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.CacheControl
 import org.springframework.oxm.jaxb.Jaxb2Marshaller
+import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
@@ -48,5 +49,10 @@ class WebConfig: WebMvcConfigurer {
     val marshaller = Jaxb2Marshaller()
     marshaller.setPackagesToScan(Person::class.java.`package`.name)
     return marshaller
+  }
+
+  override fun addCorsMappings(registry: CorsRegistry) {
+    registry.addMapping("/**")
+      .allowedOrigins("http://localhost:8888")
   }
 }

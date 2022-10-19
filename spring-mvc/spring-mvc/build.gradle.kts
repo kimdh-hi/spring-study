@@ -24,6 +24,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
 
+	implementation("org.webjars.bower:jquery:3.6.1")
+
 	implementation("javax.xml.bind:jaxb-api") // jaxb 인터페이스
 	implementation("org.glassfish.jaxb:jaxb-runtime") // jaxb 구현체
 	implementation("org.springframework:spring-oxm:5.3.23") // object -> xml, xml -> object api
