@@ -11,15 +11,32 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.TestConstructor
 import org.springframework.transaction.annotation.Transactional
+import javax.persistence.EntityManager
 
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @Transactional
 class GroupMemberRepositoryTest(
   private val groupMemberRepository: GroupMemberRepository,
+  private val groupMemberOptionRepository: GroupMemberOptionRepository,
   private val memberRepository: MemberRepository,
-  private val groupRepository: GroupRepository
+  private val groupRepository: GroupRepository,
+  private val em: EntityManager
 ) {
+
+  @Test
+  fun findById() {
+    //given
+    val groupId = "group-01"
+    val memberId = "member-01"
+    val groupMemberId = GroupMember.ID(groupId, memberId)
+
+    //when
+    val groupMember = groupMemberRepository.findByIdOrNull(groupMemberId)
+
+    //then
+    println(groupMember)
+  }
 
   @Test
   fun save() {
@@ -50,6 +67,33 @@ class GroupMemberRepositoryTest(
     //then
     assertNotNull(groupMember)
     println(groupMember)
+    println(groupMember?.groupMemberOption)
+  }
+
+  @Test
+  fun `findByGroupIdAndMemberId - groupMemberOptionNull`() {
+    //given
+    val groupId = "group-03"
+    val memberId = "member-01"
+
+    //when
+    val groupMember = groupMemberRepository.findByGroupIdAndMemberId(groupId, memberId)
+
+    //then
+    assertNotNull(groupMember)
+    println(groupMember)
+    println(groupMember?.groupMemberOption)
+    em.flush()
+    em.clear()
+
+    val groupMemberOption = groupMemberOptionRepository.findByIdOrNull("gmo-1")!!
+    val targetGroupMember = groupMemberRepository.findByGroupIdAndMemberId(groupId, memberId)
+    targetGroupMember?.groupMemberOption = groupMemberOption
+    em.flush()
+    em.clear()
+
+    val optionUpdatedGroupMember = groupMemberRepository.findByGroupIdAndMemberId(groupId, memberId)
+    println(optionUpdatedGroupMember?.groupMemberOption)
   }
 
   @Test
@@ -69,37 +113,5 @@ class GroupMemberRepositoryTest(
     })
 
     println(groupMembers)
-  }
-
-  @Test
-  fun findByGroupId() {
-    //given
-    val groupId = "group-01"
-
-    //when
-    val groupMembers = groupMemberRepository.findByGroupId(groupId)
-
-    //then
-    assertAll({
-      assertTrue(groupMembers.isNotEmpty())
-      groupMembers.forEach {
-        assertTrue(it.group.id == groupId)
-      }
-    })
-  }
-
-  @Test
-  fun delete() {
-    //given
-    val gm = GroupMember.of(group = TestData.GROUP_01, member = TestData.MEMBER_01, sbAppId = "app111", sbApiToken = "apptoken111")
-    val savedGM = groupMemberRepository.save(gm)
-
-    //when
-    val targetGM = groupMemberRepository.findByIdOrNull(savedGM.id)!!
-    groupMemberRepository.delete(targetGM)
-
-    //then
-    val exists = groupMemberRepository.existsById(GroupMember.ID(TestData.GROUP_01.id, TestData.MEMBER_01.id))
-    assertFalse(exists)
   }
 }

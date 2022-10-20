@@ -2,6 +2,7 @@ package com.toy.jpabasic.repository
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.toy.jpabasic.domain.GroupMember
+import com.toy.jpabasic.domain.GroupMemberOption
 import org.springframework.data.repository.CrudRepository
 
 interface GroupMemberRepository: CrudRepository<GroupMember, GroupMember.ID> {
@@ -13,11 +14,6 @@ interface GroupMemberRepository: CrudRepository<GroupMember, GroupMember.ID> {
   fun existsByGroupId(groupId: String): Boolean
 }
 
-interface GroupMemberRepositoryCustom {
-}
-
-class GroupMemberRepositoryImpl(
-  private val query: JPAQueryFactory
-): GroupMemberRepositoryCustom {
+interface GroupMemberOptionRepository: CrudRepository<GroupMemberOption, String> {
 
 }

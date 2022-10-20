@@ -31,6 +31,14 @@ values
     ('member-07', 'm7')
 ;
 
+insert into tb_group_member_option(id, opt1)
+values
+    ('gmo-1', 'o1'),
+    ('gmo-2', 'o2'),
+    ('gmo-3', 'o3')
+;
+
+
 insert into tb_group(id, name)
 values
     ('group-01', 'g1'),
@@ -38,18 +46,18 @@ values
     ('group-03', 'g3')
 ;
 
-insert into tb_group_member(member_id, group_id, sb_application_id, sb_api_token)
+insert into tb_group_member(member_id, group_id, sb_application_id, sb_api_token, group_member_option_id)
 values
-    ('member-01', 'group-01', 'sb-appId-1111', 'sb-api-token1-1'),
-    ('member-01', 'group-02', 'sb-appId-2222', 'sb-api-token2-1'),
-    ('member-01', 'group-03', 'sb-appId-3333', 'sb-api-token3-1')
+    ('member-01', 'group-01', 'sb-appId-1111', 'sb-api-token1-1', 'gmo-1'),
+    ('member-01', 'group-02', 'sb-appId-2222', 'sb-api-token2-1', 'gmo-2'),
+    ('member-01', 'group-03', 'sb-appId-3333', 'sb-api-token3-1', null)
 ;
+
 
 insert into tb_group_option(group_id, use_option)
 values
     ('group-01', '0')
 ;
-
 
 insert into tb_locker(id, number)
 values

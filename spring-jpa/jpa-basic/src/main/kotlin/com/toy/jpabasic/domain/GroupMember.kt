@@ -7,6 +7,10 @@ import javax.persistence.*
 @Entity
 @Table(name = "tb_group_member")
 class GroupMember(
+
+  @EmbeddedId
+  var id: ID,
+
   @ManyToOne(optional = false)
   @JoinColumn(name = "member_id", nullable = false, insertable = false, updatable = false)
   final var member: Member,
@@ -17,28 +21,35 @@ class GroupMember(
 
   @Column(nullable = false)
   var sbApplicationId: String,
-  @Column(nullable = false)
-  var sbApiToken: String
-) {
-  @EmbeddedId
-  var id: ID = ID(groupId = group.id!!, memberId = member.id!!)
 
+  @Column(nullable = false)
+  var sbApiToken: String,
+
+  @OneToOne
+  @JoinColumn(name = "group_member_option_id")
+  var groupMemberOption: GroupMemberOption? = null
+) {
   companion object {
-    fun of(member: Member, group: Group, sbAppId: String, sbApiToken: String) = GroupMember(
-      member = member,
-      group = group,
-      sbApplicationId = sbAppId,
-      sbApiToken = sbApiToken
-    )
+    fun of(member: Member, group: Group, sbAppId: String, sbApiToken: String): GroupMember {
+      val groupMember = GroupMember(
+        id = ID(),
+        member = member,
+        group = group,
+        sbApplicationId = sbAppId,
+        sbApiToken = sbApiToken
+      )
+      groupMember.id = ID(group.id, member.id)
+      return groupMember
+    }
   }
 
   @Embeddable
   data class ID (
     @Column(name = "group_id")
-    var groupId: String? = null,
+    val groupId: String? = null,
 
     @Column(name = "member_id")
-    var memberId: String? = null,
+    var memberId: String? = null
   ): Serializable {
     companion object {
       @Serial
