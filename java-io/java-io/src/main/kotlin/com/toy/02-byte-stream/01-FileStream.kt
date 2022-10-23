@@ -1,4 +1,4 @@
-package com.toy.`02-io-stream`
+package com.toy.`02-byte-stream`
 
 import java.io.FileInputStream
 
