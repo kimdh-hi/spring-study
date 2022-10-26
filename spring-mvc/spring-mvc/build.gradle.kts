@@ -23,6 +23,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
+	implementation("org.apache.commons:commons-lang3")
 
 	implementation("org.webjars.bower:jquery:3.6.1")
 
