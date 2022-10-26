@@ -15,7 +15,15 @@ class GlobalExceptionHandler {
     val responseVO = ErrorResponseVO.error("9002", "Request body is not valid..")
     return ResponseEntity(responseVO, HttpStatus.BAD_REQUEST)
   }
+
+  @ExceptionHandler(ParameterException::class)
+  fun handleParameterException(ex: ParameterException): ResponseEntity<ErrorResponseVO> {
+    val responseVO = ErrorResponseVO.error("9002", "Request body is not valid..")
+    return ResponseEntity(responseVO, HttpStatus.BAD_REQUEST)
+  }
 }
+
+class ParameterException(): RuntimeException()
 
 data class ErrorResponseVO(
   var errorCode: String,

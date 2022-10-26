@@ -18,8 +18,8 @@ internal class ValidationControllerTest(
   private val objectMapper: ObjectMapper
 ) {
   @Test
-  fun test() {
-    val requestVO = ValidationDataVO(names = listOf("name", " "))
+  fun test1() {
+    val requestVO = ValidationDataVO(names = listOf("name", " "), nickname = "nick", email = "asd@gmail.com")
 
     mockMvc.post("/api/validation") {
       contentType = MediaType.APPLICATION_JSON
@@ -30,4 +30,62 @@ internal class ValidationControllerTest(
         jsonPath("$.errorCode") { value("9002") }
       }
   }
+
+  @Test
+  fun test2() {
+    val requestVO = ValidationDataVO(names = listOf("name", "nam2"), nickname = " ", email = "asd@gmail.com")
+
+    mockMvc.post("/api/validation") {
+      contentType = MediaType.APPLICATION_JSON
+      content = objectMapper.writeValueAsString(requestVO)
+    }
+      .andDo { print() }
+      .andExpect {
+        jsonPath("$.errorCode") { value("9002") }
+      }
+  }
+
+  @Test
+  fun test3() {
+    val requestVO = ValidationDataVO(names = listOf("name", "nam2"), nickname = "nick", email = "asdasdasd")
+
+    mockMvc.post("/api/validation") {
+      contentType = MediaType.APPLICATION_JSON
+      content = objectMapper.writeValueAsString(requestVO)
+    }
+      .andDo { print() }
+      .andExpect {
+        jsonPath("$.errorCode") { value("9002") }
+      }
+  }
+
+  @Test
+  fun test4() {
+    val requestVO = ValidationDataVO(names = listOf("name", "nam2"), nickname = "nick", email = " ")
+
+    mockMvc.post("/api/validation") {
+      contentType = MediaType.APPLICATION_JSON
+      content = objectMapper.writeValueAsString(requestVO)
+    }
+      .andDo { print() }
+      .andExpect {
+        jsonPath("$.errorCode") { value("9002") }
+      }
+  }
+
+  @Test
+  fun test5() {
+    val requestVO = ValidationData2VO(email = "asd")
+
+    mockMvc.post("/api/validation/test") {
+      contentType = MediaType.APPLICATION_JSON
+      content = objectMapper.writeValueAsString(requestVO)
+    }
+      .andDo { print() }
+      .andExpect {
+        jsonPath("$.errorCode") { value("9002") }
+      }
+  }
 }
+
+

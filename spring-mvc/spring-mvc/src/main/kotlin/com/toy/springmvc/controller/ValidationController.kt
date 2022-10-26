@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import javax.validation.*
+import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import kotlin.reflect.KClass
 
 @RestController
 @RequestMapping("/api/validation")
-@Validated
 class ValidationController {
   private val log = LoggerFactory.getLogger(javaClass)
 
@@ -22,6 +22,16 @@ class ValidationController {
   fun test(@RequestBody @Valid requestVO: ValidationDataVO, result: BindingResult): ValidationDataVO {
     if(result.hasErrors()) {
       println(result.allErrors.forEach { println(it) })
+      throw ParameterException()
+    }
+    return requestVO
+  }
+  
+  @PostMapping("/test")
+  fun test2(@RequestBody @Valid requestVO: ValidationData2VO, result: BindingResult): ValidationData2VO {
+    if(result.hasErrors()) {
+      println(result.allErrors.forEach { println(it) })
+      throw ParameterException()
     }
     return requestVO
   }
@@ -29,7 +39,20 @@ class ValidationController {
 
 data class ValidationDataVO(
   @NameListConstraint
-  val names: List<String>
+  val names: List<String>,
+
+  @field:NotBlank
+  val nickname: String,
+
+  @field:Email
+  @field:NotBlank
+  val email: String,
+)
+
+data class ValidationData2VO(
+  @field:Email
+  @field:NotBlank
+  val email: String
 )
 
 @Constraint(validatedBy = [NotBlankValidator::class])
@@ -44,7 +67,7 @@ annotation class NameListConstraint (
 class NotBlankValidator: ConstraintValidator<NameListConstraint, List<String>> {
   override fun isValid(values: List<String>, context: ConstraintValidatorContext): Boolean {
     values.forEach {
-      if(StringUtils.isNotBlank(it))
+      if(StringUtils.isBlank(it))
         return false
     }
     return true
