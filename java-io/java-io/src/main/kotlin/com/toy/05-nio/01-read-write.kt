@@ -4,9 +4,16 @@ import java.io.File
 import java.nio.BufferUnderflowException
 import java.nio.ByteBuffer
 import java.nio.channels.FileChannel
+import java.nio.charset.StandardCharsets
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 
+/**
+ * 1. 버퍼생성 ByteBuffer.allocate
+ * 2. 미사용 버퍼 정리 byteBuffer.flip()
+ * 3. FileChannel.open(path, StandardOpenOption...)
+ * 4. FileChannel.write(buffer) or FileChannel.read(buffer)
+ */
 fun main() {
   val byteBuffer = ByteBuffer.allocate(1024) // 1024kb
   byteBuffer.putInt(123) // 4
