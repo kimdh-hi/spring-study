@@ -5,7 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{/events}" method="post" th:object="${event}">
+<form th:action="@{/events/binder}" method="post" th:object="${event}">
+  <input type="text" title="id" th:field="*{id}"/>
   <input type="text" th:field="*{name}"/>
   <input type="text" th:field="*{limitOfEnrollment}"/>
   <input type="submit" value="create"/>

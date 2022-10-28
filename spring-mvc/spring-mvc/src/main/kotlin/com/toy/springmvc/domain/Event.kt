@@ -5,6 +5,7 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotBlank
 
 data class Event(
+  var id: String? = null,
   @field:NotBlank(groups = [NameValidate::class])
   var name: String = "",
   @field:Min(value = 0, groups = [LimitValidate::class])
