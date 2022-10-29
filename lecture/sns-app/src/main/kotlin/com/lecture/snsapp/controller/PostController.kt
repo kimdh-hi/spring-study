@@ -5,11 +5,15 @@ import com.lecture.snsapp.service.PostService
 import com.lecture.snsapp.vo.PostCreateRequestVO
 import com.lecture.snsapp.vo.PostCreateResponseVO
 import com.lecture.snsapp.vo.PostModifyRequestVO
+import com.lecture.snsapp.vo.PostResponseVO
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.User
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -23,6 +27,25 @@ class PostController(
   private val postService: PostService
 ) {
   private val log = LoggerFactory.getLogger(javaClass)
+
+  @GetMapping
+  fun list(
+    pageable: Pageable,
+    authentication: Authentication
+  ): Response<Page<PostResponseVO>> {
+    val responseVO = postService.list(pageable)
+    return Response.success(result = responseVO)
+  }
+
+  @GetMapping("/me")
+  fun myList(
+    pageable: Pageable,
+    authentication: Authentication
+  ): Response<Page<PostResponseVO>> {
+    val user = authentication.principal as User
+    val responseVO = postService.myList(user.username, pageable)
+    return Response.success(result = responseVO)
+  }
 
   @PostMapping
   fun create(

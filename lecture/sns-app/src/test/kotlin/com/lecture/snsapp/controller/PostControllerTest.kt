@@ -15,10 +15,7 @@ import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithAnonymousUser
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.TestConstructor
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.delete
-import org.springframework.test.web.servlet.post
-import org.springframework.test.web.servlet.put
+import org.springframework.test.web.servlet.*
 import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
@@ -145,5 +142,45 @@ class PostControllerTest(
     mockMvc.delete("/api/v1/posts/not-exists")
       .andExpect {  }
       .andExpect { status { is4xxClientError() } }
+  }
+
+  @Test
+  @WithMockUser(username = "test-username")
+  fun `포스트 목록`() {
+    mockMvc.get("/api/v1/posts")
+      .andDo { print() }
+      .andExpect {
+        status { isOk() }
+      }
+  }
+
+  @Test
+  @WithAnonymousUser
+  fun `포스트 목록 실패 - 로그인하지 않은 경우`() {
+    mockMvc.get("/api/v1/posts")
+      .andDo { print() }
+      .andExpect {
+        status { is4xxClientError() }
+      }
+  }
+
+  @Test
+  @WithMockUser(username = "test-username")
+  fun `내 포스트 목록`() {
+    mockMvc.get("/api/v1/posts/me")
+      .andDo { print() }
+      .andExpect {
+        status { isOk() }
+      }
+  }
+
+  @Test
+  @WithAnonymousUser
+  fun `내 포스트 목록 실패 - 로그인하지 않은 경우`() {
+    mockMvc.get("/api/v1/posts/me")
+      .andDo { print() }
+      .andExpect {
+        status { is4xxClientError() }
+      }
   }
 }

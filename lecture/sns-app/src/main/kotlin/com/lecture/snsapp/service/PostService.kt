@@ -6,6 +6,9 @@ import com.lecture.snsapp.exception.ErrorCode
 import com.lecture.snsapp.repository.PostRepository
 import com.lecture.snsapp.repository.UserRepository
 import com.lecture.snsapp.vo.PostCreateResponseVO
+import com.lecture.snsapp.vo.PostResponseVO
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -16,6 +19,20 @@ class PostService(
   private val postRepository: PostRepository,
   private val userRepository: UserRepository
 ) {
+
+  fun list(pageable: Pageable): Page<PostResponseVO> {
+    return postRepository.findAll(pageable).map {
+      PostResponseVO.of(it)
+    }
+  }
+
+  fun myList(username: String, pageable: Pageable): Page<PostResponseVO> {
+    val user = userRepository.findByUsername(username)
+      ?: throw ApplicationException(ErrorCode.POST_NOT_FOUND)
+    return postRepository.findAllByUser(user, pageable).map {
+      PostResponseVO.of(it)
+    }
+  }
 
   @Transactional
   fun create(title: String, body: String, username: String): PostCreateResponseVO {

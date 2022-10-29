@@ -2,6 +2,7 @@ package com.lecture.snsapp.vo
 
 import com.lecture.snsapp.common.NoArg
 import com.lecture.snsapp.domain.Post
+import java.time.LocalDateTime
 
 data class PostCreateRequestVO(
   val title: String,
@@ -27,3 +28,19 @@ data class PostModifyRequestVO(
   val title: String,
   val body: String
 )
+
+data class PostResponseVO(
+  val id: String,
+  val title: String,
+  val body: String,
+  val registerAt: LocalDateTime?,
+) {
+  companion object {
+    fun of(post: Post) = PostResponseVO(
+      id = post.id,
+      title = post.title,
+      body = post.body,
+      registerAt = post.registerAt?.toLocalDateTime()
+    )
+  }
+}
