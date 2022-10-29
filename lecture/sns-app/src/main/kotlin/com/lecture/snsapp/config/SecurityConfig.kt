@@ -16,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.factory.PasswordEncoderFactories
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
@@ -31,7 +33,7 @@ class SecurityConfig(
   @Value("\${jwt.secret-key}") lateinit var secretKey: String
 
   @Bean
-  fun passwordEncoder() = BCryptPasswordEncoder()
+  fun passwordEncoder(): PasswordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
 
   @Bean
   @Order(0)
@@ -53,7 +55,7 @@ class SecurityConfig(
     http
       .csrf { it.disable() }
       .authorizeRequests { it
-        .antMatchers("/api/*/users/join", "/api/*/users/login").permitAll()
+        .antMatchers("/api/*/users/join", "/api/*/users/login", "/api/*/users/**").permitAll()
         .antMatchers("/api/**").authenticated()
       }
       .sessionManagement { it

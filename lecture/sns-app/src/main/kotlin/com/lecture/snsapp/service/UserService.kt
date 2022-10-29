@@ -10,13 +10,14 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserService(
   private val userRepository: UserRepository,
-  private val passwordEncoder: BCryptPasswordEncoder
+  private val passwordEncoder: PasswordEncoder
 ) {
 
   @Value("\${jwt.secret-key}") lateinit var secretKey: String

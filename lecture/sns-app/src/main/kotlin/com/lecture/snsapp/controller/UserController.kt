@@ -7,6 +7,8 @@ import com.lecture.snsapp.vo.UserJoinRequestVO
 import com.lecture.snsapp.vo.UserLoginRequestVO
 import com.lecture.snsapp.vo.UserResponseVO
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -29,4 +31,7 @@ class UserController(
     val token = userService.login(requestVO.username, requestVO.password)
     return Response.success(result = LoginResponseVO(token = token))
   }
+
+  @GetMapping("/{username}")
+  fun users(@PathVariable username: String) = userService.loadUserByUsername(username)
 }

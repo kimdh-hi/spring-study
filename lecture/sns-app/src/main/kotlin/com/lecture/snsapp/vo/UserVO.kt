@@ -15,7 +15,7 @@ data class UserLoginRequestVO(
 )
 
 data class UserResponseVO(
-  val id: Long,
+  val id: String,
   val username: String,
   val userRole: UserRole? = null,
   val registerAt: Timestamp? = null,

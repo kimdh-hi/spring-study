@@ -9,7 +9,7 @@ class Response<T>(
 
     fun <T> success(
       resultCode: String = "SUCCESS",
-      result: T
+      result: T? = null
     ): Response<T> = Response(resultCode = resultCode, result = result)
   }
 

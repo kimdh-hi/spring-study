@@ -1,18 +1,20 @@
 package com.lecture.snsapp.domain
 
+import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.Where
 import java.sql.Timestamp
 import javax.persistence.*
 
 @Entity
-@Table
-@SQLDelete(sql = "update post set deleted_at = now() where id = ?")
-@Where(clause = "deleted_at is NULL")
+@Table(name = "tb_post")
+//@SQLDelete(sql = "update post set deleted_at = now() where id = ?")
+//@Where(clause = "deleted_at is NULL")
 class Post(
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  var id: Long? = null,
+  @GeneratedValue(generator = "uuid")
+  @GenericGenerator(name = "uuid", strategy = "uuid2")
+  var id: String = "",
 
   @Column(name = "title")
   var title: String,

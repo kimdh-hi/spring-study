@@ -10,7 +10,7 @@ data class PostCreateRequestVO(
 
 @NoArg
 data class PostCreateResponseVO(
-  val id: Long,
+  val id: String,
   val title: String,
   val writer: String
 ) {
@@ -22,3 +22,8 @@ data class PostCreateResponseVO(
     )
   }
 }
+
+data class PostModifyRequestVO(
+  val title: String,
+  val body: String
+)

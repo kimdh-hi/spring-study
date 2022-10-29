@@ -6,7 +6,7 @@ class UserFixture {
   companion object {
     fun get(username: String, password: String): User {
       return User(
-        id = 199999L, username = username, password = password
+        id = "user-01", username = username, password = password
       )
     }
   }

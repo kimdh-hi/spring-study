@@ -1,10 +1,9 @@
 spring:
-#  sql:
-#    init:
-#      data-locations: classpath:sql/data.sql
+  sql:
+    init:
+      data-locations: classpath:sql/data.sql
+      mode: always
   datasource:
-    hikari:
-      maximum-pool-size: 4
     url: jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE;
     username: sa
     password:
@@ -14,13 +13,13 @@ spring:
       enabled: true
       path: /h2-console
   jpa:
-    open-in-view: false
+    open-in-view: true
     hibernate.ddl-auto: create
     properties:
       hibernate:
         show_sql: false
         format_sql: true
-#    defer-datasource-initialization: true
+    defer-datasource-initialization: true
 
 jwt:
   secret-key: fastcampus-sns-application.secret-key
