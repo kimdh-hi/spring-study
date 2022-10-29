@@ -19,6 +19,8 @@ class Member(
 
   var name: String,
 
+  var age: Int? = null,
+
   @OneToMany(mappedBy = "member", cascade = [CascadeType.REMOVE])
   val groupMembers: MutableList<GroupMember> = mutableListOf()
 ) {
