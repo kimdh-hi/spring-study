@@ -16,12 +16,15 @@ import org.springframework.security.test.context.support.WithAnonymousUser
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.put
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+@Transactional
 class PostControllerTest(
   private val mockMvc: MockMvc,
   private val objectMapper: ObjectMapper,
@@ -96,19 +99,51 @@ class PostControllerTest(
   }
 
   @Test
-  @WithMockUser
-  fun `포스트 수정 실패 - 작성자가 아닌 사용자가 수정`() {
+  @WithMockUser(username = "test2-username")
+  fun `포스트 수정 실패 - 작성자가 아닌 경우`() {
     //given
     val title = "title"
     val body = "content"
     val requestVO = PostModifyRequestVO(title = title, body = body)
 
     //then
-    mockMvc.post("/api/v1/posts") {
+    mockMvc.put("/api/v1/posts") {
       contentType = MediaType.APPLICATION_JSON
       content = objectMapper.writeValueAsString(requestVO)
     }
       .andDo { print() }
+      .andExpect { status { is4xxClientError() } }
+  }
+
+  @Test
+  @WithMockUser(username = "test-username")
+  fun `포스트 삭제`() {
+    mockMvc.delete("/api/v1/posts/post-01")
+      .andDo { print() }
+      .andExpect { status { isOk() } }
+  }
+
+  @Test
+  @WithAnonymousUser
+  fun `포스트 삭제 실패 - 로그인하지 않은 사용자`() {
+    mockMvc.delete("/api/v1/posts/post-01")
+      .andExpect {  }
+      .andExpect { status { is4xxClientError() } }
+  }
+
+  @Test
+  @WithMockUser(username = "test2-username")
+  fun `포스트 삭제 실패 - 작성자가 아닌 경우`() {
+    mockMvc.delete("/api/v1/posts/post-01")
+      .andExpect {  }
+      .andExpect { status { is4xxClientError() } }
+  }
+
+  @Test
+  @WithMockUser(username = "test-username")
+  fun `포스트 삭제 실패 - 포스트가 존재하지 않는 경우`() {
+    mockMvc.delete("/api/v1/posts/not-exists")
+      .andExpect {  }
       .andExpect { status { is4xxClientError() } }
   }
 }

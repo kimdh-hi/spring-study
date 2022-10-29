@@ -22,10 +22,12 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+@Transactional
 class UserControllerTest(
   private val mockMvc: MockMvc,
   private val objectMapper: ObjectMapper

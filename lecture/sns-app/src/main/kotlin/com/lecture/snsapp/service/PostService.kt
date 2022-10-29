@@ -38,4 +38,16 @@ class PostService(
     post.title = title
     post.body = body
   }
+
+  @Transactional
+  fun delete(postId: String, username: String) {
+    val user = userRepository.findByUsername(username)
+      ?: throw ApplicationException(ErrorCode.POST_NOT_FOUND)
+    val post = postRepository.findByIdOrNull(postId)
+      ?: throw ApplicationException(ErrorCode.POST_NOT_FOUND)
+    if(post.user.username != user.username)
+      throw ApplicationException(ErrorCode.INVALID_PERMISSION)
+
+    postRepository.delete(post)
+  }
 }

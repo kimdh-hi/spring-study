@@ -6,8 +6,10 @@ import com.lecture.snsapp.vo.PostCreateRequestVO
 import com.lecture.snsapp.vo.PostCreateResponseVO
 import com.lecture.snsapp.vo.PostModifyRequestVO
 import org.slf4j.LoggerFactory
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.User
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -40,5 +42,15 @@ class PostController(
     val user = authentication.principal as User
     postService.modify(id, requestVO.title, requestVO.body, user.username)
     return Response.success()
+  }
+
+  @DeleteMapping("/{id}")
+  fun delete(
+    @PathVariable id: String,
+    authentication: Authentication
+  ): ResponseEntity<Unit> {
+    val user = authentication.principal as User
+    postService.delete(id, user.username)
+    return ResponseEntity.ok().build()
   }
 }
