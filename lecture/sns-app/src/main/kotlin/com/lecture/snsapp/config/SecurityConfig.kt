@@ -12,7 +12,9 @@ import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -34,6 +36,14 @@ class SecurityConfig(
 
   @Bean
   fun passwordEncoder(): PasswordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
+
+  @Bean
+  fun webIgnored() = WebSecurityCustomizer {
+    // /api 로 시작하는 요청이 아닌 모든 요청
+    // /api 로 시작하는 요청이 불필요하게 security filter chain 을 타지 않도록 무시한다.
+    it.ignoring()
+      .regexMatchers("^(?!/api/).*")
+  }
 
   @Bean
   @Order(0)
