@@ -71,9 +71,28 @@ class PostController(
   fun delete(
     @PathVariable id: String,
     authentication: Authentication
-  ): ResponseEntity<Unit> {
+  ): Response<Unit> {
     val user = authentication.principal as User
     postService.delete(id, user.username)
-    return ResponseEntity.ok().build()
+    return Response.success()
+  }
+
+  @PostMapping("/{id}/likes")
+  fun likes(
+    @PathVariable id: String,
+    authentication: Authentication
+  ): Response<Unit> {
+    val user = authentication.principal as User
+    postService.like(id, user.username)
+    return Response.success()
+  }
+
+  @GetMapping("/{id}/likes/count")
+  fun likeCount(
+    @PathVariable id: String,
+    authentication: Authentication
+  ): Response<Long> {
+    val count = postService.likeCount(id)
+    return Response.success(result = count)
   }
 }

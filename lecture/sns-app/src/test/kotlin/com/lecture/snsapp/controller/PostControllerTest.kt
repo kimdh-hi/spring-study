@@ -183,4 +183,55 @@ class PostControllerTest(
         status { is4xxClientError() }
       }
   }
+
+  @Test
+  @WithMockUser(username = "test-username")
+  fun `포스트 좋아요`() {
+    mockMvc.post("/api/v1/posts/post-02/likes")
+      .andDo { print() }
+      .andExpect {
+        status { isOk() }
+      }
+  }
+
+  @Test
+  @WithMockUser(username = "test-username")
+  fun `포스트 좋아요 실패 - 게시글이 없는 경우`() {
+    mockMvc.post("/api/v1/posts/post-not-exists/likes")
+      .andDo { print() }
+      .andExpect {
+        status { is4xxClientError() }
+      }
+  }
+
+  @Test
+  @WithMockUser(username = "test2-username")
+  fun `포스트 좋아요 실패 - 이미 좋아요가 눌린 게시물`() {
+    mockMvc.post("/api/v1/posts/post-02/likes")
+      .andDo { print() }
+      .andExpect {
+        status { is4xxClientError() }
+      }
+  }
+
+  @Test
+  @WithAnonymousUser
+  fun `포스트 좋아요 실패 - 로그인하지 않은 경우`() {
+    mockMvc.post("/api/v1/posts/post-01/likes")
+      .andDo { print() }
+      .andExpect {
+        status { is4xxClientError() }
+      }
+  }
+
+  @Test
+  @WithMockUser(username = "test-username")
+  fun `포스트 좋아요 개수`() {
+    mockMvc.get("/api/v1/posts/post-02/likes/count")
+      .andDo { print() }
+      .andExpect {
+        status { isOk() }
+        jsonPath("$.result") { value(2) }
+      }
+  }
 }
