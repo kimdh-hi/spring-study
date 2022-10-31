@@ -1,12 +1,16 @@
 package com.lecture.snsapp.service
 
+import com.lecture.snsapp.domain.Comment
 import com.lecture.snsapp.domain.Like
 import com.lecture.snsapp.domain.Post
 import com.lecture.snsapp.exception.ApplicationException
 import com.lecture.snsapp.exception.ErrorCode
+import com.lecture.snsapp.repository.CommentRepository
 import com.lecture.snsapp.repository.LikeRepository
 import com.lecture.snsapp.repository.PostRepository
 import com.lecture.snsapp.repository.UserRepository
+import com.lecture.snsapp.vo.CommentRequestVO
+import com.lecture.snsapp.vo.CommentResponseVO
 import com.lecture.snsapp.vo.PostCreateResponseVO
 import com.lecture.snsapp.vo.PostResponseVO
 import org.springframework.data.domain.Page
@@ -20,7 +24,8 @@ import org.springframework.transaction.annotation.Transactional
 class PostService(
   private val postRepository: PostRepository,
   private val userRepository: UserRepository,
-  private val likeRepository: LikeRepository
+  private val likeRepository: LikeRepository,
+  private val commentRepository: CommentRepository
 ) {
 
   fun list(pageable: Pageable): Page<PostResponseVO> {
@@ -90,5 +95,23 @@ class PostService(
       ?: throw ApplicationException(ErrorCode.POST_NOT_FOUND)
     return likeRepository.countByPost(post)
 //    return likeRepository.findAllByPost(post).size
+  }
+
+  @Transactional
+  fun addComment(postId: String, username:String, requestVO: CommentRequestVO) {
+    val user = userRepository.findByUsername(username)
+      ?: throw ApplicationException(ErrorCode.POST_NOT_FOUND)
+    val post = postRepository.findByIdOrNull(postId)
+      ?: throw ApplicationException(ErrorCode.POST_NOT_FOUND)
+
+    val comment = Comment.of(requestVO.comment, user, post)
+    commentRepository.save(comment)
+  }
+
+  fun getComments(id: String, pageable: Pageable): Page<CommentResponseVO> {
+    val post = postRepository.findByIdOrNull(id)
+      ?: throw ApplicationException(ErrorCode.POST_NOT_FOUND)
+    return commentRepository.findAllByPost(post, pageable)
+      .map { CommentResponseVO.of(it) }
   }
 }

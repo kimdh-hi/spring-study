@@ -2,10 +2,7 @@ package com.lecture.snsapp.controller
 
 import com.lecture.snsapp.common.Response
 import com.lecture.snsapp.service.PostService
-import com.lecture.snsapp.vo.PostCreateRequestVO
-import com.lecture.snsapp.vo.PostCreateResponseVO
-import com.lecture.snsapp.vo.PostModifyRequestVO
-import com.lecture.snsapp.vo.PostResponseVO
+import com.lecture.snsapp.vo.*
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -94,5 +91,26 @@ class PostController(
   ): Response<Long> {
     val count = postService.likeCount(id)
     return Response.success(result = count)
+  }
+
+  @PostMapping("/{id}/comments")
+  fun addComment(
+    @PathVariable id: String,
+    authentication: Authentication,
+    @RequestBody requestVO: CommentRequestVO
+  ): Response<Unit> {
+    val user = authentication.principal as User
+    postService.addComment(id, user.username, requestVO)
+    return Response.success()
+  }
+
+  @GetMapping("/{id}/comments")
+  fun getComments(
+    @PathVariable id: String,
+    authentication: Authentication,
+    pageable: Pageable
+  ): Response<Page<CommentResponseVO>> {
+    val responseVO = postService.getComments(id, pageable)
+    return Response.success(result = responseVO)
   }
 }

@@ -3,6 +3,7 @@ package com.lecture.snsapp.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.lecture.snsapp.repository.UserRepository
 import com.lecture.snsapp.service.PostService
+import com.lecture.snsapp.vo.CommentRequestVO
 import com.lecture.snsapp.vo.PostCreateRequestVO
 import com.lecture.snsapp.vo.PostModifyRequestVO
 import com.ninjasquad.springmockk.MockkBean
@@ -232,6 +233,33 @@ class PostControllerTest(
       .andExpect {
         status { isOk() }
         jsonPath("$.result") { value(2) }
+      }
+  }
+
+  @Test
+  @WithMockUser(username = "test-username")
+  fun `포스트 댓글달기`() {
+    mockMvc.post("/api/v1/posts/post-01/comments") {
+      contentType = MediaType.APPLICATION_JSON
+      content = objectMapper.writeValueAsString(CommentRequestVO("test-comment1"))
+    }
+      .andDo { print() }
+      .andExpect {
+        status { isOk() }
+      }
+  }
+
+  @Test
+  @WithMockUser(username = "test-username")
+  fun `포스트 댓글조회`() {
+    mockMvc.get("/api/v1/posts/post-01/comments") {
+      param("page", "0")
+      param("size", "3")
+    }
+      .andDo { print() }
+      .andExpect {
+        status { isOk() }
+        jsonPath("$.result.content") { isNotEmpty() }
       }
   }
 }
