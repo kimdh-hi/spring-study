@@ -1,8 +1,12 @@
 package com.lecture.snsapp.domain
 
 import com.lecture.snsapp.domain.enums.AlarmType
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType
+import com.vladmihalcea.hibernate.type.json.JsonStringType
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
+import org.hibernate.annotations.TypeDefs
 import java.sql.Timestamp
 import javax.persistence.*
 
@@ -11,6 +15,7 @@ import javax.persistence.*
   name = "tb_alarm",
   indexes = [Index(name = "user_id_idx", columnList = "user_id")]
 )
+@TypeDef(name = "json", typeClass = JsonStringType::class)
 class Alarm(
   @Id
   @GeneratedValue(generator = "uuid")

@@ -1,9 +1,12 @@
 package com.lecture.snsapp.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.lecture.snsapp.common.JwtFilter
 import com.lecture.snsapp.domain.User
 import com.lecture.snsapp.exception.ApplicationException
 import com.lecture.snsapp.exception.ErrorCode
+import com.lecture.snsapp.fixture.TestData
+import com.lecture.snsapp.fixture.UserFixture
 import com.lecture.snsapp.service.UserService
 import com.lecture.snsapp.vo.UserJoinRequestVO
 import com.lecture.snsapp.vo.UserLoginRequestVO
@@ -35,9 +38,6 @@ class UserControllerTest(
   private val objectMapper: ObjectMapper
 ) {
 
-  @MockkBean
-  lateinit var userService: UserService
-
   @Test
   fun `회원가입`() {
     //given
@@ -45,9 +45,6 @@ class UserControllerTest(
     val password = "password"
     val requestVO = UserJoinRequestVO(username = username, password = password)
     val responseVO = UserResponseVO(id = "user-01", username = username)
-
-    //when
-    every { userService.join(username, password) } returns responseVO
 
     //then
     mockMvc.post("/api/v1/users/join") {
@@ -61,10 +58,9 @@ class UserControllerTest(
   @Test
   fun `회원가입 실패 - 중복된 username`() {
     //given
-    val username = "username"
+    val username = "test-username"
     val password = "password"
     val requestVO = UserJoinRequestVO(username = username, password = password)
-    every { userService.join(username, password) }.throws(ApplicationException(ErrorCode.DUPLICATED_USER_NAME))
 
     // expect
     mockMvc.post("/api/v1/users/join") {
@@ -78,10 +74,9 @@ class UserControllerTest(
   @Test
   fun `로그인`() {
     //given
-    val username = "username"
-    val password = "password"
+    val username = "test-username"
+    val password = "test1234"
     val requestVO = UserLoginRequestVO(username = username, password = password)
-    every { userService.login(requestVO.username, requestVO.password) } returns "token"
 
     // expect
     mockMvc.post("/api/v1/users/login") {
@@ -98,7 +93,6 @@ class UserControllerTest(
     val username = "username"
     val password = "password"
     val requestVO = UserLoginRequestVO(username = username, password = password)
-    every { userService.login(requestVO.username, requestVO.password) } throws ApplicationException(ErrorCode.DUPLICATED_USER_NAME)
 
     // expect
     mockMvc.post("/api/v1/users/login") {
@@ -115,7 +109,6 @@ class UserControllerTest(
     val username = "username"
     val password = "password"
     val requestVO = UserLoginRequestVO(username = username, password = password)
-    every { userService.login(requestVO.username, requestVO.password) } throws ApplicationException(ErrorCode.DUPLICATED_USER_NAME)
 
     // expect
     mockMvc.post("/api/v1/users/login") {
@@ -127,9 +120,12 @@ class UserControllerTest(
   }
 
   @Test
-  @WithMockUser
+  @WithMockUser(username = "test-username")
   fun `알람`() {
-    mockMvc.get("/api/v1/users/alarm")
+    mockMvc.get("/api/v1/users/alarm") {
+      param("page", "0")
+      param("size", "10")
+    }
       .andDo { print() }
       .andExpect {
         status { isOk() }

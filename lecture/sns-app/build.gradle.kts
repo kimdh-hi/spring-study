@@ -36,6 +36,7 @@ dependencies {
   implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
   implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
   implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+  implementation("com.vladmihalcea:hibernate-types-52:2.9.7")
 
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")

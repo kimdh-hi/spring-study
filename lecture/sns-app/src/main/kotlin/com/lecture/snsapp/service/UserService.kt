@@ -52,7 +52,7 @@ class UserService(
   fun getAlarmList(username: String, pageable: Pageable): Page<AlarmResponseVO> {
     val user = userRepository.findByUsername(username)
       ?: throw ApplicationException(ErrorCode.USER_NOT_FOUND)
-    return alarmRepository.findAllByUser(user)
+    return alarmRepository.findAllByUser(user, pageable)
       .map { AlarmResponseVO.of(it) }
 
   }
