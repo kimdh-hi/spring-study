@@ -3,10 +3,14 @@ package com.lecture.snsapp.service
 import com.lecture.snsapp.domain.User
 import com.lecture.snsapp.exception.ApplicationException
 import com.lecture.snsapp.exception.ErrorCode
+import com.lecture.snsapp.repository.AlarmRepository
 import com.lecture.snsapp.repository.UserRepository
 import com.lecture.snsapp.vo.UserResponseVO
 import com.lecture.snsapp.utils.JwtUtils
+import com.lecture.snsapp.vo.AlarmResponseVO
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -17,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class UserService(
   private val userRepository: UserRepository,
+  private val alarmRepository: AlarmRepository,
   private val passwordEncoder: PasswordEncoder
 ) {
 
@@ -44,4 +49,11 @@ class UserService(
   fun loadUserByUsername(username: String): User
     = userRepository.findByUsername(username) ?: throw  ApplicationException(ErrorCode.USER_NOT_FOUND)
 
+  fun getAlarmList(username: String, pageable: Pageable): Page<AlarmResponseVO> {
+    val user = userRepository.findByUsername(username)
+      ?: throw ApplicationException(ErrorCode.USER_NOT_FOUND)
+    return alarmRepository.findAllByUser(user)
+      .map { AlarmResponseVO.of(it) }
+
+  }
 }

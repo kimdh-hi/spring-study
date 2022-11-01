@@ -2,11 +2,12 @@ package com.lecture.snsapp.controller
 
 import com.lecture.snsapp.common.Response
 import com.lecture.snsapp.service.UserService
-import com.lecture.snsapp.vo.LoginResponseVO
-import com.lecture.snsapp.vo.UserJoinRequestVO
-import com.lecture.snsapp.vo.UserLoginRequestVO
-import com.lecture.snsapp.vo.UserResponseVO
+import com.lecture.snsapp.vo.*
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.userdetails.User
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -34,4 +35,11 @@ class UserController(
 
   @GetMapping("/{username}")
   fun users(@PathVariable username: String) = userService.loadUserByUsername(username)
+
+  @GetMapping("/alarm")
+  fun getAlarm(pageable: Pageable, authentication: Authentication): ResponseEntity<Page<AlarmResponseVO>> {
+    val user = authentication.principal as User
+    val responseVO = userService.getAlarmList(user.username, pageable)
+    return ResponseEntity.ok(responseVO)
+  }
 }

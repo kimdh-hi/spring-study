@@ -1,14 +1,10 @@
 package com.lecture.snsapp.service
 
-import com.lecture.snsapp.domain.Comment
-import com.lecture.snsapp.domain.Like
-import com.lecture.snsapp.domain.Post
+import com.lecture.snsapp.domain.*
+import com.lecture.snsapp.domain.enums.AlarmType
 import com.lecture.snsapp.exception.ApplicationException
 import com.lecture.snsapp.exception.ErrorCode
-import com.lecture.snsapp.repository.CommentRepository
-import com.lecture.snsapp.repository.LikeRepository
-import com.lecture.snsapp.repository.PostRepository
-import com.lecture.snsapp.repository.UserRepository
+import com.lecture.snsapp.repository.*
 import com.lecture.snsapp.vo.CommentRequestVO
 import com.lecture.snsapp.vo.CommentResponseVO
 import com.lecture.snsapp.vo.PostCreateResponseVO
@@ -25,7 +21,8 @@ class PostService(
   private val postRepository: PostRepository,
   private val userRepository: UserRepository,
   private val likeRepository: LikeRepository,
-  private val commentRepository: CommentRepository
+  private val commentRepository: CommentRepository,
+  private val alarmRepository: AlarmRepository
 ) {
 
   fun list(pageable: Pageable): Page<PostResponseVO> {
@@ -88,6 +85,8 @@ class PostService(
 
     val like = Like.of(user, post)
     likeRepository.save(like)
+    val alarm = Alarm.of(post.user, post, AlarmType.NEW_LIKE, AlarmArgs(user.id, post.id))
+    alarmRepository.save(alarm)
   }
 
   fun likeCount(postId: String): Long {
@@ -106,6 +105,8 @@ class PostService(
 
     val comment = Comment.of(requestVO.comment, user, post)
     commentRepository.save(comment)
+    val alarm = Alarm.of(post.user, post, AlarmType.NEW_COMMENT, AlarmArgs(user.id, post.id))
+    alarmRepository.save(alarm)
   }
 
   fun getComments(id: String, pageable: Pageable): Page<CommentResponseVO> {
