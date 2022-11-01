@@ -6,7 +6,10 @@ import java.time.Instant
 import javax.persistence.*
 
 @Entity
-@Table(name = "tb_comment")
+@Table(
+  name = "tb_comment",
+  indexes = [Index(name = "post_id_idx", columnList = "post_id")]
+)
 class Comment(
   @Id
   @GeneratedValue(generator = "uuid")
