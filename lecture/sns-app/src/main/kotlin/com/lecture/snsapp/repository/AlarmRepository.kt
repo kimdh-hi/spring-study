@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface AlarmRepository: JpaRepository<Alarm, String> {
 
   fun findAllByUser(user: User, pageable: Pageable): Page<Alarm>
+  fun findAllByUserId(userId: String, pageable: Pageable): Page<Alarm>
 }

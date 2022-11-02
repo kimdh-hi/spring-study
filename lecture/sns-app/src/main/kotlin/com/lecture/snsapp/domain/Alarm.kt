@@ -22,7 +22,7 @@ class Alarm(
   @GenericGenerator(name = "uuid", strategy = "uuid2")
   var id: String = "",
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   val user: User, // 알람수신
 

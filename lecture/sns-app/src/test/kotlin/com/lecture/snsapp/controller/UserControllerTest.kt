@@ -8,6 +8,7 @@ import com.lecture.snsapp.exception.ErrorCode
 import com.lecture.snsapp.fixture.TestData
 import com.lecture.snsapp.fixture.UserFixture
 import com.lecture.snsapp.service.UserService
+import com.lecture.snsapp.utils.JwtUtils
 import com.lecture.snsapp.vo.UserJoinRequestVO
 import com.lecture.snsapp.vo.UserLoginRequestVO
 import com.lecture.snsapp.vo.UserResponseVO
@@ -18,9 +19,11 @@ import io.mockk.mockkClass
 import io.mockk.mockkObject
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers.any
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.TestConstructor
@@ -37,6 +40,9 @@ class UserControllerTest(
   private val mockMvc: MockMvc,
   private val objectMapper: ObjectMapper
 ) {
+
+  @Value("\${jwt.secret-key}") lateinit var secretKey: String
+  @Value("\${jwt.expiry-time-ms}") lateinit var expiryTimeMs: String
 
   @Test
   fun `회원가입`() {
@@ -120,11 +126,12 @@ class UserControllerTest(
   }
 
   @Test
-  @WithMockUser(username = "test-username")
   fun `알람`() {
+    val token = JwtUtils.generateToken(TestData.USER.username, secretKey, expiryTimeMs.toLong())
     mockMvc.get("/api/v1/users/alarm") {
       param("page", "0")
       param("size", "10")
+      header(HttpHeaders.AUTHORIZATION, "Bearer $token")
     }
       .andDo { print() }
       .andExpect {

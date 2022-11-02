@@ -42,8 +42,7 @@ class JwtFilter(
       val username = JwtUtils.getUsername(token, key)
       val user = userRepository.findByUsername(username) ?: throw ApplicationException(ErrorCode.USER_NOT_FOUND)
       val authentication = UsernamePasswordAuthenticationToken(
-        user, null,
-        mutableListOf(SimpleGrantedAuthority(user.role.toString())))
+        user, null, mutableListOf(SimpleGrantedAuthority(user.role.toString())))
       authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
       SecurityContextHolder.getContext().authentication = authentication
     } catch (ex: RuntimeException) {

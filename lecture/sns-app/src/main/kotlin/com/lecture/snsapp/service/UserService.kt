@@ -49,10 +49,8 @@ class UserService(
   fun loadUserByUsername(username: String): User
     = userRepository.findByUsername(username) ?: throw  ApplicationException(ErrorCode.USER_NOT_FOUND)
 
-  fun getAlarmList(username: String, pageable: Pageable): Page<AlarmResponseVO> {
-    val user = userRepository.findByUsername(username)
-      ?: throw ApplicationException(ErrorCode.USER_NOT_FOUND)
-    return alarmRepository.findAllByUser(user, pageable)
+  fun getAlarmList(userId: String, pageable: Pageable): Page<AlarmResponseVO> {
+    return alarmRepository.findAllByUserId(userId, pageable)
       .map { AlarmResponseVO.of(it) }
 
   }

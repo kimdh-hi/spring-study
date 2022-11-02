@@ -1,13 +1,16 @@
 package com.lecture.snsapp.controller
 
 import com.lecture.snsapp.common.Response
+import com.lecture.snsapp.domain.User
+import com.lecture.snsapp.exception.ApplicationException
+import com.lecture.snsapp.exception.ErrorCode
 import com.lecture.snsapp.service.UserService
+import com.lecture.snsapp.utils.SecurityUtils
 import com.lecture.snsapp.vo.*
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.userdetails.User
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -38,8 +41,9 @@ class UserController(
 
   @GetMapping("/alarm")
   fun getAlarm(pageable: Pageable, authentication: Authentication): ResponseEntity<Page<AlarmResponseVO>> {
-    val user = authentication.principal as User
-    val responseVO = userService.getAlarmList(user.username, pageable)
+    authentication.principal as User
+    val user = SecurityUtils.getPrincipal()
+    val responseVO = userService.getAlarmList(user.id, pageable)
     return ResponseEntity.ok(responseVO)
   }
 }
