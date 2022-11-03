@@ -1,0 +1,8 @@
+POST localhost:8080/members
+Content-Type: application/json
+
+{
+  "email": "test2@gmail.com",
+  "nickname": "test",
+  "birthday": "2022-01-01"
+}
