@@ -1,8 +1,12 @@
+### 가입
 POST localhost:8080/members
 Content-Type: application/json
 
 {
-  "email": "test2@gmail.com",
+  "email": "test3@gmail.com",
   "nickname": "test",
   "birthday": "2022-01-01"
 }
+
+### 조회
+GET localhost:8080/members/5
