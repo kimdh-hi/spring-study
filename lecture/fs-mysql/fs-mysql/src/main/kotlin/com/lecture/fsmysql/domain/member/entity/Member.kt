@@ -13,4 +13,15 @@ class Member(
   init {
     createdAt = createdAt ?: LocalDateTime.now()
   }
+
+  fun changeNickname(changeNickname: String) {
+    if(changeNickname.isNotBlank())
+      nickname = changeNickname
+  }
+
+  override fun toString(): String {
+    return "Member(id=$id, nickname='$nickname', email='$email', birthday=$birthday, createdAt=$createdAt)"
+  }
+
+
 }
