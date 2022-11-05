@@ -2,12 +2,14 @@ package com.lecture.fsmysql.controler
 
 import com.lecture.fsmysql.domain.member.dto.MemberCreateCommand
 import com.lecture.fsmysql.domain.member.dto.MemberDto
+import com.lecture.fsmysql.domain.member.dto.MemberNicknameUpdateRequestDto
 import com.lecture.fsmysql.domain.member.entity.Member
 import com.lecture.fsmysql.domain.member.service.MemberReadService
 import com.lecture.fsmysql.domain.member.service.MemberWriteService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -27,6 +29,15 @@ class MemberController(
   @GetMapping("/members/{id}")
   fun read(@PathVariable id: Long): MemberDto {
     val member = memberReadService.getMember(id)
+    return MemberDto.of(member)
+  }
+
+  @PostMapping("/members/{id}/nickname")
+  fun changeNickname (
+    @PathVariable id: Long,
+    @RequestBody requestDto: MemberNicknameUpdateRequestDto
+  ): MemberDto {
+    val member = memberWriteService.updateNickname(id, requestDto.nickname)
     return MemberDto.of(member)
   }
 }

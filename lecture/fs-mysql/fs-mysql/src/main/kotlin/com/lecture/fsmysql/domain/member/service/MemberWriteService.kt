@@ -18,4 +18,10 @@ class MemberWriteService(
     )
     return memberRepository.save(member)
   }
+
+  fun updateNickname(id: Long, changeNickname: String): Member {
+    val member = memberRepository.findById(id) ?: throw RuntimeException("not found...")
+    member.changeNickname(changeNickname)
+    return memberRepository.save(member)
+  }
 }

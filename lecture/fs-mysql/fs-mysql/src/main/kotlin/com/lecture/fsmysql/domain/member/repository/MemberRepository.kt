@@ -40,7 +40,13 @@ class MemberRepository(
   }
 
   private fun update(member: Member): Member {
-
+    val sql = String.format("""
+      update %s 
+      set email = :email, nickname = :nickname, birthday = :birthday
+      where id = :id
+    """.trimIndent(), TABLE)
+    val params = BeanPropertySqlParameterSource(member)
+    namedParameterJdbcTemplate.update(sql, params)
     return member
   }
 

@@ -17,3 +17,7 @@ data class MemberDto(
     }
   }
 }
+
+data class MemberNicknameUpdateRequestDto(
+  val nickname: String
+)
