@@ -29,3 +29,17 @@ POST localhost:8080/follow/8/9
 
 ### 팔로우 한 member 목록조회
 GET localhost:8080/follow/8
+
+
+### 포스트 작성
+POST localhost:8080/posts
+Content-Type: application/json
+
+{
+  "memberId": 8,
+  "content": "test-content-1"
+}
+
+
+### 일자별 포스트 생성 수
+GET localhost:8080/posts/daily-post-counts?memberId=8&firstDate=2022-11-05&lastDate=2022-11-07
