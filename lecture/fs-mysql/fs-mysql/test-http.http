@@ -12,9 +12,12 @@ Content-Type: application/json
 GET localhost:8080/members/5
 
 ### Nickname 수정
-POST localhost:8080/members/1/nickname
+POST localhost:8080/members/8/nickname
 Content-Type: application/json
 
 {
   "nickname": "update-nickname"
 }
+
+### MemberNicknameHistory 조회
+GET localhost:8080/members/8/histories
