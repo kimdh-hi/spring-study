@@ -1,6 +1,7 @@
 package com.lecture.fsmysql.domain.post.repository
 
 import com.lecture.fsmysql.domain.member.entity.Member
+import com.lecture.fsmysql.domain.member.repository.MemberRepository
 import com.lecture.fsmysql.domain.post.dto.DailyPostCountRequestDto
 import com.lecture.fsmysql.domain.post.dto.DailyPostCountResponseDto
 import com.lecture.fsmysql.domain.post.entity.Post
@@ -39,9 +40,11 @@ class PostRepository(
   }
 
   fun save(post: Post): Post {
-    if(post.id == null)
-      return insert(post)
-    throw throw RuntimeException("Post does not support update.")
+    return if(post.id == 0L)
+      insert(post)
+    else
+      update(post)
+//    throw throw RuntimeException("Post does not support update.")
   }
 
   private fun insert(post: Post): Post {
@@ -57,6 +60,18 @@ class PostRepository(
     )
   }
 
+  private fun update(post: Post): Post {
+    val sql = String.format("""
+      update %s 
+      set memberId = :memberId, content = :content, createdAt = :createdAt
+      where id = :id
+    """.trimIndent(), TABLE
+    )
+    val params = BeanPropertySqlParameterSource(post)
+    namedParameterJdbcTemplate.update(sql, params)
+    return post
+  }
+
   fun groupByCreatedDate(requestDto: DailyPostCountRequestDto): List<DailyPostCountResponseDto> {
     val sql = String.format("""
       select createdAt, memberId, count(id) as count
@@ -66,5 +81,18 @@ class PostRepository(
     """.trimIndent(), TABLE)
     val parameter = BeanPropertySqlParameterSource(requestDto)
     return namedParameterJdbcTemplate.query(sql, parameter, DAILY_POST_COUNT_MAPPER).toList()
+  }
+
+  fun bulkInsert(posts: List<Post>) {
+    val sql = String.format("""
+      insert into %s (memberId, content, createdAt)
+      values (:memberId, :content, :createdAt)
+    """.trimIndent(), TABLE)
+
+    val parameters = posts
+      .map { BeanPropertySqlParameterSource(it) }
+      .toTypedArray()
+
+    namedParameterJdbcTemplate.batchUpdate(sql, parameters)
   }
 }
