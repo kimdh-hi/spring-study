@@ -3,8 +3,8 @@ POST localhost:8080/members
 Content-Type: application/json
 
 {
-  "email": "test3@gmail.com",
-  "nickname": "test",
+  "email": "test4@gmail.com",
+  "nickname": "test4",
   "birthday": "2022-01-01"
 }
 
@@ -21,3 +21,11 @@ Content-Type: application/json
 
 ### MemberNicknameHistory 조회
 GET localhost:8080/members/8/histories
+
+
+### 팔로우 하기
+POST localhost:8080/follow/8/9
+
+
+### 팔로우 한 member 목록조회
+GET localhost:8080/follow/8

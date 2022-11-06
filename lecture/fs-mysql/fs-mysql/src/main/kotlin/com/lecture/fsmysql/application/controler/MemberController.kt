@@ -1,4 +1,4 @@
-package com.lecture.fsmysql.controler
+package com.lecture.fsmysql.application.controler
 
 import com.lecture.fsmysql.domain.member.dto.MemberCreateCommand
 import com.lecture.fsmysql.domain.member.dto.MemberDto
@@ -26,8 +26,7 @@ class MemberController(
 
   @GetMapping("/members/{id}")
   fun read(@PathVariable id: Long): MemberDto {
-    val member = memberReadService.getMember(id)
-    return MemberDto.of(member)
+    return memberReadService.getMember(id)
   }
 
   @PostMapping("/members/{id}/nickname")

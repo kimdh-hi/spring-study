@@ -17,6 +17,16 @@ class MemberRepository(
 
   companion object {
     private const val TABLE = "Member"
+
+    val ROW_MAPPER = RowMapper { resultSet, rowNum ->
+      Member(
+        id = resultSet.getLong("id"),
+        nickname = resultSet.getString("nickname"),
+        email = resultSet.getString("email"),
+        birthday = resultSet.getObject("birthday", LocalDate::class.java),
+        createdAt = resultSet.getObject("createdAt", LocalDateTime::class.java)
+      )
+    }
   }
 
   fun save(member: Member): Member {
@@ -54,15 +64,14 @@ class MemberRepository(
     val sql = String.format("select * from %s where id = :id", TABLE)
     val parameter = MapSqlParameterSource()
       .addValue("id", id)
-    val rowMapper = RowMapper { resultSet, rowNum ->
-      Member(
-        id = resultSet.getLong("id"),
-        nickname = resultSet.getString("nickname"),
-        email = resultSet.getString("email"),
-        birthday = resultSet.getObject("birthday", LocalDate::class.java),
-        createdAt = resultSet.getObject("createdAt", LocalDateTime::class.java)
-      )
-    }
-    return namedParameterJdbcTemplate.queryForObject(sql, parameter, rowMapper)
+    return namedParameterJdbcTemplate.queryForObject(sql, parameter, ROW_MAPPER)
+  }
+
+  fun findByAllIdIn(ids: List<Long>): List<Member> {
+    if(ids.isEmpty())
+      return listOf()
+    val sql = String.format("select * from %s where id in (:ids)", TABLE)
+    val parameter = MapSqlParameterSource().addValue("ids", ids)
+    return namedParameterJdbcTemplate.query(sql, parameter, ROW_MAPPER).toList()
   }
 }
