@@ -21,8 +21,8 @@ class PostBulkInsertTest(
   @Disabled("post bulk insert")
   fun bulkInsert() {
     val easyRandom = PostFixtureFactory.get(
-      1L,
-      LocalDate.of(2020, 1, 1),
+      4L,
+      LocalDate.of(1970, 1, 1),
       LocalDate.of(2020, 2, 1)
     )
 

@@ -40,3 +40,15 @@ create table Post(
     constraint Post_id_uindex
         primary key (id)
 );
+
+# 분포도가 매우 낮은 인덱스
+create index Post__index_member_id
+    on Post (memberId);
+
+# 분포도가 높은 인덱스
+create index Post__index_created_at
+    on Post (createdAt);
+
+# 복합 인덱스
+create index Post_index_member_id_created_at
+    on Post (memberId, createdAt);
