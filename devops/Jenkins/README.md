@@ -90,6 +90,9 @@ pipeline {
 - pipeline 내부에서 사용될 환경변수 지정
 - credentials 를 통해 Jenkins 에 지정한 credential 에 접근  
 
+`parameters`
+- 파이프라인 trigger 시 입력받는 변수 지정
+- type: string, text, booleanParam, choice, password
 
 
 

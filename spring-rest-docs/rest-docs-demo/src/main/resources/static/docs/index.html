@@ -465,19 +465,165 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="User-read"><a class="link" href="#User-read">User read</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/api/users/1' -i -X GET</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/users/1 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 85
 
+{"id":1,"email":"kim@gmail.com","name":"kim","createdAt":"2022-09-29T23:06:31.21529"}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ http GET 'http://localhost:8080/api/users/1'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs"></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{"id":1,"email":"kim@gmail.com","name":"kim","createdAt":"2022-09-29T23:06:31.21529"}</code></pre>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="User-list"><a class="link" href="#User-list">User list</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/api/users' -i -X GET</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/users HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 263
 
+[{"id":1,"email":"kim@gmail.com","name":"kim","createdAt":"2022-09-29T23:06:31.21529"},{"id":2,"email":"lee@gmail.com","name":"lee","createdAt":"2022-09-29T23:06:31.217942"},{"id":3,"email":"park@gmail.com","name":"park","createdAt":"2022-09-29T23:06:31.218524"}]</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ http GET 'http://localhost:8080/api/users'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs"></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">[{"id":1,"email":"kim@gmail.com","name":"kim","createdAt":"2022-09-29T23:06:31.21529"},{"id":2,"email":"lee@gmail.com","name":"lee","createdAt":"2022-09-29T23:06:31.217942"},{"id":3,"email":"park@gmail.com","name":"park","createdAt":"2022-09-29T23:06:31.218524"}]</code></pre>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="User-create"><a class="link" href="#User-create">User create</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/api/users' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -d '{"email":"test@gmail.com","name":"test"}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/users HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 40
+Host: localhost:8080
 
+{"email":"test@gmail.com","name":"test"}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 88
+
+{"id":4,"email":"test@gmail.com","name":"test","createdAt":"2022-09-29T23:06:31.280872"}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ echo '{"email":"test@gmail.com","name":"test"}' | http POST 'http://localhost:8080/api/users' \
+    'Content-Type:application/json;charset=UTF-8'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{"email":"test@gmail.com","name":"test"}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{"id":4,"email":"test@gmail.com","name":"test","createdAt":"2022-09-29T23:06:31.280872"}</code></pre>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="User-update"><a class="link" href="#User-update">User update</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/api/users/1' -i -X PUT \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -d '{"name":"update-test"}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /api/users/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 22
+Host: localhost:8080
 
+{"name":"update-test"}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ echo '{"name":"update-test"}' | http PUT 'http://localhost:8080/api/users/1' \
+    'Content-Type:application/json;charset=UTF-8'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{"name":"update-test"}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs"></code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -485,7 +631,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-09-29 21:09:49 +0900
+Last updated 2022-09-29 21:41:03 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

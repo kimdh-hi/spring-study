@@ -1,4 +1,7 @@
 package com.study.springsecuritybasic.domain
 
-class Authority {
+enum class Authority {
+
+  USER, MANAGER, ADMIN,
+
 }

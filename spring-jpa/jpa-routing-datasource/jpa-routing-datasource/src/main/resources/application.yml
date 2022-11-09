@@ -1,4 +1,6 @@
 spring:
+  exposed:
+    generate-ddl: true
   datasource:
     master:
       hikari:
@@ -13,7 +15,6 @@ spring:
         username: sa
         password:
   jpa:
-    open-in-view: true
     hibernate.ddl-auto: create
     properties:
       hibernate:

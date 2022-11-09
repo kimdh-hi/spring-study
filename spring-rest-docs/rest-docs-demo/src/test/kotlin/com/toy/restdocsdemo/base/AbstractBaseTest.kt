@@ -1,12 +1,8 @@
 package com.toy.restdocsdemo.base
 
-import com.jayway.jsonpath.internal.JsonFormatter.prettyPrint
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
-import org.springframework.boot.test.autoconfigure.restdocs.RestDocsMockMvcConfigurationCustomizer
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
@@ -14,9 +10,8 @@ import org.springframework.context.annotation.Import
 import org.springframework.restdocs.RestDocumentationContextProvider
 import org.springframework.restdocs.RestDocumentationExtension
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler
 import org.springframework.restdocs.operation.preprocess.Preprocessors
-import org.springframework.test.context.TestConstructor
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
@@ -37,7 +32,7 @@ abstract class AbstractBaseTest {
   @BeforeEach
   fun setup(
     webApplicationContext: WebApplicationContext,
-    restDocumentationContextProvider: RestDocumentationContextProvider
+    restDocumentationContextProvider: RestDocumentationContextProvider,
   ) {
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
       .addFilter<DefaultMockMvcBuilder>(CharacterEncodingFilter("UTF-8", true))
@@ -54,11 +49,11 @@ abstract class AbstractBaseTest {
 @TestConfiguration
 class RestDocsConfiguration {
   @Bean
-  fun restDocsMockMvcConfigurationCustomizer(): RestDocsMockMvcConfigurationCustomizer {
-    return RestDocsMockMvcConfigurationCustomizer {
-      it.operationPreprocessors()
-        .withRequestDefaults(Preprocessors.prettyPrint())
-        .withResponseDefaults(Preprocessors.prettyPrint())
-    }
+  fun write(): RestDocumentationResultHandler {
+    return MockMvcRestDocumentation.document(
+      "{class-name}/{method-name}",
+      Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+      Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
+    )
   }
 }

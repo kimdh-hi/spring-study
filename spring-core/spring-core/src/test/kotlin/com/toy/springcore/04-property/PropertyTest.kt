@@ -7,7 +7,7 @@ import org.springframework.test.context.TestPropertySource
 
 /**
  * 우선순위
- * @SpringBootTest(properties) > test.resources.test-property.yml > main.resources.test-property.yml
+ * @TestPropertySource > @SpringBootTest(properties) > test.resources.test-property.yml > main.resources.test-property.yml
  *
  * test.resources 에 test-property.yml (main.resources 의 yml 과 이름이 같은) 을 두는 것은 별로임 프로퍼티의 값은 같을 필요는 없지만 모든 키를 갖고 있어야 함
  *

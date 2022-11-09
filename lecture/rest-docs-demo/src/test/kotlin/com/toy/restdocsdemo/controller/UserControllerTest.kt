@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.toy.restdocsdemo.vo.UserCreateRequestVO
 import com.toy.restdocsdemo.vo.UserUpdateRequestVO
 import org.junit.jupiter.api.Test
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional
 @AutoConfigureMockMvc
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @Transactional
+@AutoConfigureRestDocs
 internal class UserControllerTest(
   private val mockMvc: MockMvc
 ) {

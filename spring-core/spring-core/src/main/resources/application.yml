@@ -21,13 +21,14 @@ spring:
         show_sql: false
         format_sql: true
     defer-datasource-initialization: true
-
+  output.ansi.enabled: always
 logging:
-  level:
-    "[org.springframework.web.filter]": debug
-    "[org.hibernate.SQL]": debug
-    "[org.hibernate.type.descriptor.sql.BasicBinder]": trace
-    "[com.toy]": debug
+  path: logs
+#   level:
+#     "[org.springframework.web.filter]": debug
+#     "[org.hibernate.SQL]": debug
+#     "[org.hibernate.type.descriptor.sql.BasicBinder]": trace
+#     "[com.toy]": debug
 
 custom:
   number: 1
