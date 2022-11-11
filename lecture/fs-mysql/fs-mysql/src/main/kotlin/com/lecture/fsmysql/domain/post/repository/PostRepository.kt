@@ -5,8 +5,12 @@ import com.lecture.fsmysql.domain.member.repository.MemberRepository
 import com.lecture.fsmysql.domain.post.dto.DailyPostCountRequestDto
 import com.lecture.fsmysql.domain.post.dto.DailyPostCountResponseDto
 import com.lecture.fsmysql.domain.post.entity.Post
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert
 import org.springframework.stereotype.Repository
@@ -37,6 +41,37 @@ class PostRepository(
         postCount = rs.getLong("count")
       )
     }
+  }
+
+  fun findAllByMemberId(memberId: Long, pageRequest: PageRequest): Page<Post> {
+    val sql = String.format("""
+      select * 
+      from %s
+      where memberId :memberId
+      limit :size
+      offset :offset
+    """.trimIndent(), TABLE)
+
+    val parameter = MapSqlParameterSource()
+      .addValue("memberId", memberId)
+      .addValue("size", pageRequest.pageSize)
+      .addValue("offset", pageRequest.offset)
+
+    val posts = namedParameterJdbcTemplate.query(sql, parameter, ROW_MAPPER).toList()
+    return PageImpl(posts, pageRequest, getTotalCount(memberId))
+  }
+
+  private fun getTotalCount(memberId: Long): Long {
+    val sql = String.format("""
+      select count(id)
+      from %s
+      where memberId = :memberId
+    """.trimIndent(), TABLE)
+
+    val parameter = MapSqlParameterSource()
+      .addValue("memberId", memberId)
+
+    return namedParameterJdbcTemplate.queryForObject(sql, parameter, Long::class.java)!!
   }
 
   fun save(post: Post): Post {
