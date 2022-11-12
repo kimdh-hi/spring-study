@@ -3,12 +3,18 @@ package com.lecture.fsmysql.application.controler
 import com.lecture.fsmysql.domain.post.dto.DailyPostCountRequestDto
 import com.lecture.fsmysql.domain.post.dto.DailyPostCountResponseDto
 import com.lecture.fsmysql.domain.post.dto.PostCommand
+import com.lecture.fsmysql.domain.post.entity.Post
 import com.lecture.fsmysql.domain.post.service.PostReadService
 import com.lecture.fsmysql.domain.post.service.PostWriteService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -26,5 +32,13 @@ class PostController(
   @GetMapping("/daily-post-counts")
   fun getDailyPostCount(requestDto: DailyPostCountRequestDto): List<DailyPostCountResponseDto> {
     return postReadService.getDailyPostCount(requestDto)
+  }
+
+  @GetMapping("/{memberId}")
+  fun getPosts(
+    @PathVariable memberId: Long,
+    pageable: Pageable
+  ): Page<Post> {
+    return postReadService.getPosts(memberId, pageable)
   }
 }

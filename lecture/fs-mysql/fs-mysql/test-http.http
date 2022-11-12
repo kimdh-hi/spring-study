@@ -43,3 +43,7 @@ Content-Type: application/json
 
 ### 일자별 포스트 생성 수
 GET localhost:8080/posts/daily-post-counts?memberId=8&firstDate=2022-11-05&lastDate=2022-11-07
+
+
+### 포스트 목록조회
+GET localhost:8080/posts/4?page=0&size=10&sort=createdAt,desc

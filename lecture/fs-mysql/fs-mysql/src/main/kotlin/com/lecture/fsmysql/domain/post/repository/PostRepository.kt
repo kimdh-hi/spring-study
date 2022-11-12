@@ -1,5 +1,6 @@
 package com.lecture.fsmysql.domain.post.repository
 
+import com.lecture.fsmysql.domain.PageHelper
 import com.lecture.fsmysql.domain.member.entity.Member
 import com.lecture.fsmysql.domain.member.repository.MemberRepository
 import com.lecture.fsmysql.domain.post.dto.DailyPostCountRequestDto
@@ -8,6 +9,7 @@ import com.lecture.fsmysql.domain.post.entity.Post
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
@@ -43,22 +45,23 @@ class PostRepository(
     }
   }
 
-  fun findAllByMemberId(memberId: Long, pageRequest: PageRequest): Page<Post> {
+  fun findAllByMemberId(memberId: Long, pageable: Pageable): Page<Post> {
     val sql = String.format("""
       select * 
       from %s
-      where memberId :memberId
+      where memberId = :memberId
+      order by %s
       limit :size
-      offset :offset
-    """.trimIndent(), TABLE)
+      offset :offset      
+    """.trimIndent(), TABLE, PageHelper.getSort(pageable.sort))
 
     val parameter = MapSqlParameterSource()
       .addValue("memberId", memberId)
-      .addValue("size", pageRequest.pageSize)
-      .addValue("offset", pageRequest.offset)
+      .addValue("size", pageable.pageSize)
+      .addValue("offset", pageable.offset)
 
     val posts = namedParameterJdbcTemplate.query(sql, parameter, ROW_MAPPER).toList()
-    return PageImpl(posts, pageRequest, getTotalCount(memberId))
+    return PageImpl(posts, pageable, getTotalCount(memberId))
   }
 
   private fun getTotalCount(memberId: Long): Long {
