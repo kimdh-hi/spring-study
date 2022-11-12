@@ -1,5 +1,7 @@
 package com.lecture.fsmysql.application.controler
 
+import com.lecture.fsmysql.common.CursorRequest
+import com.lecture.fsmysql.common.PageCursor
 import com.lecture.fsmysql.domain.post.dto.DailyPostCountRequestDto
 import com.lecture.fsmysql.domain.post.dto.DailyPostCountResponseDto
 import com.lecture.fsmysql.domain.post.dto.PostCommand
@@ -40,5 +42,13 @@ class PostController(
     pageable: Pageable
   ): Page<Post> {
     return postReadService.getPosts(memberId, pageable)
+  }
+
+  @GetMapping("/{memberId}/cursor")
+  fun getPostsByCursor(
+    @PathVariable memberId: Long,
+    cursorRequest: CursorRequest
+  ): PageCursor<Post> {
+    return postReadService.getPosts(memberId, cursorRequest)
   }
 }

@@ -1,4 +1,4 @@
-package com.lecture.fsmysql.domain
+package com.lecture.fsmysql.common
 
 import org.springframework.data.domain.Sort
 

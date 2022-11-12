@@ -47,3 +47,7 @@ GET localhost:8080/posts/daily-post-counts?memberId=8&firstDate=2022-11-05&lastD
 
 ### 포스트 목록조회
 GET localhost:8080/posts/4?page=0&size=10&sort=createdAt,desc
+
+
+### 포스트 목록조회 - 커서기반
+GET localhost:8080/posts/4/cursor?size=3&key=3000010

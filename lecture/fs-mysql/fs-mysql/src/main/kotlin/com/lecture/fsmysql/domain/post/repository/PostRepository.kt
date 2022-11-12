@@ -1,14 +1,11 @@
 package com.lecture.fsmysql.domain.post.repository
 
-import com.lecture.fsmysql.domain.PageHelper
-import com.lecture.fsmysql.domain.member.entity.Member
-import com.lecture.fsmysql.domain.member.repository.MemberRepository
+import com.lecture.fsmysql.common.PageHelper
 import com.lecture.fsmysql.domain.post.dto.DailyPostCountRequestDto
 import com.lecture.fsmysql.domain.post.dto.DailyPostCountResponseDto
 import com.lecture.fsmysql.domain.post.entity.Post
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource
@@ -75,6 +72,39 @@ class PostRepository(
       .addValue("memberId", memberId)
 
     return namedParameterJdbcTemplate.queryForObject(sql, parameter, Long::class.java)!!
+  }
+
+  fun findAllByMemberIdAndOrderByIdDesc(memberId: Long, size: Long): List<Post> {
+    val sql = String.format("""
+      select *
+      from %s
+      where memberId = :memberId
+      order by id desc
+      limit :size
+    """.trimIndent(), TABLE)
+
+    val parameter = MapSqlParameterSource()
+      .addValue("memberId", memberId)
+      .addValue("size", size)
+
+    return namedParameterJdbcTemplate.query(sql, parameter, ROW_MAPPER).toList()
+  }
+
+  fun findAllByLessThanIdAndMemberIdAndOrderByIdDesc(id: Long, memberId: Long, size: Long): List<Post> {
+    val sql = String.format("""
+      select *
+      from %s
+      where memberId = :memberId and id < :id
+      order by id desc
+      limit :size
+    """.trimIndent(), TABLE)
+
+    val parameter = MapSqlParameterSource()
+      .addValue("memberId", memberId)
+      .addValue("size", size)
+      .addValue("id", id)
+
+    return namedParameterJdbcTemplate.query(sql, parameter, ROW_MAPPER).toList()
   }
 
   fun save(post: Post): Post {
