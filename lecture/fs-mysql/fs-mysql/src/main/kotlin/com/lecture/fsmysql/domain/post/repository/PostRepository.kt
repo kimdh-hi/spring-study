@@ -107,6 +107,43 @@ class PostRepository(
     return namedParameterJdbcTemplate.query(sql, parameter, ROW_MAPPER).toList()
   }
 
+  fun findAllByMemberIdAndOrderByIdDesc(memberIds: List<Long>, size: Long): List<Post> {
+    if(memberIds.isEmpty())
+      return listOf()
+    val sql = String.format("""
+      select *
+      from %s
+      where memberId in (:memberIds)
+      order by id desc
+      limit :size
+    """.trimIndent(), TABLE)
+
+    val parameter = MapSqlParameterSource()
+      .addValue("memberIds", memberIds)
+      .addValue("size", size)
+
+    return namedParameterJdbcTemplate.query(sql, parameter, ROW_MAPPER).toList()
+  }
+
+  fun findAllByLessThanIdAndMemberIdAndOrderByIdDesc(id: Long, memberIds: List<Long>, size: Long): List<Post> {
+    if(memberIds.isEmpty())
+      return listOf()
+    val sql = String.format("""
+      select *
+      from %s
+      where memberId in (:memberId) and id < :id
+      order by id desc
+      limit :size
+    """.trimIndent(), TABLE)
+
+    val parameter = MapSqlParameterSource()
+      .addValue("memberIds", memberIds)
+      .addValue("size", size)
+      .addValue("id", id)
+
+    return namedParameterJdbcTemplate.query(sql, parameter, ROW_MAPPER).toList()
+  }
+
   fun save(post: Post): Post {
     return if(post.id == 0L)
       insert(post)

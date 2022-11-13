@@ -24,7 +24,7 @@ GET localhost:8080/members/8/histories
 
 
 ### 팔로우 하기
-POST localhost:8080/follow/8/9
+POST localhost:8080/follow/1/8
 
 
 ### 팔로우 한 member 목록조회
@@ -51,3 +51,7 @@ GET localhost:8080/posts/4?page=0&size=10&sort=createdAt,desc
 
 ### 포스트 목록조회 - 커서기반
 GET localhost:8080/posts/4/cursor?size=3&key=3000010
+
+
+### 타임라인 조회
+GET localhost:8080/posts/members/1/timelines?size=10

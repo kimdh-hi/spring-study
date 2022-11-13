@@ -11,9 +11,9 @@ import javax.persistence.Table
 class Package(
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  var packageSeq: Int = 0,
+  var packageSeq: Int? = null,
 
   var packageName: String,
-  var count: Int,
+  var count: Int = 0,
   var period: Int
 ): BaseEntity()

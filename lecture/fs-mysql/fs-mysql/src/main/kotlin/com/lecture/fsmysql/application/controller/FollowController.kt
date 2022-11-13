@@ -1,4 +1,4 @@
-package com.lecture.fsmysql.application.controler
+package com.lecture.fsmysql.application.controller
 
 import com.lecture.fsmysql.application.usecase.CreateFollowMemberUsecase
 import com.lecture.fsmysql.application.usecase.GetFollowingMembersUsacase

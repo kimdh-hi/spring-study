@@ -30,10 +30,23 @@ class PostReadService(
     return PageCursor(cursorRequest.next(nextKey), posts)
   }
 
+  fun getPosts(memberIds: List<Long>, cursorRequest: CursorRequest): PageCursor<Post> {
+    val posts = findPosts(memberIds, cursorRequest)
+    val nextKey = posts.minOfOrNull { it.id } ?: CursorRequest.DEFAULT_KEY
+    return PageCursor(cursorRequest.next(nextKey), posts)
+  }
+
   private fun findPosts(memberId: Long, cursorRequest: CursorRequest): List<Post> {
     return if(cursorRequest.hasKey())
       postRepository.findAllByLessThanIdAndMemberIdAndOrderByIdDesc(cursorRequest.key!!, memberId, cursorRequest.size)
     else
       postRepository.findAllByMemberIdAndOrderByIdDesc(memberId, cursorRequest.size)
+  }
+
+  private fun findPosts(memberIds: List<Long>, cursorRequest: CursorRequest): List<Post> {
+    return if(cursorRequest.hasKey())
+      postRepository.findAllByLessThanIdAndMemberIdAndOrderByIdDesc(cursorRequest.key!!, memberIds, cursorRequest.size)
+    else
+      postRepository.findAllByMemberIdAndOrderByIdDesc(memberIds, cursorRequest.size)
   }
 }

@@ -1,4 +1,4 @@
-package com.lecture.fsmysql.application.controler
+package com.lecture.fsmysql.application.controller
 
 import com.lecture.fsmysql.domain.member.dto.MemberCreateCommand
 import com.lecture.fsmysql.domain.member.dto.MemberDto
