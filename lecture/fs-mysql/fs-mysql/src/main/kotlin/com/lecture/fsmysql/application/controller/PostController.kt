@@ -1,5 +1,6 @@
 package com.lecture.fsmysql.application.controller
 
+import com.lecture.fsmysql.application.usecase.CreatePostUsecase
 import com.lecture.fsmysql.application.usecase.GetTimelinePostsUsecase
 import com.lecture.fsmysql.common.CursorRequest
 import com.lecture.fsmysql.common.PageCursor
@@ -23,12 +24,13 @@ import org.springframework.web.bind.annotation.RestController
 class PostController(
   private val postWriteService: PostWriteService,
   private val postReadService: PostReadService,
-  private val getTimelinePostsUsecase: GetTimelinePostsUsecase
+  private val getTimelinePostsUsecase: GetTimelinePostsUsecase,
+  private val createPostUsecase: CreatePostUsecase
 ) {
 
   @PostMapping
   fun create(@RequestBody command: PostCommand): Long {
-    return postWriteService.create(command)
+    return createPostUsecase.execute(command)
   }
 
   @GetMapping("/daily-post-counts")
@@ -57,6 +59,7 @@ class PostController(
     @PathVariable memberId: Long,
     cursorRequest: CursorRequest
   ): PageCursor<Post> {
-    return getTimelinePostsUsecase.exuecte(memberId, cursorRequest)
+//    return getTimelinePostsUsecase.execute(memberId, cursorRequest)
+    return getTimelinePostsUsecase.executeByTimeline(memberId, cursorRequest)
   }
 }

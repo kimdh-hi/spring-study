@@ -8,13 +8,13 @@ import org.springframework.batch.repeat.RepeatStatus
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
-@Configuration
+//@Configuration
 class TestBatchConfig(
   private val jbf: JobBuilderFactory,
   private val sbf: StepBuilderFactory
 ) {
 
-  @Bean
+//  @Bean
   fun passStep(): TaskletStep {
     return sbf.get("passStep")
       .tasklet { contribution, chunkContext ->
@@ -24,7 +24,7 @@ class TestBatchConfig(
       .build()
   }
 
-  @Bean
+//  @Bean
   fun passJob(): Job {
     return jbf.get("passJob")
       .start(passStep())

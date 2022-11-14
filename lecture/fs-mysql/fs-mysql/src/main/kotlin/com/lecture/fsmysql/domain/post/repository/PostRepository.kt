@@ -200,4 +200,21 @@ class PostRepository(
 
     namedParameterJdbcTemplate.batchUpdate(sql, parameters)
   }
+
+  fun findAllByInIds(ids: List<Long>): List<Post> {
+    if(ids.isEmpty())
+      return listOf()
+    val sql = String.format("""
+      select *
+      from %s
+      where memberId in (:ids)
+      order by id desc
+      limit :size
+    """.trimIndent(), TABLE)
+
+    val parameter = MapSqlParameterSource()
+      .addValue("ids", ids)
+
+    return namedParameterJdbcTemplate.query(sql, parameter, ROW_MAPPER).toList()
+  }
 }

@@ -54,4 +54,18 @@ class FollowRepository(
     }
     return namedParameterJdbcTemplate.query(sql, parameter, rowMapper).toList()
   }
+
+  fun findAllByToMemberId(memberId: Long): List<Follow> {
+    val sql = String.format("select * from %s where toMemberId = :memberId", TABLE)
+    val parameter = MapSqlParameterSource().addValue("memberId", memberId)
+    val rowMapper = RowMapper { rs, rowNum ->
+      Follow(
+        id = rs.getLong("id"),
+        fromMemberId = rs.getLong("fromMemberId"),
+        toMemberId = rs.getLong("toMemberId"),
+        createdAt = rs.getObject("createdAt", LocalDateTime::class.java)
+      )
+    }
+    return namedParameterJdbcTemplate.query(sql, parameter, rowMapper).toList()
+  }
 }

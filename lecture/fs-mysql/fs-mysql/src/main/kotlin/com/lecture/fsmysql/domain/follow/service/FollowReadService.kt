@@ -12,4 +12,8 @@ class FollowReadService(
   fun getFollowings(memberId: Long): List<Follow> {
     return followRepository.findAllByFromMemberId(memberId)
   }
+
+  fun getFollowers(memberId: Long): List<Follow> {
+    return followRepository.findAllByToMemberId(memberId)
+  }
 }

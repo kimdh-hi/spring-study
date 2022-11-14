@@ -36,6 +36,10 @@ class PostReadService(
     return PageCursor(cursorRequest.next(nextKey), posts)
   }
 
+  fun getPosts(ids: List<Long>): List<Post> {
+    return postRepository.findAllByInIds(ids)
+  }
+
   private fun findPosts(memberId: Long, cursorRequest: CursorRequest): List<Post> {
     return if(cursorRequest.hasKey())
       postRepository.findAllByLessThanIdAndMemberIdAndOrderByIdDesc(cursorRequest.key!!, memberId, cursorRequest.size)
