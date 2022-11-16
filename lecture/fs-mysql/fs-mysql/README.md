@@ -90,6 +90,37 @@ offset 처럼 offset 이전까지 데이터를 읽을 필요가 없다.
 but, 커서 기반 페이징은 전체 데이터를 조회하지 않으므로 totalElements 를 포함할 수 없다.
 즉, 마지막 페이지에 대한 바로 접근 기능을 제공할 수 없다.
 
+++<br/>
+JPA를 사용한다면 Slice 타입을 사용하는 방법도 있다.<br/>
+key로 사용할 키 값이 적당하지 않다면 ex)UUID PK <br/> 
+리턴타입을 `Page` 대신 `Slice` 를 사용할 수 있다.
+위에서 말한 커서 기반 페이징처럼 시작위치까지의 read를 없앨 수는 없지만 count 쿼리가 발생하지 않기 때문에 보다 나은 성능을 가질 수 있다.
+
+```kotlin
+// slice 방식 페이징 
+fun <T> getSlice(
+  query: JPAQuery<out T>,
+  pageable: Pageable
+): SliceImpl<T> {
+  val list = query
+    .offset(pageable.offset)
+    .limit((pageable.pageSize + 1).toLong())
+    .fetch()
+
+  return SliceImpl(list, pageable, hasNext(list, pageable.pageSize))
+}
+
+private fun <T> hasNext(list: MutableList<T>, pageSize: Int): Boolean {
+  return if(list.size > pageSize) {
+    list.removeAt(pageSize)
+    true
+  } else {
+    false
+  }
+}
+```
+
+
 
 
 
