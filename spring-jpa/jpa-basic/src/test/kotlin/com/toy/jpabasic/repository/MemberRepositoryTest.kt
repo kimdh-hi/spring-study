@@ -4,6 +4,7 @@ import com.toy.jpabasic.domain.Member
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.TestConstructor
@@ -69,5 +70,23 @@ class MemberRepositoryTest(
 
     //then
     assertEquals(result, 2)
+  }
+
+  @Test
+  fun findAllByIdsNotFoundTest() {
+    //given
+    val m1 = Member(name = "test1", age = 10)
+    val m2 = Member(name = "test2", age = 20)
+    val m3 = Member(name = "test3", age = 30)
+    val sm1 = memberRepository.save(m1)
+    val sm2 = memberRepository.save(m2)
+    val sm3 = memberRepository.save(m3)
+    entityManager.flush()
+    entityManager.clear()
+    val ids = listOf(sm1.id, sm2.id, sm3.id, "not-exists-id")
+
+    //when
+    assertDoesNotThrow { memberRepository.findAllById(ids) }
+    // 존재하지 않는 경우 pass (예외 xx)
   }
 }
