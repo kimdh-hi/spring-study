@@ -3,8 +3,8 @@ POST localhost:8080/members
 Content-Type: application/json
 
 {
-  "email": "test4@gmail.com",
-  "nickname": "test4",
+  "email": "transaction@gmail.com",
+  "nickname": "transaction",
   "birthday": "2022-01-01"
 }
 

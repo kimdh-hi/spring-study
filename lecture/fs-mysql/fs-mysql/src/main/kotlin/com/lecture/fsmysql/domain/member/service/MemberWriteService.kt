@@ -6,6 +6,7 @@ import com.lecture.fsmysql.domain.member.entity.MemberNicknameHistory
 import com.lecture.fsmysql.domain.member.repository.MemberNicknameHistoryRepository
 import com.lecture.fsmysql.domain.member.repository.MemberRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class MemberWriteService(
@@ -13,13 +14,17 @@ class MemberWriteService(
   private val memberNicknameHistoryRepository: MemberNicknameHistoryRepository
 ) {
 
+  @Transactional
   fun create(command: MemberCreateCommand): Member {
     val member = Member(
       nickname = command.nickname,
       email = command.email,
       birthday = command.birthday
     )
-    return memberRepository.save(member)
+    val savedMember = memberRepository.save(member)
+//    val ex = 0/0 // exception. rollback
+    saveNicknameHistory(savedMember)
+    return savedMember
   }
 
   fun changeNickname(id: Long, changeNickname: String): Member {

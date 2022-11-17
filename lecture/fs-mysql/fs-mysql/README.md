@@ -152,6 +152,68 @@ Durability 지속성
   - MySQL은 WAL을 통해 위와 같은 문제가 발생하는 것을 방지한다.
     - DB 재부팅? 시 WAL을 보고 메모리에 있는 데이터를 디스크에 반영한다.
 
+---
+
+### 트랜잭션 격리레벨
+
+- READ UNCOMMITTED
+  - Dirty read, Non-repeatable read, Phantom read 모두 발생
+- READ COMMITTED
+  - 커밋된 데이터만 읽으므로 Dirty read 를 방지한다.
+  - Non-repeatable read, Phantom read 발생 
+- REPEATABLE READ
+  - 커밋된 데이터만 보면서 트랜잭션마다 ID를 부여하고 더 나중에 들어온 트랜잭션에 의한 결과는 보지 않는다.
+  - 현재 트랜잭션 이후 트랜잭션의 결과 데이터는 보지않기 때문에 Non-repeatable read 방지
+  - Phantom read 발생
+- SERIALIZABLE READ
+  - 3개 이상현상 모두 방지
+
+READ UNCOMMITTED, SERIALIZABLE READ 는 성능과 안정성의 극단적 트레이드 오프로 잘 사용되지 않는다.<br/>
+REPEATABLE READ 의 경우 데드락 문제가 꽤나 빈번하므로 주의가 필요하다. <br/>
+READ COMMITTED 가 가장 흔하게? 사용된다.
+
+이상현상
+- Dirty read
+- Non-Repeatable read
+- Phantom read
+
+(InnoDB 기준) 4개 트랜잭션 격리 레벨은 결국 3가지 이상현상을 몇 가지를 방지하는지 몇 가지를 허용하는지에 대한 것이다.
+
+#### Dirty read
+커밋되지 않은 데이터를 읽는 이상현상
+
+tx1
+- A 잔액 2000원, B 잔액 `1000`
+- A -> B 에게 1000원 송금 -> A: 1000, B: 2000
+- 송금 실패 (롤백) -> A: 2000, B: `1000`
+
+tx2
+- A -> B 에게 1000원을 송금하고 송금이 실패하기 전 B의 잔액을 read
+- tx2 가 읽은 B의 잔액은 `2000`
+
+#### Non-repeatable read
+같은 트랜잭션 내에서 같은 데이터를 읽었는데 결과가 다른 경우
+
+- `tx1` 은 한 개 트랜잭션 동안 총 2번 A의 잔액을 읽을 것임
+- 최초 A의 잔액은 `1000`
+- `tx1`의 첫 번째 read 결과는 `1000`
+- `tx2` 가 A의 잔액을 업데이트 (+1000) 후 커밋 
+  - A 의 잔액은 `2000`
+- `tx1` 은 `tx2` 의 트랜잭션이 커밋되고 다음 read가 수행됨
+  - `tx1` 의 두 번째 read 결과는 `2000`
+
+`tx1` 은 한 개 트랜잭션 동안 서로 다른 A 의 잔액을 조회하게 됨
+
+#### Phantom read
+같은 트랜잭션 내에서 같은 조건으로 조회했을 때 결과가 다른 경우
+
+- `tx1` 은 한 개 트랜잭션 동안 잔액이 `1000` 이상은 사용자를 조회
+  - 최초 A: 1200 B: 500
+  - 첫 번째 조회결과 A만 조회됨
+- `tx2` 가 B의 잔액을 `1500`으로 갱신 (+1000) 후 커밋
+- `tx1` 은 같은 조건 (잔액 1000원 이상)으로 조회
+- A, B 모두 조회
+
 
 
 
