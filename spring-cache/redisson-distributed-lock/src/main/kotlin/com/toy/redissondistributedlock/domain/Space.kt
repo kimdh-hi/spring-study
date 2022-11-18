@@ -10,7 +10,7 @@ import javax.persistence.Table
 import kotlin.math.max
 
 @Table
-@Entity(name = "th_space")
+@Entity(name = "tb_space")
 class Space(
   @Id
   @GeneratedValue(generator = "uuid")

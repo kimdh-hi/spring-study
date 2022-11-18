@@ -1,0 +1,1 @@
+insert into tb_space(id, name, max_user_count, participants) values ('s1', 's1', 10, 0);
