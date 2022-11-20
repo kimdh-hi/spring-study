@@ -49,7 +49,7 @@ internal class SpaceServiceTest(
     val latch = CountDownLatch(10)
     for (i in 1..10) {
       service.execute {
-        spaceService.participate(savedSpace.id!!)
+        spaceService.participateWithoutLock(savedSpace.id!!)
         latch.countDown()
       }
     }
