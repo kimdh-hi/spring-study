@@ -19,6 +19,12 @@ spring:
         show_sql: false
         format_sql: true
     defer-datasource-initialization: true
+  rabbitmq:
+    host: localhost
+    port: 5679
+    username : guest
+    password : guest
+
 
 redis:
   host: localhost

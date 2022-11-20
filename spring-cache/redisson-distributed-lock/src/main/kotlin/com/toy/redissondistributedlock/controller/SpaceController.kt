@@ -15,7 +15,7 @@ class SpaceController(
 
   @PostMapping("/{spaceId}/participate")
   fun participate(@PathVariable spaceId: String): ResponseEntity<Unit> {
-    spaceService.participateLock(spaceId)
+    spaceService.participateWithLock(spaceId)
     return ResponseEntity.ok().build()
   }
 }

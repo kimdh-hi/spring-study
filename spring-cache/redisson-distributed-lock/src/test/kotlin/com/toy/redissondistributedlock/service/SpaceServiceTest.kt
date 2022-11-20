@@ -25,9 +25,9 @@ internal class SpaceServiceTest(
     //when
     val service = Executors.newFixedThreadPool(10)
     val latch = CountDownLatch(10)
-    for (i in 1..10) {
+    for (i in 1..11) {
       service.execute {
-        spaceService.participateLock(savedSpace.id!!)
+        spaceService.participateWithLock(savedSpace.id!!)
         latch.countDown()
       }
     }

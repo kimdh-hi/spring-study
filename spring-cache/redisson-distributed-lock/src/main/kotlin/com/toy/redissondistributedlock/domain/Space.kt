@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
 import kotlin.math.max
+import kotlin.math.min
 
 @Table
 @Entity(name = "tb_space")
@@ -28,8 +29,7 @@ class Space(
   var participants: Int = 0
 ) {
   fun participate() {
-    if (participants + 1 <= maxUserCount)
-    this.participants++
+    this.participants = min(participants + 1, maxUserCount)
   }
 
   fun exit() {
