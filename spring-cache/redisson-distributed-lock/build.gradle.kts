@@ -39,6 +39,9 @@ dependencies {
   runtimeOnly("com.h2database:h2")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.amqp:spring-rabbit-test")
+  testImplementation("com.google.code.tempus-fugit:tempus-fugit:1.1")
+
+  implementation("io.netty:netty-resolver-dns-native-macos:4.1.84.Final:osx-aarch_64")
 }
 
 tasks.withType<KotlinCompile> {

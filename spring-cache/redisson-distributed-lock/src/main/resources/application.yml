@@ -24,6 +24,7 @@ spring:
     port: 5679
     username : guest
     password : guest
+    addresses: localhost:5679
 
 
 redis:
