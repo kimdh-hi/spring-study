@@ -32,6 +32,10 @@ dependencies {
 
   // 런타임에 클래스 기반 spock mock 을 만들기 위
   testImplementation("net.bytebuddy:byte-buddy:1.12.10")
+
+  //testcontainers
+  testImplementation("org.testcontainers:spock:1.17.1")
+  testImplementation("org.testcontainers:mariadb:1.17.1")
 }
 
 tasks.withType<KotlinCompile> {
