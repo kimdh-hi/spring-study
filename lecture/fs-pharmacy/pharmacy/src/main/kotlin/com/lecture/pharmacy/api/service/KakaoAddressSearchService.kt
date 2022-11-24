@@ -20,7 +20,7 @@ class KakaoAddressSearchService(
   fun searchAddress(address: String): KakaoResponseDto? {
     val uri = kakaoUriBuilderService.buildUriByAddress(address)
     val httpHeaders = HttpHeaders()
-    httpHeaders.set(HttpHeaders.AUTHORIZATION, kakaoRestApiKey)
+    httpHeaders.set(HttpHeaders.AUTHORIZATION, "KakaoAK $kakaoRestApiKey")
     val httpEntity = HttpEntity<String>(httpHeaders)
 
     return restTemplate.exchange(uri, HttpMethod.GET, httpEntity, KakaoResponseDto::class.java).body

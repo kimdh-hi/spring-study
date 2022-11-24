@@ -1,26 +1,23 @@
 package com.lecture.pharmacy.api.service
 
-import spock.lang.Specification
+import com.lecture.pharmacy.api.AbstractIntegrationContainerBaseTest
+import org.springframework.beans.factory.annotation.Autowired
 
-import java.nio.charset.StandardCharsets
+class KakaoAddressSearchServiceTest extends AbstractIntegrationContainerBaseTest {
 
-class KakaoAddressSearchServiceTest extends Specification {
+    @Autowired
+    private KakaoAddressSearchService addressSearchService
 
-    private KakaoUriBuilderService kakaoUriBuilderService
-
-    def setup() {
-        kakaoUriBuilderService = new KakaoUriBuilderService()
-    }
-
-    def "buildUriByAddressSearch - 인코딩 성공"() {
+    def "address가 유효한 경우 document를 반환한다"() {
         given:
-        String address = "서울 동대문구"
+        def address = "서울 성구 종암로 10길"
 
         when:
-        def uri = kakaoUriBuilderService.buildUriByAddress(address)
-        def decodedUri = URLDecoder.decode(uri.toString(), StandardCharsets.UTF_8)
+        def result = addressSearchService.searchAddress(address)
 
         then:
-        decodedUri == "https://dapi.kakao.com/v2/local/search/address.json?query=서울 동대문구"
+        result.documents.size() > 0
+        result.metaDto.totalCount > 0
+        result.documents.get(0).addressName != null
     }
 }
