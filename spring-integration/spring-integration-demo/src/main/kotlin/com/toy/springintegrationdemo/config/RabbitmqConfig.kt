@@ -12,4 +12,7 @@ class RabbitmqConfig {
 
   @Bean
   fun createLoggingQueue() = Queue("loggingQueue")
+
+  @Bean
+  fun createRequeueTestQueue() = Queue("requeueTestQueue")
 }

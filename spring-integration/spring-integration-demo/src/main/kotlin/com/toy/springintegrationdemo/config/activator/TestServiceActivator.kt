@@ -1,4 +1,4 @@
-package com.toy.springintegrationdemo.config
+package com.toy.springintegrationdemo.config.activator
 
 import org.slf4j.LoggerFactory
 import org.springframework.integration.annotation.ServiceActivator
