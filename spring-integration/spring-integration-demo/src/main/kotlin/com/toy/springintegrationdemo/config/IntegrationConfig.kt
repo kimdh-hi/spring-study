@@ -2,6 +2,7 @@ package com.toy.springintegrationdemo.config
 
 import com.toy.springintegrationdemo.config.activator.RequeueTestServiceActivator
 import com.toy.springintegrationdemo.config.activator.TestServiceActivator
+import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.integration.amqp.dsl.Amqp
@@ -16,6 +17,8 @@ class IntegrationConfig(
   private val testServiceActivator: TestServiceActivator,
   private val requeueTestServiceActivator: RequeueTestServiceActivator
 ) {
+
+  private val log = LoggerFactory.getLogger(javaClass)
 
   @Bean
   fun testServiceFlow(): IntegrationFlow = IntegrationFlows.from(
@@ -45,6 +48,9 @@ class IntegrationConfig(
     Amqp.inboundAdapter(containerProvider.getListenerContainer("requeueTestQueue"))
   )
     .handle(requeueTestServiceActivator, "execute")
+    .filter("(headers['x-death'] != null) ? headers['x-death'][0].count <= 3: true") {
+      log.info(it.toString())
+    }
     .get()
 
 }
