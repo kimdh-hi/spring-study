@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/requeue")
 class RequeueTestController(
   private val rabbitTemplate: RabbitTemplate,
-  private val objectMapper: ObjectMapper
 ) {
 
   @PostMapping

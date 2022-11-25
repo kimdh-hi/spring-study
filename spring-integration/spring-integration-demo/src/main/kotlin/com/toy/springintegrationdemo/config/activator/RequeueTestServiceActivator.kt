@@ -13,7 +13,11 @@ class RequeueTestServiceActivator {
 
   @ServiceActivator
   fun execute(message: RequeueTestMessage) {
-    message.data ?: throw RuntimeException("message cannot be null...")
+    log.info("RequeueTestServiceActivator receive message: {}", message)
+    message.data ?: run {
+      log.warn("message cannot be null...")
+      throw RuntimeException("message cannot be null...")
+    }
     log.info("RequeueTestServiceActivator success!")
   }
 }
