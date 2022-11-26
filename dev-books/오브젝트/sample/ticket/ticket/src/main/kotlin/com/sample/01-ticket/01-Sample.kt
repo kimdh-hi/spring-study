@@ -1,4 +1,4 @@
-//package com.sample
+package com.sample.`01-ticket`//package com.sample
 //
 //import java.time.LocalDateTime
 //
@@ -28,23 +28,9 @@
 //  }
 //}
 //
-///**
-// * audience 자신의 bag 에 접근해서 티켓이 있는지 확인하고 금액을 지불하는 것은 자기 자신의 책임이다.
-// */
 //class Audience(
-//  private val bag: Bag // audience 의 bag 은 private 으로 외부에서 접근을 막았다. (캡슐화)
-//) {
-//  fun buy(ticket: Ticket): Long {
-//    return if (bag.hasInvitation()) {
-//      bag.ticket = ticket
-//      0L
-//    } else {
-//      bag.ticket = ticket
-//      bag.minusAmount(ticket.fee)
-//      ticket.fee
-//    }
-//  }
-//}
+//  val bag: Bag
+//)
 //
 //class TicketOffice(
 //  var amount: Long,
@@ -64,18 +50,25 @@
 //}
 //
 //class TicketSeller(
-//  private val ticketOffice: TicketOffice // TicketSeller 의 ticketOffice 은 private 으로 외부에서 접근을 막았다. (캡슐화)
-//) {
+//  val ticketOffice: TicketOffice
+//)
 //
-//  fun sellTo(audience: Audience) {
-//    ticketOffice.plusAmount(audience.buy(ticketOffice.getTicket()))
-//  }
-//}
-//
+///**
+// * audience 와  audience 의 bag, ticketSeller 와 ticketSeller 의 ticketOffice 까지 theater 가 직접 접근하며 통제하고 변경하고 있다.
+// * audience 가 변경되는 ticketSeller 가 변경되는 이와 결합된 Theater 까지 변경될 수 있다.
+// */
 //class Theater(
 //  val ticketSeller: TicketSeller
 //) {
 //  fun enter(audience: Audience) {
-//    ticketSeller.sellTo(audience)
+//    if (audience.bag.hasInvitation()) {
+//      val ticket = ticketSeller.ticketOffice.getTicket()
+//      audience.bag.ticket = ticket
+//    } else {
+//      val ticket = ticketSeller.ticketOffice.getTicket()
+//      audience.bag.minusAmount(ticket.fee)
+//      ticketSeller.ticketOffice.plusAmount(ticket.fee)
+//      audience.bag.ticket = ticket
+//    }
 //  }
 //}

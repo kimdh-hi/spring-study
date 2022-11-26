@@ -1,4 +1,4 @@
-package com.sample
+package com.sample.`01-ticket`
 
 import java.time.LocalDateTime
 
