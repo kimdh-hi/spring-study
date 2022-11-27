@@ -12,7 +12,7 @@ class Movie(
   val discountConditions: MutableList<DiscountCondition>,
 
   val movieType: MovieType,
-  val discountAmountL: Money,
+  val discountAmount: Money,
   val discountPercent: Double
 )
 
@@ -42,8 +42,8 @@ class Money(
     return Money(this.amount.subtract(amount.amount))
   }
 
-  fun times(percent: Double) {
-    Money(this.amount.multiply(BigDecimal.valueOf(percent)))
+  fun times(percent: Double): Money {
+    return Money(this.amount.multiply(BigDecimal.valueOf(percent)))
   }
 
   fun isLessThan(other: Money) = amount < other.amount
@@ -81,3 +81,43 @@ class Customer(
   val name: String,
   val id: String
 )
+
+class ReservationAgency {
+
+  fun reserve(screening: Screening, customer: Customer, audienceCount: Int): Reservation {
+    val movie = screening.movie
+
+    var discountable = false
+    movie.discountConditions.forEach { discountCondition ->
+      if(discountCondition.type == DiscountConditionType.PERIOD) {
+        discountable = (screening.whenScreened.dayOfWeek == discountCondition.dayOfWeek)
+          && discountCondition.startTime <=  screening.whenScreened.toLocalTime()
+          && discountCondition.endTime >= screening.whenScreened.toLocalTime()
+      } else {
+        discountable = discountCondition.sequence == screening.sequence
+      }
+
+      if(discountable)
+        return@forEach
+    }
+
+    val fee = if(discountable) {
+      val discountAmount = when(movie.movieType) {
+        MovieType.AMOUNT_DISCOUNT -> {
+          movie.discountAmount
+        }
+        MovieType.PERCENT_DISCOUNT -> {
+          movie.fee.times(movie.discountPercent)
+        }
+        MovieType.NONE_DISCOUNT -> {
+          Money.ZERO
+        }
+      }
+      movie.fee.minus(discountAmount)
+    } else {
+      movie.fee
+    }
+
+    return Reservation(customer, screening, fee, audienceCount)
+  }
+}
