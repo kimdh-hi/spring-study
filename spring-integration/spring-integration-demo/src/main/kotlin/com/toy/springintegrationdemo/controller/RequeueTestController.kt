@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.toy.springintegrationdemo.config.activator.RequeueTestMessage
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -15,13 +14,9 @@ class RequeueTestController(
 ) {
 
   @PostMapping
-  fun send(@RequestBody requestVO: RequeueTestRequestVO): String {
-    val message = RequeueTestMessage(requestVO.data)
+  fun send(): String {
+    val message = RequeueTestMessage("test")
     rabbitTemplate.convertAndSend("requeueTestQueue", message)
     return "ok"
   }
 }
-
-data class RequeueTestRequestVO(
-  val data: String? = null
-)

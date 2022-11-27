@@ -33,6 +33,9 @@ class RabbitmqConfig {
   fun createRequeueTestFailQueue() = Queue(
     "requeueTestFailQueue",
     true, false, false,
+    mapOf(
+      "x-dead-letter-exchange" to "requeueTestDlx",
+    )
   )
 
   @Bean

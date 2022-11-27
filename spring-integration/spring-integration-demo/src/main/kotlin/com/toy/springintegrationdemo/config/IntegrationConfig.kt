@@ -15,7 +15,7 @@ import org.springframework.integration.handler.LoggingHandler
 class IntegrationConfig(
   private val containerProvider: RabbitmqContainerProvider,
   private val testServiceActivator: TestServiceActivator,
-  private val requeueTestServiceActivator: RequeueTestServiceActivator
+  private val requeueTestServiceActivator: RequeueTestServiceActivator,
 ) {
 
   private val log = LoggerFactory.getLogger(javaClass)
@@ -48,9 +48,15 @@ class IntegrationConfig(
     Amqp.inboundAdapter(containerProvider.getListenerContainer("requeueTestQueue"))
   )
     .handle(requeueTestServiceActivator, "execute")
+    .get()
+
+  @Bean
+  fun requeueTestFailFlow(): IntegrationFlow = IntegrationFlows.from(
+    Amqp.inboundAdapter(containerProvider.getListenerContainer("requeueTestFailQueue"))
+  )
+    .handle(requeueTestServiceActivator, "requeue")
     .filter("(headers['x-death'] != null) ? headers['x-death'][0].count <= 3: true") {
       log.info(it.toString())
     }
     .get()
-
 }

@@ -1,5 +1,6 @@
 package com.toy.springintegrationdemo.config.activator
 
+import com.toy.springintegrationdemo.service.TestService
 import org.slf4j.LoggerFactory
 import org.springframework.amqp.AmqpRejectAndDontRequeueException
 import org.springframework.integration.annotation.ServiceActivator
@@ -8,25 +9,38 @@ import java.io.Serial
 import java.io.Serializable
 
 @Component
-class RequeueTestServiceActivator {
+class RequeueTestServiceActivator(
+  private val testService: TestService
+) {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
   @ServiceActivator
   fun execute(message: RequeueTestMessage) {
-    log.info("RequeueTestServiceActivator receive message: {}", message)
-    message.data ?: run {
-      log.warn("message cannot be null...")
+    log.info("RequeueTestServiceActivator execute message: {}", message)
+    try {
+      testService.logic()
+    } catch (e: RuntimeException) {
       // 아래 예외가 throw 되야 requeue 가 발생하지 않고 dlx 로 메시지가 전달된다.
-      throw AmqpRejectAndDontRequeueException("message cannot be null...")
-//      throw RuntimeException("message cannot be null...")
+      throw AmqpRejectAndDontRequeueException("RequeueTestServiceActivator execute failed...")
     }
-    log.info("RequeueTestServiceActivator success!")
+    log.info("RequeueTestServiceActivator execute success!")
+  }
+
+  @ServiceActivator
+  fun requeue(message: RequeueTestMessage) {
+    log.info("RequeueTestServiceActivator requeue message: {}", message)
+    try {
+      testService.logic()
+    } catch (e: RuntimeException) {
+      throw AmqpRejectAndDontRequeueException("RequeueTestServiceActivator requeue failed...")
+    }
+    log.info("RequeueTestServiceActivator requeue success!")
   }
 }
 
 data class RequeueTestMessage(
-  val data: String? = null,
+  var data: String = "data",
 ): Serializable {
   companion object {
     @Serial

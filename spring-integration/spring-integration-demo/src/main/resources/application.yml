@@ -1,12 +1,12 @@
-spring:
-  rabbitmq:
-    listener:
-      simple:
-        acknowledge-mode: auto
-        retry:
-          enabled: true
-          max-attempts: 3
-          max-interval: 1000
-          initial-interval: 1000
+#spring:
+#  rabbitmq:
+#    listener:
+#      simple:
+#        acknowledge-mode: auto
+#        retry:
+#          enabled: true
+#          max-attempts: 3
+#          max-interval: 1000
+#          initial-interval: 1000
 
 
