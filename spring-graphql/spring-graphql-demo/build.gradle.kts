@@ -23,6 +23,8 @@ dependencies {
   implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter")
   implementation("com.netflix.graphql.dgs:graphql-dgs-extended-scalars")
 
+  implementation("com.github.javafaker:javafaker:1.0.2")
+
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
