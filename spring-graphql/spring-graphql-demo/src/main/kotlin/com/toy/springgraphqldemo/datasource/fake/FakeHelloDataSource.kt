@@ -2,8 +2,8 @@ package com.toy.springgraphqldemo.datasource.fake
 
 import com.github.javafaker.Faker
 import com.toy.springgraphqldemo.generated.types.Hello
-import jakarta.annotation.PostConstruct
 import org.springframework.context.annotation.Configuration
+import javax.annotation.PostConstruct
 
 @Configuration
 class FakeHelloDataSource(

@@ -1,11 +1,12 @@
+import com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  id("org.springframework.boot") version "3.0.0"
-  id("io.spring.dependency-management") version "1.1.0"
-  id("com.netflix.dgs.codegen") version "5.6.0"
-  kotlin("jvm") version "1.7.21"
-  kotlin("plugin.spring") version "1.7.21"
+  id("org.springframework.boot") version "2.7.4"
+  id("io.spring.dependency-management") version "1.0.14.RELEASE"
+  id("com.netflix.dgs.codegen") version "5.1.16"
+  kotlin("jvm") version "1.6.21"
+  kotlin("plugin.spring") version "1.6.21"
 }
 
 group = "com.toy"
@@ -19,11 +20,11 @@ repositories {
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
 
-  implementation(platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:4.0.1"))
+  implementation(platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release"))
   implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter")
-  implementation("com.netflix.graphql.dgs:graphql-dgs-extended-scalars")
-
-  implementation("com.github.javafaker:javafaker:1.0.2")
+  implementation("com.netflix.graphql.dgs:graphql-dgs-subscriptions-websockets-autoconfigure:5.0.3")
+  implementation("com.github.javafaker:javafaker:1.+")
+  implementation("org.yaml:snakeyaml:1.33")
 
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -32,9 +33,10 @@ dependencies {
   testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
-tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {
+tasks.withType<GenerateJavaTask> {
   generateClient = true
   packageName = "com.toy.springgraphqldemo.generated"
+  language = "kotlin"
 }
 
 tasks.withType<KotlinCompile> {
@@ -42,6 +44,7 @@ tasks.withType<KotlinCompile> {
     freeCompilerArgs = listOf("-Xjsr305=strict")
     jvmTarget = "17"
   }
+//  dependsOn(tasks.withType<GenerateJavaTask>())
 }
 
 tasks.withType<Test> {
