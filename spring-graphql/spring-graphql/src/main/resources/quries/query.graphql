@@ -1,0 +1,14 @@
+query books {
+    books(author: "fay") {
+        title
+        author {
+            name
+            originCountry
+        }
+        released {
+            year
+            printedEdition
+            releasedCountry
+        }
+    }
+}
