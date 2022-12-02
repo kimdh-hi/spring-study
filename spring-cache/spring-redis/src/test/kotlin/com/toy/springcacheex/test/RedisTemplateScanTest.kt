@@ -19,14 +19,13 @@ import org.springframework.test.context.TestConstructor
 
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-class RedisTemplateTest(
+class RedisTemplateScanTest(
   private val redisTemplate: RedisTemplate<String, Any>
 ) {
 
   @Test
   fun scan() {
     val keys = scanSpaceChannelBySpaceId("space1", 10)
-
     println(keys)
   }
 
