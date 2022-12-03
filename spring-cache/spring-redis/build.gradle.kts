@@ -25,6 +25,8 @@ allOpen {
 
 noArg {
   annotation("javax.persistence.Entity")
+  annotation("com.toy.springcacheex.common.NoArg")
+  invokeInitializers = true
 }
 
 dependencies {

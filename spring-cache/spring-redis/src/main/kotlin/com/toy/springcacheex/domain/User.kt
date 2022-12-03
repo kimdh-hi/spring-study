@@ -1,5 +1,6 @@
 package com.toy.springcacheex.domain
 
+import com.toy.springcacheex.common.NoArg
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serial
 import java.io.Serializable
@@ -21,5 +22,9 @@ class User (
   companion object {
     @Serial
     private const val serialVersionUID: Long = -6445825922879909934L
+  }
+
+  override fun toString(): String {
+    return "User(id=$id, username='$username')"
   }
 }
