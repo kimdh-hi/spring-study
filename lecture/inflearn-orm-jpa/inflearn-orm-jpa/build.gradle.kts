@@ -5,6 +5,18 @@ plugins {
   id("io.spring.dependency-management") version "1.1.0"
   kotlin("jvm") version "1.7.21"
   kotlin("plugin.spring") version "1.7.21"
+  kotlin("plugin.noarg") version "1.7.21"
+  kotlin("plugin.jpa") version "1.7.21"
+}
+
+allOpen {
+  annotation("javax.persistence.Entity")
+  annotation("javax.persistence.Embeddable")
+  annotation("javax.persistence.MappedSuperclass")
+}
+
+noArg {
+  annotation("javax.persistence.Entity")
 }
 
 group = "com.lecture"
