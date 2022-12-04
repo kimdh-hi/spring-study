@@ -1,7 +1,10 @@
 package com.toy.springcacheex.test
 
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.cache.CacheManager
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.core.ScanOptions
 import org.springframework.test.context.TestConstructor
@@ -20,7 +23,8 @@ import org.springframework.test.context.TestConstructor
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 class RedisTemplateScanTest(
-  private val redisTemplate: RedisTemplate<String, Any>
+  private val redisTemplate: RedisTemplate<String, Any>,
+  private val cacheManager: CacheManager
 ) {
 
   @Test
@@ -29,9 +33,31 @@ class RedisTemplateScanTest(
     println(keys)
   }
 
+  @Test
+  fun scanUseCase() {
+    //given
+    val space1 = cacheManager.getCache("space1")!!
+    space1.put("ch1", 100)
+    space1.put("ch2", 100)
+    space1.put("ch3", 50)
+
+    //when
+    var availableChannel: String? =  null
+    scanSpaceChannelBySpaceId("space1", 10).map {
+      val count = redisTemplate.opsForValue().get(it) as Int?
+      if(count != null && count < 100) {
+        availableChannel = it.split("::")[1]
+      }
+    }
+
+    //then
+    assertNotNull(availableChannel)
+    assertEquals("ch3", availableChannel)
+  }
+
   private fun scanSpaceChannelBySpaceId(spaceId: String, count: Long): List<String> {
     val scanOptions = ScanOptions.scanOptions()
-      .match("$spaceId:ch*")
+      .match("$spaceId::ch*")
       .count(count)
       .build()
 
