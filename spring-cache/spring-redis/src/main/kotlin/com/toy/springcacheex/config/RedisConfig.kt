@@ -53,6 +53,8 @@ class RedisConfig(private val redisProperties: RedisProperties) {
     redisTemplate.setConnectionFactory(redisConnectionFactory)
     redisTemplate.keySerializer = StringRedisSerializer()
     redisTemplate.valueSerializer = GenericJackson2JsonRedisSerializer()
+    redisTemplate.hashKeySerializer = StringRedisSerializer()
+    redisTemplate.hashValueSerializer = GenericJackson2JsonRedisSerializer()
     return redisTemplate
   }
 
