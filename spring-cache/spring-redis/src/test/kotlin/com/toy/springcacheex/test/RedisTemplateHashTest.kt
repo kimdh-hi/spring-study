@@ -1,11 +1,14 @@
 package com.toy.springcacheex.test
 
+import com.toy.springcacheex.common.NoArg
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.test.context.TestConstructor
+import java.io.Serial
+import java.io.Serializable
 
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
@@ -67,6 +70,31 @@ class RedisTemplateHashTest(
     assertEquals(99, hashOperation.get(spaceId, spaceChannelId))
   }
 
+
+  @Test
+  fun hashUseCase3() {
+    //given
+    val hashOperation = redisTemplate.opsForHash<String, Any>()
+
+    val spaceId = "space03Id"
+    val spaceChannelId = "space03Channel01Id"
+    hashOperation.put(spaceId, spaceChannelId, SpaceChannelCount(count = 100, maxCount = 200))
+
+    //when
+    val entries = hashOperation.entries(spaceId)
+
+    entries.keys.forEach {
+      val spaceChannelCount = entries[it] as SpaceChannelCount
+      if(spaceChannelCount.count < spaceChannelCount.maxCount) {
+        hashOperation.put(spaceId, spaceChannelId, spaceChannelCount.count+1)
+        return
+      }
+    }
+
+    //then
+    assertEquals(101, hashOperation.get(spaceId, spaceChannelId))
+  }
+
   private fun getAvailableSpaceChannelIdOrNull(spaceId: String): String? {
     val hashOperation = redisTemplate.opsForHash<String, Int>()
     val entries = hashOperation.entries(spaceId)
@@ -88,5 +116,16 @@ class RedisTemplateHashTest(
     } else {
       hashOperation.increment(spaceId, spaceChannelId, -1)
     }
+  }
+}
+
+@NoArg
+data class SpaceChannelCount(
+  val count:Int,
+  val maxCount:Int
+): Serializable {
+  companion object {
+    @Serial
+    private const val serialVersionUID: Long = -2557860745267802422L
   }
 }
