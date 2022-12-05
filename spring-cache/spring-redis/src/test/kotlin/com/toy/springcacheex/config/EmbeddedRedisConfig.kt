@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import redis.embedded.RedisServer
-import java.io.IOException
 import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy
 
