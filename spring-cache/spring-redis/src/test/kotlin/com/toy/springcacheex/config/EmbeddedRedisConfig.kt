@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy
 
 
-@Configuration
+//@Configuration
 class EmbeddedRedisConfig(
   private val redisProperties: RedisProperties
 ) {

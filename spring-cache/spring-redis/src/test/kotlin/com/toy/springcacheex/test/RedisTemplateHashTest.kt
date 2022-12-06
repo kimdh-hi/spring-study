@@ -1,8 +1,7 @@
 package com.toy.springcacheex.test
 
 import com.toy.springcacheex.common.NoArg
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.redis.core.RedisTemplate
@@ -29,6 +28,41 @@ class RedisTemplateHashTest(
     hashOperation.values(key).forEach {
       println(it)
     }
+  }
+
+  @Test
+  fun deleteByKey() {
+    //given
+    val hashOperation = redisTemplate.opsForHash<String, String>()
+    val key = "space01"
+    val hashKey = "space01-ch-01"
+    hashOperation.put(key, hashKey, "100")
+
+    //when
+    redisTemplate.delete(key)
+
+    //then
+    assertNull(hashOperation.get(key, hashKey))
+  }
+
+  @Test
+  fun deleteByHashKey() {
+    //given
+    val hashOperation = redisTemplate.opsForHash<String, String>()
+    val key = "space01"
+    val hashKey1 = "space01-ch-01"
+    val hashKey2 = "space01-ch-02"
+    hashOperation.put(key, hashKey1, "100")
+    hashOperation.put(key, hashKey2, "100")
+
+    //when
+    hashOperation.delete(key, hashKey1)
+
+    //then
+    assertAll({
+      assertNull(hashOperation.get(key, hashKey1))
+      assertNotNull(hashOperation.get(key, hashKey2))
+    })
   }
 
   @Test

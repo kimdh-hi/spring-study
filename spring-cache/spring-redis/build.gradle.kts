@@ -41,6 +41,7 @@ dependencies {
   runtimeOnly("com.h2database:h2")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("it.ozimov:embedded-redis:0.7.3") { exclude(group = "org.slf4j", module = "slf4j-simple")}
+  testImplementation("org.testcontainers:testcontainers:1.17.6")
 }
 
 tasks.withType<KotlinCompile> {
