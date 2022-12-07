@@ -43,7 +43,7 @@ class RedisConfig(private val redisProperties: RedisProperties) {
     return RedisCacheManager.RedisCacheManagerBuilder
       .fromConnectionFactory(redisConnectionFactory)
       .cacheDefaults(redisCacheDefaultConfig)
-      .withInitialCacheConfigurations(ttlInfoMap()) // ttl user::id-1
+      .withInitialCacheConfigurations(redisExpiresConfigurationMap())
       .build()
   }
 
@@ -66,8 +66,8 @@ class RedisConfig(private val redisProperties: RedisProperties) {
     return LettuceConnectionFactory(redisStandaloneConfig) // 비동기
   }
 
-  private fun ttlInfoMap() = mutableMapOf(
-    RedisConstants.USER to redisExpiresConfiguration(RedisConstants.USER_TTL)
+  private fun redisExpiresConfigurationMap() = mutableMapOf(
+    RedisConstants.TEST_KEY to redisExpiresConfiguration(600L),
   )
 
   private fun redisExpiresConfiguration(ttl: Long): RedisCacheConfiguration {
