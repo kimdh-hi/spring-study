@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -35,6 +36,24 @@ class ValidationController {
     }
     return requestVO
   }
+
+  @PostMapping("/json-enum")
+  fun test3(@RequestBody @Valid requestVO: ValidationData3VO, result: BindingResult): ValidationData3VO {
+    if(result.hasErrors()) {
+      println(result.allErrors.forEach { println(it) })
+      throw ParameterException()
+    }
+    return requestVO
+  }
+
+  @PostMapping("/form-enum")
+  fun test4(@ModelAttribute @Valid requestVO: ValidationData3VO, result: BindingResult): ValidationData3VO {
+    if(result.hasErrors()) {
+      println(result.allErrors.forEach { println(it) })
+      throw ParameterException()
+    }
+    return requestVO
+  }
 }
 
 data class ValidationDataVO(
@@ -54,6 +73,14 @@ data class ValidationData2VO(
   @field:NotBlank
   val email: String
 )
+
+data class ValidationData3VO(
+  val validationTestEnum: ValidationTestEnum
+)
+
+enum class ValidationTestEnum {
+  AAA, BBB
+}
 
 @Constraint(validatedBy = [NotBlankValidator::class])
 @Target(AnnotationTarget.FIELD)
