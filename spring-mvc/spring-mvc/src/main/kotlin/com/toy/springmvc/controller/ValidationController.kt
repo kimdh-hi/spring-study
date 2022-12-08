@@ -2,13 +2,10 @@ package com.toy.springmvc.controller
 
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
+import org.springframework.core.convert.converter.Converter
+import org.springframework.stereotype.Component
 import org.springframework.validation.BindingResult
-import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.validation.*
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
@@ -80,6 +77,22 @@ data class ValidationData3VO(
 
 enum class ValidationTestEnum {
   AAA, BBB
+}
+
+/**
+ * form -> converter 동작
+ * json -> converter 동작안함
+ */
+@Component
+class ValidationTestEnumConverter: Converter<String, ValidationTestEnum> {
+
+  override fun convert(source: String): ValidationTestEnum? {
+    return try {
+      ValidationTestEnum.valueOf(source)
+    } catch (e: Exception) {
+      throw e
+    }
+  }
 }
 
 @Constraint(validatedBy = [NotBlankValidator::class])
