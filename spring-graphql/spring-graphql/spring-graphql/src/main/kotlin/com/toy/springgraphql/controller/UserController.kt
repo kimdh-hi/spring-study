@@ -14,17 +14,18 @@ class UserController(
 ) {
 
   @MutationMapping
-  fun save(@Argument requestVO: UserSaveRequestVO): UserResponseVO {
+  fun saveV1(@Argument name: String): UserResponseVO {
+    val requestVO = UserSaveRequestVO(name = name, username = "username")
     return userService.save(requestVO)
   }
 
   @QueryMapping
-  fun find(@Argument id: String): UserResponseVO {
+  fun findUser(@Argument id: String): UserResponseVO {
     return userService.find(id)
   }
 
   @QueryMapping
-  fun findAll(): List<UserResponseVO> {
+  fun findUsers(): List<UserResponseVO> {
     return userService.findAll()
   }
 }

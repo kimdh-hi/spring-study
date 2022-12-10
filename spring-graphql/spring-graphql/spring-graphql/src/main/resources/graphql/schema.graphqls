@@ -5,10 +5,10 @@ type User {
 }
 
 type Query {
-    find(id: String!): User
-    findAll: [User]
+    findUser(id: String!): User
+    findUsers: [User]
 }
 
 type Mutation {
-    save(name: String!): User
+    saveV1(name: String!): User
 }
