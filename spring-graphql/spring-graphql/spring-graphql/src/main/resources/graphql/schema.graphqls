@@ -1,0 +1,14 @@
+type User {
+    id: ID
+    name: String!
+    username: String!
+}
+
+type Query {
+    find(id: String!): User
+    findAll: [User]
+}
+
+type Mutation {
+    save(name: String!): User
+}

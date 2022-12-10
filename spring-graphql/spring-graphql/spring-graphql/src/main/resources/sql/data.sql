@@ -1,0 +1,1 @@
+insert into tb_user(id, name, username) values('u1', 'u1-name', 'u1-username');
