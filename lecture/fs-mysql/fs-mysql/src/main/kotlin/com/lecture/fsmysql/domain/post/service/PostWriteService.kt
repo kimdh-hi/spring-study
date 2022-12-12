@@ -15,6 +15,12 @@ class PostWriteService(
       memberId = command.memberId,
       content = command.content
     )
-    return postRepository.save(post).id!!
+    return postRepository.save(post).id
+  }
+
+  fun likePost(postId: Long) {
+    val post = postRepository.findById(postId) ?: throw RuntimeException("not found...")
+    post.increaseLikeCount()
+    postRepository.save(post)
   }
 }

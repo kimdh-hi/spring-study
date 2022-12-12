@@ -52,3 +52,5 @@ create index Post__index_created_at
 # 복합 인덱스
 create index Post_index_member_id_created_at
     on Post (memberId, createdAt);
+
+alter table Post add column likeCount int;

@@ -29,6 +29,7 @@ class PostRepository(
         id = rs.getLong("id"),
         memberId = rs.getLong("memberId"),
         content = rs.getString("content"),
+        likeCount = rs.getLong("likeCount"),
         createdAt = rs.getObject("createdAt", LocalDateTime::class.java)
       )
     }
@@ -167,11 +168,13 @@ class PostRepository(
 
   private fun update(post: Post): Post {
     val sql = String.format("""
-      update %s 
-      set memberId = :memberId, content = :content, createdAt = :createdAt
-      where id = :id
-    """.trimIndent(), TABLE
-    )
+      update %s set 
+        memberId = :memberId, 
+        content = :content, 
+        createdAt = :createdAt,
+        likeCount = :likeCount
+        where id = :id
+    """.trimIndent(), TABLE)
     val params = BeanPropertySqlParameterSource(post)
     namedParameterJdbcTemplate.update(sql, params)
     return post
@@ -216,5 +219,14 @@ class PostRepository(
       .addValue("ids", ids)
 
     return namedParameterJdbcTemplate.query(sql, parameter, ROW_MAPPER).toList()
+  }
+
+  fun findById(id: Long): Post? {
+    val sql = String.format("select * from %s where id = :id", TABLE)
+
+    val parameter = MapSqlParameterSource()
+      .addValue("id", id)
+
+    return namedParameterJdbcTemplate.queryForObject(sql, parameter, ROW_MAPPER)
   }
 }

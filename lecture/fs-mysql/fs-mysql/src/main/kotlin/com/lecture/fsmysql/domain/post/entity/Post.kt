@@ -9,9 +9,15 @@ class Post(
 
   val content: String,
 
+  var likeCount: Long = 0,
+
   var createdAt: LocalDateTime = LocalDateTime.now()
 ) {
   override fun toString(): String {
-    return "Post(id=$id, memberId=$memberId, content='$content', createdAt=$createdAt)"
+    return "Post(id=$id, memberId=$memberId, content='$content', likeCount=$likeCount, createdAt=$createdAt)"
+  }
+
+  fun increaseLikeCount() {
+    likeCount++
   }
 }
