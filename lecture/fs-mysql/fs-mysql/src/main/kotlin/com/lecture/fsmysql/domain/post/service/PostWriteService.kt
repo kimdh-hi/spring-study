@@ -4,6 +4,7 @@ import com.lecture.fsmysql.domain.post.dto.PostCommand
 import com.lecture.fsmysql.domain.post.entity.Post
 import com.lecture.fsmysql.domain.post.repository.PostRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class PostWriteService(
@@ -18,8 +19,9 @@ class PostWriteService(
     return postRepository.save(post).id
   }
 
+  @Transactional
   fun likePost(postId: Long) {
-    val post = postRepository.findById(postId) ?: throw RuntimeException("not found...")
+    val post = postRepository.findById(postId, true) ?: throw RuntimeException("not found...")
     post.increaseLikeCount()
     postRepository.save(post)
   }

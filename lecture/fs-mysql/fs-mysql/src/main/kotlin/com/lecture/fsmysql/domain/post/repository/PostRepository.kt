@@ -221,8 +221,11 @@ class PostRepository(
     return namedParameterJdbcTemplate.query(sql, parameter, ROW_MAPPER).toList()
   }
 
-  fun findById(id: Long): Post? {
-    val sql = String.format("select * from %s where id = :id", TABLE)
+  fun findById(id: Long, requiredLock: Boolean): Post? {
+    var sql = String.format("select * from %s where id = :id", TABLE)
+
+    if(requiredLock)
+      sql += " FOR UPDATE"
 
     val parameter = MapSqlParameterSource()
       .addValue("id", id)
