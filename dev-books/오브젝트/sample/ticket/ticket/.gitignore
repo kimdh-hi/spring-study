@@ -42,3 +42,5 @@ out/
 .gradle/
 ./gradle/
 ./gradle/wrapper/
+
+.idea

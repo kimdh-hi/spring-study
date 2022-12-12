@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="32aa5284-5b13-4cf4-b30d-a63e815f2bb4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/ticket/ticket/src/main/kotlin/com/sample/10-inheritance/01-before-inheritance.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket/ticket/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/ticket/ticket/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket/ticket/src/main/kotlin/com/sample/02-movie/01-데이터_중심_설계.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket/ticket/src/main/kotlin/com/sample/02-movie/01-데이터_중심_설계.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../lecture/fs-batch-pt/pass-batch/src/main/kotlin/com/lecture/passbatch/job/pass/AddPassesJobConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/fs-batch-pt/pass-batch/src/main/kotlin/com/lecture/passbatch/job/pass/AddPassesJobConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../lecture/fs-batch-pt/pass-batch/src/main/kotlin/com/lecture/passbatch/job/pass/AddPassesTasklet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/fs-batch-pt/pass-batch/src/main/kotlin/com/lecture/passbatch/job/pass/AddPassesTasklet.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/src/main/kotlin/com/lecture/fsmysql/application/controller/PostController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/src/main/kotlin/com/lecture/fsmysql/application/controller/PostController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/src/main/kotlin/com/lecture/fsmysql/domain/post/entity/Post.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/src/main/kotlin/com/lecture/fsmysql/domain/post/entity/Post.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/src/main/kotlin/com/lecture/fsmysql/domain/post/repository/PostRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/src/main/kotlin/com/lecture/fsmysql/domain/post/repository/PostRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/src/main/kotlin/com/lecture/fsmysql/domain/post/service/PostWriteService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/src/main/kotlin/com/lecture/fsmysql/domain/post/service/PostWriteService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/src/main/kotlin/com/lecture/fsmysql/schema/ddl.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/src/main/kotlin/com/lecture/fsmysql/schema/ddl.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/test-http.http" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/test-http.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/test-http2.http" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/test-http2.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../lecture/inflearn-orm-jpa/inflearn-orm-jpa/src/main/kotlin/com/lecture/inflearnormjpa/hellojpa/HelloJpaMain.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/inflearn-orm-jpa/inflearn-orm-jpa/src/main/kotlin/com/lecture/inflearnormjpa/hellojpa/HelloJpaMain.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../lecture/inflearn-orm-jpa/inflearn-orm-jpa/src/main/kotlin/com/lecture/inflearnormjpa/hellojpa/Member.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/inflearn-orm-jpa/inflearn-orm-jpa/src/main/kotlin/com/lecture/inflearnormjpa/hellojpa/Member.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../lecture/inflearn-orm-jpa/inflearn-orm-jpa/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/inflearn-orm-jpa/inflearn-orm-jpa/src/main/resources/META-INF/persistence.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-graphql/spring-graphql/spring-graphql/src/main/kotlin/com/toy/springgraphql/controller/UserController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-graphql/spring-graphql/spring-graphql/src/main/kotlin/com/toy/springgraphql/controller/UserController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-graphql/spring-graphql/spring-graphql/src/main/resources/graphql/schema.graphqls" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-graphql/spring-graphql/spring-graphql/src/main/resources/graphql/schema.graphqls" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-graphql/spring-graphql/spring-graphql/src/test/kotlin/com/toy/springgraphql/service/UserServiceTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-graphql/spring-graphql/spring-graphql/src/test/kotlin/com/toy/springgraphql/service/UserServiceTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-integration/spring-integration-demo/src/main/kotlin/com/toy/springintegrationdemo/config/IntegrationConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-integration/spring-integration-demo/src/main/kotlin/com/toy/springintegrationdemo/config/IntegrationConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-jms/rabbitmq/rabbitmq-event-driven/.idea/aws.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-jms/rabbitmq/rabbitmq-event-driven/.idea/git_toolbox_prj.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-jms/rabbitmq/rabbitmq-event-driven/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-jms/rabbitmq/rabbitmq-event-driven/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-jms/rabbitmq/rabbitmq-event-driven/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-jms/rabbitmq/rabbitmq-event-driven/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-jms/rabbitmq/rabbitmq-event-driven/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-jms/rabbitmq/rabbitmq-event-driven/rabbitmq-event-driven.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-kafka/spring-kafka-lecture-fc/spring-kafka-lecture-fc/src/main/kotlin/com/lecture/springkafkalecturefc/Consumer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-kafka/spring-kafka-lecture-fc/spring-kafka-lecture-fc/src/main/kotlin/com/lecture/springkafkalecturefc/Consumer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-retry/spring-retry/src/main/kotlin/com/toy/springretry/service/TestService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-retry/spring-retry/src/main/kotlin/com/toy/springretry/service/TestService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-testcontainer/spring-testcontainer/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-testcontainer/spring-testcontainer/build.gradle.kts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/ticket/ticket">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2IoHLO4sNzpvjcU4Hdbrax4teWF" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/daehyunkim/Documents/study/dev-books/오브젝트/sample",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="_01_before_inheritanceKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.sample.10-inheritance._01_before_inheritanceKt" />
+      <module name="ticket.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin._01_before_inheritanceKt" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="32aa5284-5b13-4cf4-b30d-a63e815f2bb4" name="Changes" comment="" />
+      <created>1670840958719</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1670840958719</updated>
+      <workItem from="1670840959934" duration="2189000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="com.sample.10-inheritance.Call" memberName="duration" />
+        <PinnedItemInfo parentTag="com.sample.10-inheritance.Call" memberName="to" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+</project>
