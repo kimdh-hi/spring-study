@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="32aa5284-5b13-4cf4-b30d-a63e815f2bb4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ticket/ticket/src/main/kotlin/com/sample/10-inheritance/01-before-inheritance.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket/ticket/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/ticket/ticket/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ticket/ticket/src/main/kotlin/com/sample/02-movie/01-데이터_중심_설계.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket/ticket/src/main/kotlin/com/sample/02-movie/01-데이터_중심_설계.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ticket/ticket/src/main/kotlin/com/sample/10-inheritance/02-inheritance.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket/ticket/src/main/kotlin/com/sample/10-inheritance/01-before-inheritance.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ticket/ticket/src/main/kotlin/com/sample/10-inheritance/01-before-inheritance.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../lecture/fs-batch-pt/pass-batch/src/main/kotlin/com/lecture/passbatch/job/pass/AddPassesJobConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/fs-batch-pt/pass-batch/src/main/kotlin/com/lecture/passbatch/job/pass/AddPassesJobConfig.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../lecture/fs-batch-pt/pass-batch/src/main/kotlin/com/lecture/passbatch/job/pass/AddPassesTasklet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/fs-batch-pt/pass-batch/src/main/kotlin/com/lecture/passbatch/job/pass/AddPassesTasklet.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../../lecture/fs-mysql/fs-mysql/README.md" afterDir="false" />
@@ -81,7 +81,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/daehyunkim/Documents/study/dev-books/오브젝트/sample",
+    "last_opened_file_path": "/Users/daehyunkim/Documents/study/dev-books/오브젝트/sample/ticket/ticket/src/main/kotlin/com/sample/10-inheritance",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -90,7 +90,12 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/ticket/ticket/src/main/kotlin/com/sample/10-inheritance" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Kotlin._02_inheritanceKt">
     <configuration name="_01_before_inheritanceKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.sample.10-inheritance._01_before_inheritanceKt" />
       <module name="ticket.main" />
@@ -98,8 +103,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="_02_inheritanceKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.sample.10-inheritance._02_inheritanceKt" />
+      <module name="ticket.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Kotlin._02_inheritanceKt" />
         <item itemvalue="Kotlin._01_before_inheritanceKt" />
       </list>
     </recent_temporary>
@@ -112,7 +125,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1670840958719</updated>
-      <workItem from="1670840959934" duration="2189000" />
+      <workItem from="1670840959934" duration="3118000" />
     </task>
     <servers />
   </component>
