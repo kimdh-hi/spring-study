@@ -2,6 +2,14 @@ package com.lecture.fsmysql.domain.post.dto
 
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
+
+data class PostDto(
+  val id: Long,
+  val contents: String,
+  val createdAt: LocalDateTime,
+  val likeCount: Long
+)
 
 data class DailyPostCountRequestDto(
   val memberId: Long,

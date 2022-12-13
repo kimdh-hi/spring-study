@@ -56,3 +56,11 @@ create index Post_index_member_id_created_at
 alter table Post add column likeCount int;
 
 alter table Post add column version int default 0;
+
+create table PostLike(
+     id int auto_increment,
+     memberId int not null,
+     postId int not null,
+     createdAt datetime not null,
+    constraint PostLike_id_uindex primary key (id)
+);
