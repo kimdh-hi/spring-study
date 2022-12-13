@@ -25,4 +25,10 @@ class PostWriteService(
     post.increaseLikeCount()
     postRepository.save(post)
   }
+
+  fun likePostByOptimisticLock(postId: Long) {
+    val post = postRepository.findById(postId, false) ?: throw RuntimeException("not found...")
+    post.increaseLikeCount()
+    postRepository.save(post)
+  }
 }

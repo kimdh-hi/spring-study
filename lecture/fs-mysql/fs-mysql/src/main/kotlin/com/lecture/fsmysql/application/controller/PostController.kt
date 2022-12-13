@@ -67,4 +67,9 @@ class PostController(
   fun likePost(@PathVariable postId: Long) {
     postWriteService.likePost(postId)
   }
+
+  @PostMapping("/{postId}/like/optimistic-lock")
+  fun likePostByOptimisticLock(@PathVariable postId: Long) {
+    postWriteService.likePostByOptimisticLock(postId)
+  }
 }

@@ -30,7 +30,8 @@ class PostRepository(
         memberId = rs.getLong("memberId"),
         content = rs.getString("content"),
         likeCount = rs.getLong("likeCount"),
-        createdAt = rs.getObject("createdAt", LocalDateTime::class.java)
+        createdAt = rs.getObject("createdAt", LocalDateTime::class.java),
+        version = rs.getLong("version")
       )
     }
 
@@ -167,16 +168,24 @@ class PostRepository(
   }
 
   private fun update(post: Post): Post {
+    // optimistic-lock
+    // version 필드를 포함하고 version 필드가 같지 않다면 갱신 대상으로 판단하지 않는다.
+    // version 필드가 일치한다면 갱신을 수행하고 version  값은 증가시킨다.
     val sql = String.format("""
       update %s set 
         memberId = :memberId, 
         content = :content, 
         createdAt = :createdAt,
-        likeCount = :likeCount
-        where id = :id
+        likeCount = :likeCount,
+        version = :version + 1
+      where id = :id and version = :version
     """.trimIndent(), TABLE)
     val params = BeanPropertySqlParameterSource(post)
-    namedParameterJdbcTemplate.update(sql, params)
+    val updatedCount = namedParameterJdbcTemplate.update(sql, params)
+
+    if(updatedCount == 0)
+      throw RuntimeException("failed to update")
+
     return post
   }
 

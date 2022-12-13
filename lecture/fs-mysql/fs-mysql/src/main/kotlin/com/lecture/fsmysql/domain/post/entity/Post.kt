@@ -11,6 +11,8 @@ class Post(
 
   var likeCount: Long = 0,
 
+  var version: Long = 0, // optimistic-lock
+
   var createdAt: LocalDateTime = LocalDateTime.now()
 ) {
   override fun toString(): String {

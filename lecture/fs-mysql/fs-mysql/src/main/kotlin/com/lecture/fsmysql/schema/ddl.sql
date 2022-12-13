@@ -54,3 +54,5 @@ create index Post_index_member_id_created_at
     on Post (memberId, createdAt);
 
 alter table Post add column likeCount int;
+
+alter table Post add column version int default 0;

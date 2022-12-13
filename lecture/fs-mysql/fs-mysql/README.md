@@ -222,6 +222,51 @@ tx2
 - breakpoint 설정
 - 우클릭 - Suspend - Thread
 
+#### 비관적 락
+- 읽기 락(sharedLock): `select ... for share`
+- 쓰기 락(exclusiveLock): `select ... for update` or update, delete 쿼리
+
+MySQL 에서 Lock 은 row 가 아니라 인덱스를 잠근다.
+```
+Lock 종류
+테이블 락, *레코드 락, 갭 락 ...
+```
+따라서 인덱스가 없는 조건으로 Locking Read 시 불필요한 데이터들까지 잠길 수 있다.
+```
+where 절에 인덱스 필드와 인덱스가 아닌 필드가 사용된 경우
+예상하기로는 조회된 결과 레코드만 락이 잡힐 것 같다.
+
+but, 인덱스가 아닌 필드의 조건은 무시되고 인덱스 필드에 의해 조회된 모든 레코드가 잠긴다.
+```
+
+예시
+```sql
+start transaction 
+select * from user where teamId = 't1' and type = 'USER' for update;
+commit;
+
+teamId 는 인덱스 필드라고 가정
+teamId 가 't1' 인 모든 레코드가 락을 대상이 된다.
+```
+
+MySQL 락 확인
+```sql
+select * from performance_schema.data_locks;
+
+select * from information_schema.innodb_trx;
+```
+
+
+
+
+#### 낙관적 락
+- 동시성 이슈가 비교적 빈번하지 않은 경우, 비관적 락으로 인한 성능저하가 우려되는 수준인 경우
+- CAS(Compare and Set) 연산을 통해 애플리케이션 수준에서 동시성을 제어
+- 레코드 (row) 마다 버전(버전필드)을 부여하고 갱신시 내가 조회한 버전이 맞는지 확인 
+  - Spring data jpa - @Version
+- 비관적 락에 비해 동일한 트랜잭션에 묶을 필요도, `FOR UPDATE` 와 같은 쿼리를 사용할 필요도 없기 때문에 구현과 성능상 모두 유리하다.
+
+
 
 
 
