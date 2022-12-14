@@ -10,16 +10,6 @@ fun main() {
 
   try {
     tx.begin()
-//    val member = Member(id = 2L, name = "name")
-//    em.persist(member)
-
-    val member = em.find(Member::class.java, 1L)
-    member.name = "update" // dirty-checking
-
-    val findMember = em.createQuery("select m from Member m where m.id = :id", Member::class.java)
-      .setParameter("id", 1L)
-      .singleResult
-    println("findMember: $findMember")
 
     tx.commit()
   } catch (e: Exception) {

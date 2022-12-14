@@ -4,11 +4,17 @@ type User {
     username: String!
 }
 
+input UserSaveRequest {
+    name: String!
+    username: String!
+}
+
 type Query {
     findUser(id: String!): User
     findUsers: [User]
 }
 
 type Mutation {
-    saveV1(name: String!): User
+    saveUserV1(name: String!): User
+    saveUserV2(userSaveRequest: UserSaveRequest): User
 }

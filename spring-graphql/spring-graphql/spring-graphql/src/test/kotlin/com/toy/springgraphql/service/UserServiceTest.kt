@@ -1,5 +1,8 @@
 package com.toy.springgraphql.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.toy.springgraphql.base.toMap
+import com.toy.springgraphql.vo.UserSaveRequestVO
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester
 import org.springframework.boot.test.context.SpringBootTest
@@ -11,6 +14,7 @@ import org.springframework.test.context.TestConstructor
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 class UserServiceTest(
   private val graphQlTester: GraphQlTester,
+  private val objetMapper: ObjectMapper
 ) {
 
   @Test
@@ -28,6 +32,19 @@ class UserServiceTest(
     graphQlTester.documentName("userFindUsers")
       .execute()
       .path("findUsers[*].id").entityList(String::class.java).hasSizeGreaterThan(1)
+  }
+
+  @Test
+  fun saveV2() {
+    val name = "save-v2-name"
+    val username = "save-v2-username"
+    val requestVO = UserSaveRequestVO(name = name, username = username)
+
+    graphQlTester.documentName("UserSaveV2")
+      .variable("userSaveRequest", toMap(requestVO))
+      .execute()
+      .path("saveUserV2.name").entity(String::class.java).isEqualTo(name)
+      .path("saveUserV2.username").entity(String::class.java).isEqualTo(username)
   }
 
 }

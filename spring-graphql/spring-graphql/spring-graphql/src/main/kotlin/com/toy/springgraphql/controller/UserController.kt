@@ -14,8 +14,13 @@ class UserController(
 ) {
 
   @MutationMapping
-  fun saveV1(@Argument name: String): UserResponseVO {
+  fun saveUserV1(@Argument name: String): UserResponseVO {
     val requestVO = UserSaveRequestVO(name = name, username = "username")
+    return userService.save(requestVO)
+  }
+
+  @MutationMapping
+  fun saveUserV2(@Argument("userSaveRequest") requestVO: UserSaveRequestVO): UserResponseVO {
     return userService.save(requestVO)
   }
 

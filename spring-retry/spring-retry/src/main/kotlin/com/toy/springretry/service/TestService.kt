@@ -13,11 +13,16 @@ class TestService(
 
   private val log = LoggerFactory.getLogger(javaClass)
 
-  fun exceptionTest(): String {
-    retryUtils.run(5, 3000, listOf(CustomException::class.java)) {
+  fun exceptionTest() {
+    return retryUtils.run(5, 3000, listOf(CustomException::class.java)) {
       log.info("try...")
-      throw CustomException()
+      logic()
     }
   }
 
+  private fun logic() {
+    log.info("logic...")
+    Thread.sleep(2000)
+    throw CustomException()
+  }
 }

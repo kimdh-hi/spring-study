@@ -1,0 +1,7 @@
+mutation saveUserV2($userSaveRequest: UserSaveRequest) {
+    saveUserV2(userSaveRequest: userSaveRequest) {
+        id
+        name
+        username
+    }
+}
