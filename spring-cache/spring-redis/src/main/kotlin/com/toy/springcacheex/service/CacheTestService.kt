@@ -10,7 +10,7 @@ class CacheTestService {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
-  @Cacheable(value = [RedisConstants.TEST_KEY], key = "#spaceId")
+  @Cacheable(value = [RedisConstants.TEST_KEY1], key = "#spaceId")
   fun getSpaceParticipantCount(spaceId: String, spaceChannelId: String): String {
     log.info("no cache..")
     return "100"

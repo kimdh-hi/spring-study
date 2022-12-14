@@ -4,12 +4,14 @@ import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import redis.embedded.RedisServer
 import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy
 
 
-//@Configuration
+@Configuration
+@Profile("local")
 class EmbeddedRedisConfig(
   private val redisProperties: RedisProperties
 ) {
@@ -19,7 +21,6 @@ class EmbeddedRedisConfig(
   lateinit var redisServer: RedisServer
 
   @Bean
-  @ConditionalOnProperty(value = ["env"], havingValue = "local")
   fun redisServer(redisProperties: RedisProperties): RedisServer {
     val port = redisProperties.port
     return RedisServer(port)
@@ -30,6 +31,7 @@ class EmbeddedRedisConfig(
     redisServer = RedisServer(redisProperties.port)
     try {
       redisServer.start()
+      log.debug("Embedded redis start")
     } catch (e: Exception) {
       log.error("Embedded redis error")
     }
@@ -38,5 +40,6 @@ class EmbeddedRedisConfig(
   @PreDestroy
   fun stopRedisServer() {
     redisServer.stop()
+    log.debug("Embedded redis stop")
   }
 }

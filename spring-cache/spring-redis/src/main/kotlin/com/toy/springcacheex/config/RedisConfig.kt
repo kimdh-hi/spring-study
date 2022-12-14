@@ -63,11 +63,13 @@ class RedisConfig(private val redisProperties: RedisProperties) {
     val redisStandaloneConfig
       = RedisStandaloneConfiguration(redisProperties.host, redisProperties.port)
 
-    return LettuceConnectionFactory(redisStandaloneConfig) // 비동기
+    return LettuceConnectionFactory(redisStandaloneConfig)
   }
 
   private fun redisExpiresConfigurationMap() = mutableMapOf(
-    RedisConstants.TEST_KEY to redisExpiresConfiguration(600L),
+    RedisConstants.TEST_KEY1 to redisExpiresConfiguration(600L),
+    RedisConstants.TEST_KEY2 to redisExpiresConfiguration(600L),
+    RedisConstants.TEST_KEY3 to redisExpiresConfiguration(600L),
   )
 
   private fun redisExpiresConfiguration(ttl: Long): RedisCacheConfiguration {
