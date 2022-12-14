@@ -1,11 +1,14 @@
 package com.toy.springcacheex.config
 
 import org.slf4j.LoggerFactory
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
+import org.testcontainers.shaded.org.apache.commons.lang3.StringUtils
 import redis.embedded.RedisServer
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy
 
@@ -20,15 +23,10 @@ class EmbeddedRedisConfig(
 
   lateinit var redisServer: RedisServer
 
-  @Bean
-  fun redisServer(redisProperties: RedisProperties): RedisServer {
-    val port = redisProperties.port
-    return RedisServer(port)
-  }
-
   @PostConstruct
-  fun startRedisServer() {
+  fun startEmbeddedRedis() {
     redisServer = RedisServer(redisProperties.port)
+
     try {
       redisServer.start()
       log.debug("Embedded redis start")
@@ -38,7 +36,7 @@ class EmbeddedRedisConfig(
   }
 
   @PreDestroy
-  fun stopRedisServer() {
+  fun stopEmbeddedRedis() {
     redisServer.stop()
     log.debug("Embedded redis stop")
   }
