@@ -1,5 +1,6 @@
 package com.lecture.pharmacy.api.service
 
+import com.lecture.pharmacy.api.common.service.KakaoUriBuilderService
 import spock.lang.Specification
 
 import java.nio.charset.StandardCharsets

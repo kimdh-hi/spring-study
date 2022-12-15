@@ -1,4 +1,4 @@
-package com.lecture.pharmacy.api.service
+package com.lecture.pharmacy.api.common.service
 
 import org.springframework.stereotype.Service
 import org.springframework.web.util.UriComponentsBuilder

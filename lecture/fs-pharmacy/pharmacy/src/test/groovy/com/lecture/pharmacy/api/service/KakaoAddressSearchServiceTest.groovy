@@ -1,6 +1,7 @@
 package com.lecture.pharmacy.api.service
 
 import com.lecture.pharmacy.api.AbstractIntegrationContainerBaseTest
+import com.lecture.pharmacy.api.common.service.KakaoAddressSearchService
 import org.springframework.beans.factory.annotation.Autowired
 
 class KakaoAddressSearchServiceTest extends AbstractIntegrationContainerBaseTest {

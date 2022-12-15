@@ -1,4 +1,4 @@
-package com.lecture.pharmacy.api.service
+package com.lecture.pharmacy.api.common.service
 
 import com.lecture.pharmacy.api.dto.KakaoResponseDto
 import org.springframework.beans.factory.annotation.Value

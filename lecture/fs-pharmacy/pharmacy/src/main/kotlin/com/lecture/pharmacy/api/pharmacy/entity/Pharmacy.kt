@@ -1,5 +1,6 @@
 package com.lecture.pharmacy.api.pharmacy.entity
 
+import com.lecture.pharmacy.api.common.entity.BaseEntity
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -15,4 +16,9 @@ class Pharmacy(
   var address: String,
   var latitude: Double,
   var longitude: Double
-)
+): BaseEntity() {
+
+  fun changeAddress(address: String) {
+    this.address = address
+  }
+}
