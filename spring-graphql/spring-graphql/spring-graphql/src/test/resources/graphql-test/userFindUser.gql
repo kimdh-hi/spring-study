@@ -3,5 +3,7 @@ query findUser($id: String!) {
         id
         name
         username
+        groupId
+        groupName
     }
 }

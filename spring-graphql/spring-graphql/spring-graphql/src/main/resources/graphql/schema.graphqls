@@ -1,7 +1,14 @@
+type Group {
+    id: ID
+    name: String!
+}
+
 type User {
     id: ID
     name: String!
     username: String!
+    groupId: String!
+    groupName: String!
 }
 
 input UserSaveRequest {

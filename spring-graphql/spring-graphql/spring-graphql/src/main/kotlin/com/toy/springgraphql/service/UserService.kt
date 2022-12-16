@@ -1,6 +1,7 @@
 package com.toy.springgraphql.service
 
 import com.toy.springgraphql.domain.User
+import com.toy.springgraphql.repository.GroupRepository
 import com.toy.springgraphql.repository.UserRepository
 import com.toy.springgraphql.vo.UserResponseVO
 import com.toy.springgraphql.vo.UserSaveRequestVO
@@ -12,12 +13,14 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 class UserService(
-  private val userRepository: UserRepository
+  private val userRepository: UserRepository,
+  private val groupRepository: GroupRepository
 ) {
 
   @Transactional
-  fun save(requestVO: UserSaveRequestVO): UserResponseVO {
-    val user = User.of(requestVO.name, requestVO.username)
+  fun save(groupId: String, requestVO: UserSaveRequestVO): UserResponseVO {
+    val group = groupRepository.findByIdOrNull(groupId) ?: throw RuntimeException("not found...")
+    val user = User.of(requestVO.name, requestVO.username, group)
     return UserResponseVO.of(userRepository.save(user))
   }
 

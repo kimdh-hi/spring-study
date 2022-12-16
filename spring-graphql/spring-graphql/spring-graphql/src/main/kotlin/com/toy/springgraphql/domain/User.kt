@@ -4,6 +4,8 @@ import org.hibernate.annotations.GenericGenerator
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
@@ -17,12 +19,17 @@ class User(
 
   var name: String,
 
-  var username: String
+  var username: String,
+
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "group_id")
+  val group: Group
 ) {
   companion object {
-    fun of(name: String, username: String) = User(
+    fun of(name: String, username: String, group: Group) = User(
       name = name,
-      username = username
+      username = username,
+      group = group
     )
   }
 }

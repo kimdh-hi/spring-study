@@ -2,7 +2,6 @@ package com.toy.jpabasic.controller
 
 import com.toy.jpabasic.domain.User
 import com.toy.jpabasic.repository.CompanyRepository
-import com.toy.jpabasic.service.UserService
 import com.toy.jpabasic.vo.CompanyResponseVO
 import com.toy.jpabasic.vo.UserResponseVO
 import com.toy.jpabasic.vo.UserSaveRequestVO
@@ -22,7 +21,6 @@ import javax.persistence.PersistenceContext
 @RequestMapping("/api/users")
 class UserController(
   private val companyRepository: CompanyRepository,
-  private val userService: UserService,
 ) {
 
   @PersistenceContext

@@ -14,7 +14,6 @@ import org.springframework.test.context.TestConstructor
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 class UserServiceTest(
   private val graphQlTester: GraphQlTester,
-  private val objetMapper: ObjectMapper
 ) {
 
   @Test
@@ -25,6 +24,8 @@ class UserServiceTest(
       .path("findUser.id").entity(String::class.java).isEqualTo("u1")
       .path("findUser.name").entity(String::class.java).isEqualTo("u1-name")
       .path("findUser.username").entity(String::class.java).isEqualTo("u1-username")
+      .path("findUser.groupId").entity(String::class.java).isEqualTo("g1")
+      .path("findUser.groupName").entity(String::class.java).isEqualTo("g1-name")
   }
 
   @Test

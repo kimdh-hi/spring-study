@@ -14,14 +14,14 @@ class UserController(
 ) {
 
   @MutationMapping
-  fun saveUserV1(@Argument name: String): UserResponseVO {
+  fun saveUserV1(@Argument groupId: String, @Argument name: String): UserResponseVO {
     val requestVO = UserSaveRequestVO(name = name, username = "username")
-    return userService.save(requestVO)
+    return userService.save(groupId, requestVO)
   }
 
   @MutationMapping
-  fun saveUserV2(@Argument("userSaveRequest") requestVO: UserSaveRequestVO): UserResponseVO {
-    return userService.save(requestVO)
+  fun saveUserV2(@Argument groupId: String, @Argument("userSaveRequest") requestVO: UserSaveRequestVO): UserResponseVO {
+    return userService.save(groupId, requestVO)
   }
 
   @QueryMapping
