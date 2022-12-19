@@ -1,1 +1,1 @@
-rootProject.name = "spring-cache-ex"
+rootProject.name = "spring-cache"

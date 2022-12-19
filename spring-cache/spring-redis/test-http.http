@@ -1,0 +1,8 @@
+### set score
+POST localhost:8080/ranking/c/100
+
+### get ranking
+GET localhost:8080/ranking/c
+
+### get raking list
+GET localhost:8080/ranking/top/5
