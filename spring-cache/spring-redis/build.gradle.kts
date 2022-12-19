@@ -32,6 +32,7 @@ noArg {
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-data-redis")
+  implementation("org.springframework.session:spring-session-data-redis")
   implementation("net.sf.ehcache:ehcache:2.10.9.2")
 
   implementation("org.springframework.boot:spring-boot-starter-web")
