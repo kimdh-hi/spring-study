@@ -9,4 +9,5 @@
 #          max-interval: 1000
 #          initial-interval: 1000
 
-
+mqtt:
+  address: tcp://localhost:1883
