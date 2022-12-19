@@ -2,13 +2,16 @@ package com.toy.springintegrationdemo.config
 
 import com.toy.springintegrationdemo.config.activator.RequeueTestServiceActivator
 import com.toy.springintegrationdemo.config.activator.TestServiceActivator
+import com.toy.springintegrationdemo.controller.RouteTestMessage
+import com.toy.springintegrationdemo.controller.RouteType
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.integration.amqp.dsl.Amqp
-import org.springframework.integration.dsl.IntegrationFlow
-import org.springframework.integration.dsl.IntegrationFlows
+import org.springframework.integration.dsl.*
 import org.springframework.integration.handler.LoggingHandler
+import org.springframework.integration.router.MethodInvokingRouter
+import java.util.function.Consumer
 
 
 @Configuration
@@ -52,4 +55,16 @@ class AmqpIntegrationConfig(
       log.info(it.toString())
     }
     .get()
+
+  @Bean
+  fun typeBaseRouteTestFlow(): IntegrationFlow = IntegrationFlows.from(
+    Amqp.inboundAdapter(containerProvider.getListenerContainer("typeBaseRouteTestQueue"))
+  )
+    .route(RouteTestMessage::type) { mapping ->
+      mapping
+        .subFlowMapping(RouteType.TYPE1) { flow -> flow.handle(testServiceActivator, "type1Handler") }
+        .subFlowMapping(RouteType.TYPE2) { flow -> flow.handle(testServiceActivator, "type2Handler") }
+    }
+    .get()
+
 }

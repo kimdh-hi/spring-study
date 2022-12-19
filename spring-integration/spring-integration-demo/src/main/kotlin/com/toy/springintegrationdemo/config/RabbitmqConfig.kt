@@ -43,4 +43,6 @@ class RabbitmqConfig {
     "requeueTestFailQueue", Binding.DestinationType.QUEUE, "requeueTestDlx", "", mapOf()
   )
 
+  @Bean
+  fun createTypeBaseRouteTestQueue() = Queue("typeBaseRouteTestQueue")
 }

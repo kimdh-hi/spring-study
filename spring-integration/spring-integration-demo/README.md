@@ -5,4 +5,4 @@
 `MethodInvokingMessageProcessor.processMessage`
 
 ### mqtt gui tool
-https://mqttx.app/ <br/>
+https://mqttx.app/web

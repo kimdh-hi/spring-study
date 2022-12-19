@@ -1,5 +1,6 @@
 package com.toy.springintegrationdemo.config.activator
 
+import com.toy.springintegrationdemo.controller.RouteTestMessage
 import org.slf4j.LoggerFactory
 import org.springframework.integration.annotation.ServiceActivator
 import org.springframework.stereotype.Component
@@ -13,8 +14,13 @@ class TestServiceActivator {
     log.info("testService msg: $message")
   }
 
-//  @ServiceActivator
-//  fun testService2(message: String) {
-//    log.info("testService2 msg: $message")
-//  }
+  @ServiceActivator
+  fun type1Handler(message: RouteTestMessage) {
+    log.info("type1Handler [message: {}]", message)
+  }
+
+  @ServiceActivator
+  fun type2Handler(message: RouteTestMessage) {
+    log.info("type2Handler [message: {}]", message)
+  }
 }
