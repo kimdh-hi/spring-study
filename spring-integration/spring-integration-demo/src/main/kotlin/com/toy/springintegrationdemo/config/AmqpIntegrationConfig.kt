@@ -12,7 +12,7 @@ import org.springframework.integration.handler.LoggingHandler
 
 
 @Configuration
-class IntegrationConfig(
+class AmqpIntegrationConfig(
   private val containerProvider: RabbitmqContainerProvider,
   private val testServiceActivator: TestServiceActivator,
   private val requeueTestServiceActivator: RequeueTestServiceActivator,

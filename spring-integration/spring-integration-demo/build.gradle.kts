@@ -19,7 +19,7 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-integration")
   implementation("org.springframework.integration:spring-integration-amqp")
   implementation("org.springframework.integration:spring-integration-mqtt")
-
+  implementation("org.springframework.integration:spring-integration-jmx")
   implementation("org.springframework.boot:spring-boot-starter-amqp")
   implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
 
