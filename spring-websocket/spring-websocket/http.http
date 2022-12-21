@@ -1,0 +1,13 @@
+### 채팅방 생성
+POST localhost:8080/chat?name=name1
+
+### 조회
+GET localhost:8080/chat
+
+
+#{
+#"type": "NORMAL",
+#"roomId": "786cc60d-e736-4bd4-86c5-9e2b7354bdd1",
+#"sender": "kim",
+#"message":"adasdsad"
+#}
