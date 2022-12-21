@@ -1,0 +1,12 @@
+### test
+POST localhost:8080/api/requeue
+Content-Type: application/json
+
+### test
+POST localhost:8080/api/route
+Content-Type: application/json
+
+{
+  "data": "test~",
+  "type": "TYPE2"
+}
