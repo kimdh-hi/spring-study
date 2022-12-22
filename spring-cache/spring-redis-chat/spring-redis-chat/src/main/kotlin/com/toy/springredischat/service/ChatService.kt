@@ -1,18 +1,18 @@
-package com.toy.springcacheex.service
+package com.toy.springredischat.service
 
 import org.slf4j.LoggerFactory
 import org.springframework.data.redis.connection.Message
 import org.springframework.data.redis.connection.MessageListener
-import org.springframework.data.redis.core.StringRedisTemplate
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.listener.ChannelTopic
 import org.springframework.data.redis.listener.RedisMessageListenerContainer
 import org.springframework.stereotype.Service
-import java.util.Scanner
+import java.util.*
 
 @Service
 class ChatService(
-  private val container: RedisMessageListenerContainer,
-  private val redisTemplate: StringRedisTemplate
+  private val redisMessageListenerContainer: RedisMessageListenerContainer,
+  private val redisTemplate: RedisTemplate<String, Any>
 ): MessageListener {
 
   private val log = LoggerFactory.getLogger(javaClass)
@@ -22,7 +22,7 @@ class ChatService(
   }
 
   fun enter(roomName: String) {
-    container.addMessageListener(this, ChannelTopic(roomName))
+    redisMessageListenerContainer.addMessageListener(this, ChannelTopic(roomName))
 
     val scanner = Scanner(System.`in`)
     while(scanner.hasNextLine()) {
@@ -35,6 +35,6 @@ class ChatService(
       redisTemplate.convertAndSend(roomName, line)
     }
 
-    container.removeMessageListener(this)
+    redisMessageListenerContainer.removeMessageListener(this)
   }
 }
