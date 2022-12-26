@@ -33,3 +33,8 @@ data class MemberGroupByVO @QueryProjection constructor(
   val teamName: String,
   val age: Double
 )
+
+data class MemberTransformVO @QueryProjection constructor(
+  val username: String,
+  val age: Int,
+)
