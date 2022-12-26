@@ -21,3 +21,15 @@ data class MemberSearchVO(
   val username: String? = null,
   val age: Int? = null,
 )
+
+data class MemberAggregationVO @QueryProjection constructor(
+  val count: Long,
+  val ageSum: Int,
+  val ageAvg: Double,
+  val ageMax: Int
+)
+
+data class MemberGroupByVO @QueryProjection constructor(
+  val teamName: String,
+  val age: Double
+)
