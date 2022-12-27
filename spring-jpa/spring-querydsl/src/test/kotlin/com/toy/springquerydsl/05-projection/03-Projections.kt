@@ -3,13 +3,13 @@ package com.toy.springquerydsl.`05-projection`
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
-import com.toy.springquerydsl.`00-base`.TestBase
+import com.toy.springquerydsl.`00-base`.BaseTest
 import com.toy.springquerydsl.domain.QMember
 import com.toy.springquerydsl.domain.QMember.member
 import com.toy.springquerydsl.vo.MemberResponseVO
 import org.junit.jupiter.api.Test
 
-class `03-Projections`: TestBase() {
+class `03-Projections`: BaseTest() {
 
   // Projections... 기본생성자를 필요로 함
   @Test

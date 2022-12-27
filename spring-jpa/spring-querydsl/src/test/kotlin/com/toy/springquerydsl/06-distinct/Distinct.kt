@@ -1,13 +1,13 @@
 package com.toy.springquerydsl.`06-distinct`
 
-import com.toy.springquerydsl.`00-base`.TestBase
+import com.toy.springquerydsl.`00-base`.BaseTest
 import com.toy.springquerydsl.domain.DistinctTestDefaultEntity
 import com.toy.springquerydsl.domain.DistinctTestNameHashCodeEntity
 import com.toy.springquerydsl.domain.QDistinctTestDefaultEntity.distinctTestDefaultEntity
 import com.toy.springquerydsl.domain.QDistinctTestNameHashCodeEntity.distinctTestNameHashCodeEntity
 import org.junit.jupiter.api.Test
 
-class Distinct: TestBase() {
+class Distinct: BaseTest() {
 
   @Test
   fun test1() {

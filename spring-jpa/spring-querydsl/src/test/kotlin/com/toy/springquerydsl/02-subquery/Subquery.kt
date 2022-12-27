@@ -1,13 +1,13 @@
 package com.toy.springquerydsl.`02-subquery`
 
 import com.querydsl.jpa.JPAExpressions
-import com.toy.springquerydsl.`00-base`.TestBase
+import com.toy.springquerydsl.`00-base`.BaseTest
 import com.toy.springquerydsl.domain.QMember
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-class Subquery: TestBase() {
+class Subquery: BaseTest() {
 
   @Test
   fun `subquery1 - 나이가 가장 많은 member 조회`() {

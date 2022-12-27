@@ -2,15 +2,13 @@ package com.toy.springquerydsl.`10-transform`
 
 import com.querydsl.core.group.GroupBy.groupBy
 import com.querydsl.core.group.GroupBy.list
-import com.toy.springquerydsl.`00-base`.TestBase
-import com.toy.springquerydsl.domain.QMember
+import com.toy.springquerydsl.`00-base`.BaseTest
 import com.toy.springquerydsl.domain.QMember.member
-import com.toy.springquerydsl.domain.QTeam
 import com.toy.springquerydsl.domain.QTeam.team
 import com.toy.springquerydsl.vo.QMemberTransformVO
 import org.junit.jupiter.api.Test
 
-class TransformTest: TestBase() {
+class TransformTest: BaseTest() {
 
   @Test
   fun transform() {

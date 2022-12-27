@@ -13,7 +13,7 @@ import javax.persistence.EntityManager
 @SpringBootTest
 @Transactional
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-class TestBase {
+class BaseTest {
 
   @Autowired
   lateinit var em: EntityManager
@@ -38,5 +38,10 @@ class TestBase {
     em.persist(memeber3)
     em.persist(memeber4)
 
+  }
+
+  protected fun flushAndClear() {
+    em.flush()
+    em.clear()
   }
 }

@@ -1,16 +1,13 @@
 package com.toy.springquerydsl.`07-dynamic-query`
 
 import com.querydsl.core.BooleanBuilder
-import com.toy.springquerydsl.`00-base`.TestBase
-import com.toy.springquerydsl.domain.QMember
+import com.toy.springquerydsl.`00-base`.BaseTest
 import com.toy.springquerydsl.domain.QMember.member
-import com.toy.springquerydsl.domain.QTeam
 import com.toy.springquerydsl.domain.QTeam.*
 import com.toy.springquerydsl.vo.QMemberDetailsResponseVO
-import com.toy.springquerydsl.vo.QMemberResponseVO
 import org.junit.jupiter.api.Test
 
-class `01-Dynamic-query`: TestBase() {
+class `01-Dynamic-query`: BaseTest() {
 
   @Test
   fun `DynamicSearch`() {

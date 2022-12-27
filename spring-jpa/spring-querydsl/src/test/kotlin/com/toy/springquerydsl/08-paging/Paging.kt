@@ -2,7 +2,7 @@ package com.toy.springquerydsl.`08-paging`
 
 import com.querydsl.core.types.Order
 import com.querydsl.core.types.OrderSpecifier
-import com.toy.springquerydsl.`00-base`.TestBase
+import com.toy.springquerydsl.`00-base`.BaseTest
 import com.toy.springquerydsl.domain.QMember
 import com.toy.springquerydsl.repository.MemberRepository
 import com.toy.springquerydsl.vo.MemberSearchVO
@@ -16,7 +16,7 @@ import org.springframework.data.querydsl.QSort
 
 class Paging(
   val memberRepository: MemberRepository
-): TestBase() {
+): BaseTest() {
 
   @Test
   fun `deprecated way 1`() {

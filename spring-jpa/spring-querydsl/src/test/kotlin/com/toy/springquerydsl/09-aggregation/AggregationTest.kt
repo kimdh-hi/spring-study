@@ -1,15 +1,14 @@
 package com.toy.springquerydsl.`09-aggregation`
 
-import com.toy.springquerydsl.`00-base`.TestBase
+import com.toy.springquerydsl.`00-base`.BaseTest
 import com.toy.springquerydsl.domain.QMember.member
-import com.toy.springquerydsl.domain.QTeam
 import com.toy.springquerydsl.domain.QTeam.team
 import com.toy.springquerydsl.vo.QMemberAggregationVO
 import com.toy.springquerydsl.vo.QMemberGroupByVO
 import org.junit.jupiter.api.Test
 
 class AggregationTest(
-): TestBase() {
+): BaseTest() {
 
   @Test
   fun aggregation() {

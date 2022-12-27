@@ -1,14 +1,14 @@
 package com.toy.springquerydsl.`03-case`
 
 import com.querydsl.core.types.dsl.CaseBuilder
-import com.toy.springquerydsl.`00-base`.TestBase
+import com.toy.springquerydsl.`00-base`.BaseTest
 import com.toy.springquerydsl.domain.QMember.member
 import org.junit.jupiter.api.Test
 
 /**
  * select, where, orderBy 에서 사용 가능
  */
-class Case: TestBase() {
+class Case: BaseTest() {
 
   @Test
   fun `select case1`() {
