@@ -2,6 +2,7 @@ type Query {
     customers: [Customer]!
     customerById(id: ID!): Customer
     customersNameContains(name: String!): [Customer]
+    customersByAgeRange(ageRange: AgeRange): [Customer]!
 }
 
 type Customer {
@@ -9,4 +10,9 @@ type Customer {
     name: String,
     age: Int,
     address: String
+}
+
+input AgeRange {
+    minAge: Int!,
+    maxAge: Int!
 }

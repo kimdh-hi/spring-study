@@ -1,6 +1,7 @@
 package com.toy.springwebfluxgraphql.sec01.lec02.service
 
 import com.toy.springwebfluxgraphql.sec01.lec02.domain.Customer
+import com.toy.springwebfluxgraphql.sec01.lec02.vo.AgeRangeVO
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -23,4 +24,7 @@ class CustomerService {
 
   fun findByNameContains(name: String): Flux<Customer> = customers
     .filter { it.name.contains(name) }
+
+  fun findByAgeBetween(ageRange: AgeRangeVO): Flux<Customer> = customers
+    .filter { it.age in ageRange.minAge .. ageRange.maxAge }
 }
