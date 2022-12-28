@@ -1,0 +1,12 @@
+type Query {
+    customers: [Customer]!
+    customerById(id: ID!): Customer
+    customersNameContains(name: String!): [Customer]
+}
+
+type Customer {
+    id: ID,
+    name: String,
+    age: Int,
+    address: String
+}
