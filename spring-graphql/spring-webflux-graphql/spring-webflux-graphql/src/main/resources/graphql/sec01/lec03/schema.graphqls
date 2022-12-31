@@ -7,7 +7,7 @@ type Customer {
     name: String,
     age: Int,
     address: String,
-    orders: [CustomerOrder]!
+    orders(limit: Int): [CustomerOrder]!
 }
 
 type CustomerOrder {

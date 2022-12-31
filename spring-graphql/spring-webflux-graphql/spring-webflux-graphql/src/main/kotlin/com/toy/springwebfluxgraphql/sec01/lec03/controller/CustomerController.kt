@@ -22,5 +22,7 @@ class CustomerController(
   fun customers(): Flux<Customer> = customerService.findAll()
 
   @SchemaMapping(typeName = "Customer")
-  fun orders(customer: Customer): Flux<CustomerOrder> = orderService.findByCustomerName(customer.name)
+  fun orders(customer: Customer, @Argument limit: Long): Flux<CustomerOrder>
+    = orderService.findByCustomerName(customer.name)
+    .take(limit)
 }
