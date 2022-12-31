@@ -1,6 +1,6 @@
-package com.toy.springwebfluxgraphql.sec01.lec03.service
+package com.toy.springwebfluxgraphql.sec01.lec04.service
 
-import com.toy.springwebfluxgraphql.sec01.lec03.domain.Customer
+import com.toy.springwebfluxgraphql.sec01.lec04.domain.Customer
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 

@@ -1,12 +1,15 @@
 package com.toy.springwebfluxgraphql.sec01.lec03.service
 
 import com.toy.springwebfluxgraphql.sec01.lec03.domain.CustomerOrder
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import java.util.*
 
 @Service
 class OrderService {
+
+  private val log = LoggerFactory.getLogger(javaClass)
 
   companion object {
     val orders = mapOf(
@@ -21,5 +24,9 @@ class OrderService {
     )
   }
 
-  fun findByCustomerName(name: String): Flux<CustomerOrder> = Flux.fromIterable(orders.getOrDefault(name, listOf()))
+  fun findByCustomerName(name: String): Flux<CustomerOrder> {
+    log.info("findByCustomerName called")
+    return Flux.fromIterable(orders.getOrDefault(name, listOf()))
+  }
+
 }
