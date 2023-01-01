@@ -8,7 +8,7 @@
     <title>Title</title>
     <script>
         function corsTest() {
-            fetch("http://localhost:8080/api/users", {
+            fetch("http://localhost:8082/api/users", {
                 method: "GET",
                 headers: {
                     "Content-Type": "text/xml",
@@ -23,6 +23,6 @@
     </script>
 </head>
 <body>
-
+<button name="corsTest" onclick="corsTest()">corsTest</button>
 </body>
 </html>
