@@ -32,7 +32,7 @@ class OrderService {
     log.info("findByCustomerNames called")
 
     return Flux.fromIterable(names)
-      .flatMap { getOrders(it).defaultIfEmpty(emptyList()) }
+      .flatMapSequential { getOrders(it).defaultIfEmpty(emptyList()) }
 
 //    return Flux.fromIterable(names)
 //      .map { orders.getOrDefault(it, listOf()) }

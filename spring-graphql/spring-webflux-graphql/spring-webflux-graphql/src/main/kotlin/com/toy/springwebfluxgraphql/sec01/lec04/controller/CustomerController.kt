@@ -4,10 +4,8 @@ import com.toy.springwebfluxgraphql.sec01.lec04.domain.Customer
 import com.toy.springwebfluxgraphql.sec01.lec04.domain.CustomerOrder
 import com.toy.springwebfluxgraphql.sec01.lec04.service.CustomerService
 import com.toy.springwebfluxgraphql.sec01.lec04.service.OrderService
-import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.BatchMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
-import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Flux
 
