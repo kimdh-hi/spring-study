@@ -1,6 +1,7 @@
 # Spring graphql (webflux)
 
 ### Fragment
+Query 의 일부분을 재사용하기 위해 사용한다.
 ```graphql
 {
   customers {
