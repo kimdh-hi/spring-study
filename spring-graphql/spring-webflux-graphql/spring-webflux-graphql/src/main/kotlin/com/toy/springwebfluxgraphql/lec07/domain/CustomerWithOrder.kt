@@ -1,4 +1,4 @@
-package com.toy.springwebfluxgraphql.lec06.domain
+package com.toy.springwebfluxgraphql.lec07.domain
 
 data class CustomerWithOrder(
   val id: Long,

@@ -3,7 +3,7 @@ package com.toy.springwebfluxgraphql
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-@SpringBootApplication(scanBasePackages = ["com.toy.springwebfluxgraphql.lec06"])
+@SpringBootApplication(scanBasePackages = ["com.toy.springwebfluxgraphql.lec07"])
 class SpringWebfluxGraphqlApplication
 
 fun main(args: Array<String>) {
