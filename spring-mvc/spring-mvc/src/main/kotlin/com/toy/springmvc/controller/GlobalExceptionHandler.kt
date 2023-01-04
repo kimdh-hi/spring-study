@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.BindException
+import org.springframework.validation.BindingResult
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import java.io.Serial
 import javax.validation.ConstraintViolationException
@@ -27,16 +29,10 @@ class GlobalExceptionHandler(
     return ResponseEntity(responseVO, HttpStatus.BAD_REQUEST)
   }
 
-  // requestBody @Valid
-  @ExceptionHandler(value = [MethodArgumentNotValidException::class])
-  fun methodArgumentNotValidExceptionHandler(e: MethodArgumentNotValidException): ResponseEntity<String> {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(objectMapper.writeValueAsString(e.bindingResult))
-  }
-
-  // modelAttribute @Valid
   @ExceptionHandler(value = [BindException::class])
-  fun bindExceptionHandler(e: BindException): ResponseEntity<String> {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(objectMapper.writeValueAsString(e.bindingResult))
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  fun bindExceptionHandler(e: BindException): BindingResult {
+    return e.bindingResult
   }
 }
 
