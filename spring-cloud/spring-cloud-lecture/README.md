@@ -13,3 +13,26 @@ eureka:
   instance:
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
 ```
+
+---
+
+### Spring cloud gateway
+
+```yml
+server.port: 8000
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: first-service
+          uri: http://localhost:8881
+          predicates:
+            - Path=/first-service/**
+        - id: second-service
+          uri: http://localhost:8882
+          predicates:
+            - Path=/second-service/**
+```
+
+`http://localhost:8000/first-service` ==> `http://localhost:8881/first-service`
+`http://localhost:8000/second-service` ==> `http://localhost:8882/second-service`
