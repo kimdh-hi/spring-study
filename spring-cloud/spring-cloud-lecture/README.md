@@ -18,6 +18,7 @@ eureka:
 
 ### Spring cloud gateway
 
+설정파일 기반 설정
 ```yml
 server.port: 8000
 spring:
@@ -36,3 +37,28 @@ spring:
 
 `http://localhost:8000/first-service` ==> `http://localhost:8881/first-service`
 `http://localhost:8000/second-service` ==> `http://localhost:8882/second-service`
+
+설정 클래스(코드) 기반 설정
+```kotlin
+  @Bean
+  fun gatewayRouteLocator(builder: RouteLocatorBuilder): RouteLocator = builder.routes()
+    .route {
+      it.path("/first-service/**")
+        .filters { filter ->
+          filter
+            .addRequestHeader("first-req-header-key", "first-req-header-value")
+            .addRequestHeader("first-res-header-key", "first-res-header-value")
+        }
+        .uri("http://localhost:8881")
+    }
+    .route {
+      it.path("/second-service/**")
+        .filters { filter ->
+          filter
+            .addRequestHeader("second-req-header-key", "second-req-header-value")
+            .addRequestHeader("second-res-header-key", "second-res-header-value")
+        }
+        .uri("http://localhost:8882")
+    }
+    .build()
+```
