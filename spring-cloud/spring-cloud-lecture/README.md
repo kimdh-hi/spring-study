@@ -86,4 +86,46 @@ spring:
           filters:
             - AddRequestHeader=first-req-header-key,first-req-header-value
             - CustomFilter            
+        - id: second-service
+          uri: http://localhost:8882
+          predicates:
+            - Path=/second-service/**
+          filters:
+            - AddRequestHeader=second-req-header-key,second-req-header-value
+            - name: LoggingFilter
+              args:
+                baseMessage: LoggingFilter message
+                preLogger: true
+                postLogger: true            
+```
+
+필터 설정시 `args` 는 정의한 Filter 클래스 내에 매핑할 클래스를 위치시킨다.
+```kotlin
+@Component
+class GlobalFilter: AbstractGatewayFilterFactory<GlobalFilter.Config>(Config::class.java) {
+
+  private val log = LoggerFactory.getLogger(javaClass)
+
+  override fun apply(config: Config): GatewayFilter = GatewayFilter { exchange, chain ->
+    val request = exchange.request
+    val response = exchange.response
+
+    log.info("[Global-filter] baseMessage: {}", config.baseMessage)
+    if(config.preLogger) {
+      log.info("[Global-filter] start request.id: {}", request.id)
+    }
+
+    chain.filter(exchange).then(Mono.fromRunnable {
+      if(config.postLogger) {
+        log.info("[Global-filter] end response code: {}", response.statusCode)
+      }
+    })
+  }
+
+  data class Config(
+    val baseMessage: String,
+    val preLogger: Boolean,
+    val postLogger: Boolean
+  )
+}
 ```

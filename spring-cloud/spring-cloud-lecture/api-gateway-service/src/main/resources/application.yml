@@ -32,3 +32,9 @@ spring:
             - Path=/second-service/**
           filters:
             - AddRequestHeader=second-req-header-key,second-req-header-value
+            - CustomFilter
+            - name: LoggingFilter
+              args:
+                baseMessage: LoggingFilter message
+                preLogger: true
+                postLogger: true
