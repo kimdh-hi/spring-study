@@ -1,14 +1,17 @@
 package com.lecture.apigatewayservice.config
 
+import com.lecture.apigatewayservice.filter.CustomFilter
 import org.springframework.cloud.gateway.route.RouteLocator
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class FilterConfig {
+class GatewayConfig(
+  private val customFilter: CustomFilter
+) {
 
-  @Bean
+//  @Bean
   fun gatewayRouteLocator(builder: RouteLocatorBuilder): RouteLocator = builder.routes()
     .route {
       it.path("/first-service/**")
