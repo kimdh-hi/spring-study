@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/second-service")
@@ -22,5 +23,8 @@ class SecondServiceController {
   }
 
   @GetMapping("/check")
-  fun check() = "second-service check"
+  fun check(request: HttpServletRequest): String {
+    log.info("firstService port: {}", request.serverPort)
+    return "second-service check"
+  }
 }
