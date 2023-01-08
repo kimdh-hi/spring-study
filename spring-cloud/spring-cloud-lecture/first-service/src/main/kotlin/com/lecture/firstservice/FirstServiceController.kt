@@ -20,4 +20,7 @@ class FirstServiceController {
     log.info("first-service message: {}", header)
     return "first-service message"
   }
+
+  @GetMapping("/check")
+  fun check() = "first-service check"
 }

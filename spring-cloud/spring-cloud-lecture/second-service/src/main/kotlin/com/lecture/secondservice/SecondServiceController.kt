@@ -20,4 +20,7 @@ class SecondServiceController {
     log.info("second-service message: {}", header)
     return "second-service message"
   }
+
+  @GetMapping("/check")
+  fun check() = "second-service check"
 }

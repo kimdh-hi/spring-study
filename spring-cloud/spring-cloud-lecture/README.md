@@ -3,9 +3,9 @@
 
 ### Eureka discovery server
 
-eureka client 등록시 랜덤포트 (server.port=0) 지정하는 경우
-동일 인스턴스 기동시 eureka server 는 동일한 포트로 인식하고 한 개 서비스만 등록한다.
-이를 방지하기 위해 eureka server 에 등록하는 이름을 직접 지정한다.
+eureka client 등록시 랜덤포트 (server.port=0) 지정하는 경우<br/>
+동일 인스턴스 기동시 eureka server 는 동일한 포트로 인식하고 한 개 서비스만 등록한다.<br/>
+이를 방지하기 위해 eureka server 에 등록하는 이름을 직접 지정한다.<br/>
 ```yml
 server.port: 0
 
@@ -18,7 +18,7 @@ eureka:
 
 ### Spring cloud gateway
 
-설정파일 기반 설정
+#### 설정파일 기반 설정
 ```yml
 server.port: 8000
 spring:
@@ -35,10 +35,10 @@ spring:
             - Path=/second-service/**
 ```
 
-`http://localhost:8000/first-service` ==> `http://localhost:8881/first-service`
-`http://localhost:8000/second-service` ==> `http://localhost:8882/second-service`
+`http://localhost:8000/first-service` ==> `http://localhost:8881/first-service` <br/>
+`http://localhost:8000/second-service` ==> `http://localhost:8882/second-service` <br/>
 
-설정 클래스(코드) 기반 설정
+#### 설정 클래스(코드) 기반 설정
 ```kotlin
   @Bean
   fun gatewayRouteLocator(builder: RouteLocatorBuilder): RouteLocator = builder.routes()
@@ -61,4 +61,29 @@ spring:
         .uri("http://localhost:8882")
     }
     .build()
+```
+
+#### Filter
+
+GlobalFilter -> CustomFilter ...
+
+GlobalFilter 설정
+```yml
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: GlobalFilter message
+            preLogger: true
+            postLogger: true
+      routes:
+        - id: first-service
+          uri: http://localhost:8881
+          predicates:
+            - Path=/first-service/**
+          filters:
+            - AddRequestHeader=first-req-header-key,first-req-header-value
+            - CustomFilter            
 ```
