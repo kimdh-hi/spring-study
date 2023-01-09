@@ -16,14 +16,14 @@ data class UserSaveRequestVO(
   )
 }
 
-data class UserSaveResponseVO(
+data class UserResponseVO(
   val id: String?,
   val name: String,
   val email: String,
   val userId: String
 ) {
   companion object {
-    fun of(user: User) = UserSaveResponseVO(
+    fun of(user: User) = UserResponseVO(
       id = user.userId,
       name = user.name,
       email = user.email,

@@ -12,13 +12,17 @@ spring:
     name: api-gateway-service
   cloud:
     gateway:
-      default-filters:
-        - name: GlobalFilter
-          args:
-            baseMessage: GlobalFilter message
-            preLogger: true
-            postLogger: true
+#       default-filters:
+#         - name: GlobalFilter
+#           args:
+#             baseMessage: GlobalFilter message
+#             preLogger: true
+#             postLogger: true
       routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
         - id: first-service
           uri: lb://MY-FIRST-SERVICE
           predicates:
