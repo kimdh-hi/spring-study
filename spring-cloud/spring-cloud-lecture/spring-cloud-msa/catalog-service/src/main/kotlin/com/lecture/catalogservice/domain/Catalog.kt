@@ -1,28 +1,28 @@
-package com.lecture.userservice.domain
+package com.lecture.catalogservice.domain
 
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serial
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Table(name = "users")
-class User(
+@Table(name = "catalogs")
+class Catalog(
   @Id
   @GeneratedValue(generator = "uuid")
   @GenericGenerator(name = "uuid", strategy = "uuid2")
   var id: String? = null,
 
-  @Column(nullable = false, unique = true)
-  var email: String,
+  var productId: String,
 
-  @Column(nullable = false)
   var name: String,
 
-  @Column(nullable = false)
-  var password: String
+  var stock: Int,
+
+  var price: Int
 ): AbstractBaseEntity() {
   companion object {
     @Serial
-    private const val serialVersionUID: Long = -6205959036177763734L
+    private const val serialVersionUID: Long = 7771538739541995991L
   }
 }

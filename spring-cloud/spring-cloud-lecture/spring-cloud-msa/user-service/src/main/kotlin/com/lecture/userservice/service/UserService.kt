@@ -27,7 +27,7 @@ class UserService(
       .map { UserResponseVO.of(it) }
   }
 
-  fun findById(id: Long): UserResponseVO {
+  fun findById(id: String): UserResponseVO {
     val user = userRepository.findByIdOrNull(id)
       ?: throw RuntimeException("user not found")
     return UserResponseVO.of(user)

@@ -1,6 +1,7 @@
 package com.lecture.userservice.vo
 
 import com.lecture.userservice.domain.User
+import java.time.LocalDateTime
 import java.util.UUID
 
 data class UserSaveRequestVO(
@@ -11,7 +12,6 @@ data class UserSaveRequestVO(
   fun toEntity(encPassword: String) = User(
       email = email,
       name = name,
-      userId = UUID.randomUUID().toString(),
       password = encPassword
   )
 }
@@ -20,14 +20,16 @@ data class UserResponseVO(
   val id: String?,
   val name: String,
   val email: String,
-  val userId: String
+  val createdDate: LocalDateTime?,
+  val updatedDate: LocalDateTime?
 ) {
   companion object {
     fun of(user: User) = UserResponseVO(
-      id = user.userId,
+      id = user.id,
       name = user.name,
       email = user.email,
-      userId = user.userId
+      createdDate = user.createdDate,
+      updatedDate = user.updatedDate
     )
   }
 }
