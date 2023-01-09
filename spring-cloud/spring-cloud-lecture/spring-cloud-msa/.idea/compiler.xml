@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="catalog-service" target="17" />
+      <module name="catalog-service.main" target="17" />
+      <module name="catalog-service.test" target="17" />
+      <module name="com.lecture.product-service.main" target="17" />
+      <module name="com.lecture.product-service.test" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
