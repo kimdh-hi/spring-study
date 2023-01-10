@@ -11,12 +11,13 @@ import com.toy.springquerydsl.vo.QMemberResponseVO
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.data.support.PageableExecutionUtils
 import org.springframework.util.StringUtils
 
 interface MemberRepository: CrudRepository<Member, String>, MemberRepositoryCustom
-
 interface MemberRepositoryCustom {
   fun searchV0deprecated(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO>
   fun searchV1deprecated(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO>

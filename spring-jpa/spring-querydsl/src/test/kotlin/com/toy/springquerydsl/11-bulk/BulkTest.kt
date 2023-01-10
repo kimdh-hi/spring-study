@@ -3,9 +3,13 @@ package com.toy.springquerydsl.`11-bulk`
 import com.toy.springquerydsl.`00-base`.BaseTest
 import com.toy.springquerydsl.domain.QMember
 import com.toy.springquerydsl.domain.QMember.member
+import com.toy.springquerydsl.domain.QTeam.team
+import com.toy.springquerydsl.repository.MemberRepository
 import org.junit.jupiter.api.Test
 
-class BulkTest: BaseTest() {
+class BulkTest(
+  private val memberRepository: MemberRepository
+): BaseTest() {
 
   /**
    * 영속성 컨텍스트를 무시? 하는 벌크 쿼리는 조심해서 사용하자.
