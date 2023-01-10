@@ -5,6 +5,17 @@ plugins {
   id("io.spring.dependency-management") version "1.0.15.RELEASE"
   kotlin("jvm") version "1.6.21"
   kotlin("plugin.spring") version "1.6.21"
+  kotlin("plugin.noarg") version "1.6.21"
+}
+
+allOpen {
+  annotation("javax.persistence.Entity")
+  annotation("javax.persistence.Embeddable")
+  annotation("javax.persistence.MappedSuperclass")
+}
+
+noArg {
+  annotation("javax.persistence.Entity")
 }
 
 group = "com.lecture"
@@ -19,6 +30,7 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
   implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
   implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
 

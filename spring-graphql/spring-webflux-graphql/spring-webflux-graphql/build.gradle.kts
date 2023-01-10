@@ -18,6 +18,8 @@ repositories {
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-graphql")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
+  implementation("com.graphql-java:graphql-java-extended-scalars:20.0")
+
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
