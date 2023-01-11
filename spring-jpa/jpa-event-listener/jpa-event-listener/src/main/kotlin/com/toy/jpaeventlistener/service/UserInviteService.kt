@@ -9,8 +9,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class UserService(
-  private val userRepository: UserRepository,
+class UserInviteService(
   private val userInviteEmailRepository: UserInviteEmailRepository,
   private val eventPublisher: ApplicationEventPublisher
 ) {

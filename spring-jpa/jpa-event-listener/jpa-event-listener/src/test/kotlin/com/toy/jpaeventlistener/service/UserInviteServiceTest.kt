@@ -6,16 +6,13 @@ import org.springframework.test.context.TestConstructor
 
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-class UserServiceTest(
-  private val userService: UserService
+class UserInviteServiceTest(
+  private val userInviteService: UserInviteService
 ) {
 
   @Test
-  fun save() {
-    //given
-    val requestVO = UserSaveRequestVO("username@gmail.com")
-
-    //when
-    userService.save(requestVO)
+  fun invite() {
+    val requestVO = UserInviteRequestVO("test@gmail.com")
+    userInviteService.invite(requestVO)
   }
 }
