@@ -1,11 +1,14 @@
 package com.lecture.inflearnspringsecurityoauth2.config
 
+import org.slf4j.LoggerFactory
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper
 import java.util.*
 
 class CustomAuthorityMapper: GrantedAuthoritiesMapper {
+
+  private val log = LoggerFactory.getLogger(javaClass)
 
   companion object {
     const val ROLE_PREFIX = "ROLE_"
@@ -20,15 +23,16 @@ class CustomAuthorityMapper: GrantedAuthoritiesMapper {
   }
 
   private fun mapAuthority(name: String): GrantedAuthority {
+    log.info("mapAuthority: {}, {}", name, name.lastIndexOf("."))
     var authority = name
 
     if(name.lastIndexOf(".") > 0) {
       val idx = name.lastIndexOf(".")
-      authority = "SCOPE_${name.substring(idx + 1)}"
+      authority = "${ROLE_PREFIX}SCOPE_${name.substring(idx + 1)}"
     }
 
-    if(!name.startsWith(ROLE_PREFIX)) {
-      authority = "${ROLE_PREFIX}name"
+    if(authority == name && !name.startsWith(ROLE_PREFIX)) {
+      authority = "${ROLE_PREFIX}$name"
     }
 
     return SimpleGrantedAuthority(authority)

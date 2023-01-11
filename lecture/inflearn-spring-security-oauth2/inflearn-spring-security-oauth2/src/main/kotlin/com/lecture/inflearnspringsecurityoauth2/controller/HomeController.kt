@@ -13,15 +13,15 @@ class HomeController {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
-  @GetMapping("/api/users")
-  fun user(authentication: Authentication, @AuthenticationPrincipal oAuth2User: OAuth2User): String {
+  @GetMapping("/api/user")
+  fun user(authentication: Authentication, @AuthenticationPrincipal oAuth2User: OAuth2User): Authentication {
     log.info("authentication: {}, oAuth2User: {}", authentication, oAuth2User)
-    return "auth"
+    return authentication
   }
 
   @GetMapping("/api/oidc")
-  fun oidc(authentication: Authentication, @AuthenticationPrincipal oidcUser: OidcUser): String {
+  fun oidc(authentication: Authentication, @AuthenticationPrincipal oidcUser: OidcUser): Authentication {
     log.info("authentication: {}, oidcUser: {}", authentication, oidcUser)
-    return "auth"
+    return authentication
   }
 }
