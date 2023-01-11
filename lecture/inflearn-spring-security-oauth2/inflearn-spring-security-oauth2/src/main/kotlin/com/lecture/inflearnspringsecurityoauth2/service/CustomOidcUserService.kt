@@ -1,7 +1,21 @@
 package com.lecture.inflearnspringsecurityoauth2.service
 
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService
+import org.springframework.security.oauth2.core.oidc.user.OidcUser
 import org.springframework.stereotype.Service
 
 @Service
-class CustomOidcUserService {
+class CustomOidcUserService: AbstractOAuth2UserService(), OAuth2UserService<OidcUserRequest, OidcUser> {
+
+  override fun loadUser(userRequest: OidcUserRequest): OidcUser {
+    val clientRegistration = userRequest.clientRegistration
+    val userService = OidcUserService()
+    val oidcUser = userService.loadUser(userRequest)
+    val providerUser = super.providerUser(clientRegistration, oidcUser)
+    super.register(providerUser, userRequest)
+
+    return oidcUser
+  }
 }

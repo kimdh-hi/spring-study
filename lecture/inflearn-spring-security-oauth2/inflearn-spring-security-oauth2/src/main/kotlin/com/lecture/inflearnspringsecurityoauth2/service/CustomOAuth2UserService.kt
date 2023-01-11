@@ -11,10 +11,11 @@ class CustomOAuth2UserService: OAuth2UserService<OAuth2UserRequest, OAuth2User>,
 
   override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User {
     val clientRegistration = userRequest.clientRegistration
-    val oAuth2UserService = DefaultOAuth2UserService()
-    val oAuth2User = oAuth2UserService.loadUser(userRequest)
-
+    val userService = DefaultOAuth2UserService()
+    val oAuth2User = userService.loadUser(userRequest)
     val providerUser = super.providerUser(clientRegistration, oAuth2User)
     super.register(providerUser, userRequest)
+
+    return oAuth2User
   }
 }
