@@ -66,8 +66,6 @@ class GroupMemberRepositoryTest(
 
     //then
     assertNotNull(groupMember)
-    println(groupMember)
-    println(groupMember?.groupMemberOption)
   }
 
   @Test
@@ -93,7 +91,6 @@ class GroupMemberRepositoryTest(
     em.clear()
 
     val optionUpdatedGroupMember = groupMemberRepository.findByGroupIdAndMemberId(groupId, memberId)
-    println(optionUpdatedGroupMember?.groupMemberOption)
   }
 
   @Test
@@ -111,7 +108,5 @@ class GroupMemberRepositoryTest(
         assertTrue(it.member.id == memberId)
       }
     })
-
-    println(groupMembers)
   }
 }

@@ -1,14 +1,10 @@
 package com.toy.springmvc.common
 
 import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
-import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializerProvider
-import org.slf4j.LoggerFactory
 import org.springframework.boot.jackson.JsonComponent
 import org.springframework.boot.jackson.JsonObjectSerializer
 import org.springframework.validation.BindingResult
-import java.io.IOException
 
 @JsonComponent
 class BindingResultSerializer: JsonObjectSerializer<BindingResult>() {

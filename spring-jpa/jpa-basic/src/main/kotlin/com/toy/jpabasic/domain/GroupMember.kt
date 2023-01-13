@@ -20,17 +20,17 @@ class GroupMember(
   final var group: Group,
 
   @Column(nullable = false)
-  var sbApplicationId: String,
+  var sbApplicationId: String = "",
 
   @Column(nullable = false)
-  var sbApiToken: String,
+  var sbApiToken: String = "",
 
   @OneToOne
   @JoinColumn(name = "group_member_option_id")
   var groupMemberOption: GroupMemberOption? = null
 ) {
   companion object {
-    fun of(member: Member, group: Group, sbAppId: String, sbApiToken: String): GroupMember {
+    fun of(member: Member, group: Group, sbAppId: String = "", sbApiToken: String = ""): GroupMember {
       val groupMember = GroupMember(
         id = ID(),
         member = member,

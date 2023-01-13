@@ -10,3 +10,7 @@ Content-Type: application/json
   "data": "test~",
   "type": "TYPE2"
 }
+
+### test
+POST localhost:8080/api/split
+Content-Type: application/json

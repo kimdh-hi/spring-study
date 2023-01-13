@@ -1,6 +1,8 @@
 package com.lecture.userservice.config
 
+import com.lecture.userservice.filter.AuthenticationFilter
 import org.springframework.context.annotation.Bean
+import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
@@ -12,8 +14,6 @@ class SecurityConfig {
   fun securityFilterChain(http: HttpSecurity) = http
     .csrf().disable()
     .headers().frameOptions().disable()
-    .and()
-    .authorizeRequests().antMatchers("/users/**").permitAll()
     .and()
     .build()
 

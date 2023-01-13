@@ -33,8 +33,8 @@ class AmqpIntegrationConfig(
 
   @Bean
   fun loggingFlow(): IntegrationFlow = IntegrationFlows.from("loggingQueue")
-      .handle(loggingHandler())
-      .get()
+    .handle(loggingHandler())
+    .get()
 
   @Bean
   fun loggingHandler(): LoggingHandler {

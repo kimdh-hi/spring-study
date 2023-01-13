@@ -12,6 +12,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.listener.RedisMessageListenerContainer
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializationContext
@@ -76,12 +77,5 @@ class RedisConfig(private val redisProperties: RedisProperties) {
   private fun redisExpiresConfiguration(ttl: Long): RedisCacheConfiguration {
     return RedisCacheConfiguration.defaultCacheConfig(Thread.currentThread().contextClassLoader)
       .entryTtl(Duration.ofSeconds(ttl))
-  }
-
-  @Bean
-  fun redisContainer(): RedisMessageListenerContainer {
-    return RedisMessageListenerContainer().apply {
-      setConnectionFactory(redisConnectionFactory())
-    }
   }
 }

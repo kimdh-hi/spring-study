@@ -1,4 +1,7 @@
 package com.lecture.userservice.vo
 
-class LoginVO {
-}
+data class LoginRequestVO(
+  val email: String,
+
+  val password: String
+)
