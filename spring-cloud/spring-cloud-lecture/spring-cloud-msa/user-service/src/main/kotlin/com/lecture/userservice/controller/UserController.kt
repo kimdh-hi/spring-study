@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/user-service/users")
+@RequestMapping("/users")
 class UserController(
   private val userService: UserService,
   private val greetingProperties: GreetingProperties,
