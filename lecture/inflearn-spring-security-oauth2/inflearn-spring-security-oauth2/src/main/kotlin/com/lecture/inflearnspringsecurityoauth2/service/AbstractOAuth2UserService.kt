@@ -1,6 +1,12 @@
 package com.lecture.inflearnspringsecurityoauth2.service
 
+import com.lecture.inflearnspringsecurityoauth2.config.converter.ProviderUserConverter
+import com.lecture.inflearnspringsecurityoauth2.config.converter.ProviderUserRequest
 import com.lecture.inflearnspringsecurityoauth2.model.*
+import com.lecture.inflearnspringsecurityoauth2.model.social.GoogleUser
+import com.lecture.inflearnspringsecurityoauth2.model.social.KeycloakUser
+import com.lecture.inflearnspringsecurityoauth2.model.social.NaverUser
+import com.lecture.inflearnspringsecurityoauth2.model.OAuth2ProviderUser
 import com.lecture.inflearnspringsecurityoauth2.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.oauth2.client.registration.ClientRegistration
@@ -17,27 +23,21 @@ abstract class AbstractOAuth2UserService {
   @Autowired
   lateinit var userRepository: UserRepository
 
-  fun register(providerUser: ProviderUser, userRequest: OAuth2UserRequest) {
-    userRepository.findByUsername(providerUser.getUsername())?.let {
+  @Autowired
+  lateinit var providerUserConverter: ProviderUserConverter<ProviderUserRequest, ProviderUser>
+
+  fun register(providerUser: ProviderUser?, userRequest: OAuth2UserRequest) {
+    providerUser ?: throw RuntimeException("providerUser not exists...")
+
+    userRepository.findByUsername(providerUser.getUsername()) ?: run {
       val registrationId = userRequest.clientRegistration.registrationId
       userService.save(registrationId, providerUser)
-    } ?: throw RuntimeException("...")
+    }
 
   }
 
-  protected fun providerUser(clientRegistration: ClientRegistration, oAuth2User: OAuth2User): OAuth2ProviderUser {
-    return when(clientRegistration.registrationId) {
-      "keycloak" -> {
-        KeycloakUser(oAuth2User, clientRegistration)
-      }
-      "google" -> {
-        GoogleUser(oAuth2User, clientRegistration)
-      }
-      "naver" -> {
-        NaverUser(oAuth2User, clientRegistration)
-      }
-      else -> { throw RuntimeException("${clientRegistration.registrationId} is not supported oauth-client-registration") }
-    }
+  protected fun providerUser(providerUserRequest: ProviderUserRequest): ProviderUser? {
+    return providerUserConverter.convert(providerUserRequest)
   }
 
   protected fun register(providerUser: OAuth2ProviderUser, oAuth2UserRequest: OAuth2UserRequest) {
