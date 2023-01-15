@@ -1,5 +1,6 @@
 package com.lecture.userservice.service
 
+import com.lecture.userservice.domain.User
 import com.lecture.userservice.repository.UserRepository
 import com.lecture.userservice.vo.UserResponseVO
 import com.lecture.userservice.vo.UserSaveRequestVO
@@ -42,5 +43,9 @@ class UserService(
     val user = userRepository.findByIdOrNull(id)
       ?: throw RuntimeException("user not found")
     return UserResponseVO.of(user)
+  }
+
+  fun findByUsername(username: String): User {
+    return userRepository.findByEmail(username) ?: throw UsernameNotFoundException("user not found")
   }
 }
