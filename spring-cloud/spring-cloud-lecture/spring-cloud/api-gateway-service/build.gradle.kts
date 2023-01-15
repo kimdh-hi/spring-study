@@ -21,6 +21,7 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("org.springframework.cloud:spring-cloud-starter-gateway")
+  implementation("io.jsonwebtoken:jjwt:0.9.1")
   implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
   implementation("io.netty:netty-resolver-dns-native-macos:4.1.84.Final:osx-aarch_64")
   testImplementation("org.springframework.boot:spring-boot-starter-test")

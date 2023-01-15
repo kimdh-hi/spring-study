@@ -26,7 +26,7 @@ spring:
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
-            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - RewritePath=/user-service/login, /login
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
@@ -43,6 +43,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
 
         - id: product-service
           uri: lb://PRODUCT-SERVICE
@@ -73,3 +74,7 @@ spring:
                 baseMessage: LoggingFilter message
                 preLogger: true
                 postLogger: true
+
+token:
+  expiration_time: 86400000
+  secret: secret
