@@ -33,6 +33,8 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-security")
+  implementation("org.springframework.cloud:spring-cloud-starter-config")
+  implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
   implementation("io.jsonwebtoken:jjwt:0.9.1")
   implementation("javax.xml.bind:jaxb-api")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

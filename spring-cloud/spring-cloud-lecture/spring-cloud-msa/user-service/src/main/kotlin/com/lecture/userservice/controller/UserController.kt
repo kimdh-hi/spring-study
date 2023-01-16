@@ -35,7 +35,11 @@ class UserController(
   }
 
   @GetMapping("/health-check")
-  fun healthCheck() = "user service ok port: ${env.getProperty("local.server.port")}"
+  fun healthCheck() = """
+    user service ok port: ${env.getProperty("local.server.port")}"
+    token.secret: ${env.getProperty("token.secret")}
+    token.expirationTime: ${env.getProperty("token.expiration_time")}
+  """.trimIndent()
 
   @GetMapping("/welcome")
   fun welcome() = greetingProperties.message

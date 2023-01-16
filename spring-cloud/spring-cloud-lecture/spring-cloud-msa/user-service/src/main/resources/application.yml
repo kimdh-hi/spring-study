@@ -21,9 +21,10 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
-token:
-  expiration_time: 86400000
-  secret: secret
+# move to cloud-config
+# token:
+#   expiration_time: 86400000
+#   secret: secret
 
 greeting:
   message: welcome
