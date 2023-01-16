@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*
 class UserController(
   private val userService: UserService,
   private val greetingProperties: GreetingProperties,
-  private val env: Environment
 ) {
 
   @PostMapping
@@ -33,13 +32,6 @@ class UserController(
     val responseVO = userService.findById(id)
     return ResponseEntity.ok(responseVO)
   }
-
-  @GetMapping("/health-check")
-  fun healthCheck() = """
-    user service ok port: ${env.getProperty("local.server.port")}"
-    token.secret: ${env.getProperty("token.secret")}
-    token.expirationTime: ${env.getProperty("token.expiration_time")}
-  """.trimIndent()
 
   @GetMapping("/welcome")
   fun welcome() = greetingProperties.message

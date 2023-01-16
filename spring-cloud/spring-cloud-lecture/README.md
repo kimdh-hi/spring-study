@@ -129,3 +129,30 @@ class GlobalFilter: AbstractGatewayFilterFactory<GlobalFilter.Config>(Config::cl
   )
 }
 ```
+
+---
+
+### Config server
+
+```yml
+spring:
+  cloud:
+    config:
+      name: ecommerce
+  config:
+    import: optional:configserver:http://localhost:8888
+
+or
+
+# bootstrap.yml 추가 후 application.yml 에 추가
+spring:
+  config:
+    import:
+      - classpath:/bootstrap.yml      
+```
+
+config server 변경된 프로퍼티 반영
+- 서버 restart
+- Spring actuator  Refresh
+  - `/actuator/refresh`
+- Spring cloud bus

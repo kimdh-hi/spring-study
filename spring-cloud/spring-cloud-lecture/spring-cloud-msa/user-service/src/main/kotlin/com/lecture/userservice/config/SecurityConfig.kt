@@ -26,6 +26,8 @@ class SecurityConfig(
 
     return http
       .authorizeRequests()
+      .antMatchers("/actuator/**").permitAll()
+      .antMatchers("/health-check/**").permitAll()
       .antMatchers(HttpMethod.POST, "/users/**").permitAll()
       .antMatchers(HttpMethod.GET, "/users/**").authenticated()
       .and()
