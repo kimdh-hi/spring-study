@@ -1,4 +1,4 @@
-package com.toy.springwebfluxgraphql.`lec10-interface`.dto
+package com.toy.springwebfluxgraphql.`lec10-interface`.domain
 
 import java.util.*
 

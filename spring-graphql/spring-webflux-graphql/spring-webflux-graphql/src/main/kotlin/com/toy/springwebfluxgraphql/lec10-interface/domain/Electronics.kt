@@ -1,6 +1,5 @@
-package com.toy.springwebfluxgraphql.`lec10-interface`.dto
+package com.toy.springwebfluxgraphql.`lec10-interface`.domain
 
-import java.time.LocalDateTime
 import java.util.*
 
 data class Electronics(
