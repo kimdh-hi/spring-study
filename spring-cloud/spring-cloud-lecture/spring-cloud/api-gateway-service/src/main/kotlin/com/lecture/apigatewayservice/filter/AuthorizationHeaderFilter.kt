@@ -49,7 +49,9 @@ class AuthorizationHeaderFilter(
     var returnValue = true
 
     val subject = try {
-      Jwts.parser().setSigningKey(environment.getProperty("token.secret"))
+      val secret = environment.getProperty("token.secret")
+      log.info("[isValidToken] secret: {}", secret)
+      Jwts.parser().setSigningKey(secret)
         .parseClaimsJws(token).body
         .subject
     } catch (ex: Exception) {
@@ -57,7 +59,7 @@ class AuthorizationHeaderFilter(
       null
     }
 
-    if(subject == null || subject.isEmpty())
+    if(subject.isNullOrEmpty())
       returnValue = false
 
     return returnValue
