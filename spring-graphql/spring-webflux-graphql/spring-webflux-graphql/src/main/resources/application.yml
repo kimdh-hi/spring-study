@@ -1,8 +1,10 @@
 spring:
   graphql:
     schema:
-      locations: classpath:graphql/lec10-interface
+      locations: classpath:graphql/lec11-caching
     path: /graphql
     graphiql:
       enabled: true
       path: /graphiql
+
+logging.level.root: DEBUG
