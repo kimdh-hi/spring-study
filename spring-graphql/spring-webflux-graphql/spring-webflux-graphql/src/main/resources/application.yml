@@ -1,7 +1,7 @@
 spring:
   graphql:
     schema:
-      locations: classpath:graphql/lec13-subscription
+      locations: classpath:graphql/lec14-error-handling
     path: /graphql
     websocket:
       path: /graphql

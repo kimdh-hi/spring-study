@@ -1,8 +1,8 @@
-package com.toy.springwebfluxgraphql.lec13.controller
+package com.toy.springwebfluxgraphql.lec14.controller
 
-import com.toy.springwebfluxgraphql.lec13.service.CustomerService
-import com.toy.springwebfluxgraphql.lec13.vo.CustomerDeleteResponseVO
-import com.toy.springwebfluxgraphql.lec13.vo.CustomerVO
+import com.toy.springwebfluxgraphql.lec14.service.CustomerService
+import com.toy.springwebfluxgraphql.lec14.vo.CustomerDeleteResponseVO
+import com.toy.springwebfluxgraphql.lec14.vo.CustomerVO
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
@@ -19,7 +19,10 @@ class CustomerController(
   fun customers(): Flux<CustomerVO> = customerService.findAll()
 
   @QueryMapping
-  fun customerById(@Argument id: Int): Mono<CustomerVO> = customerService.findById(id)
+  fun customerById(@Argument id: Int): Mono<CustomerVO> {
+    throw RuntimeException("error...")
+//    customerService.findById(id)
+  }
 
   @MutationMapping
   fun createCustomer(@Argument request: CustomerVO): Mono<CustomerVO> = customerService.create(request)
