@@ -12,7 +12,7 @@ import java.io.Serializable
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 class RedisTemplateHashTest(
-  private val redisTemplate: RedisTemplate<String, Any>
+  private val redisTemplate: RedisTemplate<String, String>
 ) {
 
   @Test

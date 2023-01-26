@@ -1,5 +1,6 @@
 package com.toy.springcacheex.config
 
+import com.toy.springcacheex.common.CustomRedisSerializer
 import com.toy.springcacheex.common.RedisConstants
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -12,8 +13,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.data.redis.core.StringRedisTemplate
-import org.springframework.data.redis.listener.RedisMessageListenerContainer
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializationContext
 import org.springframework.data.redis.serializer.StringRedisSerializer
@@ -22,41 +21,38 @@ import java.time.Duration
 @Configuration
 @ConditionalOnProperty(value = ["cache.cache-name"], havingValue = "redis")
 @EnableCaching
-class RedisConfig(private val redisProperties: RedisProperties) {
+class RedisConfig(
+  private val redisProperties: RedisProperties,
+  private val customRedisSerializer: CustomRedisSerializer,
+) {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
   @Bean
   fun cacheManager(redisConnectionFactory: RedisConnectionFactory): RedisCacheManager {
     log.info("redis cacheManager bean register")
-    val redisCacheDefaultConfig = RedisCacheConfiguration.defaultCacheConfig()
-      .disableCachingNullValues() // null value does not caching...
-      .serializeKeysWith(
-        RedisSerializationContext.SerializationPair.fromSerializer(
-          StringRedisSerializer()
-        )
-      )
-      .serializeValuesWith(
-        RedisSerializationContext.SerializationPair.fromSerializer(
-          GenericJackson2JsonRedisSerializer()
-        )
-      )
-
     return RedisCacheManager.RedisCacheManagerBuilder
       .fromConnectionFactory(redisConnectionFactory)
-      .cacheDefaults(redisCacheDefaultConfig)
+      .cacheDefaults(generateCacheConfig())
       .withInitialCacheConfigurations(redisExpiresConfigurationMap())
       .build()
   }
 
+  private fun generateCacheConfig(): RedisCacheConfiguration {
+    return RedisCacheConfiguration.defaultCacheConfig()
+      .serializeValuesWith(
+        RedisSerializationContext.SerializationPair.fromSerializer<Any>(
+          customRedisSerializer
+        )
+      )
+  }
+
   @Bean
-  fun redisTemplate(redisConnectionFactory: RedisConnectionFactory): RedisTemplate<String, Any> {
-    val redisTemplate = RedisTemplate<String, Any>()
+  fun redisTemplate(redisConnectionFactory: RedisConnectionFactory): RedisTemplate<String, String> {
+    val redisTemplate = RedisTemplate<String, String>()
     redisTemplate.setConnectionFactory(redisConnectionFactory)
-    redisTemplate.keySerializer = StringRedisSerializer()
-    redisTemplate.valueSerializer = GenericJackson2JsonRedisSerializer()
-    redisTemplate.hashKeySerializer = StringRedisSerializer()
-    redisTemplate.hashValueSerializer = GenericJackson2JsonRedisSerializer()
+    redisTemplate.valueSerializer = CustomRedisSerializer()
+    redisTemplate.afterPropertiesSet()
     return redisTemplate
   }
 
@@ -77,5 +73,10 @@ class RedisConfig(private val redisProperties: RedisProperties) {
   private fun redisExpiresConfiguration(ttl: Long): RedisCacheConfiguration {
     return RedisCacheConfiguration.defaultCacheConfig(Thread.currentThread().contextClassLoader)
       .entryTtl(Duration.ofSeconds(ttl))
+      .serializeValuesWith(
+        RedisSerializationContext.SerializationPair.fromSerializer(
+          customRedisSerializer
+        )
+      )
   }
 }

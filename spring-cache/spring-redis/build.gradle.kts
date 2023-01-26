@@ -3,10 +3,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
   id("org.springframework.boot") version "2.7.0"
   id("io.spring.dependency-management") version "1.0.11.RELEASE"
-  kotlin("jvm") version "1.6.21"
-  kotlin("plugin.spring") version "1.6.21"
-  kotlin("plugin.jpa") version "1.6.21"
-  kotlin("plugin.noarg") version "1.6.21"
+  kotlin("jvm") version "1.7.20"
+  kotlin("plugin.spring") version "1.7.20"
+  kotlin("plugin.jpa") version "1.7.20"
+  kotlin("plugin.noarg") version "1.7.20"
+  kotlin("plugin.serialization") version "1.7.20"
 }
 
 group = "com.toy"
@@ -34,6 +35,10 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-redis")
   implementation("org.springframework.session:spring-session-data-redis")
   implementation("net.sf.ehcache:ehcache:2.10.9.2")
+  implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+  implementation("com.fasterxml.jackson.core:jackson-databind")
+  implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+  implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

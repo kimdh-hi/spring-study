@@ -23,7 +23,7 @@ import org.springframework.test.context.TestConstructor
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 class RedisTemplateScanTest(
-  private val redisTemplate: RedisTemplate<String, Any>,
+  private val redisTemplate: RedisTemplate<String, String>,
   private val cacheManager: CacheManager
 ) {
 

@@ -1,7 +1,7 @@
 insert into tb_user
-    (id, username)
+    (id, username, created_date, status)
 values
-   ('id-1', 'username1'),
-   ('id-2', 'username2'),
-   ('id-3', 'username3')
+   ('id-1', 'username1', now(), 'ENABLED'),
+   ('id-2', 'username2', now(), 'ENABLED'),
+   ('id-3', 'username3', now(), 'DISABLED')
 ;
