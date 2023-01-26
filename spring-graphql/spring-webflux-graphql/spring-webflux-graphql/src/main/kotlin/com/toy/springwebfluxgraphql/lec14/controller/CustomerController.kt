@@ -26,7 +26,10 @@ class CustomerController(
 
 
   @MutationMapping
-  fun createCustomer(@Argument request: CustomerVO): Mono<CustomerVO> = customerService.create(request)
+  fun createCustomer(@Argument request: CustomerVO): Mono<CustomerVO> = Mono.just(request)
+    .filter { it.age > 19 }
+    .flatMap { customerService.create(it) }
+    .switchIfEmpty { Errors.ageShouldBeLargerThan19(request) }
 
   @MutationMapping
   fun updateCustomer(@Argument id: Int, @Argument request: CustomerVO): Mono<CustomerVO>
