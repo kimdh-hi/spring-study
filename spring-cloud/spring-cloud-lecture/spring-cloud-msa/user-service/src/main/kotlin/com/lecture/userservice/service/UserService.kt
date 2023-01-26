@@ -2,21 +2,28 @@ package com.lecture.userservice.service
 
 import com.lecture.userservice.domain.User
 import com.lecture.userservice.repository.UserRepository
+import com.lecture.userservice.vo.OrderResponseVO
 import com.lecture.userservice.vo.UserResponseVO
 import com.lecture.userservice.vo.UserSaveRequestVO
+import org.hibernate.criterion.Order
+import org.springframework.core.ParameterizedTypeReference
+import org.springframework.core.env.Environment
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpMethod
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.client.RestTemplate
 
 @Service
 @Transactional(readOnly = true)
 class UserService(
   private val userRepository: UserRepository,
-  private val passwordEncoder: PasswordEncoder
+  private val passwordEncoder: PasswordEncoder,
+  private val restTemplate: RestTemplate
 ): UserDetailsService {
 
   override fun loadUserByUsername(username: String): UserDetails {
@@ -42,7 +49,13 @@ class UserService(
   fun findById(id: String): UserResponseVO {
     val user = userRepository.findByIdOrNull(id)
       ?: throw RuntimeException("user not found")
-    return UserResponseVO.of(user)
+
+    val orderUrl = "http://ORDER_SERVICE/order-service/%s/orders"
+    val orderResponseVOList = restTemplate.exchange(
+      orderUrl, HttpMethod.GET, null, object : ParameterizedTypeReference<List<OrderResponseVO>>(){}
+    ).body ?: listOf()
+
+    return UserResponseVO.of(user, orderResponseVOList)
   }
 
   fun findByUsername(username: String): User {

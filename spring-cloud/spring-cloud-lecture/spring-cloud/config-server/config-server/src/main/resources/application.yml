@@ -13,6 +13,7 @@ spring:
       server:
         git:
           uri: file:///Users/daehyunkim/Documents/my/config-server
+          name: user-service
 
 management:
   endpoints:

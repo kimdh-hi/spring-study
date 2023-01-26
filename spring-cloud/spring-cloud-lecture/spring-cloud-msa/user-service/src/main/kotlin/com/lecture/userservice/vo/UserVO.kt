@@ -21,15 +21,17 @@ data class UserResponseVO(
   val name: String,
   val email: String,
   val createdDate: LocalDateTime?,
-  val updatedDate: LocalDateTime?
+  val updatedDate: LocalDateTime?,
+  val orders: List<OrderResponseVO> = listOf()
 ) {
   companion object {
-    fun of(user: User) = UserResponseVO(
+    fun of(user: User, orders: List<OrderResponseVO> = listOf()) = UserResponseVO(
       id = user.id,
       name = user.name,
       email = user.email,
       createdDate = user.createdDate,
-      updatedDate = user.updatedDate
+      updatedDate = user.updatedDate,
+      orders = orders
     )
   }
 }
