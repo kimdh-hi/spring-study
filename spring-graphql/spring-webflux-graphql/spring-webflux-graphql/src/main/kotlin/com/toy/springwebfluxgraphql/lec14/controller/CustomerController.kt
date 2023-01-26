@@ -1,5 +1,6 @@
 package com.toy.springwebfluxgraphql.lec14.controller
 
+import com.toy.springwebfluxgraphql.lec14.exceptions.Errors
 import com.toy.springwebfluxgraphql.lec14.service.CustomerService
 import com.toy.springwebfluxgraphql.lec14.vo.CustomerDeleteResponseVO
 import com.toy.springwebfluxgraphql.lec14.vo.CustomerVO
@@ -9,6 +10,7 @@ import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.stereotype.Controller
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.switchIfEmpty
 
 @Controller
 class CustomerController(
@@ -19,10 +21,9 @@ class CustomerController(
   fun customers(): Flux<CustomerVO> = customerService.findAll()
 
   @QueryMapping
-  fun customerById(@Argument id: Int): Mono<CustomerVO> {
-    throw RuntimeException("error...")
-//    customerService.findById(id)
-  }
+  fun customerById(@Argument id: Int): Mono<CustomerVO> = customerService.findById(id)
+    .switchIfEmpty { Errors.notFound(id) }
+
 
   @MutationMapping
   fun createCustomer(@Argument request: CustomerVO): Mono<CustomerVO> = customerService.create(request)
