@@ -1,6 +1,7 @@
 package com.lecture.userservice.service
 
 import com.lecture.userservice.domain.User
+import com.lecture.userservice.feign.OrderServiceClient
 import com.lecture.userservice.repository.UserRepository
 import com.lecture.userservice.vo.OrderResponseVO
 import com.lecture.userservice.vo.UserResponseVO
@@ -23,7 +24,8 @@ import org.springframework.web.client.RestTemplate
 class UserService(
   private val userRepository: UserRepository,
   private val passwordEncoder: PasswordEncoder,
-  private val restTemplate: RestTemplate
+  private val restTemplate: RestTemplate,
+  private val orderServiceClient: OrderServiceClient
 ): UserDetailsService {
 
   override fun loadUserByUsername(username: String): UserDetails {
@@ -50,10 +52,12 @@ class UserService(
     val user = userRepository.findByIdOrNull(id)
       ?: throw RuntimeException("user not found")
 
-    val orderUrl = "http://ORDER_SERVICE/order-service/%s/orders"
-    val orderResponseVOList = restTemplate.exchange(
-      orderUrl, HttpMethod.GET, null, object : ParameterizedTypeReference<List<OrderResponseVO>>(){}
-    ).body ?: listOf()
+//    val orderUrl = "http://ORDER_SERVICE/order-service/%s/orders"
+//    val orderResponseVOList = restTemplate.exchange(
+//      orderUrl, HttpMethod.GET, null, object : ParameterizedTypeReference<List<OrderResponseVO>>(){}
+//    ).body ?: listOf()
+
+    val orderResponseVOList = orderServiceClient.findById(id)
 
     return UserResponseVO.of(user, orderResponseVOList)
   }
