@@ -1,4 +1,4 @@
-package com.example.kotest
+package com.example.kotest.sample
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec

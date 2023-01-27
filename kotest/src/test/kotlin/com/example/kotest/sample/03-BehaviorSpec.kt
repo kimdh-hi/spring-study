@@ -1,4 +1,4 @@
-package com.example.kotest
+package com.example.kotest.sample
 
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.should
