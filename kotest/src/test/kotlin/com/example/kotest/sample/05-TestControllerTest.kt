@@ -1,4 +1,4 @@
-package com.example.kotest
+package com.example.kotest.sample
 
 import io.kotest.core.spec.style.BehaviorSpec
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.get
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-class TestControllerTest(
+class `05-TestControllerTest`(
   private val mockMvc: MockMvc
 ): BehaviorSpec({
 
