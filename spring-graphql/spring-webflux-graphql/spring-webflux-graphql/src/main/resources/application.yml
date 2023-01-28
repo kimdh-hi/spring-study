@@ -1,12 +1,14 @@
 spring:
   graphql:
     schema:
-      locations: classpath:graphql/lec14-error-handling
+      locations: classpath:graphql/lec04
     path: /graphql
     websocket:
       path: /graphql
     graphiql:
       enabled: true
       path: /graphiql
+  main:
+    allow-bean-definition-overriding: true
 
 logging.level.root: INFO
