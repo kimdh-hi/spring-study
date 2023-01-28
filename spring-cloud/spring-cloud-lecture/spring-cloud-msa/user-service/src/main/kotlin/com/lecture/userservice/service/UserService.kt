@@ -3,14 +3,9 @@ package com.lecture.userservice.service
 import com.lecture.userservice.domain.User
 import com.lecture.userservice.feign.OrderServiceClient
 import com.lecture.userservice.repository.UserRepository
-import com.lecture.userservice.vo.OrderResponseVO
 import com.lecture.userservice.vo.UserResponseVO
 import com.lecture.userservice.vo.UserSaveRequestVO
-import org.hibernate.criterion.Order
-import org.springframework.core.ParameterizedTypeReference
-import org.springframework.core.env.Environment
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.http.HttpMethod
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -57,7 +52,7 @@ class UserService(
 //      orderUrl, HttpMethod.GET, null, object : ParameterizedTypeReference<List<OrderResponseVO>>(){}
 //    ).body ?: listOf()
 
-    val orderResponseVOList = orderServiceClient.findById(id)
+    val orderResponseVOList = orderServiceClient.findOrderById(id)
 
     return UserResponseVO.of(user, orderResponseVOList)
   }

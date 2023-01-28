@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable
 interface OrderServiceClient {
 
   @GetMapping("/order-service/{userId}/orders")
-  fun findById(@PathVariable userId: String): List<OrderResponseVO>
+  fun findOrderById(@PathVariable userId: String): List<OrderResponseVO>
 }
