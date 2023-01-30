@@ -3,6 +3,8 @@
 
 ```
 # zookeeper start
+bin/zkServer.sh start-foreground
+
 bin/zookeeper-server-start.sh config/zookeeper.properties
 ```
 
