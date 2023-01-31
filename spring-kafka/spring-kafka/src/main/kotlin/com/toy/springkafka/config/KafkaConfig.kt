@@ -12,9 +12,6 @@ import org.springframework.kafka.core.KafkaAdmin
 class KafkaConfig {
 
   @Bean
-  fun newTopic1(): NewTopic = TopicBuilder.name("newTopic1").build()
-
-  @Bean
   fun newTopics(): KafkaAdmin.NewTopics = KafkaAdmin.NewTopics(
     TopicBuilder.name("newTopics1").build(),
     TopicBuilder.name("newTopics2")
