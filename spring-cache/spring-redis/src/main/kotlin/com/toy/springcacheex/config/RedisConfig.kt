@@ -1,57 +1,43 @@
 package com.toy.springcacheex.config
 
 import com.toy.springcacheex.common.CustomRedisSerializer
-import com.toy.springcacheex.common.RedisConstants
+import com.toy.springcacheex.common.CacheConstants
 import org.slf4j.LoggerFactory
+import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.redis.cache.RedisCacheConfiguration
-import org.springframework.data.redis.cache.RedisCacheManager
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializationContext
-import org.springframework.data.redis.serializer.StringRedisSerializer
+import org.springframework.data.redis.serializer.RedisSerializer
 import java.time.Duration
 
 @Configuration
-@ConditionalOnProperty(value = ["cache.cache-name"], havingValue = "redis")
+@ConditionalOnProperty(name = ["spring.cache.type"], havingValue = "REDIS")
 @EnableCaching
 class RedisConfig(
   private val redisProperties: RedisProperties,
   private val customRedisSerializer: CustomRedisSerializer,
 ) {
 
-  private val log = LoggerFactory.getLogger(javaClass)
-
   @Bean
-  fun cacheManager(redisConnectionFactory: RedisConnectionFactory): RedisCacheManager {
-    log.info("redis cacheManager bean register")
-    return RedisCacheManager.RedisCacheManagerBuilder
-      .fromConnectionFactory(redisConnectionFactory)
-      .cacheDefaults(generateCacheConfig())
+  fun cacheManagerBuilderCustomizer(): RedisCacheManagerBuilderCustomizer {
+    return RedisCacheManagerBuilderCustomizer { it
       .withInitialCacheConfigurations(redisExpiresConfigurationMap())
-      .build()
-  }
-
-  private fun generateCacheConfig(): RedisCacheConfiguration {
-    return RedisCacheConfiguration.defaultCacheConfig()
-      .serializeValuesWith(
-        RedisSerializationContext.SerializationPair.fromSerializer<Any>(
-          customRedisSerializer
-        )
-      )
+    }
   }
 
   @Bean
   fun redisTemplate(redisConnectionFactory: RedisConnectionFactory): RedisTemplate<String, String> {
     val redisTemplate = RedisTemplate<String, String>()
     redisTemplate.setConnectionFactory(redisConnectionFactory)
-    redisTemplate.valueSerializer = CustomRedisSerializer()
+    redisTemplate.keySerializer = RedisSerializer.string()
+    redisTemplate.valueSerializer = RedisSerializer.json()
     redisTemplate.afterPropertiesSet()
     return redisTemplate
   }
@@ -64,19 +50,14 @@ class RedisConfig(
     return LettuceConnectionFactory(redisStandaloneConfig)
   }
 
-  private fun redisExpiresConfigurationMap() = mutableMapOf(
-    RedisConstants.TEST_KEY1 to redisExpiresConfiguration(600L),
-    RedisConstants.TEST_KEY2 to redisExpiresConfiguration(600L),
-    RedisConstants.TEST_KEY3 to redisExpiresConfiguration(600L),
-  )
+  private fun redisExpiresConfigurationMap() = CacheConstants.expiresMap.keys
+    .associateWith { redisExpiresConfiguration(CacheConstants.expiresMap[it]!!) }
 
-  private fun redisExpiresConfiguration(ttl: Long): RedisCacheConfiguration {
+  private fun redisExpiresConfiguration(duration: Duration): RedisCacheConfiguration {
     return RedisCacheConfiguration.defaultCacheConfig(Thread.currentThread().contextClassLoader)
-      .entryTtl(Duration.ofSeconds(ttl))
+      .entryTtl(duration)
       .serializeValuesWith(
-        RedisSerializationContext.SerializationPair.fromSerializer(
-          customRedisSerializer
-        )
+        RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json())
       )
   }
 }

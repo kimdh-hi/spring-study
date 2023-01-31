@@ -20,15 +20,12 @@ spring:
         format_sql: true
     defer-datasource-initialization: true
   cache:
-    type: redis
+    type: REDIS
   redis:
     host: localhost
     port: 6379
   session:
     store-type: redis
-
-cache:
-  cache-name: redis
 
 logging:
   level:

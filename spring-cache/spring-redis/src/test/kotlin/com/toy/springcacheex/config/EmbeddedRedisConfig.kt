@@ -13,8 +13,8 @@ import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy
 
 
-@Configuration
-@Profile("local")
+//@Configuration
+//@Profile("local")
 class EmbeddedRedisConfig(
   private val redisProperties: RedisProperties
 ) {
@@ -23,7 +23,7 @@ class EmbeddedRedisConfig(
 
   lateinit var redisServer: RedisServer
 
-  @PostConstruct
+//  @PostConstruct
   fun startEmbeddedRedis() {
     redisServer = RedisServer(redisProperties.port)
 
@@ -35,7 +35,7 @@ class EmbeddedRedisConfig(
     }
   }
 
-  @PreDestroy
+//  @PreDestroy
   fun stopEmbeddedRedis() {
     redisServer.stop()
     log.debug("Embedded redis stop")

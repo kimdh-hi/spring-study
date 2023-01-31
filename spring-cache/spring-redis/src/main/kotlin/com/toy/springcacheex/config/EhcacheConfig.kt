@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ClassPathResource
 
 @Configuration
-@ConditionalOnProperty(value = ["cache.cache-name"], havingValue = "ehcache")
+@ConditionalOnProperty(value = ["spring.cache.type"], havingValue = "EHCACHE")
 @EnableCaching
 class EhcacheConfig {
 

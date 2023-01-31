@@ -1,6 +1,6 @@
 package com.toy.springcacheex.test
 
-import com.toy.springcacheex.common.RedisConstants
+import com.toy.springcacheex.common.CacheConstants
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -19,13 +19,13 @@ class EmbeddedRedisTest(
   @Test
   fun cachePut() {
     assertDoesNotThrow {
-      cacheManager.getCache(RedisConstants.TEST_KEY1)?.put("key1", "value1")
+      cacheManager.getCache(CacheConstants.TEST_KEY1)?.put("key1", "value1")
     }
   }
 
   @Test
   fun cacheGet() {
-    val cache = cacheManager.getCache(RedisConstants.TEST_KEY2)!!
+    val cache = cacheManager.getCache(CacheConstants.TEST_KEY2)!!
 
     cache.put("key2", "value2")
     val get = cache.get("key2")?.get()
