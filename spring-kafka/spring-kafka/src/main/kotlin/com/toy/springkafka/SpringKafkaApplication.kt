@@ -14,6 +14,7 @@ class SpringKafkaApplication {
 
     testProducer.sendByRoutingTemplate("newTopics1", "test")
     testProducer.sendByRoutingTemplate("newTopics1-bytes", "test".toByteArray())
+    testProducer.sendByReplyingKafkaTemplate("newTopics1-replies", "test")
   }
 }
 
