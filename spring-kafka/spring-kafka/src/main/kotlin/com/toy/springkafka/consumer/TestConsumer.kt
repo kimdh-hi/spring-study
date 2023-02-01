@@ -9,8 +9,18 @@ class TestConsumer {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
-  @KafkaListener(id = "test-id", topics = ["test-topic"])
-  fun listener(message: String) {
+  @KafkaListener(id = "test-id1", topics = ["test-topic"])
+  fun listener1(message: String) {
     log.info("message: {}", message)
+  }
+
+  @KafkaListener(id = "test-id2", topics = ["newTopics1"])
+  fun listener2(message: String) {
+    log.info("consumer newTopics1 {}", message)
+  }
+
+  @KafkaListener(id = "test-id3", topics = ["newTopics1-bytes"])
+  fun listener3(message: String) {
+    log.info("consumer newTopics1-bytes {}", message)
   }
 }

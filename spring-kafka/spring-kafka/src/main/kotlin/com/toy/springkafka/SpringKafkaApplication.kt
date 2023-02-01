@@ -12,8 +12,8 @@ class SpringKafkaApplication {
   @Bean
   fun runner(testProducer: TestProducer) = ApplicationRunner {
 
-    testProducer.async("newTopics1", "test")
-    Thread.sleep(1000)
+    testProducer.sendByRoutingTemplate("newTopics1", "test")
+    testProducer.sendByRoutingTemplate("newTopics1-bytes", "test".toByteArray())
   }
 }
 

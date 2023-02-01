@@ -14,6 +14,7 @@ class KafkaConfig {
   @Bean
   fun newTopics(): KafkaAdmin.NewTopics = KafkaAdmin.NewTopics(
     TopicBuilder.name("newTopics1").build(),
+    TopicBuilder.name("newTopics1-bytes").build(),
     TopicBuilder.name("newTopics2")
       .partitions(3)
       .replicas(1)
