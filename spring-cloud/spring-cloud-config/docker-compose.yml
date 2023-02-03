@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  config-server:
+    depends_on:
+      - rabbitmq
+    container_name: "config-server"
+    image: hyness/spring-cloud-config-server
+    ports:
+      - "8881:8888"
+    environment:
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
+      SPRING_PROFILES_ACTIVE: cloud-bus-rabbit,native
+      SPRING_RABBITMQ_HOST: rabbitmq
+    volumes:
+      - ./config:/config
+  rabbitmq:
+    container_name: "rabbitmq2"
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
