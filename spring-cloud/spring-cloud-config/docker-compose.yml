@@ -11,10 +11,11 @@ services:
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
       SPRING_PROFILES_ACTIVE: cloud-bus-rabbit,native
       SPRING_RABBITMQ_HOST: rabbitmq
+      ENCRYPT_KEY: abcd1234
     volumes:
       - ./config:/config
   rabbitmq:
-    container_name: "rabbitmq2"
+    container_name: "rabbitmq"
     image: rabbitmq:management
     ports:
       - "5672:5672"

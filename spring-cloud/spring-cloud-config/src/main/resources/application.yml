@@ -10,6 +10,9 @@ spring:
     username: guest
     password: guest
 
+encrypt:
+  key: abcd1234
+
 management:
   endpoints:
     web:

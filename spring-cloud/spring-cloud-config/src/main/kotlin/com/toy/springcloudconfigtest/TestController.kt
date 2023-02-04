@@ -21,4 +21,10 @@ class TestController(
   fun test2(): String {
     return customProperties.test
   }
+
+  @GetMapping("/enc/v1")
+  fun enc1(): String? = env.getProperty("custom.enc")
+
+  @GetMapping("/enc/v2")
+  fun enc2(): String = customProperties.enc
 }
