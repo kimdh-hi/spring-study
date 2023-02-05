@@ -1,17 +1,9 @@
 spring:
-  cloud:
-    config:
-      enabled: true
-  config:
-    import: optional:configserver:http://localhost:8881
   rabbitmq:
     host: 127.0.0.1
     port: 5672
     username: guest
     password: guest
-
-encrypt:
-  key: abcd1234
 
 management:
   endpoints:

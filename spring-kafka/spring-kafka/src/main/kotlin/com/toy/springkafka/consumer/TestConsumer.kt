@@ -1,9 +1,14 @@
 package com.toy.springkafka.consumer
 
+import com.toy.springkafka.model.User
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.annotation.KafkaListener
+import org.springframework.kafka.listener.adapter.ConsumerRecordMetadata
+import org.springframework.kafka.support.KafkaHeaders
+import org.springframework.messaging.handler.annotation.Header
 import org.springframework.messaging.handler.annotation.SendTo
 import org.springframework.stereotype.Component
+import java.util.*
 
 @Component
 class TestConsumer {
@@ -25,10 +30,26 @@ class TestConsumer {
     log.info("consumer newTopics1-bytes {}", message)
   }
 
-  @KafkaListener(id = "test-id4", topics = ["newTopics1-replices"])
+  @KafkaListener(id = "test-id4", topics = ["newTopics1-replies"])
   @SendTo
   fun listener4(message: String): String {
     log.info("consumer newTopics1-replies {}", message)
     return "pong..."
+  }
+
+  @KafkaListener(id = "consumerTestId", topics = ["consumerTest"])
+  fun consumerTestListener(
+    message: String,
+    @Header(KafkaHeaders.RECEIVED_TIMESTAMP) timestamp: Long,
+    metadata: ConsumerRecordMetadata
+  ) {
+    log.info("consumerTestListener message: {}", message)
+    log.info("consumerTestListener timestamp: {}", Date(timestamp))
+    log.info("consumerTestListener metadata: {}", metadata.offset())
+  }
+
+  @KafkaListener(id = "userConsumerId", topics = ["userTopic"], containerFactory = "kafkaJsonContainerFactory")
+  fun listenUser(user: User) {
+    log.info("listenUser: {}", user)
   }
 }

@@ -15,6 +15,7 @@ class KafkaConfig {
     TopicBuilder.name("newTopics1").build(),
     TopicBuilder.name("newTopics1-bytes").build(),
     TopicBuilder.name("newTopics1-replies").build(),
+    TopicBuilder.name("userTopic").build(),
     TopicBuilder.name("newTopics2")
       .partitions(3)
       .replicas(1)

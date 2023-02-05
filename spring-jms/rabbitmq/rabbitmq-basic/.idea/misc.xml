@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/lab1/consumer" />
+    <file type="web" url="file://$PROJECT_DIR$/lab1/producer" />
+    <file type="web" url="file://$PROJECT_DIR$/lab2/consumer" />
+    <file type="web" url="file://$PROJECT_DIR$/lab2/producer" />
+  </component>
+</project>

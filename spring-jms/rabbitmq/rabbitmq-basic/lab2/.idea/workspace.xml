@@ -5,9 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff62a6e3-fed7-456b-b2c9-9f236dbab6f6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../../../spring-mapper/src/main/kotlin/com/toy/springmapper/config/MapperConfig.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../../spring-mapper/src/main/kotlin/com/toy/springmapper/controller/TestController.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../../spring-mapper/src/main/kotlin/com/toy/springmapper/vo/TestVO.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../spring-cloud-stream/src/main/kotlin/com/toy/springcloudstream/TestConfig.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lab1/consumer/src/main/kotlin/com/toy/consumer/consumer/04-retry/RetryTestConsumer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lab1/producer/src/main/kotlin/com/toy/producer/producer/04-retry/RetryTestProducer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../spring-cloud-stream/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab1/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../lab1/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab1/consumer/src/main/kotlin/com/toy/consumer/config/RabbitmqConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../lab1/consumer/src/main/kotlin/com/toy/consumer/config/RabbitmqConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab1/consumer/src/main/kotlin/com/toy/consumer/consumer/02-json_consumer/UserJsonConsumer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../lab1/consumer/src/main/kotlin/com/toy/consumer/consumer/02-json_consumer/UserJsonConsumer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab1/consumer/src/main/kotlin/com/toy/consumer/consumer/03-exchange/01-fanout/UserConsumers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../lab1/consumer/src/main/kotlin/com/toy/consumer/consumer/03-exchange/01-fanout/UserConsumers.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab1/consumer/src/main/kotlin/com/toy/consumer/consumer/03-exchange/02-direct/DirectConsumer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../lab1/consumer/src/main/kotlin/com/toy/consumer/consumer/03-exchange/02-direct/DirectConsumer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab1/consumer/src/main/kotlin/com/toy/consumer/consumer/03-exchange/04-header/HeaderConsumer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../lab1/consumer/src/main/kotlin/com/toy/consumer/consumer/03-exchange/04-header/HeaderConsumer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab1/consumer/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../lab1/consumer/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab1/producer/src/main/kotlin/com/toy/producer/ProducerApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../lab1/producer/src/main/kotlin/com/toy/producer/ProducerApplication.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab1/producer/src/main/kotlin/com/toy/producer/config/RabbitmqConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../lab1/producer/src/main/kotlin/com/toy/producer/config/RabbitmqConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab1/producer/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../lab1/producer/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../spring-jpa/jpa-basic/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../spring-jpa/jpa-basic/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../spring-jpa/jpa-basic/src/main/kotlin/com/toy/jpabasic/controller/UserController.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../spring-jpa/jpa-basic/src/main/kotlin/com/toy/jpabasic/domain/Member.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../spring-jpa/jpa-basic/src/main/kotlin/com/toy/jpabasic/domain/Member.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../spring-jpa/jpa-basic/src/test/kotlin/com/toy/jpabasic/controller/UserControllerTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../spring-jpa/jpa-basic/src/test/kotlin/com/toy/jpabasic/repository/CompanyRepositoryTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../spring-jpa/jpa-basic/src/test/kotlin/com/toy/jpabasic/repository/MemberRepositoryTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../spring-jpa/jpa-basic/src/test/kotlin/com/toy/jpabasic/repository/MemberRepositoryTest.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,12 +47,14 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/daehyunkim/Documents/spring-study/spring-jms/rabbitmq/rabbitmq-basic/lab2",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -46,6 +65,7 @@
       <updated>1660535175228</updated>
       <workItem from="1660535176286" duration="139000" />
       <workItem from="1660641024226" duration="34000" />
+      <workItem from="1674980812552" duration="2000" />
     </task>
     <servers />
   </component>

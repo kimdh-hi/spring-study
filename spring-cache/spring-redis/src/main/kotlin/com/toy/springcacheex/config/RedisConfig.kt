@@ -56,8 +56,8 @@ class RedisConfig(
   private fun redisExpiresConfiguration(duration: Duration): RedisCacheConfiguration {
     return RedisCacheConfiguration.defaultCacheConfig(Thread.currentThread().contextClassLoader)
       .entryTtl(duration)
-      .serializeValuesWith(
-        RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json())
-      )
+//      .serializeValuesWith(
+//        RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json())
+//      )
   }
 }

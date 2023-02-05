@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    config:
+      enabled: true
+  config:
+    import: optional:configserver:http://localhost:8881
+
+encrypt:
+  key: abcd1234

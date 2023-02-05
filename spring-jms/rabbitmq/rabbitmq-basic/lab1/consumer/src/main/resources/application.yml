@@ -3,6 +3,24 @@ server:
 
 spring:
   rabbitmq:
-    address: localhost:5672
+    addresses: localhost:5672
     username: guest
     password: guest
+    virtual-host: /
+    connection-timeout: 5_000
+    listener:
+      template:
+        retry:
+          enabled: true
+          initial-interval: 5_000
+          max-attempts: 3
+          max-interval: 50_000
+          multiplier: 2.0
+
+#     simple:
+#       retry:
+#         enabled: true
+#         initial-interval: 5_000
+#         max-attempts: 3
+#         max-interval: 50_000
+#         multiplier: 2.0

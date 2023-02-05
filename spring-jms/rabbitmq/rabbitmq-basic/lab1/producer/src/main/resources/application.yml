@@ -3,6 +3,8 @@ server:
 
 spring:
   rabbitmq:
-    address: localhost:5672
+    addresses: localhost:5672
     username: guest
     password: guest
+    virtual-host: /
+    connection-timeout: 5_000

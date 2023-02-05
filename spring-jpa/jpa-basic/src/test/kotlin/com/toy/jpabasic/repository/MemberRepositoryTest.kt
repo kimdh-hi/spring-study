@@ -1,8 +1,7 @@
 package com.toy.jpabasic.repository
 
 import com.toy.jpabasic.domain.Member
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.springframework.boot.test.context.SpringBootTest
@@ -89,4 +88,33 @@ class MemberRepositoryTest(
     assertDoesNotThrow { memberRepository.findAllById(ids) }
     // 존재하지 않는 경우 pass (예외 xx)
   }
+
+  @Test
+  fun `ColumnDefault null test`() {
+    //given
+    val member = Member(name = "name")
+
+    //when
+    val savedMember = memberRepository.save(member)
+    entityManager.flush()
+    entityManager.clear()
+
+    //then
+    assertNull(savedMember.test) // null 삽입시 @ColumnDefault 동작 x
+  }
+
+  @Test
+  fun `ColumnDefault dynamicInsert`() {
+    //given
+    val member = Member(name = "name")
+
+    //when
+    val savedMember = memberRepository.save(member)
+    entityManager.flush()
+    entityManager.clear()
+
+    //then
+    assertEquals(true, savedMember.test)
+  }
+
 }

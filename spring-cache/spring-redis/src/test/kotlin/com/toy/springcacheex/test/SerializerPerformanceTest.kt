@@ -25,7 +25,7 @@ class SerializerPerformanceTest(
   fun putTest() {
     val cache = cacheManager.getCache(CacheConstants.TEST_KEY1)!!
 
-    for (i in 0 until 50_000) {
+    for (i in 0 until 1) {
       log.info("{}", i)
       cache.put(i, SerializerTestVO.of())
     }

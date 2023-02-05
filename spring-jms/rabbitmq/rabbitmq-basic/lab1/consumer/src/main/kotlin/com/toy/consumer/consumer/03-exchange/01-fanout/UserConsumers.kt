@@ -11,7 +11,7 @@ x.hr
 - q.hr.marketing
 - q.hr.rnd
  */
-@Service
+//@Service
 class MarketingUserConsumer(
   private val objectMapper: ObjectMapper
 ) {
@@ -25,7 +25,7 @@ class MarketingUserConsumer(
   }
 }
 
-@Service
+//@Service
 class RndUserConsumer(
   private val objectMapper: ObjectMapper
 ) {

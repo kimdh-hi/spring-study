@@ -1,5 +1,6 @@
 package com.toy.springkafka.producer
 
+import com.toy.springkafka.model.User
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.core.KafkaTemplate
@@ -14,7 +15,8 @@ import java.util.concurrent.TimeUnit
 class TestProducer(
   private val kafkaTemplate: KafkaTemplate<String, String>,
   private val routingKafkaTemplate: RoutingKafkaTemplate,
-  private val replyingKafkaTemplate: ReplyingKafkaTemplate<String, String, String>
+  private val replyingKafkaTemplate: ReplyingKafkaTemplate<String, String, String>,
+  private val kafkaUserTemplate: KafkaTemplate<String, User>
 ) {
 
   private val log = LoggerFactory.getLogger(javaClass)
@@ -46,5 +48,9 @@ class TestProducer(
     val replyFuture = replyingKafkaTemplate.sendAndReceive(record)
     val replyResponse = replyFuture.get(10, TimeUnit.SECONDS)
     log.info("reply: {}", replyResponse?.value())
+  }
+
+  fun async(topic: String, user: User) {
+     kafkaUserTemplate.send(topic, user)
   }
 }
