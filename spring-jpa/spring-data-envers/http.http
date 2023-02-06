@@ -1,0 +1,10 @@
+POST localhost:8081/api/users/testname
+
+###
+
+PUT localhost:8081/api/users/u1/updatename
+
+
+###
+
+DELETE localhost:8081/api/users/u1
