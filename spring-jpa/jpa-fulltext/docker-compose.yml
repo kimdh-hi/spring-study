@@ -6,6 +6,8 @@
       - MYSQL_ROOT_PASSWORD=111111
     ports:
       - "3308:3306"
+    volumes:
+      - ./mariadb/custom-my.cnf:/etc/mysql/my.cnf
     command:
       - "--character-set-server=utf8mb4"
       - "--collation-server=utf8mb4_general_ci"

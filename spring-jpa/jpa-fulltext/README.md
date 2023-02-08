@@ -18,6 +18,13 @@ in boolean mode
   - `-` : NOT 연산
   - `연산자 없음` : OR 연산
 
+fulltext 검색 글자수
+- default=4
+```
+[기본설정 변경 - my.cnf]
+ft_min_word_len=3
+innodb_ft_min_token_size = 3
+```
 
 
 ### 참고
