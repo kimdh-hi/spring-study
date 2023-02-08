@@ -1,0 +1,6 @@
+GET localhost:8080/api/users/v1/have
+
+###
+
+GET localhost:8080/api/users/v2/qodke
+

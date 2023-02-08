@@ -7,5 +7,7 @@ interface UserRepository: CrudRepository<User, String>, UserRepositoryCustom
 
 interface UserRepositoryCustom {
 
-  fun searchByDescription(description: String): List<User>
+  fun searchByDescriptionV1(description: String): List<User>
+
+  fun searchByDescriptionV2(description: String): List<User>
 }

@@ -35,12 +35,11 @@ dependencies {
   implementation("com.querydsl:querydsl-jpa")
   implementation("com.querydsl:querydsl-apt")
   kapt("com.querydsl:querydsl-apt:${dependencyManagement.importedProperties["querydsl.version"]}:jpa")
+  implementation("org.mariadb.jdbc:mariadb-java-client")
 
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-  runtimeOnly("com.h2database:h2")
-  runtimeOnly("com.mysql:mysql-connector-j")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
