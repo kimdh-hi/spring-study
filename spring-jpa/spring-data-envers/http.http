@@ -2,9 +2,17 @@ POST localhost:8081/api/users/testname
 
 ###
 
-PUT localhost:8081/api/users/u1/updatename
+PUT localhost:8081/api/users/u1/updatename3
 
 
 ###
 
 DELETE localhost:8081/api/users/u1
+
+###
+
+GET localhost:8081/api/users/revision/u1/revisions
+
+###
+
+GET localhost:8081/api/users/revision/u1/last-change-revision
