@@ -2,7 +2,7 @@ POST localhost:8081/api/users/testname
 
 ###
 
-PUT localhost:8081/api/users/u1/updatename3
+PUT localhost:8081/api/users/u1/updatename5
 
 
 ###
@@ -16,3 +16,7 @@ GET localhost:8081/api/users/revision/u1/revisions
 ###
 
 GET localhost:8081/api/users/revision/u1/last-change-revision
+
+###
+
+GET localhost:8081/api/users/revision/u1/revisions-by?createdDate=2023-02-10:00:00:00

@@ -5,6 +5,7 @@ import com.toy.springdataenvers.repository.UserRepository
 import org.springframework.data.history.Revision
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Service
 @Transactional(readOnly = true)
@@ -21,5 +22,9 @@ class UserRevisionService(
   // 마지막 변경사항
   fun findLastChangeRevision(userId: String): User {
     return userRepository.findLastChangeRevision(userId).get().entity
+  }
+
+  fun findRevisionsByIdAndCreatedDate(id: String, createdDate: LocalDateTime): List<User> {
+    return userRepository.findRevisionsByIdAndCreatedDate(id, createdDate)
   }
 }
