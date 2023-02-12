@@ -9,17 +9,24 @@ jpa 의 상속관계 매핑은 RDB 의 슈퍼타입-서브타입 모델을 객�
 ### 슈퍼타입-서브타입 논리 모델링을 실제 물리 모델로 변환하는 방법
 
 조인 전략
+- `@Inheritance(strategy = InheritanceType.JOINED)`
 - 서브타입 테이블은 슈퍼타입 테이블의 pk를 pk 이자 fk 로 갖는다.
 - 슈퍼타입 테이블에서 서브타입 테이블을 식별하기 위한 `type` 필드가 추가로 필요하다.
 - 가장 정규화 된 구조
 
 단일 테이블 전략
+- `@Inheritance(strategy = InheritanceType.SINGLE_TABLE)`
 - `각 서브타입 테이블의 모든 필드를 한 개 테이블`로 구성
 - 조인전략과 동일하게 어떤 타입인지 구분할 수 있도록 `type` 필드가 추가로 필요하다.
 - `JPA 의 기본 상속관계 매핑 전략`
+- 한 개 테이블에서 조회하므로 조회시 조인 등으로 발생하는 성능저하가 덜 할 수 있다.
+- 하지만 상황에 따라 한 개 테이블이 너무 커지면 조인 전략보다 오히려 나쁜 성능을 보일 수도 있다.
 
 구현 클래스마 테이블 전략
+- `@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)`
 - 슈퍼타입 테이블을 만들지 않고 각 서브타입 테이블이 독립적으로 중복된 필드를 갖는다.
+- `권장하지 않는 방식.`
+- 여러 서브 테이블 함께 조회시 `union` 쿼리 발생
 
 `@DiscriminatorColumn`
 - `DTYPE` 필드 추가 (default=엔티티명)
