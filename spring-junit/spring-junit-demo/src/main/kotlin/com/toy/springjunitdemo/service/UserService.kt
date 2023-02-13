@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 @Service
 class UserService(
   private val userRepository: UserRepository,

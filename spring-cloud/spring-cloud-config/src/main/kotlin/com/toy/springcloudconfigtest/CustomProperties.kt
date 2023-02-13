@@ -1,19 +1,16 @@
 package com.toy.springcloudconfigtest
 
 import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.cloud.context.config.annotation.RefreshScope
+import javax.annotation.PostConstruct
 
 @ConfigurationProperties(prefix = "custom")
-class CustomProperties(
-  test: String,
-  enc: String,
-  enc2: String
-) {
-  var test: String = test
-    private set
+class CustomProperties {
 
-  var enc: String = enc
-    private set
+  lateinit var test: String
 
-  var enc2: String = enc2
-    private set
+  lateinit var enc: String
+
+  lateinit var enc2: String
+
 }

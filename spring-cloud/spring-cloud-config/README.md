@@ -48,5 +48,5 @@ https://github.com/hyness/spring-cloud-config-server
 https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0.0-M2-Release-Notes
 
 @ConstructorBinding cloud config 갱신 안 됨 이슈
-https://github.com/spring-cloud/spring-cloud-config/issues/1851
+https://github.com/spring-cloud/spring-cloud-commons/issues/1029
 https://github.com/spring-cloud/spring-cloud-config/issues/1547

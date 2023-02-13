@@ -1,4 +1,5 @@
 custom:
-  test: hello2222
-  enc: '{cipher}4ef0ea563b3f3f41a071d4a793f31be892971b24538c7cd70e3fd98c3a59afd6'
-  enc2: '{cipher}d684e8ea5c7146bb0b7da65964b61d6179ff1457260755f8dc0a1969aa412350871a0b144c62ae9d9582a2f2cc9afaa2'
+  test: hello2
+  test2: ${test2}
+  enc: '{cipher}f439e3f13e82379eba83c08b18c37d4c28aa49ec3b9a78b7238669e587d335f5'
+  enc2: '{cipher}11a1afe0a8b1df8f5eefacb5ed5cb2fa392fe2e17e54464a87148ead368c7310'
