@@ -1,0 +1,11 @@
+version: "3"
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:5.0.9
+    ports:
+      - 27017:27017
+    env_file: .env
+    volumes:
+      - ./database/mongo/data:/data/db
+      - ./database/mongo/initdb.d:/docker-entrypoint-initdb.d:ro
