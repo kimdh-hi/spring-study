@@ -1,0 +1,27 @@
+POST localhost:8081/api/users
+Content-Type: application/json
+
+{
+  "name": "kim2"
+}
+
+###
+
+GET localhost:8081/api/users
+
+###
+
+GET localhost:8081/api/users/63eb70dec2bee90332449a3a
+
+###
+
+PUT localhost:8081/api/users/63eb70dec2bee90332449a3a
+Content-Type: application/json
+
+{
+  "name": "update-name"
+}
+
+###
+
+DELETE localhost:8081/api/users/63eb70dec2bee90332449a3a
