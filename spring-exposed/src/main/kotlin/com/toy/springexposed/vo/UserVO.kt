@@ -9,7 +9,7 @@ data class UserResponseVO(
 ) {
   companion object {
     fun of(resultRow: ResultRow) = UserResponseVO(
-      id = resultRow[User.userId].toString(),
+      id = resultRow[User.id].toString(),
       name = resultRow[User.name]
     )
   }

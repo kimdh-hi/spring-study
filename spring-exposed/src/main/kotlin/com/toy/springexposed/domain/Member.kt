@@ -2,11 +2,13 @@ package com.toy.springexposed.domain
 
 import org.jetbrains.exposed.dao.id.UUIDTable
 
-object User: UUIDTable(name = "user") {
+object Member: UUIDTable(name = "member") {
   val name = varchar("name", 200)
     .uniqueIndex()
 
+  val team = reference("team_id", Team)
+
   override fun toString(): String {
-    return "User(id=$id, name=$name)"
+    return "Member(id=$id, name=$name)"
   }
 }

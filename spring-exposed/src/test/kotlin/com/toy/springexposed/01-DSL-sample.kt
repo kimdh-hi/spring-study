@@ -1,7 +1,10 @@
 package com.toy.springexposed
 
+import com.toy.springexposed.domain.Member
+import com.toy.springexposed.domain.Team
 import com.toy.springexposed.domain.User
 import com.toy.springexposed.domain.User.name
+import com.toy.springexposed.vo.MemberResponseVO
 import com.toy.springexposed.vo.UserResponseVO
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -11,6 +14,7 @@ import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 import org.junit.jupiter.api.Assertions.*
@@ -21,7 +25,7 @@ import javax.sql.DataSource
 
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-class `DSL-sample`(
+class `01-DSL-sample`(
   private val dataSource: DataSource
 ) {
 
@@ -50,6 +54,7 @@ class `DSL-sample`(
         .map { UserResponseVO.of(it) }
         .firstOrNull()
       println(updateTestResult)
+
       assertAll({
         assertNotNull(updateTestResult)
         assertEquals(updateTestResult!!.name, "kim-updated")
@@ -63,6 +68,45 @@ class `DSL-sample`(
 
 
       SchemaUtils.drop(User)
+    }
+  }
+
+  @Test
+  fun sample2() {
+    Database.connect(dataSource)
+
+    transaction {
+      SchemaUtils.create(Team)
+      SchemaUtils.create(Member)
+      addLogger(StdOutSqlLogger)
+
+      val teamId = Team.insert {
+        it[name] = "team1"
+      }[Team.id]
+
+      val memberId = Member.insert {
+        it[name] = "kim"
+        it[team] = teamId
+      }[Member.id]
+
+      Member.selectAll()
+        .forEach { println(it) }
+
+      //join
+      val memberResponseVO = (Member innerJoin Team)
+        .slice(
+          Team.id,
+          Team.name,
+          Member.id,
+          Member.name,
+        )
+        .selectAll()
+        .map { MemberResponseVO.of(it) }
+        .firstOrNull()
+      println(memberResponseVO)
+
+      SchemaUtils.drop(Member)
+      SchemaUtils.drop(Team)
     }
   }
 }
