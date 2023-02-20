@@ -26,6 +26,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-aop")
 	implementation("com.fasterxml.jackson.datatype:jackson-datatype-hibernate5")
 	implementation("org.apache.commons:commons-lang3")
+	implementation("org.springframework.mobile:spring-mobile-device:1.1.5.RELEASE")
 
 	implementation("org.webjars.bower:jquery:3.6.1")
 
