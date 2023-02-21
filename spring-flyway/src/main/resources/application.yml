@@ -1,0 +1,6 @@
+server.port: 8081
+
+spring:
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
