@@ -1,0 +1,3 @@
+api-version:
+  prefix: /api
+  version-symbol: v

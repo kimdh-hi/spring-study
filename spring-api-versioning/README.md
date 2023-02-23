@@ -50,8 +50,13 @@ class TestController {
 }
 ```
 
+### RequestMappingHandlerMapping
+
+@RequestMapping 관련 어노테이션을 기반으로 해당 요청을 처리할 클래스를 찾는다.<br/>
+
 ---
 
 ### 참고
 https://docs.github.com/en/rest/overview/api-versions?apiVersion=2022-11-28 <br/>
 https://stackoverflow.com/questions/20198275/how-to-manage-rest-api-versioning-with-spring/21176971#21176971 <br/>
+https://github.com/lkqm/spring-api-versioning <br/>
