@@ -17,12 +17,12 @@ class Init {
   ) = CommandLineRunner {
 
     val entity1s = mutableListOf<Entity1>()
-    (1..50_000).map {
+    (1..100_000).map {
       entity1s.add(Entity1("entity1-id$it", "entity1-data$it"))
     }
 
     val entity2s = mutableListOf<Entity1>()
-    (1..50_000).map {
+    (1..100_000).map {
       entity2s.add(Entity1("entity2-id$it", "entity2-data$it"))
     }
 
