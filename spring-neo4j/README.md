@@ -16,7 +16,15 @@ neo4j 시작 및 설정
 ```shell
 # 7474: http 프로토콜용
 # 7687: bolt 프로토콜용 
-docker run -p 7474:7474 -p 7687:7687 --name neo4j-test -d neo4j
+version: '3'
+services:
+  neo4j:
+    image: neo4j:latest
+    ports:
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - ./conf/neo4j.conf:/conf/neo4j.conf
 ```
 
 접근: http://localhost:7474/browser <br/>

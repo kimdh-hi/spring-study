@@ -18,6 +18,9 @@ repositories {
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-neo4j")
+  implementation("org.neo4j:neo4j-ogm-core:4.0.3")
+
+
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
