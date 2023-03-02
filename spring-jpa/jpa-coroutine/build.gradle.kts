@@ -30,6 +30,7 @@ repositories {
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("org.mariadb.jdbc:mariadb-java-client")
 
   val coroutineVersion = "1.6.4"
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$coroutineVersion")

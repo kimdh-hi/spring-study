@@ -1,5 +1,5 @@
-GET localhost:8080/api/entities/coroutine
+GET localhost:8080/api/entities/coroutine/dsf
 
 ###
 
-GET localhost:8080/api/entities
+GET localhost:8080/api/entities/target

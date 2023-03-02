@@ -8,6 +8,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import kotlin.system.measureTimeMillis
+import kotlin.time.ExperimentalTime
+import kotlin.time.measureTimedValue
 
 @Service
 class EntityFacade(
@@ -17,33 +20,47 @@ class EntityFacade(
 
   private val log = LoggerFactory.getLogger(javaClass)
 
-  // 비동기적으로 호출되긴 하지만 jpa 를 통한 db 접근이 블로킹이기 때문에 의미없음
-  suspend fun findAllCoroutine() = withContext(Dispatchers.IO) {
-    val entity1s = async {
-      log.info("findAllCoroutine.findAll entity1s")
-      withContext(Dispatchers.IO) {
-        entity1Service.findAll()
+  @OptIn(ExperimentalTime::class)
+  suspend fun findAllCoroutine(keyword: String) = withContext(Dispatchers.IO) {
+    val timedValue = measureTimedValue {
+      val entity1s = async {
+        log.info("findAllCoroutine.findAll entity1s")
+        withContext(Dispatchers.IO) {
+          entity1Service.findAllBySearch(keyword)
+        }
       }
-    }
-    val entity2s = async {
-      log.info("findAllCoroutine.findAll entity2s")
-      withContext(Dispatchers.IO) {
-        entity2Service.findAll()
+      val entity2s = async {
+        log.info("findAllCoroutine.findAll entity2s")
+        withContext(Dispatchers.IO) {
+          entity2Service.findAllBySearch(keyword)
+        }
       }
-    }
 
-    EntityResponse(
-      entity1s.await()
-        .apply { log.info("entity1.complete") },
-      entity2s.await()
-        .apply { log.info("entity2.complete") },
-    )
+      EntityResponse(
+        entity1s.await()
+          .apply { log.info("entity1.complete") },
+        entity2s.await()
+          .apply { log.info("entity2.complete") },
+      )
+    }
+    log.info("elapsed time: ${timedValue.duration.inWholeMilliseconds}")
+    timedValue.value
   }
 
-  fun findAll(): EntityResponse {
-    val entity1s = entity1Service.findAll()
-    val entity2s = entity2Service.findAll()
+  @OptIn(ExperimentalTime::class)
+  fun findAll(keyword: String): EntityResponse {
+    val timedValue = measureTimedValue {
+      log.info("findAllCoroutine.findAll entity1s")
+      val entity1s = entity1Service.findAllBySearch(keyword)
+      log.info("entity1.complete")
 
-    return EntityResponse(entity1s, entity2s)
+      log.info("findAllCoroutine.findAll entity2s")
+      val entity2s = entity2Service.findAllBySearch(keyword)
+      log.info("entity2.complete")
+      EntityResponse(entity1s, entity2s)
+    }
+
+    log.info("elapsed time: ${timedValue.duration.inWholeMilliseconds}")
+    return timedValue.value
   }
 }

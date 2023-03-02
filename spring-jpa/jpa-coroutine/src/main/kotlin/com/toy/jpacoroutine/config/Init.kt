@@ -1,32 +1,34 @@
 package com.toy.jpacoroutine.config
 
 import com.toy.jpacoroutine.domain.Entity1
+import com.toy.jpacoroutine.domain.Entity2
 import com.toy.jpacoroutine.repository.Entity1Repository
 import com.toy.jpacoroutine.repository.Entity2Repository
-import org.springframework.boot.CommandLineRunner
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
+import org.springframework.boot.ApplicationArguments
+import org.springframework.boot.ApplicationRunner
+import org.springframework.stereotype.Component
 
-@Configuration
-class Init {
+@Component
+class Init(
+  private val entity1Repository: Entity1Repository,
+  private val entity2Repository: Entity2Repository
+): ApplicationRunner {
 
-  @Bean
-  fun commandLineRunner(
-    entity1Repository: Entity1Repository,
-    entity2Repository: Entity2Repository,
-  ) = CommandLineRunner {
-
-    val entity1s = mutableListOf<Entity1>()
-    (1..100_000).map {
-      entity1s.add(Entity1("entity1-id$it", "entity1-data$it"))
+  override fun run(args: ApplicationArguments) {
+    val entities1 = mutableListOf<Entity1>()
+    (1..1000).map {
+      entities1.add(Entity1(data = "data$it"))
     }
 
-    val entity2s = mutableListOf<Entity1>()
-    (1..100_000).map {
-      entity2s.add(Entity1("entity2-id$it", "entity2-data$it"))
+    val entities2 = mutableListOf<Entity2>()
+    (1..1000).map {
+      entities2.add(Entity2(data = "data$it"))
     }
 
-    entity1Repository.saveAll(entity1s)
-    entity1Repository.saveAll(entity2s)
+    entities1.add(Entity1(data = "~~target~~"))
+    entities2.add(Entity2(data = "~~target~~"))
+
+    entity1Repository.saveAll(entities1)
+    entity2Repository.saveAll(entities2)
   }
 }
