@@ -28,4 +28,27 @@
 싱글톤 빈 내에서 프로토타입 빈 사용시 매 번 새로운 빈 객체를 얻고 싶다면 <br/>
 - `ObjectProvider`
 - `JSR-330 Provider`
+
 를 사용하자. <br/>
+
+---
+
+### 빈 생명주기 콜백
+
+빈이 생성되고 소멸될 때 콜백을 받을 수 있는 세 가지 방법이 있다.<br/>
+
+#### 인터페이스 방식 (InitializingBean, DisposableBean)
+- InitializingBean => afterPropertiesSet 메서드 구현
+- DisposableBean => destroy 메서드 구현
+- 스프링 초창기 사용하던 방법이다. 특별한 이유가 없다면 사용할 이유가 없다.
+
+#### 빈 등록시 initMethod, destroyMethod 지정
+```kotlin
+@Bean(initMode = "initMethodName", destroyMethod = "destroyMethodName")
+```
+- 구현 메서드, 메서드 이름 등에 제약이 없으므로 유연하다.
+- `destroyMethod` 의 경우 `close`, `shutdown` 이라는 이름의 메서드로 사용한다면 따로 destroyMethod 를 설정하지 않아도 된다. (추론)
+  - 위와 같은 추론기능을 사용하기 싫다면 (close, shutdown 이름의 메서드를 다르게 사용하고 싶다면) `destroyMethod=""` 공백으로 지정하면 된다.
+
+#### @PostConstruct, @PreDestroy
+- 가장 권장하는 방법
