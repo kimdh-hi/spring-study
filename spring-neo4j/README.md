@@ -45,4 +45,5 @@ spring:
 
 ### 참고
 
-https://aws.amazon.com/ko/nosql/graph/
+https://aws.amazon.com/ko/nosql/graph/ <br/>
+https://www.youtube.com/watch?v=LjtcrWkC0-E
