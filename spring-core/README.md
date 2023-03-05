@@ -69,3 +69,18 @@
 
 @Primary
 - 동일한 타입의 빈이 여러 개 존재할 때 우선권을 갖는 빈을 명시한다.
+
+---
+
+### @Configuration 클래스 내에서 @Bean 을 등록하는 이유
+
+@Configuration 내에서 @Bean 을 등록하고 해당 bean 을 다른 빈에 주입해서 사용하는 경우 싱글톤을 보장한다. <br/>
+@Configuration 내에서 bean 재사용? 재호출? 시 프록시 패턴이 적용되어 주입 전 해당 빈이 이미 생성되었는지를 한 번 확인하는 과정을 거치게 된다.<br/> 
+
+만약 @Configuration 내에서 등록되는 bean 메서드를 호출시마다 새로운 객체로 받고 싶다면 `@Configuration(proxyBeanMethods = false)` 를 명시하면 된다.<br/>
+
+
+### 참고
+https://mangkyu.tistory.com/234
+
+---
