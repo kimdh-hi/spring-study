@@ -4,6 +4,7 @@ import io.netty.channel.ChannelOption
 import io.netty.handler.timeout.ReadTimeoutHandler
 import io.netty.handler.timeout.WriteTimeoutHandler
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
@@ -32,6 +33,15 @@ class WebClientConfig(
   @Primary
   fun webClient(): WebClient {
     return webClientBuilder().build()
+  }
+
+  @Bean("otherWebClient")
+  fun otherWebClient(): WebClient {
+    return webClientBuilder().build().mutate().defaultHeaders {
+      it.contentType = MediaType.APPLICATION_FORM_URLENCODED
+      it.accept = listOf(MediaType.APPLICATION_JSON)
+    }
+      .build()
   }
 
   @Bean
