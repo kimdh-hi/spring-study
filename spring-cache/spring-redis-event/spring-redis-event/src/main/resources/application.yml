@@ -1,0 +1,7 @@
+spring:
+  cache:
+    type: REDIS
+  redis:
+    host: localhost
+    port: 6379
+    password:
