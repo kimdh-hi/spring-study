@@ -1,6 +1,5 @@
 package com.toy.springredisevent.config
 
-import com.toy.springredisevent.redis.listener.ExpirationListener
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.cache.annotation.EnableCaching
@@ -9,22 +8,16 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.core.RedisKeyValueAdapter
 import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.data.redis.listener.PatternTopic
-import org.springframework.data.redis.listener.RedisMessageListenerContainer
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories
 import org.springframework.data.redis.serializer.RedisSerializer
 
 @Configuration
 @EnableCaching
-@EnableRedisRepositories(enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_DEMAND)
+@EnableRedisRepositories(enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
 @ConditionalOnProperty(name = ["spring.cache.type"], havingValue = "REDIS")
 class RedisConfig {
 
   private val log = LoggerFactory.getLogger(javaClass)
-
-  companion object {
-    private const val KEY_EXPIRED_EVENT_PATTERN = "__keyevent@*__:expired UserStatus:user1"
-  }
 
   @Bean
   fun redisTemplate(redisConnectionFactory: RedisConnectionFactory): RedisTemplate<String, Any> {
@@ -33,17 +26,5 @@ class RedisConfig {
     redisTemplate.keySerializer = RedisSerializer.string()
     redisTemplate.valueSerializer = RedisSerializer.json()
     return redisTemplate
-  }
-
-  @Bean
-  fun redisMessageListenerContainer(
-    redisConnectionFactory: RedisConnectionFactory,
-    expirationListener: ExpirationListener,
-  ): RedisMessageListenerContainer {
-    return RedisMessageListenerContainer().apply {
-      setConnectionFactory(redisConnectionFactory)
-      setErrorHandler { log.error("Error in redis key expiration listener container", it) }
-//      addMessageListener(expirationListener, PatternTopic.of(KEY_EXPIRED_EVENT_PATTERN))
-    }
   }
 }

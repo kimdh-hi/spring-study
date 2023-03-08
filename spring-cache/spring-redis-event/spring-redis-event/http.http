@@ -3,5 +3,18 @@ Content-Type: application/json
 
 {
   "statusName": "smile4",
-  "iconPath": "smile-path4"
+  "iconPath": "smile-path4",
+  "ttlSeconds": 10
+}
+
+
+###
+
+PUT localhost:8080/users/v2/u1/status
+Content-Type: application/json
+
+{
+  "statusName": "smile4",
+  "iconPath": "smile-path4",
+  "ttlSeconds": 5
 }

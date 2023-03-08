@@ -6,10 +6,9 @@ import org.springframework.data.redis.connection.Message
 import org.springframework.data.redis.listener.KeyExpirationEventMessageListener
 import org.springframework.data.redis.listener.RedisMessageListenerContainer
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.stereotype.Component
 
-@Component
-class KeyExpirationEventMessageListener(
+//@Component
+class RedisExpireEventListener(
   private val redisMessageListenerContainer: RedisMessageListenerContainer,
   private val userRepository: UserRepository
 ): KeyExpirationEventMessageListener(redisMessageListenerContainer) {
@@ -26,6 +25,5 @@ class KeyExpirationEventMessageListener(
       it.initStatus()
       userRepository.save(it)
     }
-
   }
 }

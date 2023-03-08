@@ -19,11 +19,17 @@ class UserController(
   fun updateStatus(@PathVariable userId: String, @RequestBody vo: UserStatusUpdateRequestVO) {
     userService.updateStatus(userId, vo)
   }
+
+  @PutMapping("/v2/{userId}/status")
+  fun updateStatusV2(@PathVariable userId: String, @RequestBody vo: UserStatusUpdateRequestVO) {
+    userService.updateStatusV2(userId, vo)
+  }
 }
 
 data class UserStatusUpdateRequestVO(
   val statusName: String,
-  val iconPath: String
+  val iconPath: String,
+  val ttlSeconds: Long
 ) {
   fun toUserStatus() = UserStatus(
     statusName = statusName,

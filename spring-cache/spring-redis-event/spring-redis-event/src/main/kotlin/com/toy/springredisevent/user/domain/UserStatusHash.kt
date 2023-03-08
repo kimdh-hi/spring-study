@@ -13,7 +13,7 @@ data class UserStatusHash(
   val statusName: String,
 
   @TimeToLive
-  val ttlSeconds: Int
+  val ttlSeconds: Long
 )
 
 interface UserStatusHashRepository: CrudRepository<UserStatusHash, String>
