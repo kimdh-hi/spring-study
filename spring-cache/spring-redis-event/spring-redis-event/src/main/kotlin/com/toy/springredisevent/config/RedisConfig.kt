@@ -1,8 +1,7 @@
 package com.toy.springredisevent.config
 
-import com.toy.springredisevent.redis.ExpirationListener
+import com.toy.springredisevent.redis.listener.ExpirationListener
 import org.slf4j.LoggerFactory
-import org.springframework.boot.autoconfigure.cache.CacheProperties
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
@@ -17,14 +16,14 @@ import org.springframework.data.redis.serializer.RedisSerializer
 
 @Configuration
 @EnableCaching
-@EnableRedisRepositories(enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
+@EnableRedisRepositories(enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_DEMAND)
 @ConditionalOnProperty(name = ["spring.cache.type"], havingValue = "REDIS")
-class RedisConfig(private val cacheProperties: CacheProperties) {
+class RedisConfig {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
   companion object {
-    private const val PATTERN = "__keyevent@*__:expired"
+    private const val KEY_EXPIRED_EVENT_PATTERN = "__keyevent@*__:expired"
   }
 
   @Bean
@@ -41,15 +40,10 @@ class RedisConfig(private val cacheProperties: CacheProperties) {
     redisConnectionFactory: RedisConnectionFactory,
     expirationListener: ExpirationListener,
   ): RedisMessageListenerContainer {
-    val redisMessageListenerContainer = RedisMessageListenerContainer()
-    redisMessageListenerContainer.setConnectionFactory(redisConnectionFactory)
-    redisMessageListenerContainer.addMessageListener(expirationListener, PatternTopic(PATTERN))
-    redisMessageListenerContainer.setErrorHandler { e ->
-      log.error(
-        "There was an error in redis key expiration listener container",
-        e
-      )
+    return RedisMessageListenerContainer().apply {
+      setConnectionFactory(redisConnectionFactory)
+      setErrorHandler { log.error("Error in redis key expiration listener container", it) }
+      addMessageListener(expirationListener, PatternTopic.of(KEY_EXPIRED_EVENT_PATTERN))
     }
-    return redisMessageListenerContainer
   }
 }
