@@ -23,7 +23,7 @@ class RedisConfig {
   private val log = LoggerFactory.getLogger(javaClass)
 
   companion object {
-    private const val KEY_EXPIRED_EVENT_PATTERN = "__keyevent@*__:expired"
+    private const val KEY_EXPIRED_EVENT_PATTERN = "__keyevent@*__:expired UserStatus:user1"
   }
 
   @Bean
@@ -43,7 +43,7 @@ class RedisConfig {
     return RedisMessageListenerContainer().apply {
       setConnectionFactory(redisConnectionFactory)
       setErrorHandler { log.error("Error in redis key expiration listener container", it) }
-      addMessageListener(expirationListener, PatternTopic.of(KEY_EXPIRED_EVENT_PATTERN))
+//      addMessageListener(expirationListener, PatternTopic.of(KEY_EXPIRED_EVENT_PATTERN))
     }
   }
 }

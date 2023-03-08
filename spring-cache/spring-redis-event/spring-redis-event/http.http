@@ -1,0 +1,7 @@
+PUT localhost:8080/users/u1/status
+Content-Type: application/json
+
+{
+  "statusName": "smile4",
+  "iconPath": "smile-path4"
+}

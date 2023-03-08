@@ -1,4 +1,4 @@
-package com.toy.springredisevent.user
+package com.toy.springredisevent.user.domain
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.redis.core.RedisHash

@@ -6,6 +6,17 @@ plugins {
   kotlin("jvm") version "1.7.22"
   kotlin("plugin.spring") version "1.7.22"
   kotlin("plugin.jpa") version "1.7.22"
+  kotlin("plugin.noarg") version "1.7.22"
+}
+
+allOpen {
+  annotation("javax.persistence.Entity")
+  annotation("javax.persistence.Embeddable")
+  annotation("javax.persistence.MappedSuperclass")
+}
+
+noArg {
+  annotation("javax.persistence.Entity")
 }
 
 group = "com.toy"

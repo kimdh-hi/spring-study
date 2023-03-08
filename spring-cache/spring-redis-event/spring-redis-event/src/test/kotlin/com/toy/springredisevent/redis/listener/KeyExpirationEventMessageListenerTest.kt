@@ -1,7 +1,7 @@
 package com.toy.springredisevent.redis.listener
 
-import com.toy.springredisevent.user.UserStatusHash
-import com.toy.springredisevent.user.UserStatusHashRepository
+import com.toy.springredisevent.user.domain.UserStatusHash
+import com.toy.springredisevent.user.domain.UserStatusHashRepository
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
