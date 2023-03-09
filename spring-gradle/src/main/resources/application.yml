@@ -1,0 +1,3 @@
+test:
+  testA: ${testA}
+  testAA: ${testAA}

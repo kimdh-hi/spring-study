@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.konan.properties.loadProperties
 
 plugins {
   id("org.springframework.boot") version "3.0.4"
@@ -17,6 +18,7 @@ repositories {
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
+  annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -31,4 +33,25 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
   useJUnitPlatform()
+}
+
+fun loadSettingsProperties() {
+  val settingsProperty = "settings/settings.properties"
+  loadProperties(settingsProperty).forEach { entry ->
+    val key = entry.key as String
+    val value = entry.value as String
+
+    println("$key: [$value]")
+    ext.set(key, value)
+  }
+}
+
+project.afterEvaluate {
+  loadSettingsProperties()
+}
+
+tasks.processResources {
+  filesMatching("application.yml") {
+    expand(project.properties)
+  }
 }
