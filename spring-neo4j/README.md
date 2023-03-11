@@ -43,14 +43,14 @@ spring:
 
 ### Cypher Query
 
-DB 생성
+#### DB 생성
 ```
 create database dbName
 
 :use dbName
 ```
 
-노드 생성
+#### 노드 생성
 ```
 create () // 빈 노드 생성
 
@@ -63,27 +63,56 @@ create(tn:testNode1:testNode2) // alias
 create(tn:testNode{data1: 'data1', data2: 'data2'}) return tn
 ```
 
-조회
+#### 조회
 ```
-match(node) return node // 전체 노드 조회 (테스트시만 사용)
+match (node) return node // 전체 노드 조회 (테스트시만 사용)
 
-match(tn:testNode) return tn
+match (tn:testNode) return tn
 
-match(tn:testNode1) return tn
-match(tn:testNode1:testNode2) return tn
+match (tn:testNode1) return tn
+match (tn:testNode1:testNode2) return tn
 
-match(tn:testNode{data1: 'data1'}) return tn
-match(tn:testNode{data1: 'data1', data2: 'data2'}) return tn limit 1
+match (tn:testNode{data1: 'data1'}) return tn
+match (tn:testNode{data1: 'data1', data2: 'data2'}) return tn limit 1
 
 
-match(tn:testNode)
+match (tn:testNode)
 where tn.data1 = 'data1' and tn.data2 = 'data2' 
 return tn
 
-match(tn:testNode)
+match (tn:testNode)
 where tn.data1 in ['data1', 'data11']
 return tn
+
+match (tn:testNode)
+where ID(tn) = 1
+return tn
+
+match (tn:testNode{id: 1})
+return tn
 ```
+
+#### update
+```
+match (tn:testNode)
+where ID(tn.id) = 1
+set tn.data1 = 'updateData1', tn.data2 = 'updateData2'
+return tn
+```
+
+#### relationship
+```
+create 
+(st:Student{name: 'kim'}), 
+(sub:Subject{name: 'neo4j'}),
+(sc:School{name: 'Aschool'})
+
+create (sc) <-[:IS_BELONGS_TO]- (st) -[:IS_LEARNING{marks: 100}]-> (sub)
+
+return st, sub 
+```
+
+
 
 ---
 
