@@ -112,7 +112,12 @@ create (sc) <-[:IS_BELONGS_TO]- (st) -[:IS_LEARNING{marks: 100}]-> (sub)
 return st, sub 
 ```
 
+#### pagination, sorting
+```
+match (tn:TestNode) return tn skip 0 limit 10
 
+match (tn:TestNode) return tn order by tn.data1 asc, tn.data2 desc 
+```
 
 ---
 
