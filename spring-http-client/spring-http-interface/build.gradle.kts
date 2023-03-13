@@ -17,9 +17,12 @@ repositories {
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("org.springframework.boot:spring-boot-starter-webflux")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+  implementation("io.netty:netty-resolver-dns-native-macos:4.1.84.Final:osx-aarch_64")
 }
 
 tasks.withType<KotlinCompile> {
