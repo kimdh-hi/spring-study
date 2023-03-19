@@ -1,4 +1,4 @@
-package hello;
+package hello.embed;
 
 import hello.servlet.HelloServlet;
 import org.apache.catalina.Context;
