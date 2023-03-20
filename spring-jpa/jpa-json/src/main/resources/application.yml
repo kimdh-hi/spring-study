@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    hikari:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://localhost:3308/jpa-json?createDatabaseIfNotExist=true&serverTimezone=Asia/Seoul
+      username: root
+      password: 111111
+  jpa:
+    database: mysql
+    open-in-view: false
+    hibernate.ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
