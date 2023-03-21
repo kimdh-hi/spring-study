@@ -17,6 +17,7 @@ allOpen {
 
 noArg {
   annotation("jakarta.persistence.Entity")
+  annotation("com.toy.springboot3.common.NoArg")
   invokeInitializers = true
 }
 
@@ -33,6 +34,8 @@ repositories {
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("org.springframework.boot:spring-boot-starter-webflux")
+  implementation("org.springframework.boot:spring-boot-starter-security")
 
   implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
   implementation("com.querydsl:querydsl-apt")
@@ -43,6 +46,7 @@ dependencies {
   runtimeOnly("com.h2database:h2")
   runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
+  testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.withType<KotlinCompile> {

@@ -1,0 +1,6 @@
+webclient:
+  read-write-timeout-seconds: 30
+  response-timeout-seconds: 30
+  connect-timeout-millis: 3000
+  max-idle-and-life-time-seconds: 18
+  max-byte-count: 16777216
