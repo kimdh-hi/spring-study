@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  id("org.springframework.boot") version "3.0.4"
+  id("org.springframework.boot") version "3.1.0-SNAPSHOT"
   id("io.spring.dependency-management") version "1.1.0"
-  kotlin("jvm") version "1.7.22"
-  kotlin("kapt") version "1.7.22"
-  kotlin("plugin.spring") version "1.7.22"
-  kotlin("plugin.jpa") version "1.7.22"
+  kotlin("jvm") version "1.8.10"
+  kotlin("kapt") version "1.8.10"
+  kotlin("plugin.spring") version "1.8.10"
+  kotlin("plugin.jpa") version "1.8.10"
 }
 
 allOpen {
@@ -15,12 +15,19 @@ allOpen {
   annotation("jakarta.persistence.Embeddable")
 }
 
+noArg {
+  annotation("jakarta.persistence.Entity")
+  invokeInitializers = true
+}
+
 group = "com.toy"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
   mavenCentral()
+  maven { url = uri("https://repo.spring.io/milestone") }
+  maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 dependencies {
