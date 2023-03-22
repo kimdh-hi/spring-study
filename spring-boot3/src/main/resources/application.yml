@@ -1,3 +1,6 @@
+custom:
+  my-key: ${myValue}
+
 webclient:
   read-write-timeout-seconds: 30
   response-timeout-seconds: 30
