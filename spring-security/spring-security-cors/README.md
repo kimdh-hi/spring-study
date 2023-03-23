@@ -12,7 +12,7 @@ CORS 는 아래 요청중 하나라도 다른 경우 발생한다. (SOP: Same-Or
 ---
 
 ### Simple Requests
-GET, POST 등으로 서버로 요청시 요청한 `Origin`과 서버가 응답한 `Access-Control-Request-Headers` 의 값을 비교한다. 만약 다르다면 브라우저는 CORS 에러를 발생시킨다.
+GET, POST 등으로 서버로 요청시 요청한 `Origin`과 서버가 응답한 `Access-Control-Allow-Origin` 등의 헤더값으로 본인의 출처가 허가되었는지 확인한다.
 
 ### Preflight
 본 요청에 앞서 `OPTIONS` 요청으로 `Origin` 과 `Header` 등 함께 서버로 요청한다. 이 때 바디는 포함되지 않는다.<br/>
