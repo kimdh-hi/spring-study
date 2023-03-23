@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6e7fcdd9-d5b5-438d-a271-e5b0d529f1ec" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../autoconfig/src/main/java/hello/config/MemoryConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../autoconfig/src/main/java/hello/config/MemoryConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../inflearn-spring-security-oauth2/inflearn-spring-security-oauth2/cors-1/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../inflearn-spring-security-oauth2/inflearn-spring-security-oauth2/cors-1/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-bucket4j/src/main/kotlin/com/toy/springbucket4j/controller/TestController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-bucket4j/src/main/kotlin/com/toy/springbucket4j/controller/TestController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-gradle/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-gradle/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-gradle/settings/settings.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-gradle/settings/settings.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-jpa/jpa-basic/src/main/kotlin/com/toy/jpabasic/service/CompanyService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-jpa/jpa-basic/src/main/kotlin/com/toy/jpabasic/service/CompanyService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-jpa/jpa-basic/src/test/kotlin/com/toy/jpabasic/service/CompanyServiceTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-jpa/jpa-basic/src/test/kotlin/com/toy/jpabasic/service/CompanyServiceTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-jpa/jpa-custom-generator/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-jpa/jpa-custom-generator/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-jpa/jpa-json/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-jpa/jpa-json/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-jpa/spring-querydsl/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-jpa/spring-querydsl/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-mqtt/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-mqtt/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-mqtt/src/main/kotlin/com/toy/springmqtt/config/MqttConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-mqtt/src/main/kotlin/com/toy/springmqtt/config/MqttConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-mqtt/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../spring-mqtt/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/settings.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/src/main/kotlin/com/toy/okhttp3/Okhttp3Application.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/src/main/kotlin/com/toy/okhttp3/common/NoArg.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/src/main/kotlin/com/toy/okhttp3/config/OkHttpConfig.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/src/main/kotlin/com/toy/okhttp3/utils/MapperUtils.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/src/main/kotlin/com/toy/okhttp3/utils/OkHttpUtils.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/src/test/kotlin/com/toy/okhttp3/Okhttp3ApplicationTests.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/okhttp3/src/test/kotlin/com/toy/okhttp3/utils/OkHttpUtilsTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-testcontainer/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-testcontainer/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-testcontainer/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-testcontainer/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-testcontainer/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-testcontainer/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-testcontainer/settings.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-testcontainer/src/main/kotlin/com/toy/springtestcontainer/SpringTestcontainerApplication.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-testcontainer/src/main/kotlin/com/toy/springtestcontainer/config/AmqpConfig.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-testcontainer/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-testcontainer/src/test/kotlin/com/toy/springtestcontainer/SpringTestcontainerApplicationTests.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-testcontainer/src/test/kotlin/com/toy/springtestcontainer/amqp/AmqpTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-testcontainer/src/test/kotlin/com/toy/springtestcontainer/base/RabbitmqTestContainerBase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-testcontainer/src/test/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/settings.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/src/main/kotlin/com/toy/springwebclient/SpringWebclientApplication.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/src/main/kotlin/com/toy/springwebclient/common/WebClientConstants.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/src/main/kotlin/com/toy/springwebclient/config/Properties.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/src/main/kotlin/com/toy/springwebclient/config/WebClientConfig.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/src/main/kotlin/com/toy/springwebclient/controller/TestController.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/src/main/kotlin/com/toy/springwebclient/service/TestService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/src/main/kotlin/com/toy/springwebclient/utils/CoroutineWebClientUtils.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/src/main/kotlin/com/toy/springwebclient/utils/WebClientUtils.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/src/test/kotlin/com/toy/springwebclient/SpringWebclientApplicationTests.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/src/test/kotlin/com/toy/springwebclient/config/WebClientConfigTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../spring-webclient/spring-webclient/src/test/kotlin/com/toy/springwebclient/utils/CoroutineWebClientUtilsTest.kt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ProjectId" id="2NPUtBzmqoW4UN44M8871EUxmDV" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/daehyunkim/Documents/spring-study/lecture/inflearn-spring-boot/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="LibApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="lib.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="hello.LibApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6e7fcdd9-d5b5-438d-a271-e5b0d529f1ec" name="Changes" comment="" />
+      <created>1679565423434</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1679565423434</updated>
+      <workItem from="1679565424704" duration="36000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
