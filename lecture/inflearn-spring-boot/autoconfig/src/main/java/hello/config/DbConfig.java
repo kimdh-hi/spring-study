@@ -13,27 +13,27 @@ import org.springframework.transaction.TransactionManager;
 //@Configuration
 public class DbConfig {
 
-  @Bean
-  public DataSource dataSource() {
-    log.info("datasource bean create");
-    HikariDataSource dataSource = new HikariDataSource();
-    dataSource.setDriverClassName("org.h2.Driver");
-    dataSource.setJdbcUrl("jdbc:h2:mem:test");
-    dataSource.setUsername("sa");
-    dataSource.setPassword("");
-
-    return dataSource;
-  }
-
-  @Bean
-  public TransactionManager transactionManager() {
-    log.info("transactionManager bean create");
-    return new JdbcTransactionManager(dataSource());
-  }
-
-  @Bean
-  public JdbcTemplate jdbcTemplate() {
-    log.info("jdbcTemplate bean create");
-    return new JdbcTemplate(dataSource());
-  }
+//  @Bean
+//  public DataSource dataSource() {
+//    log.info("datasource bean create");
+//    HikariDataSource dataSource = new HikariDataSource();
+//    dataSource.setDriverClassName("org.h2.Driver");
+//    dataSource.setJdbcUrl("jdbc:h2:mem:test");
+//    dataSource.setUsername("sa");
+//    dataSource.setPassword("");
+//
+//    return dataSource;
+//  }
+//
+//  @Bean
+//  public TransactionManager transactionManager() {
+//    log.info("transactionManager bean create");
+//    return new JdbcTransactionManager(dataSource());
+//  }
+//
+//  @Bean
+//  public JdbcTemplate jdbcTemplate() {
+//    log.info("jdbcTemplate bean create");
+//    return new JdbcTemplate(dataSource());
+//  }
 }
