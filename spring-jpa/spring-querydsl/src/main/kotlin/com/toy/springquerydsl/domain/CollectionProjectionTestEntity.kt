@@ -1,5 +1,6 @@
 package com.toy.springquerydsl.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.GenericGenerator
 import javax.persistence.CascadeType
 import javax.persistence.Entity
@@ -24,12 +25,16 @@ class CollectionProjectionParent(
 ) {
 
   @OneToMany(mappedBy = "collectionProjectionParent", cascade = [CascadeType.ALL], orphanRemoval = true)
-  var collectionProjectionChildren: MutableList<CollectionProjectionChildren> = mutableListOf()
+  var collectionProjectionChildren: MutableList<CollectionProjectionChild> = mutableListOf()
+
+  override fun toString(): String {
+    return "CollectionProjectionParent(id=$id, data1='$data1', collectionProjectionChildren=$collectionProjectionChildren)"
+  }
 }
 
-@Entity(name = "tb_collection_projection_children")
+@Entity(name = "tb_collection_projection_child")
 @Table
-class CollectionProjectionChildren(
+class CollectionProjectionChild(
 
   @Id
   @GeneratedValue(generator = "uuid")
@@ -40,6 +45,11 @@ class CollectionProjectionChildren(
 
   @ManyToOne(optional = false)
   @JoinColumn(name = "collection_projection_parent_id")
+  @JsonIgnore
   val collectionProjectionParent: CollectionProjectionParent
-)
+) {
+  override fun toString(): String {
+    return "CollectionProjectionChild(id=$id, data2='$data2')"
+  }
+}
 

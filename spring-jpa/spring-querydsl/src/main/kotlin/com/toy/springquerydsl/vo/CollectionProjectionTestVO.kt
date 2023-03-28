@@ -1,14 +1,39 @@
 package com.toy.springquerydsl.vo
 
 import com.querydsl.core.annotations.QueryProjection
+import com.toy.springquerydsl.common.NoArg
+import com.toy.springquerydsl.domain.CollectionProjectionChild
+import org.slf4j.LoggerFactory
 
-data class CollectionProjectionTestResponseVO @QueryProjection constructor(
-  val entity1Id: String,
-  val entity1Data: String,
+@NoArg
+data class CollectionProjectionParentResponseVO @QueryProjection constructor(
+  var parentId: String,
+  var parentData: String,
+  var children: List<CollectionProjectionChildResponseVO>
+)
+
+@NoArg
+data class CollectionProjectionChildResponseVO @QueryProjection constructor(
+  var childId: String,
+  var childData: String
+) {
+
+  companion object {
+    private val log = LoggerFactory.getLogger(javaClass)
+
+    fun of(child: CollectionProjectionChild): CollectionProjectionChildResponseVO {
+      log.info("child -> {}", child)
+      return CollectionProjectionChildResponseVO(childId = child.id!!, childData = child.data2)
+    }
+  }
+}
+
+data class CollectionProjectionChildrenResponseVO(
   val children: List<CollectionProjectionChildResponseVO>
 )
 
-data class CollectionProjectionChildResponseVO @QueryProjection constructor(
-  val entity2Id: String,
-  val entity2Data: String
+data class CollectionProjectionTestV2ResponseVO @QueryProjection constructor(
+  val parentId: String,
+  val parentData: String,
+  val children: List<CollectionProjectionChild>
 )
