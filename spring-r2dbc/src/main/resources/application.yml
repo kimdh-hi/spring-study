@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    hikari:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://localhost:3308/jpa-r2dbc-test?createDatabaseIfNotExist=true&serverTimezone=Asia/Seoul
+      username: root
+      password: 111111
+  sql:
+    init:
+      data-locations: classpath:sql/data.sql
+    defer-datasource-initialization: true
+  jpa:
+    open-in-view: false
+    hibernate.ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
+  r2dbc:
+    url: r2dbc:mariadb://localhost:3308/jpa-r2dbc-test
+    username: root
+    password: 111111
+
+logging:
+  level:
+    "[org.springframework.web.filter]": debug
+    "[org.hibernate.SQL]": debug
+    "[org.hibernate.type.descriptor.sql.BasicBinder]": trace
+    "[com.toy]": debug
