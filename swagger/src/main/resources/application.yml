@@ -3,6 +3,7 @@ server:
 
 springdoc:
   api-docs:
+    enabled: true
     path: /api-docs
   packages-to-scan:
     - com.study.swagger.controller
