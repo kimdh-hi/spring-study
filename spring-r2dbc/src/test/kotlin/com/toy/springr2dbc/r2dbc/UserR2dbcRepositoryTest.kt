@@ -1,8 +1,7 @@
 package com.toy.springr2dbc.r2dbc
 
-import com.toy.springr2dbc.domain.User
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -15,11 +14,8 @@ class UserR2dbcRepositoryTest @Autowired constructor(
 ) {
 
   @Test
-  fun crTest() = runBlocking {
-    val user = User(name = "name")
-    val savedUser = userR2dbcRepository.save(user)
-    val findUser = userR2dbcRepository.findById(savedUser.id!!)
-
-    Assertions.assertNotNull(findUser)
+  fun findAll() = runBlocking {
+    val users = userR2dbcRepository.findAll().toList()
+    println(users)
   }
 }

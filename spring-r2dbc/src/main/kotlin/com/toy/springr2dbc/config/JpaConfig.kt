@@ -14,5 +14,4 @@ class JpaConfig {
   fun dataSource(): DataSource = DataSourceBuilder.create()
     .type(HikariDataSource::class.java)
     .build()
-
 }
