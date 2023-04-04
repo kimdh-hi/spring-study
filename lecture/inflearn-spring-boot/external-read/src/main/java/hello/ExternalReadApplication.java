@@ -8,11 +8,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
-@SpringBootApplication(scanBasePackages = {"hello.datasource"})
+@SpringBootApplication(scanBasePackages = {"hello.datasource", "hello.pay"})
 //@Import(MyDataSourceValueConfig.class)
 //@Import(MyDataSourceConfigV1.class)
 //@Import(MyDataSourceConfigV2.class)
-@Import(MyDataSourceConfigV3.class)
+@Import({MyDataSourceConfigV3.class})
 public class ExternalReadApplication {
 
     public static void main(String[] args) {
