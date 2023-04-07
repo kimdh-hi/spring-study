@@ -3,3 +3,12 @@ management:
     web:
       exposure:
         include: "*"
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true
+  endpoint:
+    health:
+#       show-details: always
+      show-components: always
