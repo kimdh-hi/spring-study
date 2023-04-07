@@ -83,3 +83,17 @@ springBoot {
 id 'com.gorylenko.gradle-git-properties' version '2.4.1' // git info
 ```
 `build/resources/main/git.properties` 에 생성결과 확인 <br/>
+
+---
+
+### logger
+- 로그레벨 확인
+- 실시간 로그 레벨 변경
+```http request
+POST http://localhost:8080/actuator/loggers/[package_path]
+Content-Type: application/json
+
+{
+  "configuredLevel": "DEBUG"
+}
+```
