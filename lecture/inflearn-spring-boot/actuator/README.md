@@ -97,3 +97,17 @@ Content-Type: application/json
   "configuredLevel": "DEBUG"
 }
 ```
+
+---
+
+### httpexchanges
+- http 요청/응답 기록 확인
+
+`HttpExchangeRepository` 구현체를 빈으로 등록해줘야 한다.<br/>
+```java
+@Bean
+public InMemoryHttpExchangeRepository httpExchangeRepository() {
+  return new InMemoryHttpExchangeRepository();
+}
+```
+`InMemoryHttpExchangeRepository` 의 경우 기본적으로 100개까지 확인 가능하고 초과시 과거요청은 삭제된다. (요청수 변경가능 `setCapacity()`) <br/>
