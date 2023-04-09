@@ -12,3 +12,8 @@ management:
     health:
 #       show-details: always
       show-components: always
+
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true

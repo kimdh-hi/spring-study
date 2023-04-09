@@ -111,3 +111,42 @@ public InMemoryHttpExchangeRepository httpExchangeRepository() {
 }
 ```
 `InMemoryHttpExchangeRepository` 의 경우 기본적으로 100개까지 확인 가능하고 초과시 과거요청은 삭제된다. (요청수 변경가능 `setCapacity()`) <br/>
+
+---
+
+### metrics
+
+tomcat 메트릭 수집
+```yaml
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
+```
+- `tomcat.threads.config.max`
+  - tomcat thread 가 동시에 처리할 수 있는 요청 수
+- `tomcat.threads.busy`
+  - 실제 처리중인 thread 수 
+
+---
+
+## prometheus
+```
+실행
+./prometheus => localhost:9090
+```
+
+프로메테우스는 메트릭을 수집하고 보관하는 DB 역할을 수행한다. <br/>
+우리 애플리케이션에서 발생하는 메트릭들을 프로메테우스가 수집하도록 연동을 필요로 한다.<br/>
+
+프로메테우스는 `/actuator/metrics` 조회시 응답되는 json 형태 데이터 이해하지 못한다. 이를 프로메테우스가 이해할 수 있도록 변환하는 작업 등을 `마이크로미터`가 수행한다.<br/>
+```
+//마이크로미터-프로메테우스 의존성 추가
+implementation 'io.micrometer:micrometer-registry-prometheus'
+```
+새로 추가되는 actuator 엔드포인트 확인 `/actuator/prometheus` <br/>
+
+포멧 차이
+- `/avtuator/metrics/jvm.info` -> `/actuator/prometheus => jvm_info`
+
+
