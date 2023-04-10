@@ -149,4 +149,35 @@ implementation 'io.micrometer:micrometer-registry-prometheus'
 포멧 차이
 - `/avtuator/metrics/jvm.info` -> `/actuator/prometheus => jvm_info`
 
+spring actuator - prometheus 설정 <br/>
+```yml
+#prometheus.yml
+scrape_configs:
+  - job_name: "spring-actuator"
+    metrics_path: '/actuator/prometheus' # 수집경로 (10s~1m 권장)
+    scrape_interval: 1s # 수집주기 (default: 1m)
+    static_configs:
+      - targets: ['localhost:8080'] # 수집대상서버
 
+```
+
+프로메테우스 연산자
+```
+핕터링
+http_server_requests_seconds_count{uri="/log"}
+http_server_requests_seconds_count{status="404"}
+http_server_requests_seconds_count{uri="/actuator/prometheus"}
+http_server_requests_seconds_count{method=~"POST|GET"} // 정규식
+http_server_requests_seconds_count{method!~"/actuator.*"} // 정규식
+```
+
+프로메테우수 게이지
+- 오르내릴 수 있는 값
+- CPU 사용량(`system_cpu_usage`), 메모리 사용량, 커넥션 ...
+
+프로메테우스 카운터
+- 증가되는 누적 값
+- HTTP 요청수, 로그수
+- 계속 증가되기 때문에 메트릭 그래프 확인시 계속해서 증가되는 그래프만 확인됨 (특정 시간의 메트릭을 파악하기 어려움)
+  - 위 문제를 해결하기 위해 `increase(), rate()` 제공 
+  - `http_server_requests_seconds_count{uri="/log"}` -> `increase(http_server_requests_seconds_count{uri="/log"}[1m])`
