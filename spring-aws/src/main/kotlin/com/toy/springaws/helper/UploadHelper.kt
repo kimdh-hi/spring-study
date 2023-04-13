@@ -19,6 +19,8 @@ abstract class UploaderHelper {
 
   protected abstract fun upload(file: File, path: String)
 
+  protected abstract fun delete(path: String)
+
   fun upload(multipartFile: MultipartFile, prefix: String): UploadResult {
     val file = convert(multipartFile) ?: throw RuntimeException("...")
     val path = getPath(file, prefix)

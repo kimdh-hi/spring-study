@@ -30,4 +30,10 @@ class LocalUploadHelper: UploaderHelper() {
     if (!file.exists())
       file.mkdirs()
   }
+
+  override fun delete(path: String) {
+    val file = File(path)
+    if (file.exists())
+      file.delete()
+  }
 }

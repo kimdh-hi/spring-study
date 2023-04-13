@@ -15,4 +15,8 @@ class S3UploadHelper(
     val objectRequest = PutObjectRequest(awsProperties.getBucketName(), key, file)
     s3Client.putObject(objectRequest)
   }
+
+  override fun delete(path: String) {
+    s3Client.deleteObject(awsProperties.getBucketName(), path)
+  }
 }
