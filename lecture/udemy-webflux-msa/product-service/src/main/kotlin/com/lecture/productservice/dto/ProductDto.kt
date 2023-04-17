@@ -3,7 +3,7 @@ package com.lecture.productservice.dto
 import com.lecture.productservice.entity.Product
 
 data class ProductDto(
-  val id: String,
+  val id: String? = null,
   val description: String,
   val price: Int
 ) {
@@ -16,7 +16,6 @@ data class ProductDto(
   }
 
   fun toEntity(): Product = Product(
-    id = this.id,
     description = this.description,
     price = this.price
   )

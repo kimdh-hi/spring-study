@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id
 
 class Product(
   @Id
-  var id: String,
+  var id: String? = null,
   var description: String,
   var price: Int
 ) {
