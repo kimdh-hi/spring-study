@@ -1,0 +1,10 @@
+POST http://localhost:8080/enum-collection
+Content-Type: application/json
+
+{
+  "weeks": ["MONDAY", "FRIDAY"]
+}
+
+###
+
+GET http://localhost:8080/enum-collection/4d284002-1bdb-463f-90b6-fbe37961b823
