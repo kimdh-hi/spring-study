@@ -7,6 +7,13 @@ import org.springframework.data.relational.core.mapping.Table
 class User(
   @Id
   var id: Int,
-  val name: String,
-  val balance: Int,
-)
+  var name: String,
+  var balance: Int,
+) {
+
+  fun update(name: String?, balance: Int?): User {
+    name?.let { this.name = it }
+    balance?.let { this.balance = it }
+    return this
+  }
+}
