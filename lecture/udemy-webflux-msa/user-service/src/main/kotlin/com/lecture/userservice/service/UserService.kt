@@ -22,9 +22,9 @@ class UserService(
     .flatMap { userRepository.save(it) }
     .map { UserDto.of(it) }
 
-  fun update(dto: Mono<UserDto>): Mono<UserDto> = dto
+  fun update(id: Int, dto: Mono<UserDto>): Mono<UserDto> = dto
     .map { userDto ->
-      userRepository.findById(userDto.id)
+      userRepository.findById(id)
         .map { user -> user.update(userDto.name, userDto.balance) }
     }
     .flatMap { it.flatMap { userRepository.save(it) } }
