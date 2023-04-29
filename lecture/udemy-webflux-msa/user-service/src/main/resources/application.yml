@@ -1,0 +1,6 @@
+server.port: 8092
+spring:
+  r2dbc:
+    url: r2dbc:h2:mem:///userdb;DB_CLOSE_DELAY=-1
+    username:
+    password:
