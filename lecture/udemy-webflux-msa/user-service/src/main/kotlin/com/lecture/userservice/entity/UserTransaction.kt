@@ -1,5 +1,6 @@
 package com.lecture.userservice.entity
 
+import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDateTime
@@ -10,5 +11,7 @@ class UserTransaction(
   var id: Int? = null,
   var userId: Int,
   val amount: Int,
-  val transactionDate: LocalDateTime
+
+  @CreatedDate
+  val transactionDate: LocalDateTime? = null
 )

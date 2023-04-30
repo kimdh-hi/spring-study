@@ -8,7 +8,7 @@ data class TransactionRequestDto(
   val userId: Int,
   val amount: Int
 ) {
-  fun toEntity() = UserTransaction(userId = userId, amount = amount, transactionDate = LocalDateTime.now())
+  fun toEntity() = UserTransaction(userId = userId, amount = amount)
 }
 
 data class TransactionResponseDto(
