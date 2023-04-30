@@ -17,8 +17,8 @@ import javax.persistence.Table
 class User(
   @Id
   @GeneratedValue(generator = "id")
-  @GenericGenerator(name = "id",
-    strategy = "com.toy.jpacustomgenerator.generator.CustomIdGenerator")
+  //@TimebasedGenerator
+  @GenericGenerator(name = "id", strategy = "com.toy.jpacustomgenerator.generator.CustomIdGenerator")
   @Column(name = "id")
   var id: String = "",
 
