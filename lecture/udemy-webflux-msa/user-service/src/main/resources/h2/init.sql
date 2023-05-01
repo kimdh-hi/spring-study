@@ -12,5 +12,5 @@ create table user_transaction
     user_id bigint,
     amount int,
     transaction_data timestamp,
-    foreign key (user_id) references users(id)
+    foreign key (user_id) references users(id) on delete cascade 
 );

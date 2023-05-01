@@ -14,10 +14,10 @@ data class TransactionRequestDto(
 data class TransactionResponseDto(
   val userId: Int,
   val amount: Int,
-  val status: TransactionStatus
+  val status: TransactionStatus? = null
 ) {
   companion object {
-    fun of(transaction: UserTransaction, status: TransactionStatus) = TransactionResponseDto(
+    fun of(transaction: UserTransaction, status: TransactionStatus? = null) = TransactionResponseDto(
       userId = transaction.userId,
       amount = transaction.amount,
       status = status

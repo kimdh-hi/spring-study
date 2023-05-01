@@ -6,6 +6,7 @@ import com.lecture.userservice.entity.TransactionStatus
 import com.lecture.userservice.repository.UserRepository
 import com.lecture.userservice.repository.TransactionRepository
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Service
@@ -22,4 +23,7 @@ class TransactionService(
       .map { TransactionResponseDto.of(it, TransactionStatus.APPROVED) }
       .defaultIfEmpty(TransactionResponseDto.of(dto, TransactionStatus.DECLINED))
   }
+
+  fun getByUserId(id: Int): Flux<TransactionResponseDto> = transactionRepository.findByUserId(id)
+    .map { TransactionResponseDto.of(it) }
 }
