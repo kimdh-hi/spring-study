@@ -1,25 +1,24 @@
 package com.toy.jpacustomgenerator.domain
 
+import com.toy.jpacustomgenerator.common.CustomIdGenerator
+import com.toy.jpacustomgenerator.common.TimebasedId
+import jakarta.persistence.Entity
+import jakarta.persistence.EntityListeners
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import org.hibernate.annotations.GenericGenerator
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.EntityListeners
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.Table
 
-@Entity
-@Table(name = "tb_user")
+@Entity(name = "tb_user")
+@Table
 @EntityListeners(AuditingEntityListener::class)
 class User(
   @Id
-  @GeneratedValue(generator = "id")
-  //@TimebasedGenerator
-  @GenericGenerator(name = "id", strategy = "com.toy.jpacustomgenerator.generator.CustomIdGenerator")
-  @Column(name = "id")
+  @GeneratedValue
+  @TimebasedId(CustomIdGenerator::class)
   var id: String = "",
 
   var name: String,

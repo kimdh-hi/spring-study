@@ -1,12 +1,12 @@
 package com.toy.jpacustomgenerator.repository
 
 import com.toy.jpacustomgenerator.domain.User
+import jakarta.persistence.EntityManager
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.Sort
 import org.springframework.test.context.TestConstructor
 import org.springframework.transaction.annotation.Transactional
-import javax.persistence.EntityManager
 
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
@@ -22,7 +22,7 @@ class UserRepositoryTest(
       .map {
         userRepository.save(User(name = "name$it"))
         entityManager.flush()
-        Thread.sleep(500)
+        Thread.sleep(100)
       }
 
     userRepository.findAll(Sort.by(Sort.Direction.DESC, "id"))

@@ -20,6 +20,7 @@ spring:
       hibernate:
         show_sql: false
         format_sql: true
+
 #     defer-datasource-initialization: true
 
 logging:
