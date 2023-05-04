@@ -1,7 +1,7 @@
 package com.toy.jpacustomgenerator.domain
 
 import com.toy.jpacustomgenerator.common.CustomIdGenerator
-import com.toy.jpacustomgenerator.common.TimebasedId
+import com.toy.jpacustomgenerator.common.TimebasedUUID
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.GeneratedValue
@@ -17,8 +17,7 @@ import java.time.LocalDateTime
 @EntityListeners(AuditingEntityListener::class)
 class User(
   @Id
-  @GeneratedValue
-  @TimebasedId(CustomIdGenerator::class)
+  @GenericGenerator(name = "id", strategy = "com.toy.jpacustomgenerator.generator.CustomIdGenerator")
   var id: String = "",
 
   var name: String,
@@ -26,6 +25,7 @@ class User(
   @CreatedDate
   var createdDate: LocalDateTime? = null
 ) {
+
   override fun toString(): String {
     return "User(id='$id', name='$name', createdDate=$createdDate)"
   }

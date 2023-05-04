@@ -1,4 +1,4 @@
-server.port: 8091
+server.port: 8093
 spring:
   data:
     mongodb:

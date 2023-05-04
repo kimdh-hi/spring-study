@@ -13,17 +13,16 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @RestController
-@RequestMapping("/transactions")
 class TransactionController(
   private val transactionService: TransactionService
 ) {
 
-  @PostMapping
+  @PostMapping("/users/transactions")
   fun save(@RequestBody dto: Mono<TransactionRequestDto>): Mono<TransactionResponseDto> {
     return dto.flatMap { transactionService.save(it) }
   }
 
-  @GetMapping("/users/{userId}")
+  @GetMapping("/users/{userId}/transactions")
   fun getByUserId(@PathVariable userId: Int): Flux<TransactionResponseDto> {
     return transactionService.getByUserId(userId)
   }

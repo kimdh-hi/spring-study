@@ -27,10 +27,13 @@ DELETE localhost:8092/users/1
 
 //transaction
 ###
-POST localhost:8092/transactions
+POST localhost:8092/users/transactions
 Content-Type: application/json
 
 {
   "userId": 1,
   "amount": 1000
 }
+
+###
+GET localhost:8092/users/1/transactions
