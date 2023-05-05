@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
   id("org.springframework.boot") version "3.0.6"
   id("io.spring.dependency-management") version "1.1.0"
-  id("org.asciidoctor.convert") version "2.2.1"
+  id("com.epages.restdocs-api-spec") version "0.16.2"
   kotlin("jvm") version "1.7.22"
   kotlin("plugin.spring") version "1.7.22"
   kotlin("plugin.jpa") version "1.7.22"
@@ -16,8 +16,6 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 repositories {
   mavenCentral()
 }
-
-extra["snippetsDir"] = file("build/generated-snippets")
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -42,11 +40,10 @@ tasks.withType<Test> {
   useJUnitPlatform()
 }
 
-tasks.test {
-  outputs.dir(snippetsDir)
-}
-
-tasks.asciidoctor {
-  inputs.dir(snippetsDir)
-  dependsOn(test)
+openapi3 {
+  setServer("http://localhost:8080")
+  title = "restdocs-swagger API Documentation"
+  description = "Spring REST Docs with SwaggerUI."
+  version = "0.0.1"
+  format = "yaml"
 }
