@@ -1,0 +1,9 @@
+POST http://localhost:8080/api/emoji
+Content-Type: application/json
+
+{
+  "emoji": "🤣"
+}
+
+###
+GET http://localhost:8080/api/emoji
