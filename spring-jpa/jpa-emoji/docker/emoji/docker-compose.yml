@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  mariadb:
+    image: docker.io/bitnami/mariadb:10.8
+    ports:
+      - '13306:3306'
+    volumes:
+      - ./mariadb/my_custom.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro
+    environment:
+      - MARIADB_REPLICATION_MODE=master
+      - MARIADB_SKIP_TEST_DB=yes
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_ROOT_PASSWORD=111111
+      - MARIADB_USER=emoji-test-user
+      - MARIADB_PASSWORD=111111
+      - MARIADB_REPLICATION_USER=repl_user
+      - MARIADB_REPLICATION_PASSWORD=111111
+      - MARIADB_DATABASE=emoji-test
