@@ -1,9 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
   id("org.springframework.boot") version "3.0.6"
   id("io.spring.dependency-management") version "1.1.0"
   kotlin("jvm") version "1.7.22"
+  kotlin("kapt") version "1.7.22"
   kotlin("plugin.spring") version "1.7.22"
   kotlin("plugin.jpa") version "1.7.22"
   kotlin("plugin.noarg") version "1.7.22"
@@ -33,6 +35,10 @@ dependencies {
 
   //https://github.com/cowtowncoder/java-uuid-generator
   implementation("com.fasterxml.uuid:java-uuid-generator:4.1.1")
+
+  implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+  implementation("com.querydsl:querydsl-apt")
+  kapt("com.querydsl:querydsl-apt:${dependencyManagement.importedProperties["querydsl.version"]}:jakarta")
 
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
