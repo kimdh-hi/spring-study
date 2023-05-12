@@ -19,9 +19,18 @@ repositories {
   mavenCentral()
 }
 
-swaggerSources {
+
+val openapi3 by tasks.registering {
+  setServer("http://localhost:8080")
+  title = "restdocs-swagger API Documentation"
+  description = "Spring REST Docs with SwaggerUI."
+  version = "0.0.1"
+  format = "yaml"
+}
+
+val swaggerSources by tasks.registering {
   create("sample") {
-    setInputFile(file("${project.buildDir}/api-spec/openapi3.yaml"))
+    inputFile.set(file("${project.buildDir}/api-spec/openapi3.yaml"))
   }
 }
 
@@ -50,23 +59,18 @@ tasks.withType<Test> {
 }
 
 tasks.withType<GenerateSwaggerUI> {
-  dependsOn("openapi3")
+  dependsOn(openapi3)
 }
 
-tasks.register<Copy>("copySwaggerUI") {
+tasks.register("copySwaggerUI", Copy::class) {
   dependsOn("generateSwaggerUISample")
-  val generateSwaggerUISampleTask = tasks.named("generateSwaggerUISample", GenerateSwaggerUI::class).get()
+
+  val generateSwaggerUISampleTask = tasks.named<GenerateSwaggerUI>("generateSwaggerUISample").get()
+
   from(generateSwaggerUISampleTask.outputDir)
   into("${project.buildDir}/resources/main/static/docs")
 }
+
 tasks.withType<BootJar> {
   dependsOn("copySwaggerUI")
-}
-
-openapi3 {
-  setServer("http://localhost:8080")
-  title = "restdocs-swagger API Documentation"
-  description = "Spring REST Docs with SwaggerUI."
-  version = "0.0.1"
-  format = "yaml"
 }
