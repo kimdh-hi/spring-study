@@ -1,5 +1,8 @@
+import org.hidetake.gradle.swagger.generator.GenerateSwaggerUI
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
+
+val restdocsApiSpecVersion = "0.16.2"
 
 plugins {
   id("org.springframework.boot") version "3.0.6"
@@ -19,32 +22,12 @@ repositories {
   mavenCentral()
 }
 
-
-val openapi3 by tasks.registering {
-  setServer("http://localhost:8080")
-  title = "restdocs-swagger API Documentation"
-  description = "Spring REST Docs with SwaggerUI."
-  version = "0.0.1"
-  format = "yaml"
-}
-
-val swaggerSources by tasks.registering {
-  create("sample") {
-    inputFile.set(file("${project.buildDir}/api-spec/openapi3.yaml"))
-  }
-}
-
 dependencies {
-  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-web")
-  implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
-
-  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-  implementation("org.jetbrains.kotlin:kotlin-reflect")
-  runtimeOnly("com.h2database:h2")
-  testImplementation("org.springframework.boot:spring-boot-starter-test")
+  implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
   testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
-  swaggerUI("org.webjars:swagger-ui:4.11.1")
+  testImplementation("com.epages:restdocs-api-spec-mockmvc:$restdocsApiSpecVersion")
+  testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.withType<KotlinCompile> {
@@ -54,23 +37,26 @@ tasks.withType<KotlinCompile> {
   }
 }
 
-tasks.withType<Test> {
+tasks.test {
   useJUnitPlatform()
 }
 
-tasks.withType<GenerateSwaggerUI> {
-  dependsOn(openapi3)
+tasks.withType(GenerateSwaggerUI::class.java) {
+  dependsOn("openapi3")
+  delete { file("src/main/resources/static/docs/") }
+  copy {
+    from("build/resources/main/static/docs")
+    into("src/main/resources/static/docs/")
+  }
 }
 
-tasks.register("copySwaggerUI", Copy::class) {
-  dependsOn("generateSwaggerUISample")
-
-  val generateSwaggerUISampleTask = tasks.named<GenerateSwaggerUI>("generateSwaggerUISample").get()
-
-  from(generateSwaggerUISampleTask.outputDir)
-  into("${project.buildDir}/resources/main/static/docs")
+tasks.bootJar {
+  dependsOn(":openapi3")
 }
 
-tasks.withType<BootJar> {
-  dependsOn("copySwaggerUI")
+openapi3 {
+  setServer("http://localhost:8080")
+  title = "swagger doc"
+  description = "Spring REST Docs with SwaggerUI."
+  version = "0.0.1"
 }
