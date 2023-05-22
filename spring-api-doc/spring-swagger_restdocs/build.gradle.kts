@@ -45,7 +45,8 @@ tasks.withType(GenerateSwaggerUI::class.java) {
   dependsOn("openapi3")
   delete { file("src/main/resources/static/docs/") }
   copy {
-    from("build/resources/main/static/docs")
+    println("open-api.json copy...")
+    from("build/api-spec/")
     into("src/main/resources/static/docs/")
   }
 }
@@ -59,4 +60,6 @@ openapi3 {
   title = "swagger doc"
   description = "Spring REST Docs with SwaggerUI."
   version = "0.0.1"
+  format = "json"
+  outputFileNamePrefix = "open-api-3.0.1"
 }
