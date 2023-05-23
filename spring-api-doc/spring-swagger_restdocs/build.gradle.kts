@@ -37,7 +37,7 @@ tasks.withType<KotlinCompile> {
   }
 }
 
-tasks.test {
+tasks.withType<Test> {
   useJUnitPlatform()
 }
 
@@ -61,5 +61,5 @@ openapi3 {
   description = "Spring REST Docs with SwaggerUI."
   version = "0.0.1"
   format = "json"
-  outputFileNamePrefix = "open-api-3.0.1"
+  outputFileNamePrefix = "swagger"
 }
