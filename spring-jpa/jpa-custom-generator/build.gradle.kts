@@ -35,6 +35,7 @@ dependencies {
 
   //https://github.com/cowtowncoder/java-uuid-generator
   implementation("com.fasterxml.uuid:java-uuid-generator:4.1.1")
+  implementation("com.github.f4b6a3:tsid-creator:5.2.4")
 
   implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
   implementation("com.querydsl:querydsl-apt")
