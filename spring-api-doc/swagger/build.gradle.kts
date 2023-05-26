@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.0.5"
+    id("org.springframework.boot") version "3.1.0"
     id("io.spring.dependency-management") version "1.1.0"
-    kotlin("jvm") version "1.7.22"
-    kotlin("plugin.spring") version "1.7.22"
-    kotlin("plugin.jpa") version "1.7.22"
+    kotlin("jvm") version "1.8.21"
+    kotlin("plugin.spring") version "1.8.21"
+    kotlin("plugin.jpa") version "1.8.21"
 }
 
 group = "com.study"
@@ -25,8 +25,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    implementation("org.springdoc:springdoc-openapi-kotlin:1.6.15")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.15")
+//    implementation("org.springdoc:springdoc-openapi-kotlin:1.6.15")
+    implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
 
     runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
