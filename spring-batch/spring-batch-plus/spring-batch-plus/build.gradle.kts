@@ -17,14 +17,14 @@ repositories {
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter")
-
   implementation("org.springframework.boot:spring-boot-starter-batch")
-  implementation("com.navercorp.spring:spring-boot-starter-batch-plus-kotlin:3.1.0")
+  implementation("com.navercorp.spring:spring-boot-starter-batch-plus-kotlin:1.0.0")
 
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   runtimeOnly("com.h2database:h2")
   runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
+
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.batch:spring-batch-test")
 }
