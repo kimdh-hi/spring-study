@@ -60,7 +60,31 @@ leftJoin 에 의해 늘어난 row 때문에 페이징이 제대로 동작하지 
     return getSlice(result, pageable)
   }
 ```
+### try3 - `@QueryProjection 파라미터로 엔티티 넘기기`
+```kotlin
+@NoArg
+data class CollectionProjectionParentResponseVO(
+  var parentId: String,
+  var parentData: String,
+  var children: List<CollectionProjectionChildResponseVO>
+) {
 
+  @QueryProjection constructor(collectionProjectionParent: CollectionProjectionParent) : this(
+    parentId = collectionProjectionParent.id!!,
+    parentData = collectionProjectionParent.data1,
+    children = collectionProjectionParent.collectionProjectionChildren.map { CollectionProjectionChildResponseVO.of(it) }
+  )
+}
+
+val result = query.selectDistinct(
+  QCollectionProjectionParentResponseVO(collectionProjectionParent)
+)
+  .from(collectionProjectionParent)
+  .leftJoin(collectionProjectionParent.collectionProjectionChildren, collectionProjectionChild)
+  .limit(pageable.pageSize.toLong())
+  .offset(pageable.offset)
+  .fetch()
+```
 
 ### 참고
 https://jojoldu.tistory.com/342

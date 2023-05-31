@@ -47,4 +47,12 @@ class CollectionProjectionTestRepositoryTest @Autowired constructor(
     val result = collectionProjectionParentRepository.getAllV4(pageable)
     println(objectMapper.writeValueAsString(result))
   }
+
+  @Test
+  fun testV5() {
+    val pageable = PageRequest.of(0, 2)
+
+    val result = collectionProjectionParentRepository.getAllV5(pageable)
+    println(objectMapper.writeValueAsString(result))
+  }
 }

@@ -31,6 +31,7 @@ interface CollectionProjectionParentRepositoryCustom {
   fun getAllV2(): List<CollectionProjectionTestV2ResponseVO>
   fun getAllV3(pageable: Pageable): Slice<CollectionProjectionParentResponseVO>
   fun getAllV4(pageable: Pageable): Slice<CollectionProjectionParentResponseVO>
+  fun getAllV5(pageable: Pageable): Slice<CollectionProjectionParentResponseVO>
 }
 
 class CollectionProjectionParentRepositoryImpl(
@@ -116,6 +117,19 @@ class CollectionProjectionParentRepositoryImpl(
         )
       }
       .toMutableList()
+
+    return getSlice(result, pageable)
+  }
+
+  override fun getAllV5(pageable: Pageable): Slice<CollectionProjectionParentResponseVO> {
+    val result = query.selectDistinct(
+      QCollectionProjectionParentResponseVO(collectionProjectionParent)
+    )
+      .from(collectionProjectionParent)
+      .leftJoin(collectionProjectionParent.collectionProjectionChildren, collectionProjectionChild)
+      .limit(pageable.pageSize.toLong())
+      .offset(pageable.offset)
+      .fetch()
 
     return getSlice(result, pageable)
   }
