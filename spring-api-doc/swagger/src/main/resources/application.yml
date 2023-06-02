@@ -1,14 +1,11 @@
 server:
-  port: 8000
+  port: 8080
 
 springdoc:
-  api-docs:
-    enabled: true
-    path: /api-docs
   packages-to-scan:
     - com.study.swagger.controller
   swagger-ui:
     operations-sorter: method
     tags-sorter: alpha
-    path: /swagger
+    path: /swagger-ui-custom.html
     disable-swagger-default-url: true
