@@ -16,3 +16,8 @@ spring:
 응답시 페이지 여전히 0 문제
 - 응답시 CustomResponse 로 page+1 처리
 - @JsonComponent 로 page 직렬화 시 page+1 처리
+
+---
+
+### 참고
+https://www.baeldung.com/java-compress-and-uncompress
