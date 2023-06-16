@@ -1,6 +1,7 @@
 package com.toy.springjpatsid.repository
 
 import com.toy.springjpatsid.domain.Space
+import com.toy.springjpatsid.vo.SpaceSearchVO
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -24,5 +25,21 @@ class SpaceRepositoryImplTest @Autowired constructor(
 
     //then
     println(spaces)
+  }
+
+  @Test
+  fun search() {
+    //given
+    (1 .. 20).forEach {
+      Space(name = "space$it").also { space -> spaceRepository.save(space) }
+    }
+
+    val vo = SpaceSearchVO()
+
+    //when
+    val result = spaceRepository.search(vo)
+
+    //then
+    println(result)
   }
 }
