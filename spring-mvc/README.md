@@ -19,5 +19,10 @@ spring:
 
 ---
 
+### @InitBinder
+@Valid 어노테이션으로 검증하기 전에 수행될 메서드를 지정할 수 있다. <br/>
+기본적으로 모든 요청에 대해 동작하기 때문에 특정 dto 에 적용하고 싶다면 `@initBinder("xxxRequestDto)` 로 지정 가능하다. <br/>
+
+
 ### 참고
 https://www.baeldung.com/java-compress-and-uncompress
