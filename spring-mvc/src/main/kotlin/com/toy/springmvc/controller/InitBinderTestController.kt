@@ -18,7 +18,7 @@ class InitBinderTestController {
     }
 
     @PostMapping
-    fun save(@RequestBody vo: InitBinderTestVO): ResponseEntity<InitBinderTestVO> {
+    fun save(@RequestBody @Valid vo: InitBinderTestVO): ResponseEntity<InitBinderTestVO> {
         return ResponseEntity.ok(vo)
     }
 

@@ -1,5 +1,6 @@
 package com.toy.springmvc.controller
 
+import com.toy.springmvc.config.NoArg
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.validation.Errors
@@ -17,35 +18,21 @@ class MultipartFileListTestController {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    @InitBinder("multipartFileListTestVO")
-    protected fun initBinder(binder: WebDataBinder) {
-        binder.addValidators(MultipartFileListTestValidator())
-    }
 
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-    fun test(vo: MultipartFileListTestVO): String {
-        vo.files.forEach {
-            log.info(it.name)
-        }
+    fun test(request: EmoticonSaveRequest): String {
 
         return "ok"
     }
 }
 
-data class MultipartFileListTestVO(
-    val files: List<MultipartFile>,
+data class EmoticonSaveRequest(
+    val i18ns: MutableList<EmoticonI18nRequest> = mutableListOf()
 )
 
-data class MultipartFileListTestInnerVO(
-    val file1: MultipartFile,
-    val files: List<MultipartFile>
+@NoArg
+data class EmoticonI18nRequest(
+    var name: String,
+    var representativeFile: MultipartFile,
+//    val emoticonFiles: List<MultipartFile>
 )
-
-class MultipartFileListTestValidator: Validator {
-    override fun supports(clazz: Class<*>): Boolean = MultipartFileListTestVO::class.java.isAssignableFrom(clazz)
-
-    override fun validate(target: Any, errors: Errors) {
-        val vo = target as MultipartFileListTestVO
-
-    }
-}
