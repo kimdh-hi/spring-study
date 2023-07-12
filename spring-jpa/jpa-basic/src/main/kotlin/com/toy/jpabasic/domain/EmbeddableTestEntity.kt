@@ -12,6 +12,9 @@ import javax.persistence.Table
 /**
  * jpa 는 Embedded 타입의 경우 db 조회후 객체화할 때 embedded 타입 내부 모든 필드가 null 이라면 객체화하지 못한다.
  * embeddableSample.isNotNull() 접근시 NPE 발생
+ *
+ * 해결
+ * spring.jpa.properties.hibernate.create_empty_composites.enabled: true
  */
 
 @Entity
