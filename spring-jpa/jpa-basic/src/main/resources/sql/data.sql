@@ -78,3 +78,8 @@ values
 ;
 
 
+insert into tb_embeddable_test(id, data1, data2)
+values
+    ('et1', 'aa', null),
+    ('et2', null, null)
+;
