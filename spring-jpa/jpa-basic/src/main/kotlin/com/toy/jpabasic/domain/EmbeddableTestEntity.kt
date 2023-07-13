@@ -15,6 +15,8 @@ import javax.persistence.Table
  *
  * 해결
  * spring.jpa.properties.hibernate.create_empty_composites.enabled: true
+ * https://hibernate.atlassian.net/browse/HHH-11936
+ * 운영에서 사용하지 않기를 권고하고 있음
  */
 
 @Entity
