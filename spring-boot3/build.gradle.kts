@@ -2,12 +2,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.konan.properties.loadProperties
 
 plugins {
-  id("org.springframework.boot") version "3.1.0"
+  id("org.springframework.boot") version "3.1.1"
   id("io.spring.dependency-management") version "1.1.0"
-  kotlin("jvm") version "1.8.21"
-  kotlin("plugin.spring") version "1.8.21"
-  kotlin("kapt") version "1.8.21"
-  kotlin("plugin.jpa") version "1.8.21"
+  kotlin("jvm") version "1.9.0"
+  kotlin("plugin.spring") version "1.9.0"
+  kotlin("kapt") version "1.9.0"
+  kotlin("plugin.jpa") version "1.9.0"
 }
 
 allOpen {
@@ -28,8 +28,6 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
   mavenCentral()
-  maven { url = uri("https://repo.spring.io/milestone") }
-  maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 dependencies {
@@ -38,9 +36,9 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-webflux")
   implementation("org.springframework.boot:spring-boot-starter-security")
 
-  implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
-  implementation("com.querydsl:querydsl-apt")
-  kapt("com.querydsl:querydsl-apt:${dependencyManagement.importedProperties["querydsl.version"]}:jakarta")
+  implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")  // querydsl-jpa
+  implementation("com.querydsl:querydsl-apt:5.0.0") // qtype 생성
+  kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
 
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -57,6 +55,7 @@ tasks.withType<KotlinCompile> {
   kotlinOptions {
     freeCompilerArgs = listOf("-Xjsr305=strict")
     jvmTarget = "17"
+    languageVersion = "1.9"
   }
 }
 
