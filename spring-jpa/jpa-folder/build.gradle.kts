@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
     kotlin("plugin.jpa") version "1.8.22"
+    kotlin("plugin.noarg") version "1.8.22"
 }
 
 group = "com.toy"
@@ -13,6 +14,17 @@ version = "0.0.1-SNAPSHOT"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
+}
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.Embeddable")
+    annotation("jakarta.persistence.MappedSuperclass")
+}
+
+noArg {
+    annotation("jakarta.persistence.Entity")
+    invokeInitializers = true
 }
 
 repositories {
