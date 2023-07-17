@@ -1,6 +1,7 @@
 package com.study.swagger.vo
 
 import io.swagger.v3.oas.annotations.media.Schema
+import org.springdoc.core.annotations.ParameterObject
 import org.springframework.web.multipart.MultipartFile
 
 data class RequestVO(
@@ -22,8 +23,12 @@ enum class Num {
   ONE, TWO, THREE
 }
 
+@ParameterObject
 data class Request2VO(
-  @field:BooleanSchema
+  @BooleanSchema
+  val some: String,
+
+  @BooleanSchema
   val useSome: String
 )
 

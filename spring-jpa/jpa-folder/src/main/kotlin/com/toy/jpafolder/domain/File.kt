@@ -16,7 +16,9 @@ class File(
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     var id: String? = null,
 
-    var name: String,
+    var path: String,
+
+    var mimeType: String,
 
     @ManyToOne
     @JoinColumn(name = "folder_id")

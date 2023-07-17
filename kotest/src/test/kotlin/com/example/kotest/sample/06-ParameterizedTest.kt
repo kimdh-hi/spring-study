@@ -42,4 +42,12 @@ class `06-ParameterizedTest`(
       }
     }
   }
+
+  //https://kotest.io/docs/framework/datatesting/nested-tests.html
+  given("test input api를 호출하는 경우2") {
+    lateinit var result: ResultActionsDsl
+    `when`("잘못된 값이 전달되는 경우") {
+      withData()
+    }
+  }
 })

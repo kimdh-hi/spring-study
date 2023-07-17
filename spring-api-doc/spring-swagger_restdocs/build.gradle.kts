@@ -5,13 +5,13 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 val restdocsApiSpecVersion = "0.16.2"
 
 plugins {
-  id("org.springframework.boot") version "3.0.6"
+  id("org.springframework.boot") version "3.1.0"
   id("io.spring.dependency-management") version "1.1.0"
   id("com.epages.restdocs-api-spec") version "0.16.2"
   id("org.hidetake.swagger.generator") version "2.18.2"
-  kotlin("jvm") version "1.7.22"
-  kotlin("plugin.spring") version "1.7.22"
-  kotlin("plugin.jpa") version "1.7.22"
+  kotlin("jvm") version "1.8.21"
+  kotlin("plugin.spring") version "1.8.21"
+  kotlin("plugin.jpa") version "1.8.21"
 }
 
 group = "com.toy"
@@ -27,6 +27,11 @@ dependencies {
   implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
   testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
   testImplementation("com.epages:restdocs-api-spec-mockmvc:$restdocsApiSpecVersion")
+//  testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc") {
+//    version {
+//      strictly("2.0.7.RELEASE") // 호환되는 버전으로 변경
+//    }
+//  }
   testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

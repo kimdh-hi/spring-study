@@ -8,6 +8,7 @@ class MultipartFileListTestControllerTest: AbstractBaseController() {
     @Test
     fun test() {
         mockMvc.multipart("/multipartFile-list") {
+            param("data", " ")
             uploadImage("files")
             uploadImage("files")
         }
