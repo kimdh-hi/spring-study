@@ -17,11 +17,18 @@ interface FileFolderRepositoryCustom {
 class FileFolderRepositoryImpl(
   private val query: JPAQueryFactory
 ): FileFolderRepositoryCustom {
+
+  private val parentFolder = QFileFolder("parentFolder")
+  private val childFolder = QFileFolder("childFolder")
+
   override fun getList(): List<FileFolderResponseVO> {
-    return query.select(
-      QFileFolderResponseVO(fileFolder)
+    return query.selectDistinct(
+      QFileFolderResponseVO(parentFolder)
     )
-      .from(fileFolder)
+      .from(parentFolder)
+      .leftJoin(parentFolder.childFolders, childFolder)
+      .where(parentFolder.parentFolder.isNull)
+      .orderBy(parentFolder.name.asc())
       .fetch()
   }
 }
