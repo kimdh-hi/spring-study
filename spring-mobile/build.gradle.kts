@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  id("org.springframework.boot") version "3.1.1"
-  id("io.spring.dependency-management") version "1.1.0"
-  kotlin("jvm") version "1.8.22"
-  kotlin("plugin.spring") version "1.8.22"
+  id("org.springframework.boot") version "2.7.13"
+  id("io.spring.dependency-management") version "1.0.15.RELEASE"
+  kotlin("jvm") version "1.6.21"
+  kotlin("plugin.spring") version "1.6.21"
 }
 
 group = "com.toy"
@@ -16,10 +16,14 @@ java {
 
 repositories {
   mavenCentral()
+
+  maven { url =  uri("https://repo.spring.io/milestone") }
 }
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("org.springframework.mobile:spring-mobile-starter:2.0.0.M3")
+
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
