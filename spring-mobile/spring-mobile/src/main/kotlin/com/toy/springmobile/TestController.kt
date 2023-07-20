@@ -13,7 +13,7 @@ class TestController {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
-  @GetMapping
+  @GetMapping("/spring-mobile")
   fun test(request: HttpServletRequest, device: Device): String {
     val userAgent = request.getHeader("User-Agent")
     val devicePlatform = device.devicePlatform

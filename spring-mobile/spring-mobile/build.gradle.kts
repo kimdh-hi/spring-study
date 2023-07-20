@@ -23,6 +23,7 @@ repositories {
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.mobile:spring-mobile-starter:2.0.0.M3")
+  implementation("org.apache.httpcomponents:httpclient:4.5.14")
 
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
