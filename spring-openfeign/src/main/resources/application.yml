@@ -1,0 +1,3 @@
+
+open-feign:
+  sample-url: fakerestapi.azurewebsites.net/api/v1/Users
