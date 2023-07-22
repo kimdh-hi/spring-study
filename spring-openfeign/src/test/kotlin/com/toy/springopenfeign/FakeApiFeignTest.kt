@@ -10,8 +10,17 @@ class FakeApiFeignTest @Autowired constructor(
 ) {
 
   @Test
-  fun test() {
-    val result = fakeApiFeign.getUsers()
+  fun getList() {
+    val result = fakeApiFeign.getList()
+    println(result)
+  }
+
+  @Test
+  fun save() {
+    val result = FakeUser(id = 111, userName = "asd", password = "aaa").let {
+      fakeApiFeign.save(it)
+    }
+
     println(result)
   }
 }
