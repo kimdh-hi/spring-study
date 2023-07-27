@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.core.io.ResourceLoader
 import org.springframework.stereotype.Component
 import java.net.InetAddress
+import java.util.*
 
 @Component
 class GeoIpUtils(
@@ -27,12 +28,12 @@ class GeoIpUtils(
     return GeoIpLocation.of(findCityResponse(ip))
   }
 
-  fun getTimezone(ip: String, defaultTimezone: String): String {
+  fun getTimezone(ip: String, defaultTimezone: String): TimeZone {
     val geoIpLocation = findCityResponse(ip)?.let {
       GeoIpLocation.of(it)
     } ?: GeoIpLocation.of(null, defaultTimezone)
 
-    return geoIpLocation.timezone
+    return TimeZone.getTimeZone(geoIpLocation.timezone)
   }
 
   private fun findCityResponse(ip: String): CityResponse? {
