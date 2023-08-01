@@ -1,9 +1,11 @@
 package com.study.swagger.config
 
+import com.study.swagger.vo.InternalVO
 import io.swagger.v3.core.jackson.ModelResolver.enumsAsRef
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
+import io.swagger.v3.oas.models.media.Schema
 import io.swagger.v3.oas.models.security.SecurityScheme
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,10 +19,13 @@ class SwaggerConfig {
     return OpenAPI()
       .info(info())
       .components(
-        Components().addSecuritySchemes(
-          "SEC",
-          SecurityScheme().type(SecurityScheme.Type.APIKEY).`in`(SecurityScheme.In.HEADER).name(HttpHeaders.AUTHORIZATION)
-        )
+        Components().addSecuritySchemes("SEC",
+          SecurityScheme().type(SecurityScheme.Type.APIKEY).`in`(SecurityScheme.In.HEADER)
+            .name(HttpHeaders.AUTHORIZATION)
+        ),
+      )
+      .components(
+        Components().addSchemas("UnusedDTO", Schema<InternalVO>().type("object"))
       )
   }
 

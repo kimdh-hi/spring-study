@@ -36,3 +36,8 @@ data class Request2VO(
 @Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class BooleanSchema
+
+@Schema
+data class InternalVO(
+  val data: String
+)

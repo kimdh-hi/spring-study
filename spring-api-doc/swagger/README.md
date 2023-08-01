@@ -20,7 +20,7 @@ https://github.com/springdoc/springdoc-openapi/issues/232 <br/>
 ```kotlin
   companion object {
     init {
-      enumsAsRef = true
+      io.swagger.v3.core.jackson.ModelResolver.enumsAsRef.enumsAsRef = true
     }
   }
 ```
