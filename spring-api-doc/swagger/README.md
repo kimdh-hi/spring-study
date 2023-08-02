@@ -15,5 +15,16 @@ implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
 implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
 ```
 
+### enumsAsRef = true 글로벌 설정
+https://github.com/springdoc/springdoc-openapi/issues/232 <br/>
+```kotlin
+  companion object {
+    init {
+      enumsAsRef = true
+    }
+  }
+```
+
 ### 참고
-https://springdoc.org/v2/
+https://springdoc.org/v2/ <br/>
+https://github.com/springdoc/springdoc-openapi/issues/232

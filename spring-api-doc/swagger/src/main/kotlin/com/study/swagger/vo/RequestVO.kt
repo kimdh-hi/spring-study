@@ -12,12 +12,12 @@ data class RequestVO(
   )
   val data: String? = null,
 
-  @Schema(oneOf = [Num::class])
   val num: Num,
 
   val file: MultipartFile?
 )
 
+//@Schema(enumAsRef = true)
 enum class Num {
 
   ONE, TWO, THREE

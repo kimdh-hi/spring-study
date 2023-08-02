@@ -1,5 +1,6 @@
 package com.study.swagger.config
 
+import io.swagger.v3.core.jackson.ModelResolver.enumsAsRef
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Info
@@ -28,4 +29,9 @@ class SwaggerConfig {
     .description("Description")
     .version("1.0")
 
+  companion object {
+    init {
+      enumsAsRef = true
+    }
+  }
 }
