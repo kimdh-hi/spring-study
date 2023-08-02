@@ -1,10 +1,9 @@
 package com.toy.jpaeventlistener.domain
 
 import com.toy.jpaeventlistener.listener.UserJpaListener
+import jakarta.persistence.*
 import org.hibernate.annotations.GenericGenerator
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.repository.CrudRepository
-import javax.persistence.*
 
 @Entity
 @Table(name = "tb_user")

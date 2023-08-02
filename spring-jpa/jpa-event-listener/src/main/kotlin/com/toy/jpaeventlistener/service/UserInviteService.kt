@@ -2,7 +2,6 @@ package com.toy.jpaeventlistener.service
 
 import com.toy.jpaeventlistener.domain.UserInviteEmail
 import com.toy.jpaeventlistener.domain.UserInviteEmailRepository
-import com.toy.jpaeventlistener.domain.UserRepository
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
