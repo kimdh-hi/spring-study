@@ -1,0 +1,7 @@
+GET localhost:8080/ignoring
+
+
+###
+
+GET localhost:8080/auth
+MyToken: myToken
