@@ -9,3 +9,4 @@ springdoc:
     tags-sorter: alpha
     path: /swagger-ui-custom.html
     disable-swagger-default-url: true
+    doc-expansion: none
