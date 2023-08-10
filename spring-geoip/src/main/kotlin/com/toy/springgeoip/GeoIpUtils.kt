@@ -19,9 +19,12 @@ class GeoIpUtils(
 
   private val log = LoggerFactory.getLogger(javaClass)
 
-  val reader: DatabaseReader by lazy {
+  lateinit var reader: DatabaseReader
+
+  init {
+    log.info("reader init...")
     val database = resourceLoader.getResource(geoIpProperties.path).file
-    DatabaseReader.Builder(database).fileMode(Reader.FileMode.MEMORY).withCache(CHMCache()).build()
+    reader = DatabaseReader.Builder(database).fileMode(Reader.FileMode.MEMORY).withCache(CHMCache()).build()
   }
 
   fun getGeoIpLocation(ip: String): GeoIpLocation {

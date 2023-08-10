@@ -26,7 +26,7 @@ object TimezoneUtils {
     }
   }
 
-  fun getTimezones(): List<TimezoneVO> {
+  fun getTimezoneList(): List<TimezoneVO> {
     val timezoneVOS = mutableListOf<TimezoneVO>()
     TimeZone.getAvailableIDs().map { timeZoneId ->
       val timeZone = TimeZone.getTimeZone(timeZoneId)

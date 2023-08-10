@@ -12,6 +12,7 @@ class GeoIpUtilsTest @Autowired constructor(
   @Test
   fun test() {
     println(geoIpUtils.getGeoIpLocation("172.0.0.1"))
+    println(geoIpUtils.getGeoIpLocation("172.0.0.1"))
   }
 
   @Test
