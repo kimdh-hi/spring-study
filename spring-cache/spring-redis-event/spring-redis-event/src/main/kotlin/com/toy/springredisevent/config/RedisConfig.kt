@@ -13,7 +13,10 @@ import org.springframework.data.redis.serializer.RedisSerializer
 
 @Configuration
 @EnableCaching
-@EnableRedisRepositories(enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
+@EnableRedisRepositories(
+  enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP,
+  keyspaceNotificationsConfigParameter = ""
+)
 @ConditionalOnProperty(name = ["spring.cache.type"], havingValue = "REDIS")
 class RedisConfig {
 

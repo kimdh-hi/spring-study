@@ -30,3 +30,6 @@ logging:
     "[org.hibernate.SQL]": debug
     "[org.hibernate.type.descriptor.sql.BasicBinder]": trace
     "[com.toy]": debug
+    org.springframework.data.redis: DEBUG
+    io.lettuce.core: DEBUG
+
