@@ -35,6 +35,7 @@ i.lettuce.core.protocol.CommandHandler   : [channel=0x62c509d3, /127.0.0.1:56641
 `keyspaceNotificationsConfigParameter = ""` 설정 시 위 로그 발생 x <br/>
 
 
-
+#### 참고
 https://docs.spring.io/spring-data/data-redis/docs/current/reference/html/#redis.repositories.expirations
+
 ---
