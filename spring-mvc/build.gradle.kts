@@ -27,6 +27,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.datatype:jackson-datatype-hibernate5")
 	implementation("org.apache.commons:commons-lang3")
 	implementation("org.springframework.mobile:spring-mobile-device:1.1.5.RELEASE")
+	implementation("eu.bitwalker:UserAgentUtils:1.21")
 
 	implementation("org.webjars.bower:jquery:3.6.1")
 
