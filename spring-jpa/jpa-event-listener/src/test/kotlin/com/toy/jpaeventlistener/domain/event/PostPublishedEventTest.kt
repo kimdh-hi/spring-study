@@ -21,4 +21,14 @@ class PostPublishedEventTest @Autowired constructor(
     val postPublishedEvent = PostPublishedEvent(post)
     applicationContext.publishEvent(postPublishedEvent)
   }
+
+  @Test
+  fun `test2`() {
+    val post = Post(title = "title")
+    // 두 개 메시지 발행
+    post.publish()
+    post.publish()
+
+    postRepository.save(post)
+  }
 }
