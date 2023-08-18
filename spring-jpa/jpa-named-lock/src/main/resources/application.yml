@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    hikari:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://localhost:3308/namedlock-test?createDatabaseIfNotExist=true&serverTimezone=Asia/Seoul
+      username: root
+      password: 111111
+  jpa:
+    database: mysql
+    open-in-view: false
+    hibernate.ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
+
+logging:
+  level:
+    "[org.springframework.web.filter]": debug
+    "[org.hibernate.SQL]": debug
+    "[org.hibernate.type.descriptor.sql.BasicBinder]": trace
+    "[com.toy]": debug

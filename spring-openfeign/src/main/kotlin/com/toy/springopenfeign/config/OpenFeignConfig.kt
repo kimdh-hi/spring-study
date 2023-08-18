@@ -14,7 +14,6 @@ class OpenFeignConfig {
   @Bean
   fun retryer(): Retryer.Default {
     // 최초 0.1초 대기후 재요청
-    // 매 재요청마다 대기시간 1초 증가
     // 최대 5번 재시도
     return Retryer.Default(100L, TimeUnit.SECONDS.toMillis(1L), 5)
   }

@@ -23,15 +23,9 @@ class ASpaceJpaListener {
   fun preRemove(aSpace: ASpace) {
     log.info("aSpace preRemove called...")
     val aSpaceMembers = memberRepository.findAllByEntrySpaceIdAndEntrySpaceType(aSpace.id!!, MemberSpaceType.TYPE_A)
-    val bSpaceMembers = memberRepository.findAllByEntrySpaceIdAndEntrySpaceType(aSpace.id!!, MemberSpaceType.TYPE_A)
     aSpaceMembers.forEach {
       log.info("aSpace preRemove - clearEntrySpace $it")
       it.clearEntrySpace()
-    }
-
-    bSpaceMembers.forEach {
-      log.info("bSpace preRemove - clearPortalSpace $it")
-      it.clearPortalSpace()
     }
   }
 }
