@@ -1,6 +1,6 @@
 package com.toy.jpaeventlistener.domain
 
-import com.toy.jpaeventlistener.listener.UserJpaListener
+import com.toy.jpaeventlistener.domain.event.listener.UserJpaListener
 import jakarta.persistence.*
 import org.hibernate.annotations.GenericGenerator
 import org.springframework.data.jpa.repository.JpaRepository

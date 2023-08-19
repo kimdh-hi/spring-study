@@ -1,4 +1,4 @@
-package com.toy.jpaeventlistener.handler
+package com.toy.jpaeventlistener.domain.event.handler
 
 import com.toy.jpaeventlistener.domain.User
 import com.toy.jpaeventlistener.domain.UserInviteEmailRepository

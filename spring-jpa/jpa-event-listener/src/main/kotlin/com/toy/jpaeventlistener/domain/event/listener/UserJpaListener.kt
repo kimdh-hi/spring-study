@@ -1,4 +1,4 @@
-package com.toy.jpaeventlistener.listener
+package com.toy.jpaeventlistener.domain.event.listener
 
 import com.toy.jpaeventlistener.domain.User
 import com.toy.jpaeventlistener.domain.UserParticipantRepository

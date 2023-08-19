@@ -1,6 +1,6 @@
 package com.toy.jpaeventlistener.domain
 
-import com.toy.jpaeventlistener.listener.ASpaceJpaListener
+import com.toy.jpaeventlistener.domain.event.listener.ASpaceJpaListener
 import jakarta.persistence.*
 import org.hibernate.annotations.GenericGenerator
 

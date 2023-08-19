@@ -1,6 +1,6 @@
 package com.toy.jpaeventlistener.config
 
-import com.toy.jpaeventlistener.listener.BSpaceJpaListener
+import com.toy.jpaeventlistener.domain.event.listener.BSpaceJpaListener
 import jakarta.persistence.EntityManagerFactory
 import org.hibernate.event.service.spi.EventListenerRegistry
 import org.hibernate.event.spi.EventType
