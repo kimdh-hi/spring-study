@@ -5,7 +5,7 @@ import io.rsocket.core.RSocketConnector
 import io.rsocket.transport.netty.client.TcpClientTransport
 import io.rsocket.util.DefaultPayload
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.TestInstance
 import reactor.test.StepVerifier
 
@@ -21,7 +21,7 @@ class Lec01RsocketTest {
       .block()!!
   }
 
-  @Test
+  @RepeatedTest(3)
   fun fireAndForget() {
     val payload = DefaultPayload.create("hello world")
     val mono = rsocket.fireAndForget(payload)
