@@ -21,11 +21,38 @@ Write-back
 
 ## 직렬화 & 역직렬화
 
-`GenericJasckson2JsonRedisSerializer`
+#### `GenericJasckson2JsonRedisSerializer`
 - `"@class":"클래스 풀패스"`
 - 위와 같이 클래스의 풀패스를 함께 저장하고 역직렬화시 역직렬화 대상 클래스는 반드시 동일한 경로를 갖고 있어야 한다.
   - 경로는 물론 해당 클래스의 이름도 변경되면 안 된다.
 - msa 와 같은 아키텍처라면 a 서비스에서 캐싱한 데이터를 b 서비스에서 조회해서 사용해야 할 수도 있는데 이 때 경로를 맞춰야 하는 이 방식은 문제가 될 수 있다.
+```java
+// 기본생성자로 GenericJackson2JsonRedisSerializer 생성시 호출되는 생성 메서드
+// mapper.setDefaultTyping(typer); 에서 클래스 정보 세팅
+public GenericJackson2JsonRedisSerializer(@Nullable String classPropertyTypeName, JacksonObjectReader reader,
+        JacksonObjectWriter writer) {
+
+    this(new ObjectMapper(), reader, writer, classPropertyTypeName);
+
+    // simply setting {@code mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)} does not help here since we need
+    // the type hint embedded for deserialization using the default typing feature.
+    registerNullValueSerializer(mapper, classPropertyTypeName);
+
+    StdTypeResolverBuilder typer = new TypeResolverBuilder(DefaultTyping.EVERYTHING,
+            mapper.getPolymorphicTypeValidator());
+    typer = typer.init(JsonTypeInfo.Id.CLASS, null);
+    typer = typer.inclusion(JsonTypeInfo.As.PROPERTY);
+
+    if (StringUtils.hasText(classPropertyTypeName)) {
+        typer = typer.typeProperty(classPropertyTypeName);
+    }
+    mapper.setDefaultTyping(typer);
+}
+```
+
+#### `valueSerializer = GenericJackson2JsonRedisSerializer(objectMapper)`
+- `GenericJasckson2JsonRedisSerializer, RedisSerializer.json()` 사용으로 발생하는 위 문제 해결
+- 생성시 `mapper.setDefaultTyping(typer);` 호출되지 않음
 
 
 ---
