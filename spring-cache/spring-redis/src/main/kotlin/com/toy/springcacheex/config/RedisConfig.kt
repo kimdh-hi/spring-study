@@ -57,7 +57,8 @@ class RedisConfig(
     return RedisCacheConfiguration.defaultCacheConfig(Thread.currentThread().contextClassLoader)
       .entryTtl(duration)
       .serializeValuesWith(
-        RedisSerializationContext.SerializationPair.fromSerializer(GenericJackson2JsonRedisSerializer(objectMapper))
+//        RedisSerializationContext.SerializationPair.fromSerializer(GenericJackson2JsonRedisSerializer(objectMapper))
+        RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json())
       )
   }
 }

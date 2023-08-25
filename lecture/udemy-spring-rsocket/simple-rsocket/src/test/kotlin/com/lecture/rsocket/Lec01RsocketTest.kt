@@ -1,6 +1,7 @@
 package com.lecture.rsocket
 
 import com.lecture.rsocket.dto.RequestDto
+import com.lecture.rsocket.dto.ResponseDto
 import com.lecture.rsocket.utils.ObjectUtils
 import io.rsocket.RSocket
 import io.rsocket.core.RSocketConnector
@@ -24,19 +25,23 @@ class Lec01RsocketTest {
       .block()!!
   }
 
-  @RepeatedTest(3)
+  @Test
   fun fireAndForget() {
-    val payload = DefaultPayload.create("hello world")
+    val payload = ObjectUtils.toPayload(RequestDto(10))
     val mono = rsocket.fireAndForget(payload)
     StepVerifier.create(mono)
       .verifyComplete()
   }
 
   @Test
-  fun dtoFireAndForget() {
+  fun requestResponse() {
     val payload = ObjectUtils.toPayload(RequestDto(10))
-    val mono = rsocket.fireAndForget(payload)
+    val mono = rsocket.requestResponse(payload)
+      .map { ObjectUtils.toObject(it, ResponseDto::class.java) }
+      .doOnNext { println(it) }
+
     StepVerifier.create(mono)
+      .expectNextCount(1)
       .verifyComplete()
   }
 }
