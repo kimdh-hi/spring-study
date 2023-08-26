@@ -44,4 +44,17 @@ class Lec01RsocketTest {
       .expectNextCount(1)
       .verifyComplete()
   }
+
+  @Test
+  fun requestStream() {
+    val payload = ObjectUtils.toPayload(RequestDto(10))
+    val mono = rsocket.requestStream(payload)
+      .map { ObjectUtils.toObject(it, ResponseDto::class.java) }
+      .doOnNext { println(it) }
+      .take(5)
+
+    StepVerifier.create(mono)
+      .expectNextCount(5)
+      .verifyComplete()
+  }
 }
