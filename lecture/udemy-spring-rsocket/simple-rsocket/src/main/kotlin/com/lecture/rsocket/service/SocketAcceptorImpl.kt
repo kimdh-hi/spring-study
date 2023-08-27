@@ -10,6 +10,7 @@ class SocketAcceptorImpl: SocketAcceptor {
   override fun accept(payload: ConnectionSetupPayload, rsocket: RSocket): Mono<RSocket> {
     println("SocketAcceptorImpl.accept called..")
 //    return Mono.fromCallable { MathService() }
-    return Mono.fromCallable { BatchJobService(rsocket) }
+//    return Mono.fromCallable { BatchJobService(rsocket) }
+    return Mono.fromCallable { FastProducerService() }
   }
 }
