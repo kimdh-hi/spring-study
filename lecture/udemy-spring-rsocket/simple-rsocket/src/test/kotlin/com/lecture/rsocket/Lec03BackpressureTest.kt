@@ -31,8 +31,7 @@ class Lec03BackpressureTest {
 
   @Test
   fun backpressure() {
-    // reactor.util.concurrent.Queues.XS_BUFFER_SIZE
-    // default=32, minimum=8
+    // default=32, minimum=8 (reactor.util.concurrent.Queues.XS_BUFFER_SIZE)
     // 구독자가 매우 느린 경우 발행자는 기본적으로 32개 아이템만 발행
     // 구독자가 75% 정도를 소비한 경우 다시 32개 아이템 발행
     val flux = rsocket.requestStream(DefaultPayload.create(""))
