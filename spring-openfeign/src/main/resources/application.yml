@@ -2,3 +2,7 @@
 open-feign:
   sample-url: fakerestapi.azurewebsites.net/api/v1/Users
   my-fake-url: localhost:8084/fake
+
+
+logging.level:
+  "[com.toy.springopenfeign]": DEBUG

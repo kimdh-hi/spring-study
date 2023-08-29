@@ -1,5 +1,6 @@
 package com.toy.springopenfeign.config
 
+import feign.Logger
 import feign.Response
 import feign.RetryableException
 import feign.Retryer
@@ -9,7 +10,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 @Configuration
@@ -22,6 +22,11 @@ class OpenFeignConfig {
   @Bean
   fun retryer(): Retryer.Default {
     return Retryer.Default(1000, 2000, 3)
+  }
+
+  @Bean
+  fun feignLoggerLevel(): Logger.Level {
+    return Logger.Level.FULL
   }
 
   @Bean
