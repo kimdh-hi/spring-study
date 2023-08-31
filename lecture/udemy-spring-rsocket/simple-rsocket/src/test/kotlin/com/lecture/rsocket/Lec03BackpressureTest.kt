@@ -19,7 +19,7 @@ import java.time.Duration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class Lec03BackpressureTest {
 
-  lateinit var rsocket: RSocket
+  private lateinit var rsocket: RSocket
 
   @BeforeAll
   fun setup() {
