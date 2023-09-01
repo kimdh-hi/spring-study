@@ -6,10 +6,12 @@ import feign.RetryableException
 import feign.Retryer
 import feign.codec.ErrorDecoder
 import org.springframework.cloud.openfeign.EnableFeignClients
+import org.springframework.cloud.openfeign.FeignFormatterRegistrar
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.format.FormatterRegistry
+import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar
 import org.springframework.http.HttpStatus
-import java.util.*
 
 
 @Configuration
@@ -27,6 +29,15 @@ class OpenFeignConfig {
   @Bean
   fun feignLoggerLevel(): Logger.Level {
     return Logger.Level.FULL
+  }
+
+  @Bean
+  fun localDateFeignFormatterRegister(): FeignFormatterRegistrar {
+    return FeignFormatterRegistrar { registry: FormatterRegistry? ->
+      val registrar = DateTimeFormatterRegistrar()
+      registrar.setUseIsoFormat(true)
+      registrar.registerFormatters(registry!!)
+    }
   }
 
   @Bean

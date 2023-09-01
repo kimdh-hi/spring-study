@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class FakeApiFeignTest @Autowired constructor(
+class FakeApiClientTest @Autowired constructor(
   private val fakeApiFeign: FakeApiFeign
 ) {
 

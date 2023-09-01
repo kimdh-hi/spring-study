@@ -9,7 +9,7 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.time.Duration
 
-class MathService: RSocket {
+open class MathService: RSocket {
 
   override fun fireAndForget(payload: Payload): Mono<Void> {
     println("receive: ${payload.dataUtf8}")
