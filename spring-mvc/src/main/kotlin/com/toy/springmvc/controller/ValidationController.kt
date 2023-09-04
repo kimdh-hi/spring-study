@@ -6,9 +6,9 @@ import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
-import javax.validation.*
-import javax.validation.constraints.Email
-import javax.validation.constraints.NotBlank
+import jakarta.validation.*
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.NotBlank
 import kotlin.reflect.KClass
 
 @RestController

@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.config.annotation.EnableWebMvc
-import javax.validation.Valid
+import jakarta.validation.Valid
 
 @Controller
 class EventController(
@@ -47,7 +47,7 @@ class EventController(
 
   /**
    * @Valid 를 쓰지 않아도 bindingResult 에 reject 된 결과가 바인딩된다.
-   * 단, javax.validation.constraints 의 검증 어노테이션을 사용하려면 @Valid 혹은 @Validated 를 사용해야 한다.
+   * 단, jakarta.validation.constraints 의 검증 어노테이션을 사용하려면 @Valid 혹은 @Validated 를 사용해야 한다.
    *
    * @Validated validation-group 사용가능
    */

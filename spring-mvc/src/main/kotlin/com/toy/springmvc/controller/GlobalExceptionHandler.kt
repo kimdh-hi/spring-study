@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import java.io.Serial
-import javax.validation.ConstraintViolationException
+import jakarta.validation.ConstraintViolationException
 
 @RestControllerAdvice
 class GlobalExceptionHandler(

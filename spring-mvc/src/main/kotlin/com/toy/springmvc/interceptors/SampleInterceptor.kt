@@ -4,8 +4,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.web.servlet.HandlerInterceptor
 import org.springframework.web.servlet.ModelAndView
 import java.lang.Exception
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 
 class SampleInterceptor: HandlerInterceptor {
   private val log = LoggerFactory.getLogger(javaClass)

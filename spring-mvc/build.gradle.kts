@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "2.7.12"
-	id("io.spring.dependency-management") version "1.0.15.RELEASE"
-	kotlin("jvm") version "1.6.21"
-	kotlin("plugin.spring") version "1.6.21"
-	kotlin("plugin.jpa") version "1.6.21"
-	kotlin("plugin.noarg") version "1.6.21"
+	id("org.springframework.boot") version "3.1.3"
+	id("io.spring.dependency-management") version "1.1.3"
+	kotlin("jvm") version "1.8.22"
+	kotlin("plugin.spring") version "1.8.22"
+	kotlin("plugin.jpa") version "1.8.22"
+	kotlin("plugin.noarg") version "1.8.22"
 }
 
 group = "com.toy"
@@ -24,16 +24,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
-	implementation("com.fasterxml.jackson.datatype:jackson-datatype-hibernate5")
 	implementation("org.apache.commons:commons-lang3")
-	implementation("org.springframework.mobile:spring-mobile-device:1.1.5.RELEASE")
 	implementation("eu.bitwalker:UserAgentUtils:1.21")
 
 	implementation("org.webjars.bower:jquery:3.6.1")
-
-	implementation("javax.xml.bind:jaxb-api") // jaxb 인터페이스
-	implementation("org.glassfish.jaxb:jaxb-runtime") // jaxb 구현체
-	implementation("org.springframework:spring-oxm:5.3.23") // object -> xml, xml -> object api
 
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -43,13 +37,13 @@ dependencies {
 }
 
 allOpen {
-	annotation("javax.persistence.Entity")
-	annotation("javax.persistence.Embeddable")
-	annotation("javax.persistence.MappedSuperclass")
+	annotation("jakarta.persistence.Entity")
+	annotation("jakarta.persistence.Embeddable")
+	annotation("jakarta.persistence.MappedSuperclass")
 }
 
 noArg {
-	annotation("javax.persistence.Entity")
+	annotation("jakarta.persistence.Entity")
 	annotation("com.toy.springmvc.config.NoArg")
 	invokeInitializers = true
 }

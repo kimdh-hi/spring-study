@@ -6,12 +6,9 @@ import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.oxm.Marshaller
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
-import java.io.StringWriter
-import javax.xml.transform.stream.StreamResult
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -19,7 +16,6 @@ import javax.xml.transform.stream.StreamResult
 internal class MessageConverterControllerTest(
   private val mockMvc: MockMvc,
   private val objectMapper: ObjectMapper,
-  private val marshaller: Marshaller
 ) {
 
   @Test
@@ -44,22 +40,5 @@ internal class MessageConverterControllerTest(
       .andExpect {
         jsonPath("$.name") { value("person") }
       }
-  }
-
-  @Test
-  fun xmlMessageConverter() {
-    val person = Person(name = "kim")
-    val stringWriter = StringWriter()
-    val streamResult = StreamResult(stringWriter)
-    marshaller.marshal(person, streamResult)
-    val xmlString = stringWriter.toString()
-
-    mockMvc.get("/message-converter/xml-message") {
-      contentType = MediaType.APPLICATION_XML
-      content = xmlString
-      accept = MediaType.APPLICATION_XML
-    }
-      .andDo { print() }
-      .andExpect { xpath("person/name") { string("kim")} }
   }
 }

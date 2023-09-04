@@ -5,8 +5,8 @@ import org.springframework.validation.Errors
 import org.springframework.validation.Validator
 import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.*
-import javax.validation.Valid
-import javax.validation.constraints.NotBlank
+import jakarta.validation.Valid
+import jakarta.validation.constraints.NotBlank
 
 @RestController
 @RequestMapping("/init-binder")
