@@ -5,7 +5,10 @@ import feign.Response
 import feign.RetryableException
 import feign.Retryer
 import feign.codec.ErrorDecoder
+import feign.hc5.ApacheHttp5Client
+import org.springframework.boot.autoconfigure.AutoConfigureAfter
 import org.springframework.cloud.openfeign.EnableFeignClients
+import org.springframework.cloud.openfeign.FeignAutoConfiguration
 import org.springframework.cloud.openfeign.FeignFormatterRegistrar
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -16,7 +19,12 @@ import org.springframework.http.HttpStatus
 
 @Configuration
 @EnableFeignClients(basePackages = ["com.toy.springopenfeign"]) // main 클래스가 아닌 곳에서 설정시 basePackages 설정필요
+@AutoConfigureAfter(FeignAutoConfiguration::class)
 class OpenFeignConfig {
+
+  //HttpClient5FeignConfiguration
+//  @Bean
+//  fun apacheHttp5Client() = ApacheHttp5Client()
 
   // Retryer.Default(a, b ,c)
   // 재시도 시 최초 a 만큼 대기 후 c 번 재요청 (최대 b 만큼 대기)
