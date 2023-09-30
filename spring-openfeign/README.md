@@ -31,8 +31,13 @@ feignClientConfiguration
   - `@Configuration` 에 설정한 설정과 충돌되는 경우 `@FeignClient` 의 configuration 에 설정한 빈이 우선순위를 가진다.
 
 
+<br/>
+
+`Spring Cloud OpenFeign 4` 부터 `Feign Apache HttpClient 4`는 더 이상 지원되지 않습니다. 대신 `Apache HttpClient 5`를 사용하는 것이 좋습니다.
+
 ---
 
 ### 참고
 https://engineering.getmidas.com/using-spring-retryable-with-feign-client-methods-9f77e509ad55 <br/>
 https://techblog.woowahan.com/2657/
+https://docs.spring.io/spring-cloud-openfeign/docs/current/reference/html/
