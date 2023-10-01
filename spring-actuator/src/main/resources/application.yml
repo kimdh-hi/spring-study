@@ -1,0 +1,17 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+  info:
+    java.enabled: true
+    os.enabled: true
+    env.enabled: true # info 하위 항목 출력
+
+info:
+  app:
+    name: actuator-toy
+    test: test
