@@ -50,3 +50,7 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
   useJUnitPlatform()
 }
+
+springBoot {
+  buildInfo() // build/resources/main/META-INF/build-info.properties 생성
+}
