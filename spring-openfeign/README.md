@@ -37,6 +37,31 @@ feignClientConfiguration
 
 ---
 
+HttpClient 관련
+
+- default: HttpClient
+  - feign.Client.Default.execute() 확인
+- Apache httpClient, OkHttp 사용 가능
+
+Apache HttpClient5 사용
+- 의존성 추가
+- 의존성을 추가하기만 하면 FeignClient 의 Client 로 Apache HttpClient5 사용됨
+  - `FeignAutoConfiguration.HttpClient5FeignConfiguration.feignClient()` 확인
+```
+implementation("io.github.openfeign:feign-hc5")
+```
+
+
+OkHttp 사용
+- 의존성 추가
+```
+implementation("io.github.openfeign:feign-okhttp")
+```
+- `FeignAutoConfiguration.OkHttpFeignConfiguration.okHttpClientBuilder()` 확인
+- 실제 요청확인: `OkHttpClient.newCall()`
+
+---
+
 ### 참고
 https://engineering.getmidas.com/using-spring-retryable-with-feign-client-methods-9f77e509ad55 <br/>
 https://techblog.woowahan.com/2657/

@@ -26,7 +26,8 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 //  implementation("io.github.openfeign:feign-httpclient")
-  implementation("io.github.openfeign:feign-hc5")
+//  implementation("io.github.openfeign:feign-hc5")
+  implementation("io.github.openfeign:feign-okhttp")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
