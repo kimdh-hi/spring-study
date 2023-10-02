@@ -1,0 +1,6 @@
+POST localhost:8080/actuator/loggers/com.toy.springactuator.controller
+content-type: application/json
+
+{
+  "configuredLevel": "TRACE"
+}

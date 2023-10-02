@@ -17,3 +17,7 @@ info:
   app:
     name: actuator-toy
     test: test
+
+logging:
+  level:
+    com.toy.springactuator.controller: debug
