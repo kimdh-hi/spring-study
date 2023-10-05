@@ -1,10 +1,11 @@
 package com.toy.springopenfeign
 
+import com.toy.springopenfeign.config.OpenFeignAuthHeaderConfig
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.PostMapping
 import java.time.LocalDateTime
 
-@FeignClient(url = "\${open-feign.my-fake-url}/pingPong", name = "myFakePingPongClient")
+@FeignClient(url = "\${open-feign.my-fake-url}/pingPong", name = "myFakePingPongClient", configuration = [OpenFeignAuthHeaderConfig::class])
 interface MyFakePingPongClient {
 
   @PostMapping("/v1")
