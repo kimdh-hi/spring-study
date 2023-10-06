@@ -19,7 +19,9 @@ class PingPongApi {
   @PostMapping("/v1")
   fun pingPingV1(@RequestBody dto: PingPongDto, request: HttpServletRequest): ResponseEntity<PingPongDto> {
     val userId = request.getHeader("userId")
+    val userId2 = request.getHeader("userId2")
     log.info("[userId=$userId]")
+    log.info("[userId2=$userId2]")
     return ResponseEntity.ok(dto)
   }
 

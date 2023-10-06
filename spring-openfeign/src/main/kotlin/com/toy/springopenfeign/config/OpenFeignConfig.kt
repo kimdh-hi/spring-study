@@ -1,6 +1,7 @@
 package com.toy.springopenfeign.config
 
 import feign.Logger
+import feign.RequestInterceptor
 import feign.Response
 import feign.RetryableException
 import feign.Retryer
@@ -33,6 +34,14 @@ class OpenFeignConfig {
   @Bean
   fun feignLoggerLevel(): Logger.Level {
     return Logger.Level.FULL
+  }
+
+  // @Configuration 이 붙은 모든 @FeignClient 에 적용되는 설정과 @FeignClient 의 configuration 에 지정한 bean 이 충돌되는 경우에 대한 테스트 위함
+  // @FeignClient 의 configuration 에 지정한 bean 이 우선순위를 가진다.
+  // 즉, @FeignClient 의 configuration 에서 requestInterceptor 를 설정한 경우 아래 헤더는 추가되지 않는다.
+  @Bean
+  fun requestInterceptor() = RequestInterceptor {
+    it.header("userId2", "userId2...")
   }
 
   @Bean
