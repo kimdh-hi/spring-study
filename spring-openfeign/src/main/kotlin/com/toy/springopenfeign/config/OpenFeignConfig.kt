@@ -39,6 +39,8 @@ class OpenFeignConfig {
   // @Configuration 이 붙은 모든 @FeignClient 에 적용되는 설정과 @FeignClient 의 configuration 에 지정한 bean 이 충돌되는 경우에 대한 테스트 위함
   // @FeignClient 의 configuration 에 지정한 bean 이 우선순위를 가진다.
   // 즉, @FeignClient 의 configuration 에서 requestInterceptor 를 설정한 경우 아래 헤더는 추가되지 않는다.
+
+  // 전역으로 설정한 동일 타입의 bean 이 일괄적용되게 하고 싶다면 @FeignClient 의 configuration 에서 지정하는 bean 의 이름을 다르게 설정하자.
   @Bean
   fun requestInterceptor() = RequestInterceptor {
     it.header("userId2", "userId2...")

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean
 class OpenFeignAuthHeaderConfig {
 
   @Bean
-  fun requestInterceptor() = RequestInterceptor {
+  fun addAuthHeaderRequestInterceptor() = RequestInterceptor {
     it.header("userId", "userId...")
   }
 }

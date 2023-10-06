@@ -29,6 +29,19 @@ feignClientConfiguration
 - `FeignClient` 설정 관련 빈을 올리는 경우 `@Configuration` 을 사용하게 되면 모든 FeignClient 에 적용된다.
 - 특정 `FeignClient` 에만 적용하고 싶은 설정이 있다면 `@FeignClient` 의 configuration 에 `@Configuration` 이 붙지 않은 클래스를 설정한다.
   - `@Configuration` 에 설정한 설정과 충돌되는 경우 `@FeignClient` 의 configuration 에 설정한 빈이 우선순위를 가진다.
+- 중복되는 빈을 일괄적용하고 싶다면 bean 이름을 다르게 설정한다.
+
+```java
+// FeignClientFactoryBean
+// requestInterceptor 의 bean 의 이름을 map 으로 관리하여 이름이 같은 경우 한 개 빈만 설정됨 
+Map<String, RequestInterceptor> requestInterceptors = getInheritedAwareInstances(context,
+        RequestInterceptor.class);
+if (requestInterceptors != null) {
+    List<RequestInterceptor> interceptors = new ArrayList<>(requestInterceptors.values());
+    AnnotationAwareOrderComparator.sort(interceptors);
+    builder.requestInterceptors(interceptors);
+}
+```
 
 
 <br/>
