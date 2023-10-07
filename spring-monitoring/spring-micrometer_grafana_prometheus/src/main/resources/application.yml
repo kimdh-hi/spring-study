@@ -6,3 +6,6 @@ management:
   endpoint:
     health:
       show-details: ALWAYS
+
+#tomcat metrics 활성화
+server.tomcat.mbeanregistry.enabled: true

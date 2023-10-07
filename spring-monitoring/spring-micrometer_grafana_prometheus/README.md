@@ -23,3 +23,8 @@ http 요청수 확인
 http://localhost:8080/actuator/metrics/http.server.requests?tag=uri:/test&tag=status:200
 ```
 
+tomcat metric 활성화
+```yaml
+server.tomcat.mbeanregistry.enabled: true
+```
+
