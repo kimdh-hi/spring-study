@@ -28,3 +28,14 @@ tomcat metric 활성화
 server.tomcat.mbeanregistry.enabled: true
 ```
 
+---
+
+프로메테우스 설정
+
+```kotlin
+implementation("io.micrometer:micrometer-registry-prometheus")
+```
+
+메트릭 접근
+- `/actuator/prometheus`
+
