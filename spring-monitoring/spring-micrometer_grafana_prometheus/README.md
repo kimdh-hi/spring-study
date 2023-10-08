@@ -39,3 +39,16 @@ implementation("io.micrometer:micrometer-registry-prometheus")
 메트릭 접근
 - `/actuator/prometheus`
 
+
+---
+
+prometheus 설정
+
+```yaml
+scrape_configs:
+  - job_name: "spring-actuator"
+    metrics_path: "/actuator/prometheus"
+    scrape_interval: 10s # default=1m, 환경에 따라 10s ~ 1m 설정
+    static_configs:
+      - targets: ["localhost:8080"]
+```
