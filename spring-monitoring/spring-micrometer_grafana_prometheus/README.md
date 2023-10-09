@@ -45,6 +45,8 @@ implementation("io.micrometer:micrometer-registry-prometheus")
 prometheus 설정
 
 ```yaml
+// prometheus.yml
+
 scrape_configs:
   - job_name: "spring-actuator"
     metrics_path: "/actuator/prometheus"
