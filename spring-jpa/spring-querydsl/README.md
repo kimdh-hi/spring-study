@@ -86,5 +86,11 @@ val result = query.selectDistinct(
   .fetch()
 ```
 
+---
+
+### QClass enum 사용시 주의사항
+- `/domain/enum` 이하에 있는 enum class 사용시 QClass 생성시 enumPath 생성 못 함
+- 기존 `enum` 패키지명을 `enums` 로 변경하여 우회
+
 ### 참고
 https://jojoldu.tistory.com/342
