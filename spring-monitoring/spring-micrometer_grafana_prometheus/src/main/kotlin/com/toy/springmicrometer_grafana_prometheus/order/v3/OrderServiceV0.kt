@@ -9,6 +9,7 @@ import kotlin.random.Random
 
 // Timer
 // count, total_time, max 매트릭 수집
+// total_time 의 경우 1~3분 주기마다 갱신
 class OrderServiceV3(
   private val registry: MeterRegistry
 ): OrderService {
