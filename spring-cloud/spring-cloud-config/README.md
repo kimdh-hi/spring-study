@@ -1,5 +1,13 @@
 ## Spring Cloud Config
 
+### config server 변경사항 적용
+
+- 서버 재기동
+- spring actuator refresh
+    - 각 application 마다 refresh 필요
+- spring cloud bus
+    - spring cloud config server + spring cloud bus + messaging system(amqp, kafka)
+
 ```
 # config server, rabbitmq (cloud-bus) 실행
 docker-compose up -d
