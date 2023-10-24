@@ -1,1 +1,9 @@
 GET localhost:8080/test
+
+###
+
+POST localhost:8888/actuator/busrefresh
+
+###
+
+POST localhost:8080/actuator/busrefresh
