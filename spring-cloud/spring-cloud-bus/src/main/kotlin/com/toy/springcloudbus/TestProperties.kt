@@ -6,3 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 class TestProperties {
   lateinit var data: String
 }
+
+@ConfigurationProperties(prefix = "test2")
+class Test2Properties {
+  var data: String = ""
+}

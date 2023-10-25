@@ -1,2 +1,4 @@
 test:
-  data: 11
+  data: 3
+test2:
+  data: 3

@@ -8,7 +8,12 @@ docker run -d -p 8888:8888 \
     -e SPRING_RABBITMQ_USERNAME=guest \
     -e SPRING_RABBITMQ_PASSWORD=guest \
     -e SPRING_RABBITMQ_VIRTUAL_HOST=/ \
-    -e MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=busrefresh \
     --restart=always \
     hyness/spring-cloud-config-server
 ```
+
+`-e MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=busrefresh \`
+
+@ConfigurationProperties 갱신 안 됨 이슈
+- https://github.com/spring-cloud/spring-cloud-kubernetes/issues/889
+- `lateinit var`, `var + default value` 가 최선.. 
