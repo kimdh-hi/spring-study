@@ -13,6 +13,13 @@
 docker-compose up -d
 ```
 
+### Spring cloud bus queue, consumer autoconfiguration
+- RabbitMessageChannelBinder.createConsumerEndpoint
+
+
+
+---
+
 ### 프로퍼티 갱신
 ```
 POST http://localhost:8881/actuator/busrefresh
