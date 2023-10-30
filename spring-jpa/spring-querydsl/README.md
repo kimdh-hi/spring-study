@@ -94,3 +94,12 @@ val result = query.selectDistinct(
 
 ### 참고
 https://jojoldu.tistory.com/342
+
+---
+
+### fetchOne
+- 오해하고 있던 부분
+  - 조건에 맞는 row 가 두 개 이상인 경우 예외발생
+- selectOne 과 함께 사용시 위 경우에도 예외발생 x
+  - `AbstractProfucedQuery.uniqueElement`
+  - 두 개 이상 조회된 객체가 모두 동일한 경우 예외발생 x
