@@ -15,3 +15,9 @@ insert into tb_collection_projection_child(id, data2, collection_projection_pare
 ('d2-7', 'data6', 'd1-4'),
 ('d2-8', 'data6', 'd1-4')
 ;
+
+insert into tb_hello(id, data, data2) values
+                                ('h1', 'data1', 'data22')
+                                ,('h2', 'data1', 'data33')
+                                ,('h3', 'data2', 'data44')
+;
