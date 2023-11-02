@@ -8,5 +8,8 @@ import org.springframework.context.annotation.Configuration
 class AopConfig {
 
   @Bean
-  fun logTraceAspect(logTrace: LogTrace) = LogTraceAspect(logTrace)
+  fun logTraceAspect(logTrace: LogTrace) = AspectV2Order.LogTraceAspect(logTrace)
+
+  @Bean
+  fun transactionAspect() = AspectV2Order.TransactionAspect()
 }

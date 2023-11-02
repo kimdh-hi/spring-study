@@ -6,44 +6,52 @@ import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
 import org.slf4j.LoggerFactory
+import org.springframework.core.annotation.Order
+import org.springframework.stereotype.Component
 
-@Aspect
-class AspectV1(
-  private val logTrace: LogTrace
-) {
+class AspectV2Order {
 
-  private val log = LoggerFactory.getLogger(javaClass)
-
-  // pointcut signature
-  // private, public 모두 가능
   @Pointcut("execution(* com.toy.springaop..*(..))")
   private fun allServicePackage() {}
 
   @Pointcut("execution(* * ..*Service.*(..))")
   private fun allServiceClass() {}
 
-  @Around("allServicePackage()")
-  fun log(joinPoint: ProceedingJoinPoint): Any {
-    logTrace.start()
+  @Aspect
+  @Order(2)
+  class LogTraceAspect(
+    private val logTrace: LogTrace
+  ) {
+    @Around("allServicePackage()")
+    fun log(joinPoint: ProceedingJoinPoint): Any {
+      logTrace.start()
 
-    val result = joinPoint.proceed()
+      val result = joinPoint.proceed()
 
-    logTrace.end()
+      logTrace.end()
 
-    return result
+      return result
+    }
   }
 
-  @Around("allServicePackage() && allServiceClass()")
-  fun transaction(joinPoint: ProceedingJoinPoint): Any {
-    return try {
-      log.info("transaction start...")
-      val result = joinPoint.proceed()
-      log.info("transaction commit...")
-      result
-    } catch (e: Exception) {
-      log.info("transaction rollback...")
-    } finally {
-      log.info("transaction close")
+  @Aspect
+  @Order(1)
+  class TransactionAspect {
+
+    private val log = LoggerFactory.getLogger(javaClass)
+
+    @Around("allServicePackage() && allServiceClass()")
+    fun transaction(joinPoint: ProceedingJoinPoint): Any {
+      return try {
+        log.info("transaction start...")
+        val result = joinPoint.proceed()
+        log.info("transaction commit...")
+        result
+      } catch (e: Exception) {
+        log.info("transaction rollback...")
+      } finally {
+        log.info("transaction close")
+      }
     }
   }
 }

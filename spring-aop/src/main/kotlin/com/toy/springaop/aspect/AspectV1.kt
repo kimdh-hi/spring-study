@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.Pointcut
 import org.slf4j.LoggerFactory
 
 @Aspect
-class LogTraceAspect(
+class AspectV1(
   private val logTrace: LogTrace
 ) {
 
