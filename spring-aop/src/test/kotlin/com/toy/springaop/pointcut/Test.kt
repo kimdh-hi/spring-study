@@ -1,6 +1,7 @@
 package com.toy.springaop.pointcut
 
 import com.toy.springaop.service.MemberServiceImpl
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
@@ -21,7 +22,8 @@ class Test {
   }
 
   @Test
-  fun test() {
-    log.info("testMethod=$testMethod")
+  fun exactMatch() {
+    pointcut.expression = "execution(public String com.toy.springaop.service.MemberServiceImpl.test(String))"
+    Assertions.assertThat(pointcut.matches(testMethod, MemberServiceImpl::class.java)).isTrue()
   }
 }
