@@ -53,4 +53,14 @@ class Test {
     pointcut.expression = "execution(* com.toy.springaop.*.*(..))"
     Assertions.assertThat(pointcut.matches(testMethod, MemberServiceImpl::class.java)).isFalse()
   }
+
+  // execution 과 거의 동일
+  // execution 에서 typeMatching 만 지원
+  // *, .. 등 사용 가능
+  // 주의, execution 과 다르게 typeMatching 시 부모타입을 지정할 수 없음. 정확하게 해당 타입으로 명시해줘야 함
+  @Test
+  fun `within`() {
+    pointcut.expression = "within(com.toy.springaop.service.MemberServiceImpl)"
+    Assertions.assertThat(pointcut.matches(testMethod, MemberServiceImpl::class.java)).isTrue()
+  }
 }
