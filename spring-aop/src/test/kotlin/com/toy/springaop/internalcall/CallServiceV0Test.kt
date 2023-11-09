@@ -14,6 +14,7 @@ class CallServiceV0Test @Autowired constructor(
 
   // external 메서드는 aop 적용
   // external 메서드 내부에서 호출된 internal 메서드는 aop 미적용
+  // proxy 방식 aop 를 사용하는 spring aop 의 한계
   @Test
   fun external() {
     callServiceV0.external()
