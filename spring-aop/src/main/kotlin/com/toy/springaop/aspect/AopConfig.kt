@@ -13,6 +13,6 @@ class AopConfig {
 //  @Bean
 //  fun transactionAspect() = AspectV2Order.TransactionAspect()
 
-  @Bean
-  fun aspect(logTrace: LogTrace) = AspectV1(logTrace)
+//  @Bean
+//  fun aspect(logTrace: LogTrace) = AspectV1(logTrace)
 }
