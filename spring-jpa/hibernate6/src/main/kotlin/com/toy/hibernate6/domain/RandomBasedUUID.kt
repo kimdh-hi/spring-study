@@ -8,7 +8,7 @@ import org.hibernate.annotations.UuidGenerator
 
 @Entity
 @Table(name = "tb_random_based_uuid")
-class RandomUUID(
+class RandomBasedUUID(
   @Id
   @UuidGenerator(style = UuidGenerator.Style.RANDOM)
   @GeneratedValue
@@ -17,6 +17,6 @@ class RandomUUID(
   val data: String
 ) {
   override fun toString(): String {
-    return "RandomUUID(id=$id, data='$data')"
+    return "RandomBasedUUID(id=$id, data='$data')"
   }
 }
