@@ -1,5 +1,0 @@
-GET localhost:8080/api/device-resolve
-
-###
-
-GET localhost:8080/user-agent

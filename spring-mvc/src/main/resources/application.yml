@@ -20,6 +20,8 @@ spring:
         show_sql: false
         format_sql: true
     defer-datasource-initialization: true
+  jackson.mapper:
+    accept-case-insensitive-enums: true
 
 logging:
   level:

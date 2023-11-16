@@ -1,0 +1,10 @@
+POST localhost:8080/enum-converter-factory
+Content-Type: application/json
+
+{
+  "data": "aa"
+}
+
+###
+
+GET localhost:8080/enum-converter-factory?data=aa
