@@ -1,5 +1,12 @@
 ## Springboot3.x 
 
+### spring security
+
+EnableGlobalMethodSecurity deprecated
+- Deprecated Use EnableMethodSecurity instead
+- `@EnableGlobalMethodSecurity(prePostEnabled = true)` -> `@EnableMethodSecurity(prePostEnabled = true)`
+
+---
 
 ### spring integration
 
