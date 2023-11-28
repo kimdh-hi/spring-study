@@ -7,17 +7,12 @@ import org.springframework.context.support.ResourceBundleMessageSource
 @Configuration
 class MessageSourceConfig {
 
-  companion object {
-    const val LANGUAGE_MESSAGE_SOURCE_PATH = "messages.messages"
-  }
-
-  @Bean
-  fun messageSource(): ResourceBundleMessageSource {
-    val messageSource = ResourceBundleMessageSource()
-    messageSource.addBasenames(
-      LANGUAGE_MESSAGE_SOURCE_PATH
-    )
-    messageSource.setUseCodeAsDefaultMessage(true)
-    return messageSource
-  }
+  // spring-boot 자동설정
+  // setBasenames("messages")
+  // spring.messages.basename=messages
+//  @Bean
+//  fun messageSource() = ResourceBundleMessageSource().apply {
+//      setBasenames("messages", "errors")
+//      setDefaultEncoding("utf-8")
+//    }
 }
