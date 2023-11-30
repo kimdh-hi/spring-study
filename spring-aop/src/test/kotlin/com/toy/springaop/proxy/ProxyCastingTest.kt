@@ -34,7 +34,7 @@ class ProxyCastingTest {
     proxyFactory.isProxyTargetClass = true
 
     val memberServiceProxy = proxyFactory.proxy as MemberService
-    
+
     assertDoesNotThrow { memberServiceProxy as MemberServiceImpl }
   }
 }
