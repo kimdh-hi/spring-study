@@ -8,5 +8,10 @@
 </head>
 <body>
 <h1 th:text="|#{home.variables(data1, data2)}|"></h1>
+<h1 th:text="|#{address}/login|"></h1>
+<span th:text="#{includeTag1}"></span><br/>
+<span th:utext="#{includeTag1}"></span><br/>
+<span th:text="#{includeTag2}"></span><br/>
+<span th:utext="#{includeTag2}"></span>
 </body>
 </html>
