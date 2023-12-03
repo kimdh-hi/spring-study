@@ -7,11 +7,13 @@
     <title>home</title>
 </head>
 <body>
-<h1 th:text="|#{home.variables(data1, data2)}|"></h1>
+<p th:text="${data1}"></p>
+<p th:text="${data2}"></p>
+<h1 th:text="#{home.variables(${data1}, ${data2})}"></h1>
 <h1 th:text="|#{address}/login|"></h1>
-<span th:text="#{includeTag1}"></span><br/>
-<span th:utext="#{includeTag1}"></span><br/>
-<span th:text="#{includeTag2}"></span><br/>
-<span th:utext="#{includeTag2}"></span>
+<p th:text="#{includeTag1}"></p>
+<p th:utext="#{includeTag1}"></p>
+<p th:text="#{includeTag2}"></p>
+<p th:utext="#{includeTag2}"></p>
 </body>
 </html>
