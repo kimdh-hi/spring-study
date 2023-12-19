@@ -18,11 +18,11 @@ class User(
 ) {
   @Column(name = "created_at", updatable = false)
   @CreatedDate
-  var createdAt: Instant? = null
+  lateinit var createdAt: Instant
 
   @Column(name = "created_date", updatable = false)
   @CreatedDate
-  var createdDate: LocalDateTime? = null
+  lateinit var createdDate: LocalDateTime
 
   override fun toString(): String {
     return "User(id=$id, name='$name', createdAt=$createdAt, createdDate=$createdDate)"
