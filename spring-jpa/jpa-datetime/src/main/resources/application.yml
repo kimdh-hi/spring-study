@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost/study?createDatabaseIfNotExist=true
+    username: root
+    password: 111111
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 5
+      connection-timeout: 3000
+      max-lifetime: 1800000
+      connection-test-query: SELECT 1
+      validation-timeout: 5000
+
+  jpa:
+    hibernate.ddl-auto: create-drop
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
