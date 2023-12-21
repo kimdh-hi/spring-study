@@ -1,7 +1,6 @@
 package com.toy.jpadatetime.controller
 
 import com.toy.jpadatetime.domain.User
-import com.toy.jpadatetime.repository.UserRepository
 import com.toy.jpadatetime.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
