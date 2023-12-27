@@ -1,0 +1,7 @@
+server.port: 8088
+
+#logging:
+#  level:
+#    "[root]": warn
+#    "[com.study.springmdc]": debug
+#    "[org.springframework.boot]": warn

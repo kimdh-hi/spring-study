@@ -14,7 +14,7 @@ class TestController(
 
   @GetMapping("/test")
   fun test(): String {
-    log.debug("TestController.test")
+    log.info("TestController.test")
     testService.service()
     return "ok"
   }

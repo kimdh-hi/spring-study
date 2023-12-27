@@ -10,8 +10,8 @@ class TestService {
   private val log = LoggerFactory.getLogger(javaClass)
 
   fun service() {
-    log.debug("service start...")
+    log.info("service start...")
     sleep(500)
-    log.debug("service end...")
+    log.info("service end...")
   }
 }
