@@ -4,7 +4,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
-@Component
+//@Component
 class FixedRateScheduler {
 
   private val log = LoggerFactory.getLogger(javaClass)
