@@ -13,4 +13,9 @@ class CronTabScheduler {
   fun job() {
     log.info("job...")
   }
+
+  @Scheduled(cron = "\${schedulers.cron.test-job}")
+  fun job2() {
+    log.info("job2...")
+  }
 }

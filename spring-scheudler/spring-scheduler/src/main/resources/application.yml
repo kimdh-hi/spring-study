@@ -1,1 +1,8 @@
-spring.task.scheduling.pool.size: 5
+spring:
+  task:
+    scheduling:
+      pool.size: 5
+
+schedulers:
+  cron:
+    test-job: 0 11 11 * * *
