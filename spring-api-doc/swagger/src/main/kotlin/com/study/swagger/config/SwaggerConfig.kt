@@ -19,17 +19,11 @@ class SwaggerConfig {
 
   @Bean
   fun actuatorCustomizer(): GlobalOperationCustomizer {
-    return CustomActuatorOperationCustomizer()
-  }
-
-  class CustomActuatorOperationCustomizer: GlobalOperationCustomizer {
-
-    override fun customize(operation: Operation, handlerMethod: HandlerMethod): Operation {
+    return GlobalOperationCustomizer { operation, handlerMethod ->
       operation.operationId = "${handlerMethod.beanType.name.substringAfterLast(".")}.${handlerMethod.method.name}"
-      return operation
+      operation
     }
   }
-
 
   @Bean
   fun openAPI(): OpenAPI {
