@@ -1,11 +1,11 @@
-package com.toy.springscheudler
+package com.study.springetc
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SpringScheudlerApplication
+class SpringEtcApplication
 
 fun main(args: Array<String>) {
-  runApplication<SpringScheudlerApplication>(*args)
+  runApplication<SpringEtcApplication>(*args)
 }

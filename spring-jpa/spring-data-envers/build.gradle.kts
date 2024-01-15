@@ -33,6 +33,8 @@ dependencies {
   implementation("org.springframework.data:spring-data-envers")
   runtimeOnly("com.h2database:h2")
 
+  runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   testImplementation("org.springframework.boot:spring-boot-starter-test")

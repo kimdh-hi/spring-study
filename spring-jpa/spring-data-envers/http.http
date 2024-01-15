@@ -20,3 +20,12 @@ GET localhost:8081/api/users/revision/u1/last-change-revision
 ###
 
 GET localhost:8081/api/users/revision/u1/revisions-by?createdDate=2023-02-10:00:00:00
+
+###
+
+POST localhost:8081/test/soft-delete
+Content-Type: application/json
+
+###
+
+DELETE localhost:8081/test/soft-delete/f34ed47d-7b31-4915-a64c-42385845dbd1

@@ -27,6 +27,13 @@ class TestController {
     return ResponseEntity.ok("ok")
   }
 
+  @Operation(summary = "summary", method = "method", description = "description")
+  @PostMapping("/api/test/test2")
+  fun test1(@RequestBody requestVO: RequestVO, a: Int): ResponseEntity<String> {
+
+    return ResponseEntity.ok("ok")
+  }
+
   @PostMapping("/api/test2")
   @ApiResponse(content = [io.swagger.v3.oas.annotations.media.Content(schema = Schema(implementation = InternalVO::class))])
   fun test2(@RequestBody requestVO: Request2VO): ResponseEntity<String> {

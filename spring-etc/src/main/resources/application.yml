@@ -1,0 +1,7 @@
+server:
+  forward-headers-strategy: NATIVE #remoteAddr 시 x-forwarded-for 헤더 접근하여 원본 ip
+
+#  tomcat:
+#    remoteip:
+#      protocol-header: x-forwarded-proto
+#      remote-ip-header: x-forwarded-for

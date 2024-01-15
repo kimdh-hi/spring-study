@@ -7,7 +7,7 @@ plugins {
   kotlin("plugin.spring") version "1.9.21"
 }
 
-group = "com.toy"
+group = "com.study"
 version = "0.0.1-SNAPSHOT"
 
 java {

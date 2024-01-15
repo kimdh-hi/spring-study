@@ -1,10 +1,10 @@
-package com.toy.springscheudler
+package com.study.springetc
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class SpringScheudlerApplicationTests {
+class SpringEtcApplicationTests {
 
   @Test
   fun contextLoads() {

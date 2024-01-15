@@ -4,7 +4,6 @@ import com.study.swagger.vo.InternalVO
 import io.swagger.v3.core.jackson.ModelResolver.enumsAsRef
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI
-import io.swagger.v3.oas.models.Operation
 import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.media.Schema
 import io.swagger.v3.oas.models.security.SecurityScheme
@@ -20,9 +19,15 @@ class SwaggerConfig {
   @Bean
   fun actuatorCustomizer(): GlobalOperationCustomizer {
     return GlobalOperationCustomizer { operation, handlerMethod ->
-      operation.operationId = "${handlerMethod.beanType.name.substringAfterLast(".")}.${handlerMethod.method.name}"
+      operation.operationId = getOperationId(handlerMethod)
       operation
     }
+  }
+
+  private fun getOperationId(handlerMethod: HandlerMethod): String {
+    val className = handlerMethod.beanType.name.substringAfterLast(".")
+    val methodName = handlerMethod.method.name
+    return "${className}.${methodName}"
   }
 
   @Bean
