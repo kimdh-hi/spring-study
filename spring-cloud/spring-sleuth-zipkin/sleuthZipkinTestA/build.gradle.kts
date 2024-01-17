@@ -22,7 +22,9 @@ extra["springCloudVersion"] = "2023.0.0"
 
 dependencies {
   implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
-  implementation("org.springframework.cloud:spring-cloud-sleuth-zipkin:3.1.10")
+  implementation("io.micrometer:micrometer-tracing-bridge-brave")
+  implementation("io.zipkin.reporter2:zipkin-reporter-brave")
+  implementation("io.github.openfeign:feign-micrometer")
 
   implementation("org.springframework.boot:spring-boot-starter-actuator")
   implementation("org.springframework.boot:spring-boot-starter-web")
