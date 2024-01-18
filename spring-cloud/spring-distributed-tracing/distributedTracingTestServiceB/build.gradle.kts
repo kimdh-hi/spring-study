@@ -21,6 +21,12 @@ repositories {
 extra["springCloudVersion"] = "2023.0.0"
 
 dependencies {
+  implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+  implementation("io.micrometer:micrometer-tracing-bridge-brave")
+  implementation("io.zipkin.reporter2:zipkin-reporter-brave")
+  implementation("io.github.openfeign:feign-micrometer")
+  implementation("org.springframework.boot:spring-boot-starter-actuator")
+
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")

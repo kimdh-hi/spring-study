@@ -1,0 +1,6 @@
+POST localhost:8082/sample/save
+Content-Type: application/json
+
+{
+  "data": "data"
+}

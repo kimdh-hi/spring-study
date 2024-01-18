@@ -1,1 +1,18 @@
+server.port: 8082
 
+spring:
+  application:
+    name: serviceB
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0 # default: 0.1
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+
+logging:
+  pattern:
+    level: "[%X{traceId:-},%X{spanId:-}]"
