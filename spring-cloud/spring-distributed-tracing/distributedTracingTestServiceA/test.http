@@ -1,1 +1,11 @@
 GET localhost:8080/test
+
+###
+
+POST localhost:8080/sample/save
+Content-Type: application/json
+
+{
+  "data": "data",
+  "bData": "bData"
+}
