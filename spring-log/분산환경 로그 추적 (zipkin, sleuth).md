@@ -1,12 +1,4 @@
-분산환경 로그 추적 (zipkin, sleuth)
-
-- 클라이언트의 요청이 두 개 이상의 서비스를 거치는 MSA 환경에서 해당 클라이언트의 요청로그를 각 서비스에서 추적하는 것은 쉽지않다.
-- sleuth 는 클라이언트 요청마다 고유한 Id (trace_id) 를 부여해서 각 서비스에서 클라이언트를 식별할 수 있도록 한다.
-- zipkin 은 trace_id 를 기반으로 분산환경에서 로그를 추적하고 UI 상에서 확인할 수 있도록 하는 라이브러리이다.
-
-```
-sleuth 에서 로그추적 정보를 zipkin 으로 보내 시각화하여 로그를 추적 관리하는 것.
-```
+분산환경 로그 추적
 
 zipkin docker
 ```
@@ -24,6 +16,17 @@ The core of this project got moved to Micrometer Tracing project
 
 https://docs.spring.io/spring-cloud-sleuth/docs/current-SNAPSHOT/reference/html/
 ```
+
+```
+spring cloud 팀은 분산환경 추적을 위한 sleuth 프로젝트를 만들었지만 이 프로젝트는 spring cloud 에서 분리되는 것이 좋겠다고 판단했다.
+이 이유로 Micrometer Tracing 라는 sleuth 의 주요 기능을 포함하는 프로젝트를 만들었다.
+
+https://micrometer.io/docs/tracing
+```
+
+---
+
+기본설정
 
 dependencies
 ```
@@ -58,4 +61,11 @@ logging:
 
 zipkin tracing endpoint
 - https://zipkin.io/zipkin-api/#/
+
+---
+
+분산환경 로그 추적
+- 
+
+
 
