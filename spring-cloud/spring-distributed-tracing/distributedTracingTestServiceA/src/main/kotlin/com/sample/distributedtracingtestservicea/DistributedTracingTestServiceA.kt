@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SleuthZipkinTestAApplication
+class DistributedTracingTestServiceAApplication
 
 fun main(args: Array<String>) {
-  runApplication<SleuthZipkinTestAApplication>(*args)
+  runApplication<DistributedTracingTestServiceAApplication>(*args)
 }
