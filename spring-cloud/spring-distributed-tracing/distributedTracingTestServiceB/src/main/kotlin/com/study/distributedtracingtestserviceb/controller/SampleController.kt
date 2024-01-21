@@ -17,7 +17,8 @@ class SampleController(
 
   @PostMapping("/save")
   fun save(@RequestBody request: SaveSampleRequest): String {
-    log.info("SampleController.save")
+    log.info("[info]SampleController.save")
+    log.debug("[debug]SampleController.save")
     sampleService.save(request)
 
     return "ok"

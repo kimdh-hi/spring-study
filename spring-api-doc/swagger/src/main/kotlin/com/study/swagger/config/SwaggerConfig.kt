@@ -17,7 +17,7 @@ import org.springframework.web.method.HandlerMethod
 class SwaggerConfig {
 
   @Bean
-  fun actuatorCustomizer(): GlobalOperationCustomizer {
+  fun globalOperationCustomizer(): GlobalOperationCustomizer {
     return GlobalOperationCustomizer { operation, handlerMethod ->
       operation.operationId = getOperationId(handlerMethod)
       operation

@@ -14,4 +14,4 @@ management:
 
 logging:
   pattern:
-    level: "[%X{traceId:-},%X{spanId:-}]"
+    level: "%5p [%X{traceId:-},%X{spanId:-}]"

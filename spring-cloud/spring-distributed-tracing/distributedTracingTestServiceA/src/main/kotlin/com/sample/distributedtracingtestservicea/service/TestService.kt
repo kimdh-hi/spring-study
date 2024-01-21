@@ -14,7 +14,9 @@ class TestService(
   private val log = LoggerFactory.getLogger(javaClass)
 
   fun save(request: SampleSaveRequest) {
-    log.info("TestService.save request=$request")
+    log.info("[info]TestService.save request=$request")
+    log.debug("[debug]TestService.save request=$request")
+
     bServiceClient.save(BServiceSaveRequest(request.bData))
   }
 }
