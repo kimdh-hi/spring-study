@@ -52,8 +52,20 @@ if (requestInterceptors != null) {
 
 HttpClient 관련
 
-- default: HttpClient
+- default: HttpURLConnection
   - feign.Client.Default.execute() 확인
+    Client.Default
+```
+//실제 요청부
+//feign.Client.Default.execute
+
+@Override
+public Response execute(Request request, Options options) throws IOException {
+  HttpURLConnection connection = convertAndSend(request, options);
+  return convertResponse(connection, request);
+}
+```
+
 - Apache httpClient, OkHttp 사용 가능
 
 Apache HttpClient5 사용
@@ -62,6 +74,20 @@ Apache HttpClient5 사용
   - `FeignAutoConfiguration.HttpClient5FeignConfiguration.feignClient()` 확인
 ```
 implementation("io.github.openfeign:feign-hc5")
+```
+
+```
+//실제 요청부
+//SynchronousMethodHandler > executeAndDecode
+
+try {
+  response = client.execute(request, options);
+  // ensure the request is set. TODO: remove in Feign 12
+  response = response.toBuilder()
+      .request(request)
+      .requestTemplate(template)
+      .build();
+}
 ```
 
 
