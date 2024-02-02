@@ -66,4 +66,26 @@ Spring batch meta table
   - EMBEDDED: 내장 DB 의 경우에만 스크립트 실행
   - NEVER: 스크립트 생성x
 
+BATCH_JOB_INSTANCE
+- Job 실행시 JobInstance 정보 저장
+- job_name, job_key 을 key 로 사용
+
+BATCH_JOB_EXECUTION
+- Job 의 실행정보 저장
+- job 생성, 시작, 종료 시간, 실행상태 등 저장
+
+BATCH_JOB_EXECUTION_PARAMS
+- JobParameter 저장
+
+BATCH_JOB_EXECUTION_CONTEXT
+- Job 실행간 상태정보, 공유 데이터를 json 포맷으로 저장
+- Step 간 공유 가능
+
+BATCH_STEP_EXECUTION
+- Step 의 실행정보 저장
+- Step 생성, 시작, 종료 시간, 실행상태 등 저장
+
+BATCH_STEP_EXECUTION_CONTEXT
+- Step 실행간 상태정보, 공유 데이터를 json 포맷으로 저장
+- Step 별로 저장되고 Step 간 공유 불가
 
