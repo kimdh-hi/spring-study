@@ -21,6 +21,7 @@ repositories {
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-batch")
   runtimeOnly("com.h2database:h2")
+  runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.batch:spring-batch-test")

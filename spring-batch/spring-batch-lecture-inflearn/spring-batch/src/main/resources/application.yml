@@ -1,0 +1,24 @@
+spring.profiles.active: h2
+---
+spring:
+  config:
+    activate.on-profile: h2
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  batch:
+    jdbc:
+      initialize-schema: EMBEDDED
+---
+spring:
+  config:
+    activate.on-profile: mariadb
+  datasource:
+    url: jdbc:mariadb://localhost:3306:3306/springbatch?createDatabaseIfNotExist=true
+    username: root
+    password: 111111
+  batch:
+    jdbc:
+      initialize-schema: ALWAYS
