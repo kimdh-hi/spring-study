@@ -9,35 +9,39 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.transaction.PlatformTransactionManager
 
-//@Configuration
-class HelloJobConfiguration(
+@Configuration
+class JobConfiguration(
   private val jobRepository: JobRepository,
   private val transactionManager: PlatformTransactionManager,
 ) {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
+  /**
+   * job,step 생성 debug: SimpleJobBuilder
+   * job,step 실행 debug: TaskExecutorJobLauncher, SimpleJobLauncher, SimpleJob.execute
+   */
   @Bean
-  fun helloJob() = JobBuilder("helloJob", jobRepository)
-    .start(helloStep1())
-    .next(helloStep2())
+  fun job() = JobBuilder("job", jobRepository)
+    .start(step1())
+    .next(step2())
     .build()
 
   @Bean
-  fun helloStep1() = StepBuilder("helloStep1", jobRepository)
+  fun step1() = StepBuilder("step1", jobRepository)
     .tasklet(
       { _, _ ->
-        log.info("helloStep1...")
+        log.info("step1...")
         RepeatStatus.FINISHED
       }, transactionManager
     )
     .build()
 
   @Bean
-  fun helloStep2() = StepBuilder("helloStep2", jobRepository)
+  fun step2() = StepBuilder("step2", jobRepository)
     .tasklet(
       { _, _ ->
-        log.info("helloStep2...")
+        log.info("step2...")
         RepeatStatus.FINISHED
       }, transactionManager
     )
