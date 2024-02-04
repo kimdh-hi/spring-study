@@ -89,3 +89,11 @@ BATCH_STEP_EXECUTION_CONTEXT
 - Step 실행간 상태정보, 공유 데이터를 json 포맷으로 저장
 - Step 별로 저장되고 Step 간 공유 불가
 
+---
+
+JobInstance
+- Job 실행시 생성되는 Job 의 논리적 실행단위 객체
+- 최초 Job + JobParameter 로 JobInstance 생성
+- 이전 동일한 Job + JobParameter 로 실행하는 경우 기존 JobInstance 리턴 (재사용)
+  - DB로 부터 JobName + JobKey(JobParameter 해시값) 으로 JobInstance 롤 찾음 (중복 불가)
+  - `BATCH_JOB_INSTANCE` 테이블에 저장
