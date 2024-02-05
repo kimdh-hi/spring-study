@@ -97,3 +97,8 @@ JobInstance
 - 이전 동일한 Job + JobParameter 로 실행하는 경우 기존 JobInstance 리턴 (재사용)
   - DB로 부터 JobName + JobKey(JobParameter 해시값) 으로 JobInstance 롤 찾음 (중복 불가)
   - `BATCH_JOB_INSTANCE` 테이블에 저장
+
+```
+JobInstanceAlreadyCompleteException: A job instance already exists and is complete for identifying parameters
+- 동일 jobName, jobParameters 로 실행된 jobInstance 가 있는 경우 Job 실행 불가
+```
