@@ -102,3 +102,17 @@ JobInstance
 JobInstanceAlreadyCompleteException: A job instance already exists and is complete for identifying parameters
 - 동일 jobName, jobParameters 로 실행된 jobInstance 가 있는 경우 Job 실행 불가
 ```
+
+JobParameters
+- Job 실행시 포함된 파라미터 정보를 가지는 객체
+- 한 개 Job 에 여러 개 존재하는 JobInstance 를 구분
+
+```
+JobParameters 생성, 바인딩
+- application 실행시 주입
+  - Java -jar xxx.jar requestDate=20240101
+- 코드로 생성
+  - JobParameterBuilder, DefaultJobParametersConverter
+- SpEL
+  - @Value("#{jobParameter[requestDate]}") + @JobScope, @StepScope
+```
