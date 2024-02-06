@@ -91,7 +91,7 @@ BATCH_STEP_EXECUTION_CONTEXT
 
 ---
 
-JobInstance
+### JobInstance
 - Job 실행시 생성되는 Job 의 논리적 실행단위 객체
 - 최초 Job + JobParameter 로 JobInstance 생성
 - 이전 동일한 Job + JobParameter 로 실행하는 경우 기존 JobInstance 리턴 (재사용)
@@ -103,7 +103,7 @@ JobInstanceAlreadyCompleteException: A job instance already exists and is comple
 - 동일 jobName, jobParameters 로 실행된 jobInstance 가 있는 경우 Job 실행 불가
 ```
 
-JobParameters
+### JobParameters
 - Job 실행시 포함된 파라미터 정보를 가지는 객체
 - 한 개 Job 에 여러 개 존재하는 JobInstance 를 구분
 ```
@@ -135,3 +135,14 @@ fun step1() = StepBuilder("step1", jobRepository)
   )
   .build()
 ```
+
+### JobExecution
+- JobInstance 의 한번의 시도를 의미하는 객체
+- Job 실행중 발생한 모든 정보 저장
+  - 시작/종료 시간, 상태(시작됨, 완료, 실패), 종료상태
+- JobExecution 은 `FAILED`, `COMPLETED` 등 Job 의 실행 결과 상태를 가짐
+- JobExecution 의 실행 상태가 `COMPLETED` 인 경우 JobInstance 실행이 완료된  것이므로 `재실행 불가`
+- JobExecution 의 실행 상태가 `FAILED` 인 경우 JobInstance 실행이 완료되지 않은 것 이므로 `재실행 가능`
+  - `JobParameter` 가 동일한 Job 즉, 동일한 JobInstance 도 계속 실행 가능
+- JobExecution 의 상태가 `COMPLETED` 가 될 때까지 하나의 JobInstance 가 여러 번 실행될 수 있음
+- JobExecution 데이터는 `BATCH_JOB_EXECUTION` 테이블과 매핑
