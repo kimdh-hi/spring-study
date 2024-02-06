@@ -106,13 +106,32 @@ JobInstanceAlreadyCompleteException: A job instance already exists and is comple
 JobParameters
 - Job 실행시 포함된 파라미터 정보를 가지는 객체
 - 한 개 Job 에 여러 개 존재하는 JobInstance 를 구분
-
 ```
 JobParameters 생성, 바인딩
 - application 실행시 주입
-  - Java -jar xxx.jar requestDate=20240101
+  - Java -jar xxx.jar name=kim requestDate(date)=2024/01/01 num(long)=2 num2(double)=1.1
 - 코드로 생성
   - JobParameterBuilder, DefaultJobParametersConverter
 - SpEL
   - @Value("#{jobParameter[requestDate]}") + @JobScope, @StepScope
+```
+- ParameterType
+  - STRING, DATE, LONG, DOUBLE
+```kotlin
+// step 내 jobParameters 접근 (반환타입 확인)
+
+@Bean
+fun step1() = StepBuilder("step1", jobRepository)
+  .tasklet(
+    { contribution, chunkContext ->
+      log.info("step1...")
+
+      val jobParameters: JobParameters = contribution.stepExecution.jobExecution.jobParameters
+      val jobParameters2: JobParameters = contribution.stepExecution.jobParameters
+      val jobParameters3: Map<String, Any> = chunkContext.stepContext.jobParameters
+
+      RepeatStatus.FINISHED
+    }, transactionManager
+  )
+  .build()
 ```
