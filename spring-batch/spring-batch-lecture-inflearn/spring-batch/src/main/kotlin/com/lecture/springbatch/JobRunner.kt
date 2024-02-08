@@ -8,7 +8,7 @@ import org.springframework.boot.ApplicationRunner
 import org.springframework.stereotype.Component
 import java.util.*
 
-@Component
+//@Component
 class JobRunner(
   private val jobLauncher: JobLauncher,
   private val job: Job
