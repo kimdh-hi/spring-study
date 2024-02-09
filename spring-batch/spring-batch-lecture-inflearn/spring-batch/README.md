@@ -155,3 +155,5 @@ fun step1() = StepBuilder("step1", jobRepository)
   - `AbstractJob` 참고
 - 복잡한 validator 가 필요한 경우 커스텀 가능 (인터페이스 구현)
   - `JobParametersValidator`
+- jobParameter 전달 테스트
+  - Program arguments: --job.name=job name=kim
