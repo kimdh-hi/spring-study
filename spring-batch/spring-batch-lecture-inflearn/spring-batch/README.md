@@ -146,3 +146,12 @@ fun step1() = StepBuilder("step1", jobRepository)
   - `JobParameter` 가 동일한 Job 즉, 동일한 JobInstance 도 계속 실행 가능
 - JobExecution 의 상태가 `COMPLETED` 가 될 때까지 하나의 JobInstance 가 여러 번 실행될 수 있음
 - JobExecution 데이터는 `BATCH_JOB_EXECUTION` 테이블과 매핑
+
+---
+
+### validator
+- Job 실행에 필요한 파라미터 검증
+- `DefaultJobParametersValidator` 제공
+  - `AbstractJob` 참고
+- 복잡한 validator 가 필요한 경우 커스텀 가능 (인터페이스 구현)
+  - `JobParametersValidator`
