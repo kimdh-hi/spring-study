@@ -158,3 +158,13 @@ fun step1() = StepBuilder("step1", jobRepository)
   - `JobParametersValidator`
 - jobParameter 전달 테스트
   - Program arguments: --job.name=job name=kim
+
+### preventRestart
+- job 재시작 여부
+- default=true (restartable=true)
+- false 설정시 job 재시작 불가
+  - job 재시작 (failed 인 job 도) 시도시 `JobRestartException` 발생
+  - job 성공/실패 여부에 관계없이 재시작 여부를 판단
+- 재시작 시 관련 기능으로 최초 job 실행과는 관계없는 옵션
+  - `JobExecution` 이 존재하지 않는 경우 옵션과 관계없이 job 실행
+  - `JobExecution` 이 존재하는 경우 `JobRestartException` 발생 
