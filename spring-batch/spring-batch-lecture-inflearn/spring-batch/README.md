@@ -152,6 +152,7 @@ fun step1() = StepBuilder("step1", jobRepository)
 ### validator
 - Job 실행에 필요한 파라미터 검증
 - `DefaultJobParametersValidator` 제공
+  - `requiredKeys`, `optionalKeys` (필수값, 선택값에 대한 검증)
   - `AbstractJob` 참고
 - 복잡한 validator 가 필요한 경우 커스텀 가능 (인터페이스 구현)
   - `JobParametersValidator`

@@ -2,6 +2,7 @@ package com.lecture.springbatch.validator
 
 import org.slf4j.LoggerFactory
 import org.springframework.batch.core.JobExecutionListener
+import org.springframework.batch.core.job.DefaultJobParametersValidator
 import org.springframework.batch.core.job.builder.JobBuilder
 import org.springframework.batch.core.launch.support.RunIdIncrementer
 import org.springframework.batch.core.repository.JobRepository
@@ -19,10 +20,13 @@ class ValidatorSampleConfig(
 
   private val log = LoggerFactory.getLogger(javaClass)
 
+  // --job.name=job required1=a required=b // ok
+  // --job.name=job required1=a optional=c // failed
   @Bean
   fun job() = JobBuilder("job", jobRepository)
     .start(step1())
-    .validator(CustomJobParametersValidator()) // JobParameter 실행 전 검증
+//    .validator(CustomJobParametersValidator())
+    .validator(DefaultJobParametersValidator(arrayOf("required1", "required2"), arrayOf("optional")))
     .build()
 
   @Bean
