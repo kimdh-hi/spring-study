@@ -168,3 +168,9 @@ fun step1() = StepBuilder("step1", jobRepository)
 - 재시작 시 관련 기능으로 최초 job 실행과는 관계없는 옵션
   - `JobExecution` 이 존재하지 않는 경우 옵션과 관계없이 job 실행
   - `JobExecution` 이 존재하는 경우 `JobRestartException` 발생 
+
+### incrementer
+- JobParameters 의 값을 증가시켜서 새로운 JobParameters 를 반환
+- 기존 JobParameters 변경없이 동일 Job 을 여러 번 실행하려하는 경우 사용
+- `RunIdIncrementer` 재공
+  - `JobParametersIncrementor` 인터페이스 통한 커스텀 가능
