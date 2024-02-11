@@ -1,6 +1,5 @@
-package com.lecture.springbatch.incrementer
+package com.lecture.springbatch.tasklet
 
-import com.lecture.springbatch.tasklet.CustomTasklet
 import org.slf4j.LoggerFactory
 import org.springframework.batch.core.JobExecutionListener
 import org.springframework.batch.core.job.DefaultJobParametersValidator
@@ -13,8 +12,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.transaction.PlatformTransactionManager
 
-//@Configuration
-class IncrementerSampleConfig(
+@Configuration
+class TaskletSampleConfig(
   private val jobRepository: JobRepository,
   private val transactionManager: PlatformTransactionManager,
 ) {
@@ -24,7 +23,7 @@ class IncrementerSampleConfig(
   @Bean
   fun job() = JobBuilder("job", jobRepository)
     .start(step1())
-    .incrementer(CustomJobParametersIncrementer())
+    .next(step2())
     .build()
 
   @Bean
@@ -35,5 +34,10 @@ class IncrementerSampleConfig(
         RepeatStatus.FINISHED
       }, transactionManager
     )
+    .build()
+
+  @Bean
+  fun step2() = StepBuilder("step2", jobRepository)
+    .tasklet(CustomTasklet(), transactionManager)
     .build()
 }

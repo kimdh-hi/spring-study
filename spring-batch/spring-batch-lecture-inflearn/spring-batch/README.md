@@ -174,3 +174,13 @@ fun step1() = StepBuilder("step1", jobRepository)
 - 기존 JobParameters 변경없이 동일 Job 을 여러 번 실행하려하는 경우 사용
 - `RunIdIncrementer` 재공
   - `JobParametersIncrementor` 인터페이스 통한 커스텀 가능
+
+---
+
+### tasklet
+- step 내에 구성되는 객체로 주로 단일 테스크를 수행한다.
+- RepeatStatus
+  - `FINISHED`: tasklet 종료, `RepeatStatus` null 반환시 `FINISHED`로 처리된다.
+  - `CONTINUABLE`: tasklet 을 반복실행한다.
+    - `FINISHED` 혹은 예외가 발생할 때까지 tasklet 을 반복실행
+  - 
