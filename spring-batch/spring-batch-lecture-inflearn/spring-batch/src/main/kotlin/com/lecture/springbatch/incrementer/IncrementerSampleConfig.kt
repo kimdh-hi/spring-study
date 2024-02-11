@@ -1,4 +1,4 @@
-package com.lecture.springbatch.validator
+package com.lecture.springbatch.incrementer
 
 import org.slf4j.LoggerFactory
 import org.springframework.batch.core.JobExecutionListener
@@ -12,21 +12,18 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.transaction.PlatformTransactionManager
 
-//@Configuration
-class ValidatorSampleConfig(
+@Configuration
+class IncrementerSampleConfig(
   private val jobRepository: JobRepository,
   private val transactionManager: PlatformTransactionManager,
 ) {
 
   private val log = LoggerFactory.getLogger(javaClass)
 
-  // --job.name=job required1=a required=b // ok
-  // --job.name=job required1=a optional=c // failed
   @Bean
   fun job() = JobBuilder("job", jobRepository)
     .start(step1())
-//    .validator(CustomJobParametersValidator())
-    .validator(DefaultJobParametersValidator(arrayOf("required1", "required2"), arrayOf("optional")))
+    .incrementer(CustomJobParametersIncrementer())
     .build()
 
   @Bean

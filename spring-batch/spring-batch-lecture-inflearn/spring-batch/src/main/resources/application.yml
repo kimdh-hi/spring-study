@@ -21,6 +21,6 @@ spring:
     password: 111111
   batch:
     jdbc:
-      initialize-schema: ALWAYS
+      initialize-schema: NEVER
 #    job:
 #      enabled: false
