@@ -35,5 +35,7 @@ class IncrementerSampleConfig(
         RepeatStatus.FINISHED
       }, transactionManager
     )
+    .startLimit(3)
+    .allowStartIfComplete(false)
     .build()
 }

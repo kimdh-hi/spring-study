@@ -183,4 +183,29 @@ fun step1() = StepBuilder("step1", jobRepository)
   - `FINISHED`: tasklet 종료, `RepeatStatus` null 반환시 `FINISHED`로 처리된다.
   - `CONTINUABLE`: tasklet 을 반복실행한다.
     - `FINISHED` 혹은 예외가 발생할 때까지 tasklet 을 반복실행
-  - 
+
+### step startLimit
+- step 실행 횟수 제한
+- 설정값을 초과해서 다시 실행 시도시 `StartLimitExceededException` 발생
+  - default: `Integer.MAX_VALUE`
+
+### allowStartIfComplete()
+- 재시작 가능 job 내 step 에서 해당 step 의 이전 성공 여부와 관계없이 항상 step 을 실행
+  - 기본적으로 COMPLETE 상태의 step 은 job 재시작시 스킵된다.
+  - default: false
+- `allow-start-if-complete` 가 true 로 설정된 step 은 항상 실행된다.
+
+```kotlin
+  @Bean
+  fun step1() = StepBuilder("step1", jobRepository)
+    .tasklet(
+      { _, _ ->
+        log.info("step1...")
+        RepeatStatus.FINISHED
+      }, transactionManager
+    )
+    .startLimit(3)
+    .allowStartIfComplete(false)
+    .build()
+```
+
