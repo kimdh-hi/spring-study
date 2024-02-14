@@ -222,3 +222,25 @@ fun step1() = StepBuilder("step1", jobRepository)
 - Step 이 외부의 Job을 포함하는 것
 - 포함된 Job 이 실패하면 해당 Step이 실패하므로 상위 기본 Job 도 실패한다
 - 모든 메타 데이터는 기본 Job 과 외부 Job 각각 저장된다.
+
+---
+
+### Error
+<br/>
+
+```
+Caused by: java.lang.IllegalArgumentException: Job name must be specified in case of multiple jobs
+```
+- 여러 개 job 이 있는 경우 job name 을 명시해야 함
+- https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0-Migration-Guide#multiple-batch-jobs
+```
+Multiple Batch Jobs
+Running multiple batch jobs is no longer supported. If the auto-configuration detects a single job is, it will be executed on startup. If multiple jobs are found in the context, a job name to execute on startup must be supplied by the user using the spring.batch.job.name property.
+```
+- 복수 개 job 이 정의된 경우 실행시점에 어떤 job 을 실행할 것이지 프로퍼티로 명시해줘야 한다.
+  - `spring.batch.job.name`
+
+<br/><br/><br/>
+
+
+
