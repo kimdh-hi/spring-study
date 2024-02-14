@@ -240,7 +240,15 @@ Running multiple batch jobs is no longer supported. If the auto-configuration de
 - 복수 개 job 이 정의된 경우 실행시점에 어떤 job 을 실행할 것이지 프로퍼티로 명시해줘야 한다.
   - `spring.batch.job.name`
 
-<br/><br/><br/>
+---
+
+### FlowJob
+- step 을 순차적으로만 구성하지 않는 방식
+  - step 이 실패하더라도 job 은 실패로 끝나지 않도록 해야 하는 경우
+  - step 성공시 다음 실행할 step 을 구분해서 실행해야 하는 경우 
+  - 특정 step 이 실행되지 않도록 해야 하는 경우
+- 
+
 
 
 

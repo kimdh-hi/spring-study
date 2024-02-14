@@ -22,7 +22,5 @@ spring:
   batch:
     jdbc:
       initialize-schema: ALWAYS
-    job:
-      name: parentJob
 #    job:
 #      enabled: false
