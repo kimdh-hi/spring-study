@@ -209,3 +209,16 @@ fun step1() = StepBuilder("step1", jobRepository)
     .build()
 ```
 
+---
+
+### TaskletStep
+- Job -> Step -> `RepeatTemplate` -> `Tasklet` (loop)...
+  - Tasklet 의 business logic 결과
+    - exception: loop 종료, step 종료
+    - RepeatStatus CONTINUABLE: RepeatTemplate에 의해 tasklet 반복
+    - RepeatStatus FINISHED: loop 종료, step 종료
+
+### JobStep
+- Step 이 외부의 Job을 포함하는 것
+- 포함된 Job 이 실패하면 해당 Step이 실패하므로 상위 기본 Job 도 실패한다
+- 모든 메타 데이터는 기본 Job 과 외부 Job 각각 저장된다.
