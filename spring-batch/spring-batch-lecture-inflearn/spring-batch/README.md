@@ -247,7 +247,21 @@ Running multiple batch jobs is no longer supported. If the auto-configuration de
   - step 이 실패하더라도 job 은 실패로 끝나지 않도록 해야 하는 경우
   - step 성공시 다음 실행할 step 을 구분해서 실행해야 하는 경우 
   - 특정 step 이 실행되지 않도록 해야 하는 경우
-- 
+
+Transition
+- Flow 내 step 의 조건부 전환을 정의
+- Job 정의시 `on(pattern)` 를 호출허면 `TransitionBuilder` 가 반환되어 Transition flow 를 구성할 수 있다.
+- Step 의 종료상태가 `pattern` 과 일치하는 게 없는 경우 해당 job 은 예외를 발생하고 실패한다.
+```
+on
+- Step 의 실행결과 ExitStatus 와 매칭
+- pattern 과 ExitStatus 가 매칭되는 경우 다음 실행할 step 을 지정한다.
+- 허용 특수문자
+  - * : 0개 이상의 모든 문자와 매칭 (모든 ExitStatus 와 매칭)
+  - ? : 1개 문자와 매칭
+  - ex) a*d, a?c
+```
+
 
 
 
