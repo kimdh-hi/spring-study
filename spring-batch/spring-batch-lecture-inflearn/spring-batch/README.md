@@ -262,6 +262,31 @@ on
   - ex) a*d, a?c
 ```
 
+```kotlin
+/**
+ * step1 "FAILED" 시 step2 실행
+ *   step2 "FAILED` 시 stop
+ * step1 가 "FAILED" 가 아닌 경우 step3 실행
+ * step2 가 "FAILED" 가 아닌 경우 step5 실행
+ */
+
+  @Bean
+  fun job() = JobBuilder("job", jobRepository)
+    .start(step1())
+      .on("FAILED")
+      .to(step2())
+      .on("FAILED")
+      .stop()
+    .from(step1())
+      .on("*")
+      .to(step3())
+      .next(step4())
+    .from(step2())
+      .on("*")
+      .to(step5())
+      .end()
+    .build()
+```
 
 
 
