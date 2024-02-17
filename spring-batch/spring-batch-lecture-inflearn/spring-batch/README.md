@@ -290,8 +290,16 @@ on
 
 ---
 
-
-
+### @JobScope, @StepScope
+- 위 어노테이션으로 @Bean 생성시 빈 실행시점에 빈 객체 초기화를 미룬다. (lazy binding)
+  - 빈 실행시점으로 초기화를 미뤘기 때문에 `@Value` 를 이용하여 step, tasklet 등에서 특정 파라미터 등을 참조할 수 있다.
+  - `@Value` 사용시 해당 bean 은 반드시 @JobScope 또는 @StepScope 가 있어야 한다.
+- `@JobScope`
+  - Step 에 선언 가능
+  - `@Value`: JobParameters, jobExecutionContext 참조 가능
+- `@StepScope`
+  - Tasklet, ItemReader/writer/processor 에 선언 가능
+  - `@Value`: JobParameters, JobExecutionContext, stepExecutionContext 참조 가능
 
 
 
