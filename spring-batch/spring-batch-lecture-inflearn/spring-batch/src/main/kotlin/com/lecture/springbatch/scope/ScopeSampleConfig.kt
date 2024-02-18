@@ -1,7 +1,6 @@
 package com.lecture.springbatch.scope
 
 import org.slf4j.LoggerFactory
-import org.springframework.batch.core.JobExecutionListener
 import org.springframework.batch.core.configuration.annotation.JobScope
 import org.springframework.batch.core.configuration.annotation.StepScope
 import org.springframework.batch.core.job.builder.JobBuilder
@@ -15,7 +14,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.transaction.PlatformTransactionManager
 
-@Configuration
+//@Configuration
 class ScopeSampleConfig(
   private val jobRepository: JobRepository,
   private val transactionManager: PlatformTransactionManager,
