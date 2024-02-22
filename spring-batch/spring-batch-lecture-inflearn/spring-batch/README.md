@@ -300,3 +300,13 @@ on
 - `@StepScope`
   - Tasklet, ItemReader/writer/processor 에 선언 가능
   - `@Value`: JobParameters, JobExecutionContext, stepExecutionContext 참조 가능
+
+---
+
+### FlatFileItemReader
+
+- DelimitedLineTokenizer
+  - 한 개 라인을 특정 구분자로 구분하여 토큰화하는 방식
+  - defualt: `, 콤마`
+  - 한 개 라인을 구분자를 기준으로 토큰화하여 `FieldSet` 반환 
+- FixedLengthTokenizer
