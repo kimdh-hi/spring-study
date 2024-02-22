@@ -309,4 +309,28 @@ on
   - 한 개 라인을 특정 구분자로 구분하여 토큰화하는 방식
   - defualt: `, 콤마`
   - 한 개 라인을 구분자를 기준으로 토큰화하여 `FieldSet` 반환 
+```kotlin
+  @Bean
+  fun itemReader() = FlatFileItemReaderBuilder<TestCsv>()
+    .name("flatFile")
+    .resource(ClassPathResource("/test.csv"))
+    .fieldSetMapper(TestCvsFieldSetMapperV2())
+    .linesToSkip(1)
+    .delimited().delimiter(",")
+    .names("id", "name", "age")
+    .build()
+
+class TestCvsFieldSetMapperV2: FieldSetMapper<TestCsv> {
+  override fun mapFieldSet(fieldSet: FieldSet): TestCsv {
+    return TestCsv(
+      fieldSet.readString("id"),
+      fieldSet.readString("name"),
+      fieldSet.readInt("age")
+    )
+  }
+}
+```
+  - `names` 지정시 `fieldSetMapper` 에서 인덱스가 아닌 지정한 이름으로 참조 가능 
+
+
 - FixedLengthTokenizer
