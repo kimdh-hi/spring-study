@@ -334,3 +334,6 @@ class TestCvsFieldSetMapperV2: FieldSetMapper<TestCsv> {
 
 
 - FixedLengthTokenizer
+  - 한 개 라인을 설정한 고정길이를 기준으로 토큰화하는 방식
+  - 범위는 문자열로 지정한다. (`Range`)
+    - `"1-10"`, `"1-3,5,6-8"`  
