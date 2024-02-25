@@ -349,4 +349,50 @@ class TestCvsFieldSetMapperV2: FieldSetMapper<TestCsv> {
 - `strict=false` 설정시 검증 x
   - `default=true`
 
+```kotlin
+  @Bean
+fun itemReader() = FlatFileItemReaderBuilder<TestCsv>()
+    .name("flatFile")
+    .resource(ClassPathResource("/test.csv"))
+    .fieldSetMapper(TestCvsFieldSetMapperV2())
+    .strict(false)
+    .linesToSkip(1)
+    .delimited().delimiter(",")
+    .names("id", "name", "age")
+    .build()
+```
+
 ---
+
+### XML - StaxEventItemReader
+
+```
+Java  XML API
+
+DOM
+- xml 문서 전체를 메모리에 로드 후 트리 형태로 만들어 처리하는 방식 (pull 방식)
+- xml 문서가 큰 경우 메모리 부담이 있는 방식
+
+SAX 방식
+- 문서의 해당 항목을 읽을 때마다 이벤트를 발생시 데아터를 처리하는 방식 (push 방식)
+- 메모리 비용이 적음
+- 각 엘리먼트에 대한 제어가 어려움
+
+StAX 방식 (Streaming API for XML)
+- DOM 과 SAX 의 단점을 보완 (pull, push)
+- XML 문서를 읽고 쓸 수 있는 양방향 paser 제공
+- Iterator API, Cursor API
+```
+
+StAX
+- XML 문서 전체가 아닌 조각 단위로 분석, 처리
+```
+<a>
+  <aa>aa</aa>
+</a>
+<b>
+  <bb>bb</bb>
+</b>
+```
+- `<a>` 내 에 있는 엘리먼트들을 하나의 조각으로 처리
+- 조각을 읽을 때에는 DOM의 pull 방식 사용, 조각을 객체에 바인딩하는 경우에는 SAX의 push 방식을 사용한다. 
