@@ -40,6 +40,7 @@ class RedisConfig(
       connectionFactory = redisConnectionFactory
       keySerializer = RedisSerializer.string()
       valueSerializer = GenericJackson2JsonRedisSerializer(objectMapper)
+//      valueSerializer = RedisSerializer.json() // README 사용시 이슈 참고
     }
   }
 

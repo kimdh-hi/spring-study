@@ -12,10 +12,8 @@ import org.springframework.context.annotation.Configuration
 class MapperConfig {
 
   @Bean
-  fun objectMapper() = ObjectMapper()
-    .enable(SerializationFeature.INDENT_OUTPUT)
+  fun objectMapper(): ObjectMapper = ObjectMapper()
     .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-    .registerModule(JavaTimeModule())
+    .registerModule(JavaTimeModule()) // localDateTime... support
     .registerKotlinModule()
 }

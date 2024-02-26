@@ -54,8 +54,43 @@ public GenericJackson2JsonRedisSerializer(@Nullable String classPropertyTypeName
 - `GenericJasckson2JsonRedisSerializer, RedisSerializer.json()` 사용으로 발생하는 위 문제 해결
 - 생성시 `mapper.setDefaultTyping(typer);` 호출되지 않음
 
+###
+```kotlin
+valueSerializer = RedisSerializer.json() // 내부적으로 GenericJackson2JsonRedisSerializer-objectMapper 사용
+```
+- 내부적으로 생성되는 objectMapper 는 별다른 설정(module)이 추가되지 않음
+```kotlin
+public GenericJackson2JsonRedisSerializer(@Nullable String classPropertyTypeName, JacksonObjectReader reader,
+        JacksonObjectWriter writer) {
+
+    this(new ObjectMapper(), reader, writer, classPropertyTypeName);
+
+    // simply setting {@code mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)} does not help here since we need
+    // the type hint embedded for deserialization using the default typing feature.
+    registerNullValueSerializer(mapper, classPropertyTypeName);
+
+    StdTypeResolverBuilder typer = new TypeResolverBuilder(DefaultTyping.EVERYTHING,
+            mapper.getPolymorphicTypeValidator());
+    typer = typer.init(JsonTypeInfo.Id.CLASS, null);
+    typer = typer.inclusion(JsonTypeInfo.As.PROPERTY);
+
+    if (StringUtils.hasText(classPropertyTypeName)) {
+        typer = typer.typeProperty(classPropertyTypeName);
+    }
+    mapper.setDefaultTyping(typer);
+}
+```
+- `valueSerializer = RedisSerializer.json()` 사용시 이슈
+  - LocalDateTime 직렬화 불가
+  - 역직렬화 대상 클래스 기본 생성자 필요
+```
+org.springframework.data.redis.serializer.SerializationException: Could not write JSON: Java 8 date/time type `java.time.LocalDateTime` not supported by default: add Module "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" to enable handling
+```
 
 ---
+
+
+
 
 
 ## reference
