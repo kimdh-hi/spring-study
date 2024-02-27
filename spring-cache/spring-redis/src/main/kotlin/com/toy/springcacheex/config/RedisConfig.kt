@@ -15,6 +15,7 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializationContext
 import org.springframework.data.redis.serializer.RedisSerializer
 import java.time.Duration
@@ -55,11 +56,13 @@ class RedisConfig(
     .associateWith { redisExpiresConfiguration(CacheConstants.expiresMap[it]!!, objectMapper) }
 
   private fun redisExpiresConfiguration(duration: Duration, objectMapper: ObjectMapper): RedisCacheConfiguration {
-    return RedisCacheConfiguration.defaultCacheConfig(Thread.currentThread().contextClassLoader)
+    return RedisCacheConfiguration
+      .defaultCacheConfig(Thread.currentThread().contextClassLoader)
       .entryTtl(duration)
       .serializeValuesWith(
+        RedisSerializationContext.SerializationPair.fromSerializer(JdkSerializationRedisSerializer())
 //        RedisSerializationContext.SerializationPair.fromSerializer(GenericJackson2JsonRedisSerializer(objectMapper))
-        RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json())
+//        RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json())
       )
   }
 }

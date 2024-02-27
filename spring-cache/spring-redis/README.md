@@ -89,6 +89,20 @@ org.springframework.data.redis.serializer.SerializationException: Could not writ
 
 ---
 
+@Cacheable 직렬화/역직렬화 이슈
+
+```kotlin
+.serializeValuesWith(JdkSerializationRedisSerializer())
+```
+- JdkSerializationRedisSerializer 사용시
+  - Serializable 인터페이스 구현 필수
+  - 기본 생성자 불필요
+  - redis 에 byte 로 저장됨
+  - 해당 object 풀패키지 경로 함께 저장
+```
+127.0.0.1:6379> get "testKey4::SimpleKey []"
+"\xac\xed\x00\x05sr\x00)com.toy.springcacheex.service.CacheableVO\xda\xcaa \xd9\xcd!A\x02\x00\x01L\x00\x05data1t\x00\x12Ljava/lang/String;xpt\x00\x05data1"
+```
 
 
 
