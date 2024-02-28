@@ -35,3 +35,28 @@ public void deleteAllInBatch(Iterable<T> entities) {
 
 //public static final String DELETE_ALL_QUERY_BY_ID_STRING = "delete from %s x where %s in :ids";
 ```
+
+### 모든 필드가 null 인 @Embeddable NPE 이슈
+```kotlin
+@Embeddable
+class LastSpace(
+  @Enumerated(EnumType.STRING)
+  @Column(name = "last_space_type", length = ColumnSizeConstants.SPACE_TYPE)
+  var spaceType: UserSpaceType? = null,
+
+  @Column(name = "last_space_id", length = ColumnSizeConstants.UUID)
+  var spaceId: String? = null
+)
+```
+- 위와 같이 모든 필드가 null 인 Embeddable 필드의 경우 영속화시 해당 필드는 null 이 되어 참조시 NPE 가 발생한다.
+
+```
+https://in.relation.to/2016/02/10/hibernate-orm-510-final-release/
+
+@Embeddables and all null column values
+Historically Hibernate would always treat all null column values for an @Embeddable to mean that the @Embeddable should itself be null. 5.1 allows applications to dictate that Hibernate should instead use an empty @Embeddable instance. This is achieved via an opt-in setting: hibernate.create_empty_composites.enabled.
+
+See HHH-7610 for details.
+```
+
+- `spring.jpa.properties.hibernate.create_empty_composites.enabled=true`
