@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-batch")
+  implementation("com.fasterxml.jackson.core:jackson-databind")
   runtimeOnly("com.h2database:h2")
   runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
