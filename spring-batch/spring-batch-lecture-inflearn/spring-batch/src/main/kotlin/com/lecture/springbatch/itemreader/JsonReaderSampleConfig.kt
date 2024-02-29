@@ -8,6 +8,7 @@ import org.springframework.batch.item.file.FlatFileItemReader
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer
+import org.springframework.batch.item.json.GsonJsonObjectReader
 import org.springframework.batch.item.json.JacksonJsonObjectReader
 import org.springframework.batch.item.json.builder.JsonItemReaderBuilder
 import org.springframework.context.annotation.Bean
@@ -39,12 +40,13 @@ class JsonReaderSampleConfig(
   fun itemReader() = JsonItemReaderBuilder<JsonReaderTestVO>()
     .name("jsonReader")
     .resource(ClassPathResource("/test.json"))
-    .jsonObjectReader(JacksonJsonObjectReader(JsonReaderTestVO::class.java))
+//    .jsonObjectReader(JacksonJsonObjectReader(JsonReaderTestVO::class.java)) // 기본 생성자 필요
+    .jsonObjectReader(GsonJsonObjectReader(JsonReaderTestVO::class.java)) // 기본 생성자 x
     .build()
 }
 
 data class JsonReaderTestVO(
-  val id: Long = 0,
-  val name: String = "",
-  val age: Int = 0
+  val id: Long,
+  val name: String,
+  val age: Int
 )
