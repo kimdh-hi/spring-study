@@ -60,3 +60,13 @@ See HHH-7610 for details.
 ```
 
 - `spring.jpa.properties.hibernate.create_empty_composites.enabled=true`
+
+
+
+사용시 warning log
+- https://hibernate.atlassian.net/jira/software/c/projects/HHH/issues/HHH-11936
+
+```
+HHH000483: An experimental - and now also deprecated - feature has been enabled (hibernate.create_empty_composites.enabled=true) that instantiates empty composite/embedded objects when all of its attribute values are null. This feature has known issues and should not be used in production. See Hibernate Jira issue HHH-11936 for details.
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+```
