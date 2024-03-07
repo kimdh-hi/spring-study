@@ -10,3 +10,7 @@ springdoc:
     path: /swagger-ui-custom.html
     disable-swagger-default-url: true
     doc-expansion: none
+
+logging:
+  level:
+    "[org.springdoc]": trace

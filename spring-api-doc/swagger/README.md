@@ -1,7 +1,7 @@
 ## Spring swagger (openapi3)
 
 접근 <br/>
-http://localhost:8080/swagger-ui/index.html
+http://localhost:8083/swagger-ui/index.html
 
 ### springboot 3.1.x
 기존 boot 2.7.x 사용시
