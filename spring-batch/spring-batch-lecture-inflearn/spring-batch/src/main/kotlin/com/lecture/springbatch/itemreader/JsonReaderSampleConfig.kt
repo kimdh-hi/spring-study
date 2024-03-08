@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ClassPathResource
 import org.springframework.transaction.PlatformTransactionManager
 
-@Configuration
+//@Configuration
 class JsonReaderSampleConfig(
   private val jobRepository: JobRepository,
   private val transactionManager: PlatformTransactionManager,

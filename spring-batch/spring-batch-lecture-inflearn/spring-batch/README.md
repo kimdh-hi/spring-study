@@ -412,3 +412,6 @@ StAX
 - DB Connection 연결 시간을 길게 가져가지 않고, 메모리를 효율적으로 사용하려는 경우 적합
 
 
+### JdbcCursorItemReader
+- cursor 기반 JDBC 구현체
+- Thread-safe 하지 않으므로 멀티 쓰레드 환경에서 사용시 동기화 처리 필요
