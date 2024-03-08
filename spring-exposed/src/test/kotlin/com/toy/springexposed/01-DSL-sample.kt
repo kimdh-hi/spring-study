@@ -6,17 +6,9 @@ import com.toy.springexposed.domain.User
 import com.toy.springexposed.domain.User.name
 import com.toy.springexposed.vo.MemberResponseVO
 import com.toy.springexposed.vo.UserResponseVO
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.StdOutSqlLogger
-import org.jetbrains.exposed.sql.addLogger
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -42,7 +34,7 @@ class `01-DSL-sample`(
       }
 
       User
-        .select { name eq "kim" }
+        .selectAll().where { name eq "kim" }
         .forEach { println(it) }
 
       User.update {
@@ -50,7 +42,7 @@ class `01-DSL-sample`(
         run { it[name] = "kim-updated" }
       }
 
-      val updateTestResult = User.select { name eq "kim-updated" }
+      val updateTestResult = User.selectAll().where { name eq "kim-updated" }
         .map { UserResponseVO.of(it) }
         .firstOrNull()
       println(updateTestResult)
@@ -63,7 +55,7 @@ class `01-DSL-sample`(
       User
         .deleteWhere { name eq "kim-updated" }
 
-      val deleteTestResult = User.select { name eq "kim-updated" }.firstOrNull()
+      val deleteTestResult = User.selectAll().where { name eq "kim-updated" }.firstOrNull()
       assertNull(deleteTestResult)
 
 
