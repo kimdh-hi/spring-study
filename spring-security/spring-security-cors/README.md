@@ -34,7 +34,7 @@ GET, POST 등으로 서버로 요청시 요청한 `Origin`과 서버가 응답�
 
 ---
 
-### SpringBoot, Security CORS 설정
+### Spring Security CORS 설정
 
 ```kotlin
 @Configuration
@@ -92,3 +92,13 @@ cors 핉터가 jwt 필터보다 앞에 위치한다면 위와 같은 문제는 �
 - 실제 필터에서 수행되는 것은 `DefaultCorsProcessor` 이다.<br/>
 - `DefaultCorsProcessor` 는 클라이언트로부터 받은 CORS 관련 헤더를 기반으로 허용여부를 검증하고 그에 대한 헤더응답을 구성한다.<br/>
 - 응답헤더 구성후 현재 요청이 사전요청 혹은 허용하지 않은 출처라면 다음 필터를 타지 않고 리턴한다.
+
+---
+
+### spring security cors / WebMvcConfigurer.addCorsMappings cors 설정
+- spring security 의 cors 설정의 경우 filter 단에서 처리
+  - `org.springframework.web.filter.CorsFilter`
+- WebMvcConfigurer 를 통해 설정하는 cors 설정의 경우 interceptor 단에서 처리
+  - `org.springframework.web.servlet.handler.AbstractHandlerMapping.CorsInterceptor`
+
+spring security 를 사용하는 경우 interceptor 보다 앞 단에서 cors 관련 요청을 처리하는 CorsFilter 가 사용되도록 하는 것이 좋을 듯 하다.
