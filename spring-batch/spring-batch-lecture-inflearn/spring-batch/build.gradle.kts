@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-batch")
+  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("com.fasterxml.jackson.core:jackson-databind")
   implementation("com.google.code.gson:gson")
   runtimeOnly("com.h2database:h2")

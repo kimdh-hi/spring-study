@@ -11,8 +11,8 @@ class SecurityConfig {
 
   @Bean
   fun configure(http: HttpSecurity) = http
-    .cors { it.disable() }
-//    .cors {  }
+//    .cors { it.disable() }
+    .cors {  }
     .build()
 
 }

@@ -8,3 +8,16 @@ Spring aop cglib
 - spring boot 2.0 > CGLIB default
   - 구체 클래스 DI 가능
   - spring boot 는 AOP 적용시 default 로 CGLIB 사용 (`proxyTargetClass=true`)
+
+@EnableAspectJAutoProxy
+- proxy 기반 aop 동작을 위한 proxy 생성시 인터페이스를 구현할 것인지, 구체 클래스를 상속할 것인지에 대한 옵션 지정
+  - `@EnableAspectJAutoProxy(proxyTargetClass = false)`
+  - proxyTargetClass (default=false)
+- *spring boot 사용시 proxyTargetClass 는 true 가 기본값으로 처리된다.*
+  - spring boot 는 cglib 라이브러리가 안정화되었다고 판단.
+
+```
+spring 이 지정한 proxyTargetClass=false 기본값을 그대로 사용하고 싶은 경우
+
+spring.aop.proxy-target-class: false
+```

@@ -31,6 +31,14 @@ class RestClientTest @Autowired constructor(
       .retrieve()
       .toBodilessEntity()
   }
+
+  @Test
+  fun fakeApi() {
+    restClient.get()
+      .uri("http://localhost:8084/fake/exception")
+      .retrieve()
+      .toBodilessEntity()
+  }
 }
 
 data class Post(

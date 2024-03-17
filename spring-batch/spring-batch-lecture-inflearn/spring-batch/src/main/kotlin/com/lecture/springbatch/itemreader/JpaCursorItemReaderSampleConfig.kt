@@ -4,18 +4,15 @@ import org.slf4j.LoggerFactory
 import org.springframework.batch.core.job.builder.JobBuilder
 import org.springframework.batch.core.repository.JobRepository
 import org.springframework.batch.core.step.builder.StepBuilder
-import org.springframework.batch.item.ItemWriter
-import org.springframework.batch.item.database.JdbcCursorItemReader
 import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.transaction.PlatformTransactionManager
 import javax.sql.DataSource
 
 private const val CHUNK_SIZE = 10
 
 //@Configuration
-class JdbcCursorItemReaderSampleConfig(
+class JpaCursorItemReaderSampleConfig(
   private val jobRepository: JobRepository,
   private val transactionManager: PlatformTransactionManager,
   private val dataSource: DataSource
