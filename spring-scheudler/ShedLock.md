@@ -5,5 +5,20 @@
 - `ShedLock` 은 scheduler 실행시 인스턴스 간 중복실행을 방지한다.
 
 
+속성
+- name(*)
+  - lock 이름
+  - 동일 name 의 lock 은 shedlock 테이블의 동일 레코드를 사용
+- lockAtMostFor(*)
+  - lock이 최대로 유지되는 시간
+  - 지정한 시간 이후 lock 해제
+  - 반드시 예상 작업시간보다 크게 설정
+  - 일반적인 경우 job 종료시 lock 은 해제된다.
+  - `lockAtMostFor=9m`
+- lockAtLeastFor
+  - lock이 최소로 유지되는 시간
+  - lock 획득 후 최소 지정한 시간동안은 lock 이 해제되지 않는다.
+
+
 관련 라이브러리
 - https://github.com/lukas-krecan/ShedLock
