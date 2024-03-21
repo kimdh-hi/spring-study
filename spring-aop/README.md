@@ -21,3 +21,41 @@ spring 이 지정한 proxyTargetClass=false 기본값을 그대로 사용하고 
 
 spring.aop.proxy-target-class: false
 ```
+
+---
+
+```kotlin
+@Before("execution(* com.toy.springaop.controller.*.*(..))")
+@TestAnnotation
+fun testAspect() { }
+```
+- testAspect 가 적용되는 곳에 @TestAnnotation 이 붙기를 의도 (실패)
+
+```java
+//GPT code...
+@Aspect
+@Component
+public class TransactionAspect {
+    @Pointcut(“execution(* com.example.service.*.*get*(..)) ” +
+              “|| execution(* com.example.service.*.*find*(..)) ” +
+              “|| execution(* com.example.service.*.*check*(..))“)
+    public void readOnlyMethods() {}
+  
+    @Pointcut(“execution(* com.example.service.*.*(..)) ” +
+              “&& !execution(* com.example.service.*.*get*(..)) ” +
+              “&& !execution(* com.example.service.*.*find*(..)) ” +
+              “&& !execution(* com.example.service.*.*check*(..))“)
+    public void readWriteMethods() {}
+  
+    @Before(“readOnlyMethods()“)
+    @Transactional(readOnly = true)
+    public void applyReadOnlyTransaction() {
+        // Empty method, transactional annotation is enough to handle transaction
+    }
+    @Before(“readWriteMethods()“)
+    @Transactional(readOnly = false)
+    public void applyReadWriteTransaction() {
+        // Empty method, transactional annotation is enough to handle transaction
+    }
+}
+```
