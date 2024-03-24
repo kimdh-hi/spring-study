@@ -1,6 +1,9 @@
 package com.sample.springrestclient.config
 
 import org.slf4j.LoggerFactory
+import org.springframework.boot.web.client.ClientHttpRequestFactories
+import org.springframework.boot.web.client.ClientHttpRequestFactorySettings
+import org.springframework.boot.web.client.RestClientCustomizer
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -12,15 +15,28 @@ import org.springframework.http.client.ClientHttpResponse
 import org.springframework.web.client.ResponseErrorHandler
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.RestClient.ResponseSpec.ErrorHandler
+import java.time.Duration
 
 @Configuration
 class RestClientConfig {
 
   @Bean
-  fun restClient() = RestClient.builder()
-    .defaultStatusHandler(RestClientErrorHandler())
-    .requestInterceptor(RestClientLoggingInterceptor())
-    .build()
+  fun restClient(restClientBuilder: RestClient.Builder): RestClient {
+    return restClientBuilder.build()
+  }
+
+  @Bean
+  fun restClientCustomizer() = RestClientCustomizer { customizer ->
+    val clientHttpRequestFactory = ClientHttpRequestFactories.get(
+      ClientHttpRequestFactorySettings.DEFAULTS
+        .withReadTimeout(Duration.ofSeconds(30))
+        .withConnectTimeout(Duration.ofSeconds(3))
+    )
+
+    customizer.requestFactory(clientHttpRequestFactory)
+    customizer.defaultStatusHandler(RestClientErrorHandler())
+    customizer.requestInterceptor(RestClientLoggingInterceptor())
+  }
 }
 
 class RestClientLoggingInterceptor: ClientHttpRequestInterceptor {
