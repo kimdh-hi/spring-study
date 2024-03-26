@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpRequest
 import org.springframework.http.HttpStatusCode
+import org.springframework.http.MediaType
 import org.springframework.http.client.ClientHttpRequestExecution
 import org.springframework.http.client.ClientHttpRequestInterceptor
 import org.springframework.http.client.ClientHttpResponse
@@ -22,7 +23,12 @@ class RestClientConfig {
 
   @Bean
   fun restClient(restClientBuilder: RestClient.Builder): RestClient {
-    return restClientBuilder.build()
+    return restClientBuilder
+      .defaultHeaders {
+        it.contentType = MediaType.APPLICATION_JSON
+        it.accept = listOf(MediaType.APPLICATION_JSON)
+      }
+      .build()
   }
 
   @Bean

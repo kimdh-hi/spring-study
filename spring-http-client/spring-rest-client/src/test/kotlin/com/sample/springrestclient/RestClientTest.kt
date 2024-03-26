@@ -26,7 +26,6 @@ class RestClientTest @Autowired constructor(
   fun post() {
     restClient.post()
       .uri("https://jsonplaceholder.typicode.com/posts")
-      .contentType(MediaType.APPLICATION_JSON)
       .body(Post("user1", "id1", "title1", "body1"))
       .retrieve()
       .toBodilessEntity()
