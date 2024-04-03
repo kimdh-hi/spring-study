@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        consumer-in-0:
+          destination: input-topic
+          group: some-group
