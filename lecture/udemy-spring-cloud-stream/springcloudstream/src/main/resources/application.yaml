@@ -1,7 +1,12 @@
 spring:
   cloud:
+    function:
+      definition: function
     stream:
       bindings:
         consumer-in-0:
+          destination: input-topic
+          group: some-group
+        function-in-0:
           destination: input-topic
           group: some-group
