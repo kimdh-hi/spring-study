@@ -3,7 +3,7 @@ package com.lecture.springcloudstream
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = ["com.lecture.springcloudstream.\${sec}"])
 class SpringcloudstreamApplication
 
 fun main(args: Array<String>) {
