@@ -26,9 +26,12 @@ dependencies {
         exclude("org.jooq", "jooq") //boot 3.3x jooq 최신버전 사용 (exclude 불필요)
     }
     implementation("org.jooq:jooq:$jooqVersion")
-
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    jooqGenerator("com.mysql:mysql-connector-j")
+    jooqGenerator("org.jooq:jooq")
+    jooqGenerator("org.jooq:jooq-meta")
     runtimeOnly("com.mysql:mysql-connector-j")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -76,6 +79,14 @@ jooq {
                     }
                 }
             }
+        }
+    }
+}
+
+sourceSets {
+    main {
+        kotlin {
+            srcDirs(listOf("src/main/kotlin", "src/generated"))
         }
     }
 }
