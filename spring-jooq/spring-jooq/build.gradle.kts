@@ -52,7 +52,7 @@ val dbPassword = System.getProperty("db-password") ?: "passwd"
 
 jooq {
     configurations {
-        create("sakilaDB") {
+        create("sakilaDB") { // task > jooq.generate[NAME]Jooq
             generateSchemaSourceOnCompilation.set(false) // 기본적으로 스키마 소스 생성을 비활성화합니다
             jooqConfiguration.apply {
                 jdbc.apply {
