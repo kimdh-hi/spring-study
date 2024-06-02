@@ -12,9 +12,6 @@ class User(
   @UuidGenerator
   var id: String? = null,
 
-//  @Id
-//  var id: Int,
-
   var name: String
 ) {
   override fun toString(): String {

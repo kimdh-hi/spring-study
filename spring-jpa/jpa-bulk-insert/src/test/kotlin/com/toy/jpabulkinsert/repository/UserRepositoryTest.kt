@@ -14,11 +14,8 @@ class UserRepositoryTest @Autowired constructor(
 
   @Test
   fun saveAll() {
-    val users = (1 .. 1000).map { User(name = "name$it") }
-//    val users = (1 .. 1000).map { User(id = "id", name = "name$it") }
-    userRepository.saveAllAndFlush(users)
-
-    val findUsers = userRepository.findAll()
-    println(findUsers.size)
+    val users = (1 .. 50).map { User(name = "name$it") }
+    userRepository.saveAll(users)
+    userRepository.flush()
   }
 }

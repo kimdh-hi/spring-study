@@ -8,9 +8,11 @@ spring:
       connection-timeout: 3000
       connection-test-query: SELECT 1
   jpa:
-    hibernate.ddl-auto: create-drop
+    hibernate.ddl-auto: create
     properties:
       hibernate:
         jdbc:
           batch_size: 100
-
+logging:
+  level:
+    "[org.mariadb.jdbc]": trace
