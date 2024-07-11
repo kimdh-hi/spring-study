@@ -6,7 +6,8 @@ package org.jooq.generated.tables.records
 
 import java.math.BigDecimal
 
-import org.jooq.generated.tables.SalesByFilmCategory
+import org.jooq.generated.tables.JSalesByFilmCategory
+import org.jooq.generated.tables.pojos.SalesByFilmCategory
 import org.jooq.impl.TableRecordImpl
 
 
@@ -14,7 +15,7 @@ import org.jooq.impl.TableRecordImpl
  * VIEW
  */
 @Suppress("UNCHECKED_CAST")
-open class SalesByFilmCategoryRecord() : TableRecordImpl<SalesByFilmCategoryRecord>(SalesByFilmCategory.SALES_BY_FILM_CATEGORY) {
+open class SalesByFilmCategoryRecord() : TableRecordImpl<SalesByFilmCategoryRecord>(JSalesByFilmCategory.SALES_BY_FILM_CATEGORY) {
 
     open var category: String?
         set(value): Unit = set(0, value)
@@ -36,7 +37,7 @@ open class SalesByFilmCategoryRecord() : TableRecordImpl<SalesByFilmCategoryReco
     /**
      * Create a detached, initialised SalesByFilmCategoryRecord
      */
-    constructor(value: org.jooq.generated.tables.pojos.SalesByFilmCategory?): this() {
+    constructor(value: SalesByFilmCategory?): this() {
         if (value != null) {
             this.category = value.category
             this.totalSales = value.totalSales

@@ -6,7 +6,8 @@ package org.jooq.generated.tables.records
 
 import java.math.BigDecimal
 
-import org.jooq.generated.tables.SalesByStore
+import org.jooq.generated.tables.JSalesByStore
+import org.jooq.generated.tables.pojos.SalesByStore
 import org.jooq.impl.TableRecordImpl
 
 
@@ -14,7 +15,7 @@ import org.jooq.impl.TableRecordImpl
  * VIEW
  */
 @Suppress("UNCHECKED_CAST")
-open class SalesByStoreRecord() : TableRecordImpl<SalesByStoreRecord>(SalesByStore.SALES_BY_STORE) {
+open class SalesByStoreRecord() : TableRecordImpl<SalesByStoreRecord>(JSalesByStore.SALES_BY_STORE) {
 
     open var store: String?
         set(value): Unit = set(0, value)
@@ -41,7 +42,7 @@ open class SalesByStoreRecord() : TableRecordImpl<SalesByStoreRecord>(SalesBySto
     /**
      * Create a detached, initialised SalesByStoreRecord
      */
-    constructor(value: org.jooq.generated.tables.pojos.SalesByStore?): this() {
+    constructor(value: SalesByStore?): this() {
         if (value != null) {
             this.store = value.store
             this.manager = value.manager

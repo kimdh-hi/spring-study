@@ -4,7 +4,8 @@
 package org.jooq.generated.tables.records
 
 
-import org.jooq.generated.tables.CustomerList
+import org.jooq.generated.tables.JCustomerList
+import org.jooq.generated.tables.pojos.CustomerList
 import org.jooq.impl.TableRecordImpl
 import org.jooq.types.UInteger
 
@@ -13,7 +14,7 @@ import org.jooq.types.UInteger
  * VIEW
  */
 @Suppress("UNCHECKED_CAST")
-open class CustomerListRecord() : TableRecordImpl<CustomerListRecord>(CustomerList.CUSTOMER_LIST) {
+open class CustomerListRecord() : TableRecordImpl<CustomerListRecord>(JCustomerList.CUSTOMER_LIST) {
 
     open var id: UInteger?
         set(value): Unit = set(0, value)
@@ -70,7 +71,7 @@ open class CustomerListRecord() : TableRecordImpl<CustomerListRecord>(CustomerLi
     /**
      * Create a detached, initialised CustomerListRecord
      */
-    constructor(value: org.jooq.generated.tables.pojos.CustomerList?): this() {
+    constructor(value: CustomerList?): this() {
         if (value != null) {
             this.id = value.id
             this.name = value.name

@@ -9,11 +9,11 @@ import java.time.LocalDateTime
 
 import org.jooq.Configuration
 import org.jooq.Field
-import org.jooq.generated.routines.FilmInStock
-import org.jooq.generated.routines.FilmNotInStock
-import org.jooq.generated.routines.GetCustomerBalance
-import org.jooq.generated.routines.InventoryHeldByCustomer
-import org.jooq.generated.routines.InventoryInStock
+import org.jooq.generated.routines.JFilmInStock
+import org.jooq.generated.routines.JFilmNotInStock
+import org.jooq.generated.routines.JGetCustomerBalance
+import org.jooq.generated.routines.JInventoryHeldByCustomer
+import org.jooq.generated.routines.JInventoryInStock
 
 
 
@@ -25,7 +25,7 @@ fun filmInStock(
     , pFilmId: Int?
     , pStoreId: Int?
 ): Int? {
-    val p = FilmInStock()
+    val p = JFilmInStock()
     p.setPFilmId(pFilmId)
     p.setPStoreId(pStoreId)
 
@@ -41,7 +41,7 @@ fun filmNotInStock(
     , pFilmId: Int?
     , pStoreId: Int?
 ): Int? {
-    val p = FilmNotInStock()
+    val p = JFilmNotInStock()
     p.setPFilmId(pFilmId)
     p.setPStoreId(pStoreId)
 
@@ -57,7 +57,7 @@ fun getCustomerBalance(
     , pCustomerId: Int?
     , pEffectiveDate: LocalDateTime?
 ): BigDecimal? {
-    val f = GetCustomerBalance()
+    val f = JGetCustomerBalance()
     f.setPCustomerId(pCustomerId)
     f.setPEffectiveDate(pEffectiveDate)
 
@@ -72,7 +72,7 @@ fun getCustomerBalance(
       pCustomerId: Int?
     , pEffectiveDate: LocalDateTime?
 ): Field<BigDecimal?> {
-    val f = GetCustomerBalance()
+    val f = JGetCustomerBalance()
     f.setPCustomerId(pCustomerId)
     f.setPEffectiveDate(pEffectiveDate)
 
@@ -86,7 +86,7 @@ fun getCustomerBalance(
       pCustomerId: Field<Int?>
     , pEffectiveDate: Field<LocalDateTime?>
 ): Field<BigDecimal?> {
-    val f = GetCustomerBalance()
+    val f = JGetCustomerBalance()
     f.setPCustomerId(pCustomerId)
     f.setPEffectiveDate(pEffectiveDate)
 
@@ -100,7 +100,7 @@ fun inventoryHeldByCustomer(
       configuration: Configuration
     , pInventoryId: Int?
 ): Int? {
-    val f = InventoryHeldByCustomer()
+    val f = JInventoryHeldByCustomer()
     f.setPInventoryId(pInventoryId)
 
     f.execute(configuration)
@@ -113,7 +113,7 @@ fun inventoryHeldByCustomer(
 fun inventoryHeldByCustomer(
       pInventoryId: Int?
 ): Field<Int?> {
-    val f = InventoryHeldByCustomer()
+    val f = JInventoryHeldByCustomer()
     f.setPInventoryId(pInventoryId)
 
     return f.asField()
@@ -125,7 +125,7 @@ fun inventoryHeldByCustomer(
 fun inventoryHeldByCustomer(
       pInventoryId: Field<Int?>
 ): Field<Int?> {
-    val f = InventoryHeldByCustomer()
+    val f = JInventoryHeldByCustomer()
     f.setPInventoryId(pInventoryId)
 
     return f.asField()
@@ -138,7 +138,7 @@ fun inventoryInStock(
       configuration: Configuration
     , pInventoryId: Int?
 ): Byte? {
-    val f = InventoryInStock()
+    val f = JInventoryInStock()
     f.setPInventoryId(pInventoryId)
 
     f.execute(configuration)
@@ -151,7 +151,7 @@ fun inventoryInStock(
 fun inventoryInStock(
       pInventoryId: Int?
 ): Field<Byte?> {
-    val f = InventoryInStock()
+    val f = JInventoryInStock()
     f.setPInventoryId(pInventoryId)
 
     return f.asField()
@@ -163,7 +163,7 @@ fun inventoryInStock(
 fun inventoryInStock(
       pInventoryId: Field<Int?>
 ): Field<Byte?> {
-    val f = InventoryInStock()
+    val f = JInventoryInStock()
     f.setPInventoryId(pInventoryId)
 
     return f.asField()

@@ -4,137 +4,137 @@
 package org.jooq.generated.tables.references
 
 
-import org.jooq.generated.tables.Actor
-import org.jooq.generated.tables.Address
-import org.jooq.generated.tables.Category
-import org.jooq.generated.tables.City
-import org.jooq.generated.tables.Country
-import org.jooq.generated.tables.Customer
-import org.jooq.generated.tables.CustomerList
-import org.jooq.generated.tables.Film
-import org.jooq.generated.tables.FilmActor
-import org.jooq.generated.tables.FilmCategory
-import org.jooq.generated.tables.FilmList
-import org.jooq.generated.tables.FilmText
-import org.jooq.generated.tables.Inventory
-import org.jooq.generated.tables.Language
-import org.jooq.generated.tables.NicerButSlowerFilmList
-import org.jooq.generated.tables.Payment
-import org.jooq.generated.tables.Rental
-import org.jooq.generated.tables.SalesByFilmCategory
-import org.jooq.generated.tables.SalesByStore
-import org.jooq.generated.tables.Staff
-import org.jooq.generated.tables.StaffList
-import org.jooq.generated.tables.Store
+import org.jooq.generated.tables.JActor
+import org.jooq.generated.tables.JAddress
+import org.jooq.generated.tables.JCategory
+import org.jooq.generated.tables.JCity
+import org.jooq.generated.tables.JCountry
+import org.jooq.generated.tables.JCustomer
+import org.jooq.generated.tables.JCustomerList
+import org.jooq.generated.tables.JFilm
+import org.jooq.generated.tables.JFilmActor
+import org.jooq.generated.tables.JFilmCategory
+import org.jooq.generated.tables.JFilmList
+import org.jooq.generated.tables.JFilmText
+import org.jooq.generated.tables.JInventory
+import org.jooq.generated.tables.JLanguage
+import org.jooq.generated.tables.JNicerButSlowerFilmList
+import org.jooq.generated.tables.JPayment
+import org.jooq.generated.tables.JRental
+import org.jooq.generated.tables.JSalesByFilmCategory
+import org.jooq.generated.tables.JSalesByStore
+import org.jooq.generated.tables.JStaff
+import org.jooq.generated.tables.JStaffList
+import org.jooq.generated.tables.JStore
 
 
 
 /**
  * The table <code>sakila.actor</code>.
  */
-val ACTOR: Actor = Actor.ACTOR
+val ACTOR: JActor = JActor.ACTOR
 
 /**
  * The table <code>sakila.address</code>.
  */
-val ADDRESS: Address = Address.ADDRESS
+val ADDRESS: JAddress = JAddress.ADDRESS
 
 /**
  * The table <code>sakila.category</code>.
  */
-val CATEGORY: Category = Category.CATEGORY
+val CATEGORY: JCategory = JCategory.CATEGORY
 
 /**
  * The table <code>sakila.city</code>.
  */
-val CITY: City = City.CITY
+val CITY: JCity = JCity.CITY
 
 /**
  * The table <code>sakila.country</code>.
  */
-val COUNTRY: Country = Country.COUNTRY
+val COUNTRY: JCountry = JCountry.COUNTRY
 
 /**
  * The table <code>sakila.customer</code>.
  */
-val CUSTOMER: Customer = Customer.CUSTOMER
+val CUSTOMER: JCustomer = JCustomer.CUSTOMER
 
 /**
  * VIEW
  */
-val CUSTOMER_LIST: CustomerList = CustomerList.CUSTOMER_LIST
+val CUSTOMER_LIST: JCustomerList = JCustomerList.CUSTOMER_LIST
 
 /**
  * The table <code>sakila.film</code>.
  */
-val FILM: Film = Film.FILM
+val FILM: JFilm = JFilm.FILM
 
 /**
  * The table <code>sakila.film_actor</code>.
  */
-val FILM_ACTOR: FilmActor = FilmActor.FILM_ACTOR
+val FILM_ACTOR: JFilmActor = JFilmActor.FILM_ACTOR
 
 /**
  * The table <code>sakila.film_category</code>.
  */
-val FILM_CATEGORY: FilmCategory = FilmCategory.FILM_CATEGORY
+val FILM_CATEGORY: JFilmCategory = JFilmCategory.FILM_CATEGORY
 
 /**
  * VIEW
  */
-val FILM_LIST: FilmList = FilmList.FILM_LIST
+val FILM_LIST: JFilmList = JFilmList.FILM_LIST
 
 /**
  * The table <code>sakila.film_text</code>.
  */
-val FILM_TEXT: FilmText = FilmText.FILM_TEXT
+val FILM_TEXT: JFilmText = JFilmText.FILM_TEXT
 
 /**
  * The table <code>sakila.inventory</code>.
  */
-val INVENTORY: Inventory = Inventory.INVENTORY
+val INVENTORY: JInventory = JInventory.INVENTORY
 
 /**
  * The table <code>sakila.language</code>.
  */
-val LANGUAGE: Language = Language.LANGUAGE
+val LANGUAGE: JLanguage = JLanguage.LANGUAGE
 
 /**
  * VIEW
  */
-val NICER_BUT_SLOWER_FILM_LIST: NicerButSlowerFilmList = NicerButSlowerFilmList.NICER_BUT_SLOWER_FILM_LIST
+val NICER_BUT_SLOWER_FILM_LIST: JNicerButSlowerFilmList = JNicerButSlowerFilmList.NICER_BUT_SLOWER_FILM_LIST
 
 /**
  * The table <code>sakila.payment</code>.
  */
-val PAYMENT: Payment = Payment.PAYMENT
+val PAYMENT: JPayment = JPayment.PAYMENT
 
 /**
  * The table <code>sakila.rental</code>.
  */
-val RENTAL: Rental = Rental.RENTAL
+val RENTAL: JRental = JRental.RENTAL
 
 /**
  * VIEW
  */
-val SALES_BY_FILM_CATEGORY: SalesByFilmCategory = SalesByFilmCategory.SALES_BY_FILM_CATEGORY
+val SALES_BY_FILM_CATEGORY: JSalesByFilmCategory = JSalesByFilmCategory.SALES_BY_FILM_CATEGORY
 
 /**
  * VIEW
  */
-val SALES_BY_STORE: SalesByStore = SalesByStore.SALES_BY_STORE
+val SALES_BY_STORE: JSalesByStore = JSalesByStore.SALES_BY_STORE
 
 /**
  * The table <code>sakila.staff</code>.
  */
-val STAFF: Staff = Staff.STAFF
+val STAFF: JStaff = JStaff.STAFF
 
 /**
  * VIEW
  */
-val STAFF_LIST: StaffList = StaffList.STAFF_LIST
+val STAFF_LIST: JStaffList = JStaffList.STAFF_LIST
 
 /**
  * The table <code>sakila.store</code>.
  */
-val STORE: Store = Store.STORE
+val STORE: JStore = JStore.STORE

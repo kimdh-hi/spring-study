@@ -7,7 +7,8 @@ package org.jooq.generated.tables.records
 import java.math.BigDecimal
 
 import org.jooq.generated.enums.FilmListRating
-import org.jooq.generated.tables.FilmList
+import org.jooq.generated.tables.JFilmList
+import org.jooq.generated.tables.pojos.FilmList
 import org.jooq.impl.TableRecordImpl
 import org.jooq.types.UInteger
 import org.jooq.types.UShort
@@ -17,7 +18,7 @@ import org.jooq.types.UShort
  * VIEW
  */
 @Suppress("UNCHECKED_CAST")
-open class FilmListRecord() : TableRecordImpl<FilmListRecord>(FilmList.FILM_LIST) {
+open class FilmListRecord() : TableRecordImpl<FilmListRecord>(JFilmList.FILM_LIST) {
 
     open var fid: UInteger?
         set(value): Unit = set(0, value)
@@ -69,7 +70,7 @@ open class FilmListRecord() : TableRecordImpl<FilmListRecord>(FilmList.FILM_LIST
     /**
      * Create a detached, initialised FilmListRecord
      */
-    constructor(value: org.jooq.generated.tables.pojos.FilmList?): this() {
+    constructor(value: FilmList?): this() {
         if (value != null) {
             this.fid = value.fid
             this.title = value.title

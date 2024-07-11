@@ -1,5 +1,3 @@
-val jooqVersion = "3.19.5"
-
 plugins {
     id("org.springframework.boot") version "3.3.0"
     id("io.spring.dependency-management") version "1.1.5"
@@ -23,14 +21,14 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jooq") {
-        exclude("org.jooq", "jooq") //boot 3.3x jooq 최신버전 사용 (exclude 불필요)
+//        exclude("org.jooq", "jooq") //boot 3.3x jooq 최신버전 사용 (exclude 불필요)
     }
-    implementation("org.jooq:jooq:$jooqVersion")
-    jooqGenerator("com.mysql:mysql-connector-j")
-    jooqGenerator("org.jooq:jooq")
-    jooqGenerator("org.jooq:jooq-meta")
     runtimeOnly("com.mysql:mysql-connector-j")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+    jooqGenerator(project(":jOOQ-custom"))
+    jooqGenerator("org.jooq:jooq")
+    jooqGenerator("org.jooq:jooq-meta")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -62,7 +60,7 @@ jooq {
                     password = dbPassword
                 }
                 generator.apply {
-                    name = "org.jooq.codegen.KotlinGenerator" // 코틀린 제너레이터 명시
+                    name = "org.jooq.codegen.KotlinGenerator" // kotlin 제너레이터 명시
                     database.apply {
                         name = "org.jooq.meta.mysql.MySQLDatabase"
                         inputSchema = "sakila"
@@ -77,6 +75,7 @@ jooq {
                     target.apply {
                         directory = "src/generated"
                     }
+                    strategy.name = "jooq.custom.generator.JPrefixGeneratorStrategy"
                 }
             }
         }

@@ -4,7 +4,8 @@
 package org.jooq.generated.tables.records
 
 
-import org.jooq.generated.tables.StaffList
+import org.jooq.generated.tables.JStaffList
+import org.jooq.generated.tables.pojos.StaffList
 import org.jooq.impl.TableRecordImpl
 import org.jooq.types.UInteger
 
@@ -13,7 +14,7 @@ import org.jooq.types.UInteger
  * VIEW
  */
 @Suppress("UNCHECKED_CAST")
-open class StaffListRecord() : TableRecordImpl<StaffListRecord>(StaffList.STAFF_LIST) {
+open class StaffListRecord() : TableRecordImpl<StaffListRecord>(JStaffList.STAFF_LIST) {
 
     open var id: UInteger?
         set(value): Unit = set(0, value)
@@ -65,7 +66,7 @@ open class StaffListRecord() : TableRecordImpl<StaffListRecord>(StaffList.STAFF_
     /**
      * Create a detached, initialised StaffListRecord
      */
-    constructor(value: org.jooq.generated.tables.pojos.StaffList?): this() {
+    constructor(value: StaffList?): this() {
         if (value != null) {
             this.id = value.id
             this.name = value.name

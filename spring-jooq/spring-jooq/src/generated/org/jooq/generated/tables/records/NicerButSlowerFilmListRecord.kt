@@ -7,7 +7,8 @@ package org.jooq.generated.tables.records
 import java.math.BigDecimal
 
 import org.jooq.generated.enums.NicerButSlowerFilmListRating
-import org.jooq.generated.tables.NicerButSlowerFilmList
+import org.jooq.generated.tables.JNicerButSlowerFilmList
+import org.jooq.generated.tables.pojos.NicerButSlowerFilmList
 import org.jooq.impl.TableRecordImpl
 import org.jooq.types.UInteger
 import org.jooq.types.UShort
@@ -17,7 +18,7 @@ import org.jooq.types.UShort
  * VIEW
  */
 @Suppress("UNCHECKED_CAST")
-open class NicerButSlowerFilmListRecord() : TableRecordImpl<NicerButSlowerFilmListRecord>(NicerButSlowerFilmList.NICER_BUT_SLOWER_FILM_LIST) {
+open class NicerButSlowerFilmListRecord() : TableRecordImpl<NicerButSlowerFilmListRecord>(JNicerButSlowerFilmList.NICER_BUT_SLOWER_FILM_LIST) {
 
     open var fid: UInteger?
         set(value): Unit = set(0, value)
@@ -69,7 +70,7 @@ open class NicerButSlowerFilmListRecord() : TableRecordImpl<NicerButSlowerFilmLi
     /**
      * Create a detached, initialised NicerButSlowerFilmListRecord
      */
-    constructor(value: org.jooq.generated.tables.pojos.NicerButSlowerFilmList?): this() {
+    constructor(value: NicerButSlowerFilmList?): this() {
         if (value != null) {
             this.fid = value.fid
             this.title = value.title
