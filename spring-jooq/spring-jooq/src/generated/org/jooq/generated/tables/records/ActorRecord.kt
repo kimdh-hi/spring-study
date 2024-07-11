@@ -4,6 +4,9 @@
 package org.jooq.generated.tables.records
 
 
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Size
+
 import java.time.LocalDateTime
 
 import org.jooq.Record1
@@ -23,10 +26,14 @@ open class ActorRecord() : UpdatableRecordImpl<ActorRecord>(JActor.ACTOR) {
         set(value): Unit = set(0, value)
         get(): UInteger? = get(0) as UInteger?
 
+    @get:NotNull
+    @get:Size(max = 45)
     open var firstName: String?
         set(value): Unit = set(1, value)
         get(): String? = get(1) as String?
 
+    @get:NotNull
+    @get:Size(max = 45)
     open var lastName: String?
         set(value): Unit = set(2, value)
         get(): String? = get(2) as String?

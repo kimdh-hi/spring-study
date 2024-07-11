@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.backend.common.phaser.validationAction
+
 plugins {
     id("org.springframework.boot") version "3.3.0"
     id("io.spring.dependency-management") version "1.1.5"
@@ -69,8 +71,12 @@ jooq {
                         isDaos = true
                         isRecords = true
                         isFluentSetters = true
-                        isJavaTimeTypes = true
+                        isJavaTimeTypes = true // LocalDateTime (false=timestamp)
                         isDeprecated = false
+
+//                        isJpaAnnotations = true
+//                        jpaVersion = "2.2"
+//                        isValidationAnnotations = true // jakarta validation annotation
                     }
                     target.apply {
                         directory = "src/generated"

@@ -4,6 +4,9 @@
 package org.jooq.generated.tables.records
 
 
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Size
+
 import java.math.BigDecimal
 
 import org.jooq.generated.enums.NicerButSlowerFilmListRating
@@ -24,14 +27,18 @@ open class NicerButSlowerFilmListRecord() : TableRecordImpl<NicerButSlowerFilmLi
         set(value): Unit = set(0, value)
         get(): UInteger? = get(0) as UInteger?
 
+    @get:Size(max = 255)
     open var title: String?
         set(value): Unit = set(1, value)
         get(): String? = get(1) as String?
 
+    @get:Size(max = 65535)
     open var description: String?
         set(value): Unit = set(2, value)
         get(): String? = get(2) as String?
 
+    @get:NotNull
+    @get:Size(max = 25)
     open var category: String?
         set(value): Unit = set(3, value)
         get(): String? = get(3) as String?
@@ -48,6 +55,7 @@ open class NicerButSlowerFilmListRecord() : TableRecordImpl<NicerButSlowerFilmLi
         set(value): Unit = set(6, value)
         get(): NicerButSlowerFilmListRating? = get(6) as NicerButSlowerFilmListRating?
 
+    @get:Size(max = 65535)
     open var actors: String?
         set(value): Unit = set(7, value)
         get(): String? = get(7) as String?

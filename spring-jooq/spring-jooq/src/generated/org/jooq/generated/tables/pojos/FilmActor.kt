@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.pojos
 
 
+import jakarta.validation.constraints.NotNull
+
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -15,7 +17,9 @@ import org.jooq.types.UInteger
  */
 @Suppress("UNCHECKED_CAST")
 data class FilmActor(
+    @get:NotNull
     var actorId: UInteger? = null,
+    @get:NotNull
     var filmId: UInteger? = null,
     var lastUpdate: LocalDateTime? = null
 ): Serializable {

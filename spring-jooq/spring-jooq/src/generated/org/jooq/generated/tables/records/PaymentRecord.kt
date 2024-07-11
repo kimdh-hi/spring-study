@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.records
 
 
+import jakarta.validation.constraints.NotNull
+
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -24,10 +26,12 @@ open class PaymentRecord() : UpdatableRecordImpl<PaymentRecord>(JPayment.PAYMENT
         set(value): Unit = set(0, value)
         get(): UInteger? = get(0) as UInteger?
 
+    @get:NotNull
     open var customerId: UInteger?
         set(value): Unit = set(1, value)
         get(): UInteger? = get(1) as UInteger?
 
+    @get:NotNull
     open var staffId: UInteger?
         set(value): Unit = set(2, value)
         get(): UInteger? = get(2) as UInteger?
@@ -36,10 +40,12 @@ open class PaymentRecord() : UpdatableRecordImpl<PaymentRecord>(JPayment.PAYMENT
         set(value): Unit = set(3, value)
         get(): Int? = get(3) as Int?
 
+    @get:NotNull
     open var amount: BigDecimal?
         set(value): Unit = set(4, value)
         get(): BigDecimal? = get(4) as BigDecimal?
 
+    @get:NotNull
     open var paymentDate: LocalDateTime?
         set(value): Unit = set(5, value)
         get(): LocalDateTime? = get(5) as LocalDateTime?

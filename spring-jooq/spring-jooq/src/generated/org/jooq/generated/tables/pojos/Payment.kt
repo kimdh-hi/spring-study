@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.pojos
 
 
+import jakarta.validation.constraints.NotNull
+
 import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -17,10 +19,14 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 data class Payment(
     var paymentId: UInteger? = null,
+    @get:NotNull
     var customerId: UInteger? = null,
+    @get:NotNull
     var staffId: UInteger? = null,
     var rentalId: Int? = null,
+    @get:NotNull
     var amount: BigDecimal? = null,
+    @get:NotNull
     var paymentDate: LocalDateTime? = null,
     var lastUpdate: LocalDateTime? = null
 ): Serializable {

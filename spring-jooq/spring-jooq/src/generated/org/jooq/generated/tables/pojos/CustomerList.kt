@@ -4,6 +4,9 @@
 package org.jooq.generated.tables.pojos
 
 
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Size
+
 import java.io.Serializable
 
 import org.jooq.types.UInteger
@@ -15,13 +18,25 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 data class CustomerList(
     var id: UInteger? = null,
+    @get:Size(max = 91)
     var name: String? = null,
+    @get:NotNull
+    @get:Size(max = 50)
     var address: String? = null,
+    @get:Size(max = 10)
     var zipCode: String? = null,
+    @get:NotNull
+    @get:Size(max = 20)
     var phone: String? = null,
+    @get:NotNull
+    @get:Size(max = 50)
     var city: String? = null,
+    @get:NotNull
+    @get:Size(max = 50)
     var country: String? = null,
+    @get:Size(max = 6)
     var notes: String? = null,
+    @get:NotNull
     var sid: UInteger? = null
 ): Serializable {
 

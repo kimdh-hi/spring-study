@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.records
 
 
+import jakarta.validation.constraints.NotNull
+
 import java.time.LocalDateTime
 
 import org.jooq.Record1
@@ -23,10 +25,12 @@ open class StoreRecord() : UpdatableRecordImpl<StoreRecord>(JStore.STORE) {
         set(value): Unit = set(0, value)
         get(): UInteger? = get(0) as UInteger?
 
+    @get:NotNull
     open var managerStaffId: UInteger?
         set(value): Unit = set(1, value)
         get(): UInteger? = get(1) as UInteger?
 
+    @get:NotNull
     open var addressId: UInteger?
         set(value): Unit = set(2, value)
         get(): UInteger? = get(2) as UInteger?

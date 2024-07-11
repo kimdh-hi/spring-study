@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.records
 
 
+import jakarta.validation.constraints.NotNull
+
 import java.time.LocalDateTime
 
 import org.jooq.Record2
@@ -19,10 +21,12 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 open class FilmActorRecord() : UpdatableRecordImpl<FilmActorRecord>(JFilmActor.FILM_ACTOR) {
 
+    @get:NotNull
     open var actorId: UInteger?
         set(value): Unit = set(0, value)
         get(): UInteger? = get(0) as UInteger?
 
+    @get:NotNull
     open var filmId: UInteger?
         set(value): Unit = set(1, value)
         get(): UInteger? = get(1) as UInteger?

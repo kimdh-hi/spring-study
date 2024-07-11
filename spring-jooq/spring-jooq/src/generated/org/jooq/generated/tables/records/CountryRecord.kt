@@ -4,6 +4,9 @@
 package org.jooq.generated.tables.records
 
 
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Size
+
 import java.time.LocalDateTime
 
 import org.jooq.Record1
@@ -23,6 +26,8 @@ open class CountryRecord() : UpdatableRecordImpl<CountryRecord>(JCountry.COUNTRY
         set(value): Unit = set(0, value)
         get(): UInteger? = get(0) as UInteger?
 
+    @get:NotNull
+    @get:Size(max = 50)
     open var country: String?
         set(value): Unit = set(1, value)
         get(): String? = get(1) as String?

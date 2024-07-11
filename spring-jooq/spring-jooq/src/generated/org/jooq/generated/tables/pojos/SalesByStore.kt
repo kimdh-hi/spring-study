@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.pojos
 
 
+import jakarta.validation.constraints.Size
+
 import java.io.Serializable
 import java.math.BigDecimal
 
@@ -13,7 +15,9 @@ import java.math.BigDecimal
  */
 @Suppress("UNCHECKED_CAST")
 data class SalesByStore(
+    @get:Size(max = 101)
     var store: String? = null,
+    @get:Size(max = 91)
     var manager: String? = null,
     var totalSales: BigDecimal? = null
 ): Serializable {
