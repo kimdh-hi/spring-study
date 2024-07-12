@@ -4,9 +4,6 @@
 package org.jooq.generated.tables.pojos
 
 
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Size
-
 import java.io.Serializable
 import java.math.BigDecimal
 
@@ -21,17 +18,12 @@ import org.jooq.types.UShort
 @Suppress("UNCHECKED_CAST")
 data class NicerButSlowerFilmList(
     var fid: UInteger? = null,
-    @get:Size(max = 255)
     var title: String? = null,
-    @get:Size(max = 65535)
     var description: String? = null,
-    @get:NotNull
-    @get:Size(max = 25)
     var category: String? = null,
     var price: BigDecimal? = null,
     var length: UShort? = null,
     var rating: NicerButSlowerFilmListRating? = null,
-    @get:Size(max = 65535)
     var actors: String? = null
 ): Serializable {
 

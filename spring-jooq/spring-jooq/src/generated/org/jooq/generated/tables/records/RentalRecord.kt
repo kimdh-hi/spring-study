@@ -4,8 +4,6 @@
 package org.jooq.generated.tables.records
 
 
-import jakarta.validation.constraints.NotNull
-
 import java.time.LocalDateTime
 
 import org.jooq.Record1
@@ -25,17 +23,14 @@ open class RentalRecord() : UpdatableRecordImpl<RentalRecord>(JRental.RENTAL) {
         set(value): Unit = set(0, value)
         get(): Int? = get(0) as Int?
 
-    @get:NotNull
     open var rentalDate: LocalDateTime?
         set(value): Unit = set(1, value)
         get(): LocalDateTime? = get(1) as LocalDateTime?
 
-    @get:NotNull
     open var inventoryId: UInteger?
         set(value): Unit = set(2, value)
         get(): UInteger? = get(2) as UInteger?
 
-    @get:NotNull
     open var customerId: UInteger?
         set(value): Unit = set(3, value)
         get(): UInteger? = get(3) as UInteger?
@@ -44,7 +39,6 @@ open class RentalRecord() : UpdatableRecordImpl<RentalRecord>(JRental.RENTAL) {
         set(value): Unit = set(4, value)
         get(): LocalDateTime? = get(4) as LocalDateTime?
 
-    @get:NotNull
     open var staffId: UInteger?
         set(value): Unit = set(5, value)
         get(): UInteger? = get(5) as UInteger?

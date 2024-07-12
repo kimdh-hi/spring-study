@@ -4,9 +4,6 @@
 package org.jooq.generated.tables.records
 
 
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Size
-
 import java.time.LocalDateTime
 
 import org.jooq.Record1
@@ -26,19 +23,14 @@ open class StaffRecord() : UpdatableRecordImpl<StaffRecord>(JStaff.STAFF) {
         set(value): Unit = set(0, value)
         get(): UInteger? = get(0) as UInteger?
 
-    @get:NotNull
-    @get:Size(max = 45)
     open var firstName: String?
         set(value): Unit = set(1, value)
         get(): String? = get(1) as String?
 
-    @get:NotNull
-    @get:Size(max = 45)
     open var lastName: String?
         set(value): Unit = set(2, value)
         get(): String? = get(2) as String?
 
-    @get:NotNull
     open var addressId: UInteger?
         set(value): Unit = set(3, value)
         get(): UInteger? = get(3) as UInteger?
@@ -47,12 +39,10 @@ open class StaffRecord() : UpdatableRecordImpl<StaffRecord>(JStaff.STAFF) {
         set(value): Unit = set(4, value)
         get(): ByteArray? = get(4) as ByteArray?
 
-    @get:Size(max = 50)
     open var email: String?
         set(value): Unit = set(5, value)
         get(): String? = get(5) as String?
 
-    @get:NotNull
     open var storeId: UInteger?
         set(value): Unit = set(6, value)
         get(): UInteger? = get(6) as UInteger?
@@ -61,13 +51,10 @@ open class StaffRecord() : UpdatableRecordImpl<StaffRecord>(JStaff.STAFF) {
         set(value): Unit = set(7, value)
         get(): Byte? = get(7) as Byte?
 
-    @get:NotNull
-    @get:Size(max = 16)
     open var username: String?
         set(value): Unit = set(8, value)
         get(): String? = get(8) as String?
 
-    @get:Size(max = 40)
     open var password: String?
         set(value): Unit = set(9, value)
         get(): String? = get(9) as String?

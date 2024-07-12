@@ -4,9 +4,6 @@
 package org.jooq.generated.tables.records
 
 
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Size
-
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.Year
@@ -31,13 +28,10 @@ open class FilmRecord() : UpdatableRecordImpl<FilmRecord>(JFilm.FILM) {
         set(value): Unit = set(0, value)
         get(): UInteger? = get(0) as UInteger?
 
-    @get:NotNull
-    @get:Size(max = 255)
     open var title: String?
         set(value): Unit = set(1, value)
         get(): String? = get(1) as String?
 
-    @get:Size(max = 65535)
     open var description: String?
         set(value): Unit = set(2, value)
         get(): String? = get(2) as String?
@@ -46,7 +40,6 @@ open class FilmRecord() : UpdatableRecordImpl<FilmRecord>(JFilm.FILM) {
         set(value): Unit = set(3, value)
         get(): Year? = get(3) as Year?
 
-    @get:NotNull
     open var languageId: UInteger?
         set(value): Unit = set(4, value)
         get(): UInteger? = get(4) as UInteger?
@@ -75,7 +68,6 @@ open class FilmRecord() : UpdatableRecordImpl<FilmRecord>(JFilm.FILM) {
         set(value): Unit = set(10, value)
         get(): FilmRating? = get(10) as FilmRating?
 
-    @get:Size(max = 54)
     open var specialFeatures: String?
         set(value): Unit = set(11, value)
         get(): String? = get(11) as String?

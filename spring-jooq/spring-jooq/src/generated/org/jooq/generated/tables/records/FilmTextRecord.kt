@@ -4,9 +4,6 @@
 package org.jooq.generated.tables.records
 
 
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Size
-
 import org.jooq.Record1
 import org.jooq.generated.tables.JFilmText
 import org.jooq.generated.tables.pojos.FilmText
@@ -19,18 +16,14 @@ import org.jooq.impl.UpdatableRecordImpl
 @Suppress("UNCHECKED_CAST")
 open class FilmTextRecord() : UpdatableRecordImpl<FilmTextRecord>(JFilmText.FILM_TEXT) {
 
-    @get:NotNull
     open var filmId: Int?
         set(value): Unit = set(0, value)
         get(): Int? = get(0) as Int?
 
-    @get:NotNull
-    @get:Size(max = 255)
     open var title: String?
         set(value): Unit = set(1, value)
         get(): String? = get(1) as String?
 
-    @get:Size(max = 65535)
     open var description: String?
         set(value): Unit = set(2, value)
         get(): String? = get(2) as String?

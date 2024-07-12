@@ -4,9 +4,6 @@
 package org.jooq.generated.tables.records
 
 
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Size
-
 import java.time.LocalDateTime
 
 import org.jooq.Record1
@@ -26,29 +23,22 @@ open class CustomerRecord() : UpdatableRecordImpl<CustomerRecord>(JCustomer.CUST
         set(value): Unit = set(0, value)
         get(): UInteger? = get(0) as UInteger?
 
-    @get:NotNull
     open var storeId: UInteger?
         set(value): Unit = set(1, value)
         get(): UInteger? = get(1) as UInteger?
 
-    @get:NotNull
-    @get:Size(max = 45)
     open var firstName: String?
         set(value): Unit = set(2, value)
         get(): String? = get(2) as String?
 
-    @get:NotNull
-    @get:Size(max = 45)
     open var lastName: String?
         set(value): Unit = set(3, value)
         get(): String? = get(3) as String?
 
-    @get:Size(max = 50)
     open var email: String?
         set(value): Unit = set(4, value)
         get(): String? = get(4) as String?
 
-    @get:NotNull
     open var addressId: UInteger?
         set(value): Unit = set(5, value)
         get(): UInteger? = get(5) as UInteger?
@@ -57,7 +47,6 @@ open class CustomerRecord() : UpdatableRecordImpl<CustomerRecord>(JCustomer.CUST
         set(value): Unit = set(6, value)
         get(): Byte? = get(6) as Byte?
 
-    @get:NotNull
     open var createDate: LocalDateTime?
         set(value): Unit = set(7, value)
         get(): LocalDateTime? = get(7) as LocalDateTime?

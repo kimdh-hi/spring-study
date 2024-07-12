@@ -4,9 +4,6 @@
 package org.jooq.generated.tables.records
 
 
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Size
-
 import org.jooq.generated.tables.JCustomerList
 import org.jooq.generated.tables.pojos.CustomerList
 import org.jooq.impl.TableRecordImpl
@@ -23,46 +20,34 @@ open class CustomerListRecord() : TableRecordImpl<CustomerListRecord>(JCustomerL
         set(value): Unit = set(0, value)
         get(): UInteger? = get(0) as UInteger?
 
-    @get:Size(max = 91)
     open var name: String?
         set(value): Unit = set(1, value)
         get(): String? = get(1) as String?
 
-    @get:NotNull
-    @get:Size(max = 50)
     open var address: String?
         set(value): Unit = set(2, value)
         get(): String? = get(2) as String?
 
-    @get:Size(max = 10)
     open var zipCode: String?
         set(value): Unit = set(3, value)
         get(): String? = get(3) as String?
 
-    @get:NotNull
-    @get:Size(max = 20)
     open var phone: String?
         set(value): Unit = set(4, value)
         get(): String? = get(4) as String?
 
-    @get:NotNull
-    @get:Size(max = 50)
     open var city: String?
         set(value): Unit = set(5, value)
         get(): String? = get(5) as String?
 
-    @get:NotNull
-    @get:Size(max = 50)
     open var country: String?
         set(value): Unit = set(6, value)
         get(): String? = get(6) as String?
 
-    @get:Size(max = 6)
     open var notes: String?
         set(value): Unit = set(7, value)
         get(): String? = get(7) as String?
 
-    @get:NotNull
     open var sid: UInteger?
         set(value): Unit = set(8, value)
         get(): UInteger? = get(8) as UInteger?

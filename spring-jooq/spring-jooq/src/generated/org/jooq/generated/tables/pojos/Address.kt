@@ -4,9 +4,6 @@
 package org.jooq.generated.tables.pojos
 
 
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Size
-
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -19,20 +16,11 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 data class Address(
     var addressId: UInteger? = null,
-    @get:NotNull
-    @get:Size(max = 50)
     var address: String? = null,
-    @get:Size(max = 50)
     var address2: String? = null,
-    @get:NotNull
-    @get:Size(max = 20)
     var district: String? = null,
-    @get:NotNull
     var cityId: UInteger? = null,
-    @get:Size(max = 10)
     var postalCode: String? = null,
-    @get:NotNull
-    @get:Size(max = 20)
     var phone: String? = null,
     var lastUpdate: LocalDateTime? = null
 ): Serializable {

@@ -4,8 +4,6 @@
 package org.jooq.generated.tables.records
 
 
-import jakarta.validation.constraints.Size
-
 import java.math.BigDecimal
 
 import org.jooq.generated.tables.JSalesByStore
@@ -19,12 +17,10 @@ import org.jooq.impl.TableRecordImpl
 @Suppress("UNCHECKED_CAST")
 open class SalesByStoreRecord() : TableRecordImpl<SalesByStoreRecord>(JSalesByStore.SALES_BY_STORE) {
 
-    @get:Size(max = 101)
     open var store: String?
         set(value): Unit = set(0, value)
         get(): String? = get(0) as String?
 
-    @get:Size(max = 91)
     open var manager: String?
         set(value): Unit = set(1, value)
         get(): String? = get(1) as String?

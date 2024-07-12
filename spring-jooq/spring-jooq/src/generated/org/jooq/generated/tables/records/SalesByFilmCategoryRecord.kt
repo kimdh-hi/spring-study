@@ -4,9 +4,6 @@
 package org.jooq.generated.tables.records
 
 
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Size
-
 import java.math.BigDecimal
 
 import org.jooq.generated.tables.JSalesByFilmCategory
@@ -20,8 +17,6 @@ import org.jooq.impl.TableRecordImpl
 @Suppress("UNCHECKED_CAST")
 open class SalesByFilmCategoryRecord() : TableRecordImpl<SalesByFilmCategoryRecord>(JSalesByFilmCategory.SALES_BY_FILM_CATEGORY) {
 
-    @get:NotNull
-    @get:Size(max = 25)
     open var category: String?
         set(value): Unit = set(0, value)
         get(): String? = get(0) as String?

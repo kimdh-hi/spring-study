@@ -4,9 +4,6 @@
 package org.jooq.generated.tables.pojos
 
 
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Size
-
 import java.io.Serializable
 
 
@@ -15,12 +12,8 @@ import java.io.Serializable
  */
 @Suppress("UNCHECKED_CAST")
 data class FilmText(
-    @get:NotNull
     var filmId: Int? = null,
-    @get:NotNull
-    @get:Size(max = 255)
     var title: String? = null,
-    @get:Size(max = 65535)
     var description: String? = null
 ): Serializable {
 

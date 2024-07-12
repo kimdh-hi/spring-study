@@ -4,8 +4,6 @@
 package org.jooq.generated.tables.pojos
 
 
-import jakarta.validation.constraints.NotNull
-
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -18,9 +16,7 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 data class Store(
     var storeId: UInteger? = null,
-    @get:NotNull
     var managerStaffId: UInteger? = null,
-    @get:NotNull
     var addressId: UInteger? = null,
     var lastUpdate: LocalDateTime? = null
 ): Serializable {

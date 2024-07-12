@@ -4,9 +4,6 @@
 package org.jooq.generated.tables.pojos
 
 
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Size
-
 import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -24,13 +21,9 @@ import org.jooq.types.UShort
 @Suppress("UNCHECKED_CAST")
 data class Film(
     var filmId: UInteger? = null,
-    @get:NotNull
-    @get:Size(max = 255)
     var title: String? = null,
-    @get:Size(max = 65535)
     var description: String? = null,
     var releaseYear: Year? = null,
-    @get:NotNull
     var languageId: UInteger? = null,
     var originalLanguageId: UInteger? = null,
     var rentalDuration: UByte? = null,
@@ -38,7 +31,6 @@ data class Film(
     var length: UShort? = null,
     var replacementCost: BigDecimal? = null,
     var rating: FilmRating? = null,
-    @get:Size(max = 54)
     var specialFeatures: String? = null,
     var lastUpdate: LocalDateTime? = null
 ): Serializable {
