@@ -16,4 +16,10 @@ class FilmRepositoryTest @Autowired constructor(
     assertThat(film).isNotNull
   }
 
+  @Test
+  fun findByIdV2() {
+    val film = fileRepository.findByIdV2(1L)
+    println(film)
+    assertThat(film).isNotNull
+  }
 }
