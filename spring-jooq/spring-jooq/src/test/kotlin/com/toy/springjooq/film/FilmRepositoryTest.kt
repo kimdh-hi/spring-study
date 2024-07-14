@@ -1,5 +1,6 @@
 package com.toy.springjooq.film
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -12,7 +13,7 @@ class FilmRepositoryTest @Autowired constructor(
   @Test
   fun findById() {
     val film = fileRepository.findById(1L)
-    println(film)
+    assertThat(film).isNotNull
   }
 
 }
