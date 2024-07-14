@@ -33,6 +33,7 @@ import org.jooq.generated.keys.KEY_FILM_CATEGORY_PRIMARY
 import org.jooq.generated.tables.JCategory.CategoryPath
 import org.jooq.generated.tables.JFilm.FilmPath
 import org.jooq.generated.tables.records.FilmCategoryRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -80,12 +81,12 @@ open class JFilmCategory(
     /**
      * The column <code>sakila.film_category.film_id</code>.
      */
-    val FILM_ID: TableField<FilmCategoryRecord, UInteger?> = createField(DSL.name("film_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val FILM_ID: TableField<FilmCategoryRecord, Long?> = createField(DSL.name("film_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.film_category.category_id</code>.
      */
-    val CATEGORY_ID: TableField<FilmCategoryRecord, UInteger?> = createField(DSL.name("category_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val CATEGORY_ID: TableField<FilmCategoryRecord, Long?> = createField(DSL.name("category_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.film_category.last_update</code>.

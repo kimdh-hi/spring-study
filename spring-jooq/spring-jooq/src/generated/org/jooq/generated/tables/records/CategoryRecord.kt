@@ -10,7 +10,6 @@ import org.jooq.Record1
 import org.jooq.generated.tables.JCategory
 import org.jooq.generated.tables.pojos.Category
 import org.jooq.impl.UpdatableRecordImpl
-import org.jooq.types.UInteger
 
 
 /**
@@ -19,9 +18,9 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 open class CategoryRecord() : UpdatableRecordImpl<CategoryRecord>(JCategory.CATEGORY) {
 
-    open var categoryId: UInteger?
+    open var categoryId: Long?
         set(value): Unit = set(0, value)
-        get(): UInteger? = get(0) as UInteger?
+        get(): Long? = get(0) as Long?
 
     open var name: String?
         set(value): Unit = set(1, value)
@@ -35,12 +34,12 @@ open class CategoryRecord() : UpdatableRecordImpl<CategoryRecord>(JCategory.CATE
     // Primary key information
     // -------------------------------------------------------------------------
 
-    override fun key(): Record1<UInteger?> = super.key() as Record1<UInteger?>
+    override fun key(): Record1<Long?> = super.key() as Record1<Long?>
 
     /**
      * Create a detached, initialised CategoryRecord
      */
-    constructor(categoryId: UInteger? = null, name: String? = null, lastUpdate: LocalDateTime? = null): this() {
+    constructor(categoryId: Long? = null, name: String? = null, lastUpdate: LocalDateTime? = null): this() {
         this.categoryId = categoryId
         this.name = name
         this.lastUpdate = lastUpdate

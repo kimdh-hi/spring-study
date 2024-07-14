@@ -7,7 +7,6 @@ package org.jooq.generated.tables.records
 import org.jooq.generated.tables.JCustomerList
 import org.jooq.generated.tables.pojos.CustomerList
 import org.jooq.impl.TableRecordImpl
-import org.jooq.types.UInteger
 
 
 /**
@@ -16,9 +15,9 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 open class CustomerListRecord() : TableRecordImpl<CustomerListRecord>(JCustomerList.CUSTOMER_LIST) {
 
-    open var id: UInteger?
+    open var id: Long?
         set(value): Unit = set(0, value)
-        get(): UInteger? = get(0) as UInteger?
+        get(): Long? = get(0) as Long?
 
     open var name: String?
         set(value): Unit = set(1, value)
@@ -48,14 +47,14 @@ open class CustomerListRecord() : TableRecordImpl<CustomerListRecord>(JCustomerL
         set(value): Unit = set(7, value)
         get(): String? = get(7) as String?
 
-    open var sid: UInteger?
+    open var sid: Long?
         set(value): Unit = set(8, value)
-        get(): UInteger? = get(8) as UInteger?
+        get(): Long? = get(8) as Long?
 
     /**
      * Create a detached, initialised CustomerListRecord
      */
-    constructor(id: UInteger? = null, name: String? = null, address: String? = null, zipCode: String? = null, phone: String? = null, city: String? = null, country: String? = null, notes: String? = null, sid: UInteger? = null): this() {
+    constructor(id: Long? = null, name: String? = null, address: String? = null, zipCode: String? = null, phone: String? = null, city: String? = null, country: String? = null, notes: String? = null, sid: Long? = null): this() {
         this.id = id
         this.name = name
         this.address = address

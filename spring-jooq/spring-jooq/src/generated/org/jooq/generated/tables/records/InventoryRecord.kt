@@ -10,7 +10,6 @@ import org.jooq.Record1
 import org.jooq.generated.tables.JInventory
 import org.jooq.generated.tables.pojos.Inventory
 import org.jooq.impl.UpdatableRecordImpl
-import org.jooq.types.UInteger
 
 
 /**
@@ -19,17 +18,17 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 open class InventoryRecord() : UpdatableRecordImpl<InventoryRecord>(JInventory.INVENTORY) {
 
-    open var inventoryId: UInteger?
+    open var inventoryId: Long?
         set(value): Unit = set(0, value)
-        get(): UInteger? = get(0) as UInteger?
+        get(): Long? = get(0) as Long?
 
-    open var filmId: UInteger?
+    open var filmId: Long?
         set(value): Unit = set(1, value)
-        get(): UInteger? = get(1) as UInteger?
+        get(): Long? = get(1) as Long?
 
-    open var storeId: UInteger?
+    open var storeId: Long?
         set(value): Unit = set(2, value)
-        get(): UInteger? = get(2) as UInteger?
+        get(): Long? = get(2) as Long?
 
     open var lastUpdate: LocalDateTime?
         set(value): Unit = set(3, value)
@@ -39,12 +38,12 @@ open class InventoryRecord() : UpdatableRecordImpl<InventoryRecord>(JInventory.I
     // Primary key information
     // -------------------------------------------------------------------------
 
-    override fun key(): Record1<UInteger?> = super.key() as Record1<UInteger?>
+    override fun key(): Record1<Long?> = super.key() as Record1<Long?>
 
     /**
      * Create a detached, initialised InventoryRecord
      */
-    constructor(inventoryId: UInteger? = null, filmId: UInteger? = null, storeId: UInteger? = null, lastUpdate: LocalDateTime? = null): this() {
+    constructor(inventoryId: Long? = null, filmId: Long? = null, storeId: Long? = null, lastUpdate: LocalDateTime? = null): this() {
         this.inventoryId = inventoryId
         this.filmId = filmId
         this.storeId = storeId

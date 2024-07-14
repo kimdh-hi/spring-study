@@ -48,6 +48,7 @@ import org.jooq.generated.tables.JFilmCategory.FilmCategoryPath
 import org.jooq.generated.tables.JInventory.InventoryPath
 import org.jooq.generated.tables.JLanguage.LanguagePath
 import org.jooq.generated.tables.records.FilmRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -97,7 +98,7 @@ open class JFilm(
     /**
      * The column <code>sakila.film.film_id</code>.
      */
-    val FILM_ID: TableField<FilmRecord, UInteger?> = createField(DSL.name("film_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "")
+    val FILM_ID: TableField<FilmRecord, Long?> = createField(DSL.name("film_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.film.title</code>.
@@ -117,17 +118,17 @@ open class JFilm(
     /**
      * The column <code>sakila.film.language_id</code>.
      */
-    val LANGUAGE_ID: TableField<FilmRecord, UInteger?> = createField(DSL.name("language_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val LANGUAGE_ID: TableField<FilmRecord, Long?> = createField(DSL.name("language_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.film.original_language_id</code>.
      */
-    val ORIGINAL_LANGUAGE_ID: TableField<FilmRecord, UInteger?> = createField(DSL.name("original_language_id"), SQLDataType.INTEGERUNSIGNED, this, "")
+    val ORIGINAL_LANGUAGE_ID: TableField<FilmRecord, Long?> = createField(DSL.name("original_language_id"), SQLDataType.INTEGERUNSIGNED, this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.film.rental_duration</code>.
      */
-    val RENTAL_DURATION: TableField<FilmRecord, UByte?> = createField(DSL.name("rental_duration"), SQLDataType.TINYINTUNSIGNED.nullable(false).defaultValue(DSL.inline("3", SQLDataType.TINYINTUNSIGNED)), this, "")
+    val RENTAL_DURATION: TableField<FilmRecord, Int?> = createField(DSL.name("rental_duration"), SQLDataType.TINYINTUNSIGNED.nullable(false).defaultValue(DSL.inline("3", SQLDataType.TINYINTUNSIGNED)), this, "", AutoConverter<UByte, Int>(UByte::class.java, Int::class.java))
 
     /**
      * The column <code>sakila.film.rental_rate</code>.
@@ -137,7 +138,7 @@ open class JFilm(
     /**
      * The column <code>sakila.film.length</code>.
      */
-    val LENGTH: TableField<FilmRecord, UShort?> = createField(DSL.name("length"), SQLDataType.SMALLINTUNSIGNED, this, "")
+    val LENGTH: TableField<FilmRecord, Int?> = createField(DSL.name("length"), SQLDataType.SMALLINTUNSIGNED, this, "", AutoConverter<UShort, Int>(UShort::class.java, Int::class.java))
 
     /**
      * The column <code>sakila.film.replacement_cost</code>.
@@ -192,7 +193,7 @@ open class JFilm(
     }
     override fun getSchema(): Schema? = if (aliased()) null else JSakila.SAKILA
     override fun getIndexes(): List<Index> = listOf(FILM_IDX_FK_LANGUAGE_ID, FILM_IDX_FK_ORIGINAL_LANGUAGE_ID, FILM_IDX_TITLE)
-    override fun getIdentity(): Identity<FilmRecord, UInteger?> = super.getIdentity() as Identity<FilmRecord, UInteger?>
+    override fun getIdentity(): Identity<FilmRecord, Long?> = super.getIdentity() as Identity<FilmRecord, Long?>
     override fun getPrimaryKey(): UniqueKey<FilmRecord> = KEY_FILM_PRIMARY
     override fun getReferences(): List<ForeignKey<FilmRecord, *>> = listOf(FK_FILM_LANGUAGE, FK_FILM_LANGUAGE_ORIGINAL)
 

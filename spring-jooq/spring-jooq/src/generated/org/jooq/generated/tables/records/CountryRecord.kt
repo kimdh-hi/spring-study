@@ -10,7 +10,6 @@ import org.jooq.Record1
 import org.jooq.generated.tables.JCountry
 import org.jooq.generated.tables.pojos.Country
 import org.jooq.impl.UpdatableRecordImpl
-import org.jooq.types.UInteger
 
 
 /**
@@ -19,9 +18,9 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 open class CountryRecord() : UpdatableRecordImpl<CountryRecord>(JCountry.COUNTRY) {
 
-    open var countryId: UInteger?
+    open var countryId: Long?
         set(value): Unit = set(0, value)
-        get(): UInteger? = get(0) as UInteger?
+        get(): Long? = get(0) as Long?
 
     open var country: String?
         set(value): Unit = set(1, value)
@@ -35,12 +34,12 @@ open class CountryRecord() : UpdatableRecordImpl<CountryRecord>(JCountry.COUNTRY
     // Primary key information
     // -------------------------------------------------------------------------
 
-    override fun key(): Record1<UInteger?> = super.key() as Record1<UInteger?>
+    override fun key(): Record1<Long?> = super.key() as Record1<Long?>
 
     /**
      * Create a detached, initialised CountryRecord
      */
-    constructor(countryId: UInteger? = null, country: String? = null, lastUpdate: LocalDateTime? = null): this() {
+    constructor(countryId: Long? = null, country: String? = null, lastUpdate: LocalDateTime? = null): this() {
         this.countryId = countryId
         this.country = country
         this.lastUpdate = lastUpdate

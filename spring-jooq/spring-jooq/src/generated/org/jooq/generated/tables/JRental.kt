@@ -43,6 +43,7 @@ import org.jooq.generated.tables.JInventory.InventoryPath
 import org.jooq.generated.tables.JPayment.PaymentPath
 import org.jooq.generated.tables.JStaff.StaffPath
 import org.jooq.generated.tables.records.RentalRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -100,12 +101,12 @@ open class JRental(
     /**
      * The column <code>sakila.rental.inventory_id</code>.
      */
-    val INVENTORY_ID: TableField<RentalRecord, UInteger?> = createField(DSL.name("inventory_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val INVENTORY_ID: TableField<RentalRecord, Long?> = createField(DSL.name("inventory_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.rental.customer_id</code>.
      */
-    val CUSTOMER_ID: TableField<RentalRecord, UInteger?> = createField(DSL.name("customer_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val CUSTOMER_ID: TableField<RentalRecord, Long?> = createField(DSL.name("customer_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.rental.return_date</code>.
@@ -115,7 +116,7 @@ open class JRental(
     /**
      * The column <code>sakila.rental.staff_id</code>.
      */
-    val STAFF_ID: TableField<RentalRecord, UInteger?> = createField(DSL.name("staff_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val STAFF_ID: TableField<RentalRecord, Long?> = createField(DSL.name("staff_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.rental.last_update</code>.

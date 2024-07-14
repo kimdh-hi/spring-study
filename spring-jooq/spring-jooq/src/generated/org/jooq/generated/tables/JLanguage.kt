@@ -32,6 +32,7 @@ import org.jooq.generated.keys.FK_FILM_LANGUAGE_ORIGINAL
 import org.jooq.generated.keys.KEY_LANGUAGE_PRIMARY
 import org.jooq.generated.tables.JFilm.FilmPath
 import org.jooq.generated.tables.records.LanguageRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -79,7 +80,7 @@ open class JLanguage(
     /**
      * The column <code>sakila.language.language_id</code>.
      */
-    val LANGUAGE_ID: TableField<LanguageRecord, UInteger?> = createField(DSL.name("language_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "")
+    val LANGUAGE_ID: TableField<LanguageRecord, Long?> = createField(DSL.name("language_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.language.name</code>.
@@ -123,7 +124,7 @@ open class JLanguage(
         override fun `as`(alias: Table<*>): LanguagePath = LanguagePath(alias.qualifiedName, this)
     }
     override fun getSchema(): Schema? = if (aliased()) null else JSakila.SAKILA
-    override fun getIdentity(): Identity<LanguageRecord, UInteger?> = super.getIdentity() as Identity<LanguageRecord, UInteger?>
+    override fun getIdentity(): Identity<LanguageRecord, Long?> = super.getIdentity() as Identity<LanguageRecord, Long?>
     override fun getPrimaryKey(): UniqueKey<LanguageRecord> = KEY_LANGUAGE_PRIMARY
 
     private lateinit var _fkFilmLanguage: FilmPath

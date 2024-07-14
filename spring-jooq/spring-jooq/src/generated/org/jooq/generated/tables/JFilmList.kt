@@ -26,6 +26,7 @@ import org.jooq.TableOptions
 import org.jooq.generated.JSakila
 import org.jooq.generated.enums.FilmListRating
 import org.jooq.generated.tables.records.FilmListRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.SQLDataType
 import org.jooq.impl.TableImpl
@@ -73,7 +74,7 @@ open class JFilmList(
     /**
      * The column <code>sakila.film_list.FID</code>.
      */
-    val FID: TableField<FilmListRecord, UInteger?> = createField(DSL.name("FID"), SQLDataType.INTEGERUNSIGNED.defaultValue(DSL.inline("0", SQLDataType.INTEGERUNSIGNED)), this, "")
+    val FID: TableField<FilmListRecord, Long?> = createField(DSL.name("FID"), SQLDataType.INTEGERUNSIGNED.defaultValue(DSL.inline("0", SQLDataType.INTEGERUNSIGNED)), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.film_list.title</code>.
@@ -98,7 +99,7 @@ open class JFilmList(
     /**
      * The column <code>sakila.film_list.length</code>.
      */
-    val LENGTH: TableField<FilmListRecord, UShort?> = createField(DSL.name("length"), SQLDataType.SMALLINTUNSIGNED, this, "")
+    val LENGTH: TableField<FilmListRecord, Int?> = createField(DSL.name("length"), SQLDataType.SMALLINTUNSIGNED, this, "", AutoConverter<UShort, Int>(UShort::class.java, Int::class.java))
 
     /**
      * The column <code>sakila.film_list.rating</code>.

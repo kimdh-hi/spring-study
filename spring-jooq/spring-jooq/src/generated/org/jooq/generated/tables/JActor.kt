@@ -35,6 +35,7 @@ import org.jooq.generated.keys.KEY_ACTOR_PRIMARY
 import org.jooq.generated.tables.JFilm.FilmPath
 import org.jooq.generated.tables.JFilmActor.FilmActorPath
 import org.jooq.generated.tables.records.ActorRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -82,7 +83,7 @@ open class JActor(
     /**
      * The column <code>sakila.actor.actor_id</code>.
      */
-    val ACTOR_ID: TableField<ActorRecord, UInteger?> = createField(DSL.name("actor_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "")
+    val ACTOR_ID: TableField<ActorRecord, Long?> = createField(DSL.name("actor_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.actor.first_name</code>.
@@ -132,7 +133,7 @@ open class JActor(
     }
     override fun getSchema(): Schema? = if (aliased()) null else JSakila.SAKILA
     override fun getIndexes(): List<Index> = listOf(ACTOR_IDX_ACTOR_LAST_NAME)
-    override fun getIdentity(): Identity<ActorRecord, UInteger?> = super.getIdentity() as Identity<ActorRecord, UInteger?>
+    override fun getIdentity(): Identity<ActorRecord, Long?> = super.getIdentity() as Identity<ActorRecord, Long?>
     override fun getPrimaryKey(): UniqueKey<ActorRecord> = KEY_ACTOR_PRIMARY
 
     private lateinit var _filmActor: FilmActorPath

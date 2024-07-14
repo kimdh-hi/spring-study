@@ -41,6 +41,7 @@ import org.jooq.generated.tables.JCustomer.CustomerPath
 import org.jooq.generated.tables.JInventory.InventoryPath
 import org.jooq.generated.tables.JStaff.StaffPath
 import org.jooq.generated.tables.records.StoreRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -88,17 +89,17 @@ open class JStore(
     /**
      * The column <code>sakila.store.store_id</code>.
      */
-    val STORE_ID: TableField<StoreRecord, UInteger?> = createField(DSL.name("store_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "")
+    val STORE_ID: TableField<StoreRecord, Long?> = createField(DSL.name("store_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.store.manager_staff_id</code>.
      */
-    val MANAGER_STAFF_ID: TableField<StoreRecord, UInteger?> = createField(DSL.name("manager_staff_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val MANAGER_STAFF_ID: TableField<StoreRecord, Long?> = createField(DSL.name("manager_staff_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.store.address_id</code>.
      */
-    val ADDRESS_ID: TableField<StoreRecord, UInteger?> = createField(DSL.name("address_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val ADDRESS_ID: TableField<StoreRecord, Long?> = createField(DSL.name("address_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.store.last_update</code>.
@@ -138,7 +139,7 @@ open class JStore(
     }
     override fun getSchema(): Schema? = if (aliased()) null else JSakila.SAKILA
     override fun getIndexes(): List<Index> = listOf(STORE_IDX_FK_ADDRESS_ID)
-    override fun getIdentity(): Identity<StoreRecord, UInteger?> = super.getIdentity() as Identity<StoreRecord, UInteger?>
+    override fun getIdentity(): Identity<StoreRecord, Long?> = super.getIdentity() as Identity<StoreRecord, Long?>
     override fun getPrimaryKey(): UniqueKey<StoreRecord> = KEY_STORE_PRIMARY
     override fun getUniqueKeys(): List<UniqueKey<StoreRecord>> = listOf(KEY_STORE_IDX_UNIQUE_MANAGER)
     override fun getReferences(): List<ForeignKey<StoreRecord, *>> = listOf(FK_STORE_STAFF, FK_STORE_ADDRESS)

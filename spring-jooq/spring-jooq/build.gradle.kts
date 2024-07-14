@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.backend.common.phaser.validationAction
+import org.jooq.meta.jaxb.ForcedType
 
 plugins {
     id("org.springframework.boot") version "3.3.0"
@@ -66,7 +67,23 @@ jooq {
                     database.apply {
                         name = "org.jooq.meta.mysql.MySQLDatabase"
                         inputSchema = "sakila"
+                        isUnsignedTypes = true
+                        forcedTypes = listOf(
+                            ForcedType().apply {
+                                userType = "java.lang.Long"
+                                includeTypes = "int unsigned"
+                            },
+                            ForcedType().apply {
+                                userType = "java.lang.Integer"
+                                includeTypes = "tinyint unsigned"
+                            },
+                            ForcedType().apply {
+                                userType = "java.lang.Integer"
+                                includeTypes = "smallint unsigned"
+                            }
+                        )
                     }
+
                     generate.apply {
                         isDaos = true
                         isRecords = true

@@ -10,7 +10,6 @@ import org.jooq.Record2
 import org.jooq.generated.tables.JFilmActor
 import org.jooq.generated.tables.pojos.FilmActor
 import org.jooq.impl.UpdatableRecordImpl
-import org.jooq.types.UInteger
 
 
 /**
@@ -19,13 +18,13 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 open class FilmActorRecord() : UpdatableRecordImpl<FilmActorRecord>(JFilmActor.FILM_ACTOR) {
 
-    open var actorId: UInteger?
+    open var actorId: Long?
         set(value): Unit = set(0, value)
-        get(): UInteger? = get(0) as UInteger?
+        get(): Long? = get(0) as Long?
 
-    open var filmId: UInteger?
+    open var filmId: Long?
         set(value): Unit = set(1, value)
-        get(): UInteger? = get(1) as UInteger?
+        get(): Long? = get(1) as Long?
 
     open var lastUpdate: LocalDateTime?
         set(value): Unit = set(2, value)
@@ -35,12 +34,12 @@ open class FilmActorRecord() : UpdatableRecordImpl<FilmActorRecord>(JFilmActor.F
     // Primary key information
     // -------------------------------------------------------------------------
 
-    override fun key(): Record2<UInteger?, UInteger?> = super.key() as Record2<UInteger?, UInteger?>
+    override fun key(): Record2<Long?, Long?> = super.key() as Record2<Long?, Long?>
 
     /**
      * Create a detached, initialised FilmActorRecord
      */
-    constructor(actorId: UInteger? = null, filmId: UInteger? = null, lastUpdate: LocalDateTime? = null): this() {
+    constructor(actorId: Long? = null, filmId: Long? = null, lastUpdate: LocalDateTime? = null): this() {
         this.actorId = actorId
         this.filmId = filmId
         this.lastUpdate = lastUpdate

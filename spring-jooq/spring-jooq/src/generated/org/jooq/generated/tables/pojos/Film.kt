@@ -10,9 +10,6 @@ import java.time.LocalDateTime
 import java.time.Year
 
 import org.jooq.generated.enums.FilmRating
-import org.jooq.types.UByte
-import org.jooq.types.UInteger
-import org.jooq.types.UShort
 
 
 /**
@@ -20,15 +17,15 @@ import org.jooq.types.UShort
  */
 @Suppress("UNCHECKED_CAST")
 data class Film(
-    var filmId: UInteger? = null,
+    var filmId: Long? = null,
     var title: String? = null,
     var description: String? = null,
     var releaseYear: Year? = null,
-    var languageId: UInteger? = null,
-    var originalLanguageId: UInteger? = null,
-    var rentalDuration: UByte? = null,
+    var languageId: Long? = null,
+    var originalLanguageId: Long? = null,
+    var rentalDuration: Int? = null,
     var rentalRate: BigDecimal? = null,
-    var length: UShort? = null,
+    var length: Int? = null,
     var replacementCost: BigDecimal? = null,
     var rating: FilmRating? = null,
     var specialFeatures: String? = null,

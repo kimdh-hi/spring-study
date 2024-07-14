@@ -40,6 +40,7 @@ import org.jooq.generated.tables.JCustomer.CustomerPath
 import org.jooq.generated.tables.JStaff.StaffPath
 import org.jooq.generated.tables.JStore.StorePath
 import org.jooq.generated.tables.records.AddressRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -87,7 +88,7 @@ open class JAddress(
     /**
      * The column <code>sakila.address.address_id</code>.
      */
-    val ADDRESS_ID: TableField<AddressRecord, UInteger?> = createField(DSL.name("address_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "")
+    val ADDRESS_ID: TableField<AddressRecord, Long?> = createField(DSL.name("address_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.address.address</code>.
@@ -107,7 +108,7 @@ open class JAddress(
     /**
      * The column <code>sakila.address.city_id</code>.
      */
-    val CITY_ID: TableField<AddressRecord, UInteger?> = createField(DSL.name("city_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val CITY_ID: TableField<AddressRecord, Long?> = createField(DSL.name("city_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.address.postal_code</code>.
@@ -157,7 +158,7 @@ open class JAddress(
     }
     override fun getSchema(): Schema? = if (aliased()) null else JSakila.SAKILA
     override fun getIndexes(): List<Index> = listOf(ADDRESS_IDX_FK_CITY_ID)
-    override fun getIdentity(): Identity<AddressRecord, UInteger?> = super.getIdentity() as Identity<AddressRecord, UInteger?>
+    override fun getIdentity(): Identity<AddressRecord, Long?> = super.getIdentity() as Identity<AddressRecord, Long?>
     override fun getPrimaryKey(): UniqueKey<AddressRecord> = KEY_ADDRESS_PRIMARY
     override fun getReferences(): List<ForeignKey<AddressRecord, *>> = listOf(FK_ADDRESS_CITY)
 

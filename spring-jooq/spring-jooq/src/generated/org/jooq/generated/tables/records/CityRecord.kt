@@ -10,7 +10,6 @@ import org.jooq.Record1
 import org.jooq.generated.tables.JCity
 import org.jooq.generated.tables.pojos.City
 import org.jooq.impl.UpdatableRecordImpl
-import org.jooq.types.UInteger
 
 
 /**
@@ -19,17 +18,17 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 open class CityRecord() : UpdatableRecordImpl<CityRecord>(JCity.CITY) {
 
-    open var cityId: UInteger?
+    open var cityId: Long?
         set(value): Unit = set(0, value)
-        get(): UInteger? = get(0) as UInteger?
+        get(): Long? = get(0) as Long?
 
     open var city: String?
         set(value): Unit = set(1, value)
         get(): String? = get(1) as String?
 
-    open var countryId: UInteger?
+    open var countryId: Long?
         set(value): Unit = set(2, value)
-        get(): UInteger? = get(2) as UInteger?
+        get(): Long? = get(2) as Long?
 
     open var lastUpdate: LocalDateTime?
         set(value): Unit = set(3, value)
@@ -39,12 +38,12 @@ open class CityRecord() : UpdatableRecordImpl<CityRecord>(JCity.CITY) {
     // Primary key information
     // -------------------------------------------------------------------------
 
-    override fun key(): Record1<UInteger?> = super.key() as Record1<UInteger?>
+    override fun key(): Record1<Long?> = super.key() as Record1<Long?>
 
     /**
      * Create a detached, initialised CityRecord
      */
-    constructor(cityId: UInteger? = null, city: String? = null, countryId: UInteger? = null, lastUpdate: LocalDateTime? = null): this() {
+    constructor(cityId: Long? = null, city: String? = null, countryId: Long? = null, lastUpdate: LocalDateTime? = null): this() {
         this.cityId = cityId
         this.city = city
         this.countryId = countryId

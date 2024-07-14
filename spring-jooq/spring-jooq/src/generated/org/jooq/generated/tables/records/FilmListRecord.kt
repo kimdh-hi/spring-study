@@ -10,8 +10,6 @@ import org.jooq.generated.enums.FilmListRating
 import org.jooq.generated.tables.JFilmList
 import org.jooq.generated.tables.pojos.FilmList
 import org.jooq.impl.TableRecordImpl
-import org.jooq.types.UInteger
-import org.jooq.types.UShort
 
 
 /**
@@ -20,9 +18,9 @@ import org.jooq.types.UShort
 @Suppress("UNCHECKED_CAST")
 open class FilmListRecord() : TableRecordImpl<FilmListRecord>(JFilmList.FILM_LIST) {
 
-    open var fid: UInteger?
+    open var fid: Long?
         set(value): Unit = set(0, value)
-        get(): UInteger? = get(0) as UInteger?
+        get(): Long? = get(0) as Long?
 
     open var title: String?
         set(value): Unit = set(1, value)
@@ -40,9 +38,9 @@ open class FilmListRecord() : TableRecordImpl<FilmListRecord>(JFilmList.FILM_LIS
         set(value): Unit = set(4, value)
         get(): BigDecimal? = get(4) as BigDecimal?
 
-    open var length: UShort?
+    open var length: Int?
         set(value): Unit = set(5, value)
-        get(): UShort? = get(5) as UShort?
+        get(): Int? = get(5) as Int?
 
     open var rating: FilmListRating?
         set(value): Unit = set(6, value)
@@ -55,7 +53,7 @@ open class FilmListRecord() : TableRecordImpl<FilmListRecord>(JFilmList.FILM_LIS
     /**
      * Create a detached, initialised FilmListRecord
      */
-    constructor(fid: UInteger? = null, title: String? = null, description: String? = null, category: String? = null, price: BigDecimal? = null, length: UShort? = null, rating: FilmListRating? = null, actors: String? = null): this() {
+    constructor(fid: Long? = null, title: String? = null, description: String? = null, category: String? = null, price: BigDecimal? = null, length: Int? = null, rating: FilmListRating? = null, actors: String? = null): this() {
         this.fid = fid
         this.title = title
         this.description = description

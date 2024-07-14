@@ -23,6 +23,7 @@ import org.jooq.TableField
 import org.jooq.TableOptions
 import org.jooq.generated.JSakila
 import org.jooq.generated.tables.records.CustomerListRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.SQLDataType
 import org.jooq.impl.TableImpl
@@ -69,7 +70,7 @@ open class JCustomerList(
     /**
      * The column <code>sakila.customer_list.ID</code>.
      */
-    val ID: TableField<CustomerListRecord, UInteger?> = createField(DSL.name("ID"), SQLDataType.INTEGERUNSIGNED.nullable(false).defaultValue(DSL.inline("0", SQLDataType.INTEGERUNSIGNED)), this, "")
+    val ID: TableField<CustomerListRecord, Long?> = createField(DSL.name("ID"), SQLDataType.INTEGERUNSIGNED.nullable(false).defaultValue(DSL.inline("0", SQLDataType.INTEGERUNSIGNED)), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.customer_list.name</code>.
@@ -109,7 +110,7 @@ open class JCustomerList(
     /**
      * The column <code>sakila.customer_list.SID</code>.
      */
-    val SID: TableField<CustomerListRecord, UInteger?> = createField(DSL.name("SID"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val SID: TableField<CustomerListRecord, Long?> = createField(DSL.name("SID"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     private constructor(alias: Name, aliased: Table<CustomerListRecord>?): this(alias, null, null, null, aliased, null, null)
     private constructor(alias: Name, aliased: Table<CustomerListRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, null, aliased, parameters, null)

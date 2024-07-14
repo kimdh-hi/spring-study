@@ -31,6 +31,7 @@ import org.jooq.generated.keys.FK_CITY_COUNTRY
 import org.jooq.generated.keys.KEY_COUNTRY_PRIMARY
 import org.jooq.generated.tables.JCity.CityPath
 import org.jooq.generated.tables.records.CountryRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -78,7 +79,7 @@ open class JCountry(
     /**
      * The column <code>sakila.country.country_id</code>.
      */
-    val COUNTRY_ID: TableField<CountryRecord, UInteger?> = createField(DSL.name("country_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "")
+    val COUNTRY_ID: TableField<CountryRecord, Long?> = createField(DSL.name("country_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.country.country</code>.
@@ -122,7 +123,7 @@ open class JCountry(
         override fun `as`(alias: Table<*>): CountryPath = CountryPath(alias.qualifiedName, this)
     }
     override fun getSchema(): Schema? = if (aliased()) null else JSakila.SAKILA
-    override fun getIdentity(): Identity<CountryRecord, UInteger?> = super.getIdentity() as Identity<CountryRecord, UInteger?>
+    override fun getIdentity(): Identity<CountryRecord, Long?> = super.getIdentity() as Identity<CountryRecord, Long?>
     override fun getPrimaryKey(): UniqueKey<CountryRecord> = KEY_COUNTRY_PRIMARY
 
     private lateinit var _city: CityPath

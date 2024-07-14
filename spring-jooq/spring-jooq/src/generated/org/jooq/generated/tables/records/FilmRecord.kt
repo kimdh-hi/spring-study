@@ -13,9 +13,6 @@ import org.jooq.generated.enums.FilmRating
 import org.jooq.generated.tables.JFilm
 import org.jooq.generated.tables.pojos.Film
 import org.jooq.impl.UpdatableRecordImpl
-import org.jooq.types.UByte
-import org.jooq.types.UInteger
-import org.jooq.types.UShort
 
 
 /**
@@ -24,9 +21,9 @@ import org.jooq.types.UShort
 @Suppress("UNCHECKED_CAST")
 open class FilmRecord() : UpdatableRecordImpl<FilmRecord>(JFilm.FILM) {
 
-    open var filmId: UInteger?
+    open var filmId: Long?
         set(value): Unit = set(0, value)
-        get(): UInteger? = get(0) as UInteger?
+        get(): Long? = get(0) as Long?
 
     open var title: String?
         set(value): Unit = set(1, value)
@@ -40,25 +37,25 @@ open class FilmRecord() : UpdatableRecordImpl<FilmRecord>(JFilm.FILM) {
         set(value): Unit = set(3, value)
         get(): Year? = get(3) as Year?
 
-    open var languageId: UInteger?
+    open var languageId: Long?
         set(value): Unit = set(4, value)
-        get(): UInteger? = get(4) as UInteger?
+        get(): Long? = get(4) as Long?
 
-    open var originalLanguageId: UInteger?
+    open var originalLanguageId: Long?
         set(value): Unit = set(5, value)
-        get(): UInteger? = get(5) as UInteger?
+        get(): Long? = get(5) as Long?
 
-    open var rentalDuration: UByte?
+    open var rentalDuration: Int?
         set(value): Unit = set(6, value)
-        get(): UByte? = get(6) as UByte?
+        get(): Int? = get(6) as Int?
 
     open var rentalRate: BigDecimal?
         set(value): Unit = set(7, value)
         get(): BigDecimal? = get(7) as BigDecimal?
 
-    open var length: UShort?
+    open var length: Int?
         set(value): Unit = set(8, value)
-        get(): UShort? = get(8) as UShort?
+        get(): Int? = get(8) as Int?
 
     open var replacementCost: BigDecimal?
         set(value): Unit = set(9, value)
@@ -80,12 +77,12 @@ open class FilmRecord() : UpdatableRecordImpl<FilmRecord>(JFilm.FILM) {
     // Primary key information
     // -------------------------------------------------------------------------
 
-    override fun key(): Record1<UInteger?> = super.key() as Record1<UInteger?>
+    override fun key(): Record1<Long?> = super.key() as Record1<Long?>
 
     /**
      * Create a detached, initialised FilmRecord
      */
-    constructor(filmId: UInteger? = null, title: String? = null, description: String? = null, releaseYear: Year? = null, languageId: UInteger? = null, originalLanguageId: UInteger? = null, rentalDuration: UByte? = null, rentalRate: BigDecimal? = null, length: UShort? = null, replacementCost: BigDecimal? = null, rating: FilmRating? = null, specialFeatures: String? = null, lastUpdate: LocalDateTime? = null): this() {
+    constructor(filmId: Long? = null, title: String? = null, description: String? = null, releaseYear: Year? = null, languageId: Long? = null, originalLanguageId: Long? = null, rentalDuration: Int? = null, rentalRate: BigDecimal? = null, length: Int? = null, replacementCost: BigDecimal? = null, rating: FilmRating? = null, specialFeatures: String? = null, lastUpdate: LocalDateTime? = null): this() {
         this.filmId = filmId
         this.title = title
         this.description = description

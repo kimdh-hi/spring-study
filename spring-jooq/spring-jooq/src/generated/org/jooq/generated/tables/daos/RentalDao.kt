@@ -12,6 +12,7 @@ import org.jooq.Configuration
 import org.jooq.generated.tables.JRental
 import org.jooq.generated.tables.pojos.Rental
 import org.jooq.generated.tables.records.RentalRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DAOImpl
 import org.jooq.types.UInteger
 
@@ -60,23 +61,23 @@ open class RentalDao(configuration: Configuration?) : DAOImpl<RentalRecord, Rent
      * Fetch records that have <code>inventory_id BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    fun fetchRangeOfJInventoryId(lowerInclusive: UInteger?, upperInclusive: UInteger?): List<Rental> = fetchRange(JRental.RENTAL.INVENTORY_ID, lowerInclusive, upperInclusive)
+    fun fetchRangeOfJInventoryId(lowerInclusive: Long?, upperInclusive: Long?): List<Rental> = fetchRange(JRental.RENTAL.INVENTORY_ID, lowerInclusive, upperInclusive)
 
     /**
      * Fetch records that have <code>inventory_id IN (values)</code>
      */
-    fun fetchByJInventoryId(vararg values: UInteger): List<Rental> = fetch(JRental.RENTAL.INVENTORY_ID, *values)
+    fun fetchByJInventoryId(vararg values: Long): List<Rental> = fetch(JRental.RENTAL.INVENTORY_ID, *values.toTypedArray())
 
     /**
      * Fetch records that have <code>customer_id BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    fun fetchRangeOfJCustomerId(lowerInclusive: UInteger?, upperInclusive: UInteger?): List<Rental> = fetchRange(JRental.RENTAL.CUSTOMER_ID, lowerInclusive, upperInclusive)
+    fun fetchRangeOfJCustomerId(lowerInclusive: Long?, upperInclusive: Long?): List<Rental> = fetchRange(JRental.RENTAL.CUSTOMER_ID, lowerInclusive, upperInclusive)
 
     /**
      * Fetch records that have <code>customer_id IN (values)</code>
      */
-    fun fetchByJCustomerId(vararg values: UInteger): List<Rental> = fetch(JRental.RENTAL.CUSTOMER_ID, *values)
+    fun fetchByJCustomerId(vararg values: Long): List<Rental> = fetch(JRental.RENTAL.CUSTOMER_ID, *values.toTypedArray())
 
     /**
      * Fetch records that have <code>return_date BETWEEN lowerInclusive AND
@@ -93,12 +94,12 @@ open class RentalDao(configuration: Configuration?) : DAOImpl<RentalRecord, Rent
      * Fetch records that have <code>staff_id BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    fun fetchRangeOfJStaffId(lowerInclusive: UInteger?, upperInclusive: UInteger?): List<Rental> = fetchRange(JRental.RENTAL.STAFF_ID, lowerInclusive, upperInclusive)
+    fun fetchRangeOfJStaffId(lowerInclusive: Long?, upperInclusive: Long?): List<Rental> = fetchRange(JRental.RENTAL.STAFF_ID, lowerInclusive, upperInclusive)
 
     /**
      * Fetch records that have <code>staff_id IN (values)</code>
      */
-    fun fetchByJStaffId(vararg values: UInteger): List<Rental> = fetch(JRental.RENTAL.STAFF_ID, *values)
+    fun fetchByJStaffId(vararg values: Long): List<Rental> = fetch(JRental.RENTAL.STAFF_ID, *values.toTypedArray())
 
     /**
      * Fetch records that have <code>last_update BETWEEN lowerInclusive AND

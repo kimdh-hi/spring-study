@@ -10,7 +10,6 @@ import org.jooq.Record1
 import org.jooq.generated.tables.JStore
 import org.jooq.generated.tables.pojos.Store
 import org.jooq.impl.UpdatableRecordImpl
-import org.jooq.types.UInteger
 
 
 /**
@@ -19,17 +18,17 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 open class StoreRecord() : UpdatableRecordImpl<StoreRecord>(JStore.STORE) {
 
-    open var storeId: UInteger?
+    open var storeId: Long?
         set(value): Unit = set(0, value)
-        get(): UInteger? = get(0) as UInteger?
+        get(): Long? = get(0) as Long?
 
-    open var managerStaffId: UInteger?
+    open var managerStaffId: Long?
         set(value): Unit = set(1, value)
-        get(): UInteger? = get(1) as UInteger?
+        get(): Long? = get(1) as Long?
 
-    open var addressId: UInteger?
+    open var addressId: Long?
         set(value): Unit = set(2, value)
-        get(): UInteger? = get(2) as UInteger?
+        get(): Long? = get(2) as Long?
 
     open var lastUpdate: LocalDateTime?
         set(value): Unit = set(3, value)
@@ -39,12 +38,12 @@ open class StoreRecord() : UpdatableRecordImpl<StoreRecord>(JStore.STORE) {
     // Primary key information
     // -------------------------------------------------------------------------
 
-    override fun key(): Record1<UInteger?> = super.key() as Record1<UInteger?>
+    override fun key(): Record1<Long?> = super.key() as Record1<Long?>
 
     /**
      * Create a detached, initialised StoreRecord
      */
-    constructor(storeId: UInteger? = null, managerStaffId: UInteger? = null, addressId: UInteger? = null, lastUpdate: LocalDateTime? = null): this() {
+    constructor(storeId: Long? = null, managerStaffId: Long? = null, addressId: Long? = null, lastUpdate: LocalDateTime? = null): this() {
         this.storeId = storeId
         this.managerStaffId = managerStaffId
         this.addressId = addressId

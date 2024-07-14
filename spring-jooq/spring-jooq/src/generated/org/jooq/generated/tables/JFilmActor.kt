@@ -35,6 +35,7 @@ import org.jooq.generated.keys.KEY_FILM_ACTOR_PRIMARY
 import org.jooq.generated.tables.JActor.ActorPath
 import org.jooq.generated.tables.JFilm.FilmPath
 import org.jooq.generated.tables.records.FilmActorRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -82,12 +83,12 @@ open class JFilmActor(
     /**
      * The column <code>sakila.film_actor.actor_id</code>.
      */
-    val ACTOR_ID: TableField<FilmActorRecord, UInteger?> = createField(DSL.name("actor_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val ACTOR_ID: TableField<FilmActorRecord, Long?> = createField(DSL.name("actor_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.film_actor.film_id</code>.
      */
-    val FILM_ID: TableField<FilmActorRecord, UInteger?> = createField(DSL.name("film_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val FILM_ID: TableField<FilmActorRecord, Long?> = createField(DSL.name("film_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.film_actor.last_update</code>.

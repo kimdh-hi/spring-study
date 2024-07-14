@@ -39,6 +39,7 @@ import org.jooq.generated.tables.JFilm.FilmPath
 import org.jooq.generated.tables.JRental.RentalPath
 import org.jooq.generated.tables.JStore.StorePath
 import org.jooq.generated.tables.records.InventoryRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -86,17 +87,17 @@ open class JInventory(
     /**
      * The column <code>sakila.inventory.inventory_id</code>.
      */
-    val INVENTORY_ID: TableField<InventoryRecord, UInteger?> = createField(DSL.name("inventory_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "")
+    val INVENTORY_ID: TableField<InventoryRecord, Long?> = createField(DSL.name("inventory_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.inventory.film_id</code>.
      */
-    val FILM_ID: TableField<InventoryRecord, UInteger?> = createField(DSL.name("film_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val FILM_ID: TableField<InventoryRecord, Long?> = createField(DSL.name("film_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.inventory.store_id</code>.
      */
-    val STORE_ID: TableField<InventoryRecord, UInteger?> = createField(DSL.name("store_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val STORE_ID: TableField<InventoryRecord, Long?> = createField(DSL.name("store_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.inventory.last_update</code>.
@@ -136,7 +137,7 @@ open class JInventory(
     }
     override fun getSchema(): Schema? = if (aliased()) null else JSakila.SAKILA
     override fun getIndexes(): List<Index> = listOf(INVENTORY_IDX_FK_FILM_ID, INVENTORY_IDX_STORE_ID_FILM_ID)
-    override fun getIdentity(): Identity<InventoryRecord, UInteger?> = super.getIdentity() as Identity<InventoryRecord, UInteger?>
+    override fun getIdentity(): Identity<InventoryRecord, Long?> = super.getIdentity() as Identity<InventoryRecord, Long?>
     override fun getPrimaryKey(): UniqueKey<InventoryRecord> = KEY_INVENTORY_PRIMARY
     override fun getReferences(): List<ForeignKey<InventoryRecord, *>> = listOf(FK_INVENTORY_FILM, FK_INVENTORY_STORE)
 

@@ -36,6 +36,7 @@ import org.jooq.generated.keys.KEY_CITY_PRIMARY
 import org.jooq.generated.tables.JAddress.AddressPath
 import org.jooq.generated.tables.JCountry.CountryPath
 import org.jooq.generated.tables.records.CityRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -83,7 +84,7 @@ open class JCity(
     /**
      * The column <code>sakila.city.city_id</code>.
      */
-    val CITY_ID: TableField<CityRecord, UInteger?> = createField(DSL.name("city_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "")
+    val CITY_ID: TableField<CityRecord, Long?> = createField(DSL.name("city_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.city.city</code>.
@@ -93,7 +94,7 @@ open class JCity(
     /**
      * The column <code>sakila.city.country_id</code>.
      */
-    val COUNTRY_ID: TableField<CityRecord, UInteger?> = createField(DSL.name("country_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val COUNTRY_ID: TableField<CityRecord, Long?> = createField(DSL.name("country_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.city.last_update</code>.
@@ -133,7 +134,7 @@ open class JCity(
     }
     override fun getSchema(): Schema? = if (aliased()) null else JSakila.SAKILA
     override fun getIndexes(): List<Index> = listOf(CITY_IDX_FK_COUNTRY_ID)
-    override fun getIdentity(): Identity<CityRecord, UInteger?> = super.getIdentity() as Identity<CityRecord, UInteger?>
+    override fun getIdentity(): Identity<CityRecord, Long?> = super.getIdentity() as Identity<CityRecord, Long?>
     override fun getPrimaryKey(): UniqueKey<CityRecord> = KEY_CITY_PRIMARY
     override fun getReferences(): List<ForeignKey<CityRecord, *>> = listOf(FK_CITY_COUNTRY)
 

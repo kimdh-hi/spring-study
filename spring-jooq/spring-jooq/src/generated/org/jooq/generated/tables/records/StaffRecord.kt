@@ -10,7 +10,6 @@ import org.jooq.Record1
 import org.jooq.generated.tables.JStaff
 import org.jooq.generated.tables.pojos.Staff
 import org.jooq.impl.UpdatableRecordImpl
-import org.jooq.types.UInteger
 
 
 /**
@@ -19,9 +18,9 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 open class StaffRecord() : UpdatableRecordImpl<StaffRecord>(JStaff.STAFF) {
 
-    open var staffId: UInteger?
+    open var staffId: Long?
         set(value): Unit = set(0, value)
-        get(): UInteger? = get(0) as UInteger?
+        get(): Long? = get(0) as Long?
 
     open var firstName: String?
         set(value): Unit = set(1, value)
@@ -31,9 +30,9 @@ open class StaffRecord() : UpdatableRecordImpl<StaffRecord>(JStaff.STAFF) {
         set(value): Unit = set(2, value)
         get(): String? = get(2) as String?
 
-    open var addressId: UInteger?
+    open var addressId: Long?
         set(value): Unit = set(3, value)
-        get(): UInteger? = get(3) as UInteger?
+        get(): Long? = get(3) as Long?
 
     open var picture: ByteArray?
         set(value): Unit = set(4, value)
@@ -43,9 +42,9 @@ open class StaffRecord() : UpdatableRecordImpl<StaffRecord>(JStaff.STAFF) {
         set(value): Unit = set(5, value)
         get(): String? = get(5) as String?
 
-    open var storeId: UInteger?
+    open var storeId: Long?
         set(value): Unit = set(6, value)
-        get(): UInteger? = get(6) as UInteger?
+        get(): Long? = get(6) as Long?
 
     open var active: Byte?
         set(value): Unit = set(7, value)
@@ -67,12 +66,12 @@ open class StaffRecord() : UpdatableRecordImpl<StaffRecord>(JStaff.STAFF) {
     // Primary key information
     // -------------------------------------------------------------------------
 
-    override fun key(): Record1<UInteger?> = super.key() as Record1<UInteger?>
+    override fun key(): Record1<Long?> = super.key() as Record1<Long?>
 
     /**
      * Create a detached, initialised StaffRecord
      */
-    constructor(staffId: UInteger? = null, firstName: String? = null, lastName: String? = null, addressId: UInteger? = null, picture: ByteArray? = null, email: String? = null, storeId: UInteger? = null, active: Byte? = null, username: String? = null, password: String? = null, lastUpdate: LocalDateTime? = null): this() {
+    constructor(staffId: Long? = null, firstName: String? = null, lastName: String? = null, addressId: Long? = null, picture: ByteArray? = null, email: String? = null, storeId: Long? = null, active: Byte? = null, username: String? = null, password: String? = null, lastUpdate: LocalDateTime? = null): this() {
         this.staffId = staffId
         this.firstName = firstName
         this.lastName = lastName

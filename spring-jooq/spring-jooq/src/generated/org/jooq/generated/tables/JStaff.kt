@@ -41,6 +41,7 @@ import org.jooq.generated.tables.JPayment.PaymentPath
 import org.jooq.generated.tables.JRental.RentalPath
 import org.jooq.generated.tables.JStore.StorePath
 import org.jooq.generated.tables.records.StaffRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -88,7 +89,7 @@ open class JStaff(
     /**
      * The column <code>sakila.staff.staff_id</code>.
      */
-    val STAFF_ID: TableField<StaffRecord, UInteger?> = createField(DSL.name("staff_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "")
+    val STAFF_ID: TableField<StaffRecord, Long?> = createField(DSL.name("staff_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.staff.first_name</code>.
@@ -103,7 +104,7 @@ open class JStaff(
     /**
      * The column <code>sakila.staff.address_id</code>.
      */
-    val ADDRESS_ID: TableField<StaffRecord, UInteger?> = createField(DSL.name("address_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val ADDRESS_ID: TableField<StaffRecord, Long?> = createField(DSL.name("address_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.staff.picture</code>.
@@ -118,7 +119,7 @@ open class JStaff(
     /**
      * The column <code>sakila.staff.store_id</code>.
      */
-    val STORE_ID: TableField<StaffRecord, UInteger?> = createField(DSL.name("store_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val STORE_ID: TableField<StaffRecord, Long?> = createField(DSL.name("store_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.staff.active</code>.
@@ -173,7 +174,7 @@ open class JStaff(
     }
     override fun getSchema(): Schema? = if (aliased()) null else JSakila.SAKILA
     override fun getIndexes(): List<Index> = listOf(STAFF_IDX_FK_ADDRESS_ID, STAFF_IDX_FK_STORE_ID)
-    override fun getIdentity(): Identity<StaffRecord, UInteger?> = super.getIdentity() as Identity<StaffRecord, UInteger?>
+    override fun getIdentity(): Identity<StaffRecord, Long?> = super.getIdentity() as Identity<StaffRecord, Long?>
     override fun getPrimaryKey(): UniqueKey<StaffRecord> = KEY_STAFF_PRIMARY
     override fun getReferences(): List<ForeignKey<StaffRecord, *>> = listOf(FK_STAFF_ADDRESS, FK_STAFF_STORE)
 

@@ -10,7 +10,6 @@ import org.jooq.Record1
 import org.jooq.generated.tables.JRental
 import org.jooq.generated.tables.pojos.Rental
 import org.jooq.impl.UpdatableRecordImpl
-import org.jooq.types.UInteger
 
 
 /**
@@ -27,21 +26,21 @@ open class RentalRecord() : UpdatableRecordImpl<RentalRecord>(JRental.RENTAL) {
         set(value): Unit = set(1, value)
         get(): LocalDateTime? = get(1) as LocalDateTime?
 
-    open var inventoryId: UInteger?
+    open var inventoryId: Long?
         set(value): Unit = set(2, value)
-        get(): UInteger? = get(2) as UInteger?
+        get(): Long? = get(2) as Long?
 
-    open var customerId: UInteger?
+    open var customerId: Long?
         set(value): Unit = set(3, value)
-        get(): UInteger? = get(3) as UInteger?
+        get(): Long? = get(3) as Long?
 
     open var returnDate: LocalDateTime?
         set(value): Unit = set(4, value)
         get(): LocalDateTime? = get(4) as LocalDateTime?
 
-    open var staffId: UInteger?
+    open var staffId: Long?
         set(value): Unit = set(5, value)
-        get(): UInteger? = get(5) as UInteger?
+        get(): Long? = get(5) as Long?
 
     open var lastUpdate: LocalDateTime?
         set(value): Unit = set(6, value)
@@ -56,7 +55,7 @@ open class RentalRecord() : UpdatableRecordImpl<RentalRecord>(JRental.RENTAL) {
     /**
      * Create a detached, initialised RentalRecord
      */
-    constructor(rentalId: Int? = null, rentalDate: LocalDateTime? = null, inventoryId: UInteger? = null, customerId: UInteger? = null, returnDate: LocalDateTime? = null, staffId: UInteger? = null, lastUpdate: LocalDateTime? = null): this() {
+    constructor(rentalId: Int? = null, rentalDate: LocalDateTime? = null, inventoryId: Long? = null, customerId: Long? = null, returnDate: LocalDateTime? = null, staffId: Long? = null, lastUpdate: LocalDateTime? = null): this() {
         this.rentalId = rentalId
         this.rentalDate = rentalDate
         this.inventoryId = inventoryId

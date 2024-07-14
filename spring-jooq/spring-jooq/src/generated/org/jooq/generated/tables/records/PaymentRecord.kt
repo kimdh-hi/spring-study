@@ -11,7 +11,6 @@ import org.jooq.Record1
 import org.jooq.generated.tables.JPayment
 import org.jooq.generated.tables.pojos.Payment
 import org.jooq.impl.UpdatableRecordImpl
-import org.jooq.types.UInteger
 
 
 /**
@@ -20,17 +19,17 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 open class PaymentRecord() : UpdatableRecordImpl<PaymentRecord>(JPayment.PAYMENT) {
 
-    open var paymentId: UInteger?
+    open var paymentId: Long?
         set(value): Unit = set(0, value)
-        get(): UInteger? = get(0) as UInteger?
+        get(): Long? = get(0) as Long?
 
-    open var customerId: UInteger?
+    open var customerId: Long?
         set(value): Unit = set(1, value)
-        get(): UInteger? = get(1) as UInteger?
+        get(): Long? = get(1) as Long?
 
-    open var staffId: UInteger?
+    open var staffId: Long?
         set(value): Unit = set(2, value)
-        get(): UInteger? = get(2) as UInteger?
+        get(): Long? = get(2) as Long?
 
     open var rentalId: Int?
         set(value): Unit = set(3, value)
@@ -52,12 +51,12 @@ open class PaymentRecord() : UpdatableRecordImpl<PaymentRecord>(JPayment.PAYMENT
     // Primary key information
     // -------------------------------------------------------------------------
 
-    override fun key(): Record1<UInteger?> = super.key() as Record1<UInteger?>
+    override fun key(): Record1<Long?> = super.key() as Record1<Long?>
 
     /**
      * Create a detached, initialised PaymentRecord
      */
-    constructor(paymentId: UInteger? = null, customerId: UInteger? = null, staffId: UInteger? = null, rentalId: Int? = null, amount: BigDecimal? = null, paymentDate: LocalDateTime? = null, lastUpdate: LocalDateTime? = null): this() {
+    constructor(paymentId: Long? = null, customerId: Long? = null, staffId: Long? = null, rentalId: Int? = null, amount: BigDecimal? = null, paymentDate: LocalDateTime? = null, lastUpdate: LocalDateTime? = null): this() {
         this.paymentId = paymentId
         this.customerId = customerId
         this.staffId = staffId

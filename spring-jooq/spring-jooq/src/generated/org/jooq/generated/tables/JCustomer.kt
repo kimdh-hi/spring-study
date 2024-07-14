@@ -42,6 +42,7 @@ import org.jooq.generated.tables.JPayment.PaymentPath
 import org.jooq.generated.tables.JRental.RentalPath
 import org.jooq.generated.tables.JStore.StorePath
 import org.jooq.generated.tables.records.CustomerRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -89,12 +90,12 @@ open class JCustomer(
     /**
      * The column <code>sakila.customer.customer_id</code>.
      */
-    val CUSTOMER_ID: TableField<CustomerRecord, UInteger?> = createField(DSL.name("customer_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "")
+    val CUSTOMER_ID: TableField<CustomerRecord, Long?> = createField(DSL.name("customer_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.customer.store_id</code>.
      */
-    val STORE_ID: TableField<CustomerRecord, UInteger?> = createField(DSL.name("store_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val STORE_ID: TableField<CustomerRecord, Long?> = createField(DSL.name("store_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.customer.first_name</code>.
@@ -114,7 +115,7 @@ open class JCustomer(
     /**
      * The column <code>sakila.customer.address_id</code>.
      */
-    val ADDRESS_ID: TableField<CustomerRecord, UInteger?> = createField(DSL.name("address_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val ADDRESS_ID: TableField<CustomerRecord, Long?> = createField(DSL.name("address_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.customer.active</code>.
@@ -164,7 +165,7 @@ open class JCustomer(
     }
     override fun getSchema(): Schema? = if (aliased()) null else JSakila.SAKILA
     override fun getIndexes(): List<Index> = listOf(CUSTOMER_IDX_FK_ADDRESS_ID, CUSTOMER_IDX_FK_STORE_ID, CUSTOMER_IDX_LAST_NAME)
-    override fun getIdentity(): Identity<CustomerRecord, UInteger?> = super.getIdentity() as Identity<CustomerRecord, UInteger?>
+    override fun getIdentity(): Identity<CustomerRecord, Long?> = super.getIdentity() as Identity<CustomerRecord, Long?>
     override fun getPrimaryKey(): UniqueKey<CustomerRecord> = KEY_CUSTOMER_PRIMARY
     override fun getReferences(): List<ForeignKey<CustomerRecord, *>> = listOf(FK_CUSTOMER_STORE, FK_CUSTOMER_ADDRESS)
 

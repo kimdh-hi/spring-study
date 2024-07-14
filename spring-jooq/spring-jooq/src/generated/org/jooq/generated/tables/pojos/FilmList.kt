@@ -8,8 +8,6 @@ import java.io.Serializable
 import java.math.BigDecimal
 
 import org.jooq.generated.enums.FilmListRating
-import org.jooq.types.UInteger
-import org.jooq.types.UShort
 
 
 /**
@@ -17,12 +15,12 @@ import org.jooq.types.UShort
  */
 @Suppress("UNCHECKED_CAST")
 data class FilmList(
-    var fid: UInteger? = null,
+    var fid: Long? = null,
     var title: String? = null,
     var description: String? = null,
     var category: String? = null,
     var price: BigDecimal? = null,
-    var length: UShort? = null,
+    var length: Int? = null,
     var rating: FilmListRating? = null,
     var actors: String? = null
 ): Serializable {

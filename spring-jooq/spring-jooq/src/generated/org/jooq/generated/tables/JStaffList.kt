@@ -23,6 +23,7 @@ import org.jooq.TableField
 import org.jooq.TableOptions
 import org.jooq.generated.JSakila
 import org.jooq.generated.tables.records.StaffListRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.SQLDataType
 import org.jooq.impl.TableImpl
@@ -69,7 +70,7 @@ open class JStaffList(
     /**
      * The column <code>sakila.staff_list.ID</code>.
      */
-    val ID: TableField<StaffListRecord, UInteger?> = createField(DSL.name("ID"), SQLDataType.INTEGERUNSIGNED.nullable(false).defaultValue(DSL.inline("0", SQLDataType.INTEGERUNSIGNED)), this, "")
+    val ID: TableField<StaffListRecord, Long?> = createField(DSL.name("ID"), SQLDataType.INTEGERUNSIGNED.nullable(false).defaultValue(DSL.inline("0", SQLDataType.INTEGERUNSIGNED)), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.staff_list.name</code>.
@@ -104,7 +105,7 @@ open class JStaffList(
     /**
      * The column <code>sakila.staff_list.SID</code>.
      */
-    val SID: TableField<StaffListRecord, UInteger?> = createField(DSL.name("SID"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val SID: TableField<StaffListRecord, Long?> = createField(DSL.name("SID"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     private constructor(alias: Name, aliased: Table<StaffListRecord>?): this(alias, null, null, null, aliased, null, null)
     private constructor(alias: Name, aliased: Table<StaffListRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, null, aliased, parameters, null)

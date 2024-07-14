@@ -32,6 +32,7 @@ import org.jooq.generated.keys.KEY_CATEGORY_PRIMARY
 import org.jooq.generated.tables.JFilm.FilmPath
 import org.jooq.generated.tables.JFilmCategory.FilmCategoryPath
 import org.jooq.generated.tables.records.CategoryRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -79,7 +80,7 @@ open class JCategory(
     /**
      * The column <code>sakila.category.category_id</code>.
      */
-    val CATEGORY_ID: TableField<CategoryRecord, UInteger?> = createField(DSL.name("category_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "")
+    val CATEGORY_ID: TableField<CategoryRecord, Long?> = createField(DSL.name("category_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.category.name</code>.
@@ -123,7 +124,7 @@ open class JCategory(
         override fun `as`(alias: Table<*>): CategoryPath = CategoryPath(alias.qualifiedName, this)
     }
     override fun getSchema(): Schema? = if (aliased()) null else JSakila.SAKILA
-    override fun getIdentity(): Identity<CategoryRecord, UInteger?> = super.getIdentity() as Identity<CategoryRecord, UInteger?>
+    override fun getIdentity(): Identity<CategoryRecord, Long?> = super.getIdentity() as Identity<CategoryRecord, Long?>
     override fun getPrimaryKey(): UniqueKey<CategoryRecord> = KEY_CATEGORY_PRIMARY
 
     private lateinit var _filmCategory: FilmCategoryPath

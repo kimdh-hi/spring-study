@@ -40,6 +40,7 @@ import org.jooq.generated.tables.JCustomer.CustomerPath
 import org.jooq.generated.tables.JRental.RentalPath
 import org.jooq.generated.tables.JStaff.StaffPath
 import org.jooq.generated.tables.records.PaymentRecord
+import org.jooq.impl.AutoConverter
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 import org.jooq.impl.SQLDataType
@@ -87,17 +88,17 @@ open class JPayment(
     /**
      * The column <code>sakila.payment.payment_id</code>.
      */
-    val PAYMENT_ID: TableField<PaymentRecord, UInteger?> = createField(DSL.name("payment_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "")
+    val PAYMENT_ID: TableField<PaymentRecord, Long?> = createField(DSL.name("payment_id"), SQLDataType.INTEGERUNSIGNED.nullable(false).identity(true), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.payment.customer_id</code>.
      */
-    val CUSTOMER_ID: TableField<PaymentRecord, UInteger?> = createField(DSL.name("customer_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val CUSTOMER_ID: TableField<PaymentRecord, Long?> = createField(DSL.name("customer_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.payment.staff_id</code>.
      */
-    val STAFF_ID: TableField<PaymentRecord, UInteger?> = createField(DSL.name("staff_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "")
+    val STAFF_ID: TableField<PaymentRecord, Long?> = createField(DSL.name("staff_id"), SQLDataType.INTEGERUNSIGNED.nullable(false), this, "", AutoConverter<UInteger, Long>(UInteger::class.java, Long::class.java))
 
     /**
      * The column <code>sakila.payment.rental_id</code>.
@@ -152,7 +153,7 @@ open class JPayment(
     }
     override fun getSchema(): Schema? = if (aliased()) null else JSakila.SAKILA
     override fun getIndexes(): List<Index> = listOf(PAYMENT_IDX_FK_CUSTOMER_ID, PAYMENT_IDX_FK_STAFF_ID)
-    override fun getIdentity(): Identity<PaymentRecord, UInteger?> = super.getIdentity() as Identity<PaymentRecord, UInteger?>
+    override fun getIdentity(): Identity<PaymentRecord, Long?> = super.getIdentity() as Identity<PaymentRecord, Long?>
     override fun getPrimaryKey(): UniqueKey<PaymentRecord> = KEY_PAYMENT_PRIMARY
     override fun getReferences(): List<ForeignKey<PaymentRecord, *>> = listOf(FK_PAYMENT_CUSTOMER, FK_PAYMENT_STAFF, FK_PAYMENT_RENTAL)
 

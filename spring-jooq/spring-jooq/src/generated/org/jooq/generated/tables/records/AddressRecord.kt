@@ -10,7 +10,6 @@ import org.jooq.Record1
 import org.jooq.generated.tables.JAddress
 import org.jooq.generated.tables.pojos.Address
 import org.jooq.impl.UpdatableRecordImpl
-import org.jooq.types.UInteger
 
 
 /**
@@ -19,9 +18,9 @@ import org.jooq.types.UInteger
 @Suppress("UNCHECKED_CAST")
 open class AddressRecord() : UpdatableRecordImpl<AddressRecord>(JAddress.ADDRESS) {
 
-    open var addressId: UInteger?
+    open var addressId: Long?
         set(value): Unit = set(0, value)
-        get(): UInteger? = get(0) as UInteger?
+        get(): Long? = get(0) as Long?
 
     open var address: String?
         set(value): Unit = set(1, value)
@@ -35,9 +34,9 @@ open class AddressRecord() : UpdatableRecordImpl<AddressRecord>(JAddress.ADDRESS
         set(value): Unit = set(3, value)
         get(): String? = get(3) as String?
 
-    open var cityId: UInteger?
+    open var cityId: Long?
         set(value): Unit = set(4, value)
-        get(): UInteger? = get(4) as UInteger?
+        get(): Long? = get(4) as Long?
 
     open var postalCode: String?
         set(value): Unit = set(5, value)
@@ -55,12 +54,12 @@ open class AddressRecord() : UpdatableRecordImpl<AddressRecord>(JAddress.ADDRESS
     // Primary key information
     // -------------------------------------------------------------------------
 
-    override fun key(): Record1<UInteger?> = super.key() as Record1<UInteger?>
+    override fun key(): Record1<Long?> = super.key() as Record1<Long?>
 
     /**
      * Create a detached, initialised AddressRecord
      */
-    constructor(addressId: UInteger? = null, address: String? = null, address2: String? = null, district: String? = null, cityId: UInteger? = null, postalCode: String? = null, phone: String? = null, lastUpdate: LocalDateTime? = null): this() {
+    constructor(addressId: Long? = null, address: String? = null, address2: String? = null, district: String? = null, cityId: Long? = null, postalCode: String? = null, phone: String? = null, lastUpdate: LocalDateTime? = null): this() {
         this.addressId = addressId
         this.address = address
         this.address2 = address2

@@ -6,22 +6,20 @@ package org.jooq.generated.tables.pojos
 
 import java.io.Serializable
 
-import org.jooq.types.UInteger
-
 
 /**
  * VIEW
  */
 @Suppress("UNCHECKED_CAST")
 data class StaffList(
-    var id: UInteger? = null,
+    var id: Long? = null,
     var name: String? = null,
     var address: String? = null,
     var zipCode: String? = null,
     var phone: String? = null,
     var city: String? = null,
     var country: String? = null,
-    var sid: UInteger? = null
+    var sid: Long? = null
 ): Serializable {
 
 
