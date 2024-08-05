@@ -62,3 +62,26 @@ data class FilmWithActor(
   val fileActor: FilmActor,
   val actor: Actor,
 )
+
+data class PagedResponse(
+  val page: Long,
+  val pageSize: Long,
+)
+
+data class FilmWithActorPagedResponse(
+  val page: PagedResponse,
+  val filmWithActors: List<FilmActorResponse>
+) {
+  data class FilmActorResponse(
+    val fileTitle: String?,
+    val actorFullName: String,
+    val filmId: Long?,
+  ) {
+    constructor(fileWithActor: FilmWithActor): this(
+      fileTitle = fileWithActor.file.title,
+      actorFullName = "${fileWithActor.actor.firstName} ${fileWithActor.actor.lastName}",
+      filmId = fileWithActor.file.filmId
+    )
+  }
+}
+
