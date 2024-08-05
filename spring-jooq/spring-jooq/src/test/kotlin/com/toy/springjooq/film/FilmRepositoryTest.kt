@@ -2,6 +2,7 @@ package com.toy.springjooq.film
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
@@ -20,6 +21,17 @@ class FilmRepositoryTest @Autowired constructor(
   fun findByIdV2() {
     val film = fileRepository.findByIdV2(1L)
     println(film)
-    assertThat(film).isNotNull
+    assertAll(
+      { assertThat(film).isNotNull },
+      { assertThat(film).hasNoNullFieldsOrProperties() },
+    )
+  }
+
+  @Test
+  fun findAllWithActors() {
+    val films = fileRepository.findAllWithActors(0, 0)
+    films.forEach {
+      println(it)
+    }
   }
 }
