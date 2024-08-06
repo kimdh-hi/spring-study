@@ -1,5 +1,7 @@
 package com.toy.springjooq.film
 
+import com.toy.springjooq.film.vo.FilmWithActorPagedResponse
+import com.toy.springjooq.film.vo.PagedResponse
 import org.springframework.stereotype.Service
 
 @Service
