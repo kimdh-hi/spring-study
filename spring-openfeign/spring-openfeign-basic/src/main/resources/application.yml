@@ -1,5 +1,5 @@
 #spring.cloud.openfeign.httpclient.hc5.enabled: true
-spring.cloud.openfeign.okhttp.enabled: true
+# spring.cloud.openfeign.okhttp.enabled: true
 
 open-feign:
   sample-url: fakerestapi.azurewebsites.net/api/v1/Users

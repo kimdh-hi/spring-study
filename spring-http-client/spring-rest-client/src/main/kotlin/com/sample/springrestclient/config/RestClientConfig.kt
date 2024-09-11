@@ -19,10 +19,10 @@ import org.springframework.web.client.RestClient.ResponseSpec.ErrorHandler
 import java.time.Duration
 
 @Configuration
-class RestClientConfig {
+open class RestClientConfig {
 
   @Bean
-  fun restClient(restClientBuilder: RestClient.Builder): RestClient {
+  open fun restClient(restClientBuilder: RestClient.Builder): RestClient {
     return restClientBuilder
       .defaultHeaders {
         it.contentType = MediaType.APPLICATION_JSON
@@ -32,7 +32,7 @@ class RestClientConfig {
   }
 
   @Bean
-  fun restClientCustomizer() = RestClientCustomizer { customizer ->
+  open fun restClientCustomizer() = RestClientCustomizer { customizer ->
     val clientHttpRequestFactory = ClientHttpRequestFactories.get(
       ClientHttpRequestFactorySettings.DEFAULTS
         .withReadTimeout(Duration.ofSeconds(30))
