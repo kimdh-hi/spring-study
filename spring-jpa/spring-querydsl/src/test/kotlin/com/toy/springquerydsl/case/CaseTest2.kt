@@ -1,9 +1,9 @@
-package com.toy.springquerydsl.`03-case`
+package com.toy.springquerydsl.case
 
 import com.querydsl.core.types.dsl.CaseBuilder
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
-import com.toy.springquerydsl.`00-base`.BaseTest
+import com.toy.springquerydsl.base.BaseTest
 import com.toy.springquerydsl.domain.CaseTestEntity1
 import com.toy.springquerydsl.domain.CaseTestEntity2
 import com.toy.springquerydsl.domain.CaseTestEntity3

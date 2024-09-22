@@ -1,6 +1,6 @@
-package com.toy.springquerydsl.`05-projection`
+package com.toy.springquerydsl.projection
 
-import com.toy.springquerydsl.`00-base`.BaseTest
+import com.toy.springquerydsl.base.BaseTest
 import com.toy.springquerydsl.domain.QMember.member
 import org.junit.jupiter.api.Test
 

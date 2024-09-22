@@ -1,6 +1,6 @@
-package com.toy.springquerydsl.`04-concat`
+package com.toy.springquerydsl.concat
 
-import com.toy.springquerydsl.`00-base`.BaseTest
+import com.toy.springquerydsl.base.BaseTest
 import com.toy.springquerydsl.domain.QMember.member
 import org.junit.jupiter.api.Test
 

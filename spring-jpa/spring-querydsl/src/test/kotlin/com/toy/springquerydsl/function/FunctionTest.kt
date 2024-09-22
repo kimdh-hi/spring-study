@@ -1,7 +1,7 @@
-package com.toy.springquerydsl.`12-function`
+package com.toy.springquerydsl.function
 
 import com.querydsl.core.types.dsl.Expressions
-import com.toy.springquerydsl.`00-base`.BaseTest
+import com.toy.springquerydsl.base.BaseTest
 import com.toy.springquerydsl.domain.QMember.member
 import org.junit.jupiter.api.Test
 

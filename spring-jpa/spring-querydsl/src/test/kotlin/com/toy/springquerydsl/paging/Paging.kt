@@ -1,8 +1,8 @@
-package com.toy.springquerydsl.`08-paging`
+package com.toy.springquerydsl.paging
 
 import com.querydsl.core.types.Order
 import com.querydsl.core.types.OrderSpecifier
-import com.toy.springquerydsl.`00-base`.BaseTest
+import com.toy.springquerydsl.base.BaseTest
 import com.toy.springquerydsl.domain.QMember
 import com.toy.springquerydsl.repository.MemberRepository
 import com.toy.springquerydsl.vo.MemberSearchVO

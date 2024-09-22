@@ -3,7 +3,7 @@ package com.toy.springquerydsl.config
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import javax.persistence.EntityManager
+import jakarta.persistence.EntityManager
 
 @Configuration
 class JpaConfig {

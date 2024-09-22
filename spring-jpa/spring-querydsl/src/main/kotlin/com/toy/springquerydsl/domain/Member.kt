@@ -1,6 +1,6 @@
 package com.toy.springquerydsl.domain
 
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity
 class Member (

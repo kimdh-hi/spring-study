@@ -15,7 +15,7 @@ class QuerydslRepositorySupportCustom(domainClass: Class<*>) : QuerydslRepositor
     selectClause: Expression<T>,
     pageable: Pageable
   ): PageImpl<T> {
-    val totalCount = query.select(Wildcard.count).fetchFirst()
+    val totalCount = query.select(Wildcard.count).fetchFirst() ?: 0L
     val list = querydsl!!.applyPagination(pageable, query.select(selectClause)).fetch()
 
     return PageImpl(list, pageable, totalCount)

@@ -39,6 +39,6 @@ class HelloRepositoryImpl(
     return query.selectOne()
       .from(hello)
       .where(hello.data.eq(data))
-      .fetchFirst()
+      .fetchFirst()!!
   }
 }

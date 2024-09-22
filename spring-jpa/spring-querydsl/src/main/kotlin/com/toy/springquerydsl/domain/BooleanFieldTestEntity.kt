@@ -2,11 +2,11 @@ package com.toy.springquerydsl.domain
 
 import org.hibernate.annotations.GenericGenerator
 import org.jetbrains.annotations.PropertyKey
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.Table
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 
 @Table
 @Entity(name = "mt_boolean_field_test")

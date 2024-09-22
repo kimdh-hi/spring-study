@@ -1,9 +1,7 @@
-package com.toy.springquerydsl.`11-bulk`
+package com.toy.springquerydsl.bulk
 
-import com.toy.springquerydsl.`00-base`.BaseTest
-import com.toy.springquerydsl.domain.QMember
+import com.toy.springquerydsl.base.BaseTest
 import com.toy.springquerydsl.domain.QMember.member
-import com.toy.springquerydsl.domain.QTeam.team
 import com.toy.springquerydsl.repository.MemberRepository
 import org.junit.jupiter.api.Test
 

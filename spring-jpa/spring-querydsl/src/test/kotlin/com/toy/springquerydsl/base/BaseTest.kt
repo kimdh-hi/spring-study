@@ -1,4 +1,4 @@
-package com.toy.springquerydsl.`00-base`
+package com.toy.springquerydsl.base
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.toy.springquerydsl.domain.Member
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestConstructor
 import org.springframework.transaction.annotation.Transactional
-import javax.persistence.EntityManager
+import jakarta.persistence.EntityManager
 
 @SpringBootTest
 @Transactional

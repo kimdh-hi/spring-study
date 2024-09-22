@@ -1,6 +1,6 @@
-package com.toy.springquerydsl.`06-distinct`
+package com.toy.springquerydsl.distinct
 
-import com.toy.springquerydsl.`00-base`.BaseTest
+import com.toy.springquerydsl.base.BaseTest
 import com.toy.springquerydsl.domain.DistinctTestDefaultEntity
 import com.toy.springquerydsl.domain.DistinctTestNameHashCodeEntity
 import com.toy.springquerydsl.domain.QDistinctTestDefaultEntity.distinctTestDefaultEntity

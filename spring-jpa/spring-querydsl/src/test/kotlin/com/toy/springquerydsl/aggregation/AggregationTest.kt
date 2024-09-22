@@ -1,6 +1,6 @@
-package com.toy.springquerydsl.`09-aggregation`
+package com.toy.springquerydsl.aggregation
 
-import com.toy.springquerydsl.`00-base`.BaseTest
+import com.toy.springquerydsl.base.BaseTest
 import com.toy.springquerydsl.domain.QMember.member
 import com.toy.springquerydsl.domain.QTeam.team
 import com.toy.springquerydsl.vo.QMemberAggregationVO

@@ -1,9 +1,9 @@
-package com.toy.springquerydsl.`05-projection`
+package com.toy.springquerydsl.projection
 
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
-import com.toy.springquerydsl.`00-base`.BaseTest
+import com.toy.springquerydsl.base.BaseTest
 import com.toy.springquerydsl.domain.QMember
 import com.toy.springquerydsl.domain.QMember.member
 import com.toy.springquerydsl.vo.MemberResponseVO

@@ -35,10 +35,4 @@ class HelloRepositoryImplTest @Autowired constructor(
     val result = helloRepository.existsByDataUsingFetchFirst("none")
     println(result)
   }
-
-  @Test
-  fun `fetchFirst - 이게 뭐여 NPE`() {
-    val result = helloRepository.existsByDataUsingFetchFirstZZZ("none")
-    println(result)
-  }
 }

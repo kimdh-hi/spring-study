@@ -1,7 +1,7 @@
-package com.toy.springquerydsl.`07-dynamic-query`
+package com.toy.springquerydsl.dynamic_query
 
 import com.querydsl.core.BooleanBuilder
-import com.toy.springquerydsl.`00-base`.BaseTest
+import com.toy.springquerydsl.base.BaseTest
 import com.toy.springquerydsl.domain.QMember.member
 import com.toy.springquerydsl.domain.QTeam.*
 import com.toy.springquerydsl.vo.QMemberDetailsResponseVO
