@@ -11,7 +11,7 @@ abstract class QueryDslSupportCustom(
   domainClass: Class<*>
 ): QuerydslRepositorySupport(domainClass) {
 
-  fun <T> getPage(
+  fun <T : Any> getPage(
     query: JPAQuery<out Any>,
     selectClause: Expression<T>,
     pageable: Pageable

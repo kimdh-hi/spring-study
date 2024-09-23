@@ -3,6 +3,7 @@ package com.toy.springquerydsl.repository
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.dsl.Wildcard
 import com.querydsl.jpa.impl.JPAQueryFactory
+import com.toy.springquerydsl.common.fetchPaged
 import com.toy.springquerydsl.domain.Member
 import com.toy.springquerydsl.domain.QMember.member
 import com.toy.springquerydsl.vo.MemberResponseVO
@@ -25,6 +26,7 @@ interface MemberRepositoryCustom {
 
   fun search(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO>
   fun searchV2(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO>
+  fun searchV3(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO>
 }
 
 class MemberRepositoryImpl(
@@ -74,6 +76,13 @@ class MemberRepositoryImpl(
     val selectClause = QMemberResponseVO(member.username, member.age)
 
     return getPage(jpaQuery, selectClause, pageable)
+  }
+
+  override fun searchV3(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO> {
+    return query.select(QMemberResponseVO(member.username, member.age))
+      .from(member)
+      .where(memberSearchCondition(searchVO))
+      .fetchPaged(pageable)
   }
 
   private fun getContents(
