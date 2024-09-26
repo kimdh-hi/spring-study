@@ -82,7 +82,7 @@ class MemberRepositoryImpl(
     return query.select(QMemberResponseVO(member.username, member.age))
       .from(member)
       .where(memberSearchCondition(searchVO))
-      .fetchPaged(pageable)
+      .fetchPaged(pageable, member)
   }
 
   private fun getContents(
