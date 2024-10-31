@@ -1,6 +1,8 @@
 package com.toy.springjpaexception.service
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestConstructor
 
@@ -12,11 +14,20 @@ class UserServiceTest(
 
   @Test
   fun test() {
-    val user = userService.save("test@gmail.com", false)
+    assertDoesNotThrow {
+      userService.save("test@gmail.com", false)
+    }
   }
 
   @Test
   fun test2() {
-    val user = userService.save("test@gmail.com", true)
+    assertThrows<RuntimeException> { userService.save("test@gmail.com", true) }
+  }
+
+  @Test
+  fun test3() {
+    assertDoesNotThrow {
+      userService.save2("test@gmail.com", true)
+    }
   }
 }
