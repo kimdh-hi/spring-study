@@ -70,3 +70,15 @@ See HHH-7610 for details.
 HHH000483: An experimental - and now also deprecated - feature has been enabled (hibernate.create_empty_composites.enabled=true) that instantiates empty composite/embedded objects when all of its attribute values are null. This feature has known issues and should not be used in production. See Hibernate Jira issue HHH-11936 for details.
 Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
 ```
+
+### Persistable
+- save() 메서드의 경우 pk 유무에 따라 동작이 달라진다.
+  - pk가 없는 경우 persist (insert)
+  - pk가 있는 경우 merge
+    - pk 기준 조회 후 존재하는 경우 update, 없는 경우 insert (비효율)
+- entity 에서 Persistable 을 구현시 isNew 메서드가 true 를 반환하는 경우 식별자 유무와 관계없이 persist 를 수행한다.
+- 주로, entity 의 pk 를 직접 할당하는 경우 사용한다.
+```kt
+override fun getId() = id
+override fun isNew() = createdDate == null
+```
