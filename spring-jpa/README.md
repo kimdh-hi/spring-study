@@ -82,3 +82,19 @@ Standard Commons Logging discovery in action with spring-jcl: please remove comm
 override fun getId() = id
 override fun isNew() = createdDate == null
 ```
+
+### @PostLoad (+@Transient)
+- 특정 필드에 대해 갱신 이전 값을 알고자 하는 경우 별도 `@Transient` 필드를 선언하고 필드가 갱신되는 경우 `@Transient` 필드를 같이 갱신하도록 했었음.
+  - 필드 갱신시 부가적으로 @Transient 필드가 반드시 갱신되어야 하는 번거로움이 있음 (갱신 가능한 다른 메서드가 호출되는 경우 목적과 다른 결과가 생길수도 있음)
+- @PostLoad 가 선언된 메서드는 해당 엔티티가 load 되는 경우 (조회되는 경우) 호출된다.
+  - `@Transient` 필드를 @PostLoad 메서드에서 초기화하게 되면 위 기능을 대체할 수 있음.
+
+```kt
+@Transient
+var previousStatus: Status? = null			
+
+@PostLoad
+fun setPreviousStatus() {
+  this.previousStatus = status
+}
+```
