@@ -38,10 +38,9 @@ dependencyManagement {
   }
 }
 
-tasks.withType<KotlinCompile> {
-  kotlinOptions {
-    freeCompilerArgs += "-Xjsr305=strict"
-    jvmTarget = "17"
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
   }
 }
 

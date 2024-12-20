@@ -1,5 +1,11 @@
 ## Spring Cloud Config
 
+### config server 설정 확인 (curl)
+```
+curl localhost:8888/api/default/0.31.2
+> crul localhost:8888/{name}/{profile}/{label}
+```
+
 ### config server 변경사항 적용
 
 - 서버 재기동

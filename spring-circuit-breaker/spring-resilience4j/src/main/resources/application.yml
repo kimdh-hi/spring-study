@@ -1,1 +1,18 @@
-spring.application.name=spring-resilience4j
+spring:
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        wait-duration-in-open-state: 10s # OPEN -> HALF_OPEN (default: 60s)
+        slow-call-rate-threshold: 50 # slow-call rate ??? (default: 100)
+        slow-call-duration-threshold: 5s # slow-call duration ???
+        register-health-indicator: true
+    instances:
+      default:
+        baseConfig: default
+
+
