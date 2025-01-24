@@ -1,6 +1,7 @@
 package com.toy.springexception.exception
 
 enum class ErrorCodes(val code: String) {
-  NOT_FOUND("0001"),
+  DATA_NOT_FOUND("0001"),
+  API_NOT_FOUND("0002"),
   UNKNOWN("9999"),
 }

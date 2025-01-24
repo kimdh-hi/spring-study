@@ -28,7 +28,16 @@ class ExceptionControllerTest @Autowired constructor(
     mockmvc.get("/exceptions/known")
       .andExpectAll {
         status { is4xxClientError() }
-        jsonPath("$.errorCode") { value(ErrorCodes.NOT_FOUND.code) }
+        jsonPath("$.errorCode") { value(ErrorCodes.DATA_NOT_FOUND.code) }
+      }
+  }
+
+  @Test
+  fun `없는 api 호출`() {
+    mockmvc.get("/not-exists")
+      .andExpectAll {
+        status { is4xxClientError() }
+        jsonPath("$.errorCode") { value(ErrorCodes.API_NOT_FOUND.code) }
       }
   }
 }

@@ -17,6 +17,6 @@ class ExceptionController {
 
   @GetMapping("/known")
   fun getKnownException() {
-    throw KnownException(ErrorCodes.NOT_FOUND, "data not found.")
+    throw KnownException(ErrorCodes.DATA_NOT_FOUND, "data not found.")
   }
 }
