@@ -1,12 +1,18 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  id("org.springframework.boot") version "3.2.1"
-  id("io.spring.dependency-management") version "1.1.4"
-  kotlin("jvm") version "1.9.21"
-  kotlin("plugin.spring") version "1.9.21"
-  kotlin("plugin.jpa") version "1.9.21"
-  kotlin("plugin.noarg") version "1.9.21"
+  id("org.springframework.boot") version "3.4.3"
+  id("io.spring.dependency-management") version "1.1.7"
+  kotlin("jvm") version "1.9.25"
+  kotlin("plugin.spring") version "1.9.25"
+  kotlin("plugin.jpa") version "1.9.25"
+  kotlin("plugin.noarg") version "1.9.25"
+}
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
 }
 
 allOpen {
@@ -21,7 +27,6 @@ noArg {
 
 group = "com.toy"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
   mavenCentral()
@@ -43,7 +48,6 @@ dependencies {
 tasks.withType<KotlinCompile> {
   kotlinOptions {
     freeCompilerArgs = listOf("-Xjsr305=strict")
-    jvmTarget = "17"
   }
 }
 
