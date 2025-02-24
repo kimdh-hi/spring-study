@@ -4,6 +4,7 @@ import jakarta.persistence.*
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
+import org.hibernate.annotations.UuidGenerator
 import org.hibernate.envers.Audited
 
 @Entity
@@ -11,8 +12,7 @@ import org.hibernate.envers.Audited
 @Audited
 class UserSomeData2(
   @Id
-  @GeneratedValue(generator = "uuid")
-  @GenericGenerator(name = "uuid", strategy = "uuid2")
+  @UuidGenerator
   var id: String? = null,
 
   val data: String,

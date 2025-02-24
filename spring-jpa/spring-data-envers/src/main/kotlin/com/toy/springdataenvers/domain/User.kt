@@ -3,6 +3,7 @@ package com.toy.springdataenvers.domain
 import com.toy.springdataenvers.domain.listener.UserJpaListener
 import jakarta.persistence.*
 import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.UuidGenerator
 import org.hibernate.envers.AuditOverride
 import org.hibernate.envers.Audited
 import org.hibernate.envers.NotAudited
@@ -10,13 +11,12 @@ import org.hibernate.envers.NotAudited
 @Entity
 @Table(name = "tb_user")
 @Audited
-@AuditOverride(forClass = BaseEntity::class) // 상위 클래스까지 히스토리 테이블에 포함되도록
+//@AuditOverride(forClass = BaseEntity::class) // 상위 클래스까지 히스토리 테이블에 포함되도록
 @EntityListeners(UserJpaListener::class)
 class User(
 
   @Id
-  @GeneratedValue(generator = "uuid")
-  @GenericGenerator(name = "uuid", strategy = "uuid2")
+  @UuidGenerator
   var id: String? = null,
 
   var name: String,
