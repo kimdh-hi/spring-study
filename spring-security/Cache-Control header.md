@@ -1,6 +1,21 @@
-spring security Cache-Control header
+## spring security Cache-Control header
 
-spring security 사용하는 경우 cache-control header 는 no-cache 로 설정된다.
+spring security 사용하는 경우 cache-control header 설정
+- Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+```
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: SAMEORIGIN
+Content-Type: application/json
+Content-Length: 2
+Date: Wed, 26 Feb 2025 07:11:51 GMT
+```
 
 security filter chain cache-control diable
 ```kt
