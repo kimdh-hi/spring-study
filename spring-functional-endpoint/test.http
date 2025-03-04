@@ -1,0 +1,6 @@
+POST localhost:8080/test
+Content-Type: application/json
+
+{
+  "data": "testData"
+}
