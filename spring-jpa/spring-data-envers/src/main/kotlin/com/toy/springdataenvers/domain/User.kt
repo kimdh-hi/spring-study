@@ -10,8 +10,9 @@ import org.hibernate.envers.NotAudited
 
 @Entity
 @Table(name = "tb_user")
+//@Audited(auditParents = [BaseEntity::class]) // deprecated
 @Audited
-//@AuditOverride(forClass = BaseEntity::class) // 상위 클래스까지 히스토리 테이블에 포함되도록
+@AuditOverride(forClass = BaseEntity::class) // 상위 클래스까지 히스토리 테이블에 포함되도록
 @EntityListeners(UserJpaListener::class)
 class User(
 

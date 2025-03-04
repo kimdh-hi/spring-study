@@ -4,7 +4,7 @@ import com.toy.springtest.TestComponent
 import org.springframework.stereotype.Service
 
 @Service
-class TestService(
+class Test2Service(
   private val testComponent: TestComponent,
 ) {
 

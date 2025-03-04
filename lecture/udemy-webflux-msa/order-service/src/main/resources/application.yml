@@ -1,3 +1,0 @@
-server.port: 8091
-user.service-url: http://localhost:8092/users
-product.service-url: http://localhost:8093/products

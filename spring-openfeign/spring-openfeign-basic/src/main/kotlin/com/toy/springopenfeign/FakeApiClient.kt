@@ -12,7 +12,7 @@ interface FakeApiFeign {
   fun getList(): List<FakeUser>
 
   @PostMapping
-  fun save(fakeUser: FakeUser): FakeUser
+  fun save(fakeUser: FakeUser?): FakeUser
 }
 
 data class FakeUser(

@@ -6,5 +6,9 @@ open-feign:
   my-fake-url: localhost:8084/fake
 
 
-logging.level:
-  "[com.toy.springopenfeign]": DEBUG
+logging:
+  level:
+    org.springframework.cloud.openfeign: TRACE
+    feign: DEBUG
+    feign.Client: TRACE
+    feign.SynchronousMethodHandler: DEBUG

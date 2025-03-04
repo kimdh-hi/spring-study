@@ -1,14 +1,16 @@
 package com.toy.springtest.service
 
+import com.toy.springtest.base.AbstractTest
+import io.mockk.every
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class TestServiceTest @Autowired constructor(val testService: TestService) {
+class Test2ServiceTest : AbstractTest() {
 
   @Test
   fun test() {
+    every { testComponent.logic() } returns "logic"
     testService.logic()
   }
 }

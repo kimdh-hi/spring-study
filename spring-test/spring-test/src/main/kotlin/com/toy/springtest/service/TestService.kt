@@ -1,4 +1,13 @@
 package com.toy.springtest.service
 
-class TestService {
+import com.toy.springtest.TestComponent
+import org.springframework.stereotype.Service
+
+@Service
+class TestService(
+  private val testComponent: TestComponent,
+) {
+
+  fun logic() = testComponent.logic()
 }
+

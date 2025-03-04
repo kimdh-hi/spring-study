@@ -1,4 +1,0 @@
-type Address {
-    street: String
-    city: String
-}

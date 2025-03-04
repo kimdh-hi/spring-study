@@ -1,7 +1,0 @@
-query findUsers {
-    findUsers {
-        id
-        name
-        username
-    }
-}

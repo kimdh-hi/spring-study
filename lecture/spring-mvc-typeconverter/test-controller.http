@@ -1,5 +1,0 @@
-GET localhost:8080/test/v0?data=1
-
-###
-
-GET localhost:8080/test/v1?data=2

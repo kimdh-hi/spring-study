@@ -23,4 +23,9 @@ class FakeApiClientTest @Autowired constructor(
 
     println(result)
   }
+
+  @Test
+  fun saveNull() {
+    fakeApiFeign.save(null)
+  }
 }

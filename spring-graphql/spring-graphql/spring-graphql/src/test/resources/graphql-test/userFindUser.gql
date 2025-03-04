@@ -1,9 +1,0 @@
-query findUser($id: String!) {
-    findUser(id: $id) {
-        id
-        name
-        username
-        groupId
-        groupName
-    }
-}

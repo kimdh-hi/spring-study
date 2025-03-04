@@ -1,4 +1,4 @@
-package com.toy.springtest.service
+package com.toy.springtest
 
 import org.springframework.stereotype.Component
 
