@@ -1,6 +1,8 @@
 package com.toy.springkotlin.controller
 
 import com.toy.springkotlin.controller.dto.UserSaveRequest
+import com.toy.springkotlin.controller.dto.UserSaveV1Request
+import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -14,8 +16,14 @@ class UserController {
 
   private val log = LoggerFactory.getLogger(UserController::class.java)
 
-  @PostMapping
-  fun save(@RequestBody request: UserSaveRequest): ResponseEntity<Unit> {
+  @PostMapping("/v1")
+  fun saveV1(@RequestBody @Valid request: UserSaveV1Request): ResponseEntity<Unit> {
+    log.debug("userSaveRequest={}", request)
+    return ResponseEntity.ok().build()
+  }
+
+  @PostMapping("/v2")
+  fun saveV2(@RequestBody @Valid request: UserSaveRequest): ResponseEntity<Unit> {
     log.debug("userSaveRequest={}", request)
     return ResponseEntity.ok().build()
   }
