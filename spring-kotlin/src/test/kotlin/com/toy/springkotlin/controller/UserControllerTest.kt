@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.post
 @AutoConfigureMockMvc(print = MockMvcPrint.SYSTEM_OUT, printOnlyOnFailure = false)
 class UserControllerTest @Autowired constructor(
   private val mockmvc: MockMvc,
-  private val objectMapper: ObjectMapper
 ) {
 
   @Test
@@ -27,7 +26,7 @@ class UserControllerTest @Autowired constructor(
     val request = UserSaveRequest(UserName("kim"), CompanyId("company-1"))
     val result = mockmvc.post("/users/v2") {
       contentType = MediaType.APPLICATION_JSON
-      content = objectMapper.writeValueAsString(request)
+      content = jacksonObjectMapper().writeValueAsString(request)
     }
 
     result.andExpectAll {
@@ -40,7 +39,7 @@ class UserControllerTest @Autowired constructor(
     val request = UserSaveRequest(UserName(" "), CompanyId(" "))
     val result = mockmvc.post("/users/v2") {
       contentType = MediaType.APPLICATION_JSON
-      content = objectMapper.writeValueAsString(request)
+      content = jacksonObjectMapper().writeValueAsString(request)
     }
 
     result.andExpectAll {
@@ -53,7 +52,7 @@ class UserControllerTest @Autowired constructor(
     val request = UserSaveV1Request(" ", " ")
     val result = mockmvc.post("/users/v1") {
       contentType = MediaType.APPLICATION_JSON
-      content = objectMapper.writeValueAsString(request)
+      content = jacksonObjectMapper().writeValueAsString(request)
     }
 
     result.andExpectAll {
