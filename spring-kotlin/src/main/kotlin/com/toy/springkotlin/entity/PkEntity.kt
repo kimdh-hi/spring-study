@@ -30,23 +30,15 @@ abstract class PkEntity(
   }
 
   override fun equals(other: Any?): Boolean {
-    if (other == null) {
-      return false
+    if (other == null) return false
+    if (other !is HibernateProxy && this::class != other::class) return false
+    val parseId = when (other) {
+      is HibernateProxy -> other.hibernateLazyInitializer.identifier as String
+      is PkEntity -> other.id
+      else -> return false
     }
 
-    if (other !is HibernateProxy && this::class != other::class) {
-      return false
-    }
-
-    return id == getIdentifier(other)
-  }
-
-  private fun getIdentifier(obj: Any): String {
-    return if (obj is HibernateProxy) {
-      obj.hibernateLazyInitializer.identifier
-    } else {
-      (obj as PkEntity).id
-    } as String
+    return id == parseId
   }
 
   override fun hashCode() = Objects.hashCode(id)
