@@ -56,4 +56,14 @@ class GroupRepositoryTest @Autowired constructor(
     val updatedGroup = groupRepository.findByIdOrNull(findGroup.groupId?.value)
     assertThat(updatedGroup!!.name).isEqualTo(updateGroupName)
   }
+
+  @Test
+  fun findByIdCustom() {
+    val savedGroup = groupRepository.save(Group(name = "group"))
+    val findGroup = groupRepository.findByIdCustom(savedGroup.groupId!!)
+    assertAll(
+      { assertThat(findGroup).isNotNull },
+      { assertThat(findGroup!!.groupId).isEqualTo(savedGroup.groupId) }
+    )
+  }
 }
