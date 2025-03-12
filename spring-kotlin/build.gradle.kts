@@ -1,4 +1,3 @@
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 
 plugins {
@@ -7,6 +6,7 @@ plugins {
   id("org.springframework.boot") version "3.4.3"
   id("io.spring.dependency-management") version "1.1.7"
   kotlin("plugin.jpa") version "1.9.25"
+  kotlin("kapt") version "1.9.25"
 }
 
 group = "com.toy"
@@ -32,12 +32,16 @@ repositories {
   mavenCentral()
 }
 
+private val querydslVersion = dependencyManagement.importedProperties["querydsl.version"]
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.springframework.boot:spring-boot-starter-validation")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
+  implementation("com.querydsl:querydsl-apt:$querydslVersion:jakarta")
+  implementation("com.querydsl:querydsl-jpa:$querydslVersion:jakarta")
+  kapt("com.querydsl:querydsl-apt:$querydslVersion:jakarta")
   runtimeOnly("com.h2database:h2")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
