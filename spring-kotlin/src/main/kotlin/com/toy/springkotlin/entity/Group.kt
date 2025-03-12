@@ -12,7 +12,7 @@ value class GroupId(val value: String) : Serializable
 
 @Entity
 @Table(name = "groups")
-class Group(
+class Group private constructor(
   @Id
   @UuidGenerator
   @Column(length = 50)
@@ -21,6 +21,13 @@ class Group(
   @Column(length = 100, nullable = false)
   var name: String
 ) {
+
+  companion object {
+    operator fun invoke(name: String): Group {
+      return Group(name = name)
+    }
+  }
+
   override fun toString(): String {
     return "Group(groupId=$groupId, name='$name')"
   }

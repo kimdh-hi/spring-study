@@ -6,10 +6,17 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "users")
-class User(
+class User private constructor(
   @Column(length = 100, nullable = false)
   var name: String
 ) : PkEntity() {
+
+  companion object {
+    operator fun invoke(name: String): User {
+      return User(name = name)
+    }
+  }
+
   fun update(name: String) {
     this.name = name
   }

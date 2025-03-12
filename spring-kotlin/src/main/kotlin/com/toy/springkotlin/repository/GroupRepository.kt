@@ -14,7 +14,7 @@ interface GroupRepositoryCustom {
 
 class GroupRepositoryImpl(
   private val query: JPAQueryFactory,
-): GroupRepositoryCustom {
+) : GroupRepositoryCustom {
   override fun findByIdCustom(id: GroupId): Group? {
     return query.selectFrom(group)
       .where(group.groupId.eq(id.value))
