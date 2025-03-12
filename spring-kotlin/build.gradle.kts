@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+
 plugins {
   kotlin("jvm") version "1.9.25"
   kotlin("plugin.spring") version "1.9.25"
@@ -49,4 +52,8 @@ kotlin {
 
 tasks.withType<Test> {
   useJUnitPlatform()
+  testLogging {
+    showStandardStreams = true
+    exceptionFormat = FULL
+  }
 }

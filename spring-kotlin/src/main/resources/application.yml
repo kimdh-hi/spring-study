@@ -8,6 +8,13 @@ spring:
     driver-class-name: org.h2.Driver
     hikari:
       connection-test-query: SELECT 1
-  mvc:
-    problemdetails:
-      enabled: true
+  jpa:
+    hibernate.ddl-auto: create
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+        query.in_clause_parameter_padding: true
+        id.new_generator_mappings: false
+        create_empty_composites.enabled: true
