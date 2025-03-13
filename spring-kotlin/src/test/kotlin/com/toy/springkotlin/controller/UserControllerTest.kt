@@ -1,6 +1,5 @@
 package com.toy.springkotlin.controller
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.toy.springkotlin.controller.dto.CompanyId
 import com.toy.springkotlin.controller.dto.UserName
@@ -13,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrint
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import org.springframework.transaction.annotation.Transactional
 
@@ -60,5 +60,19 @@ class UserControllerTest @Autowired constructor(
     result.andExpectAll {
       status { is4xxClientError() }
     }
+  }
+
+  /**
+   * Expected :user-01
+   * Actual   :UserTestId(value=user-01)
+   *
+   * value class toString override UserTestId 참조
+   */
+  @Test
+  fun pathVariableTest() {
+    mockmvc.get("/users/path-variables/{userTestId}", UserTestId("user-01")).andExpectAll {
+        status { isOk() }
+        jsonPath("$") { value("user-01") }
+      }
   }
 }
