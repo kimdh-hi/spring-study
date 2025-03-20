@@ -20,4 +20,8 @@ class User private constructor(
   fun update(name: String) {
     this.name = name
   }
+
+  override fun toString(): String {
+    return "User(name='$name')"
+  }
 }
