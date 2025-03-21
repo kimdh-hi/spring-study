@@ -13,6 +13,22 @@ envers 는 데이터 변경에 대해 추가적인 로깅작업을 쉽게 할 �
 - `1`: update
 - `2`: delete
 
+### option
+
+```yml
+spring:
+  jpa:
+    properties:
+      org:
+        hibernate:
+          envers:
+            audit_table_suffix: _h          # table suffix(default=_aud) ex) user_h 
+            store_data_at_delete: true      # 엔티티 삭제시 삭제 이전 데이터 저장(default=false)
+            global_with_modified_flag: true # 해당 entity 모든 칼럼 대상 modified_flag 적용
+            modified_flag_suffix: _mod      # modified_flag suffix
+```
+
+
 ### @OnDelete(action = OnDeleteAction.CASCADE)
 - 연관된 엔티티 삭제시 테이블 생성시 추가되는 `on delete cascade` 에 의해 삭제되는 것이기 때문에 `envers 이력에 남지 않는다.`
 - user delete 후 `user_some_data2_h` 에 이력이 없는 것을 확인

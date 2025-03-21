@@ -4,7 +4,7 @@ spring:
     init:
       data-locations: classpath:sql/data.sql
   datasource:
-    url: jdbc:mariadb://localhost/test?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost/test?createDatabaseIfNotExist=true
     username: root
     password: 111111
     hikari:
@@ -21,8 +21,10 @@ spring:
         show_sql: false
         format_sql: true
       org.hibernate.envers:
-        audit_table_suffix: _h # default=_AUD
-        store_data_at_delete: true # delete ?? ?? ??? ?? ??
+        audit_table_suffix: _h
+        store_data_at_delete: true
+        global_with_modified_flag: true
+        modified_flag_suffix: _mod
     defer-datasource-initialization: true
 
 logging:

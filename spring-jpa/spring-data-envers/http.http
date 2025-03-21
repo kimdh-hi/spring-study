@@ -2,7 +2,7 @@ POST localhost:8081/api/users/testname
 
 ###
 
-PUT localhost:8081/api/users/u1/updatename5
+PUT localhost:8081/api/users/19723818-0388-43f9-b5d1-44197605ef5b/updatename5
 
 
 ###
