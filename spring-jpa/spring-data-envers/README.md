@@ -27,7 +27,10 @@ spring:
             global_with_modified_flag: true # 해당 entity 모든 칼럼 대상 modified_flag 적용
             modified_flag_suffix: _mod      # modified_flag suffix
 ```
-
+```
+//특정 엔티티에만 modified_flag 지정
+@Audited(withModifiedFlag = true)
+```
 
 ### @OnDelete(action = OnDeleteAction.CASCADE)
 - 연관된 엔티티 삭제시 테이블 생성시 추가되는 `on delete cascade` 에 의해 삭제되는 것이기 때문에 `envers 이력에 남지 않는다.`
