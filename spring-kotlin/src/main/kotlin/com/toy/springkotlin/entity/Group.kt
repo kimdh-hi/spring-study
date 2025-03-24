@@ -16,7 +16,7 @@ class Group private constructor(
   @Id
   @UuidGenerator
   @Column(length = 50)
-  var groupId: GroupId? = null,
+  var id: GroupId? = null,
 
   @Column(length = 100, nullable = false)
   var name: String
@@ -29,6 +29,6 @@ class Group private constructor(
   }
 
   override fun toString(): String {
-    return "Group(groupId=$groupId, name='$name')"
+    return "Group(groupId=$id, name='$name')"
   }
 }

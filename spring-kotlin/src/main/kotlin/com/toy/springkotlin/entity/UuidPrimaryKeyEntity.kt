@@ -12,7 +12,7 @@ import java.util.Objects
 import java.util.UUID
 
 @MappedSuperclass
-abstract class PkEntity(
+abstract class UuidPrimaryKeyEntity(
   @Id
   @Column(length = 50)
   private val id: String = UUID.randomUUID().toString(),
@@ -34,7 +34,7 @@ abstract class PkEntity(
     if (other !is HibernateProxy && this::class != other::class) return false
     val parseId = when (other) {
       is HibernateProxy -> other.hibernateLazyInitializer.identifier as String
-      is PkEntity -> other.id
+      is UuidPrimaryKeyEntity -> other.id
       else -> return false
     }
 

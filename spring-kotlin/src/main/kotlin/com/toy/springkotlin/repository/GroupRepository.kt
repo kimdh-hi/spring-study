@@ -17,7 +17,7 @@ class GroupRepositoryImpl(
 ) : GroupRepositoryCustom {
   override fun findByIdCustom(id: GroupId): Group? {
     return query.selectFrom(group)
-      .where(group.groupId.eq(id.value))
+      .where(group.id.eq(id.value))
       .fetchFirst()
   }
 }
