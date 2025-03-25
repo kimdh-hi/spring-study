@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: spring-async
+  task:
+    execution:
+      thread-name-prefix: "async-" # default: task-n
+      pool:
+        core-size: 8 # default: 8
+        max-size: 16 # default: Integer.MAX_VALUE
+        queue-capacity: 100 # default: Integer.MAX_VALUE
