@@ -11,6 +11,11 @@ class MailService {
 
   @Async
   fun send(message: String) {
-    log.info("MailService send message={}, currentThreadName={}", message, Thread.currentThread().name)
+    log.info(
+      "MailService send message={}, currentThreadName={}, userIdHolder={}",
+      message,
+      Thread.currentThread().name,
+      UserIdHolder.get()
+    )
   }
 }

@@ -1,6 +1,5 @@
 package com.study.springasync.service
 
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
@@ -8,11 +7,16 @@ class UserService(
   private val mailService: MailService,
 ) {
 
-  private val log = LoggerFactory.getLogger(UserService::class.java)
-
-  fun signup() {
-    log.info("signup")
-
+  fun signup(name: String) {
+    UserIdHolder.set("user")
     mailService.send("welcome.")
   }
+}
+
+object UserIdHolder {
+  private val holder = ThreadLocal<String?>()
+
+  fun get() = holder.get()
+  fun set(value: String) = holder.set(value)
+  fun clear() = holder.remove()
 }

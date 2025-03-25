@@ -1,6 +1,7 @@
 package com.study.springasync.service
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
@@ -11,6 +12,6 @@ class UserServiceTest @Autowired constructor(
 
   @Test
   fun test() {
-    userService.signup()
+    assertDoesNotThrow { userService.signup("name") }
   }
 }
