@@ -18,15 +18,12 @@ class AsyncConfig {
 }
 
 class ThreadLocalCopyDecorator : TaskDecorator {
-  override fun decorate(runnable: Runnable): Runnable {
-    val userId = UserIdHolder.get()
-    return Runnable {
-      try {
-        userId?.let { UserIdHolder.set(it) }
-        runnable.run()
-      } finally {
-        UserIdHolder.clear()
-      }
+  override fun decorate(runnable: Runnable) = Runnable {
+    try {
+      UserIdHolder.get()?.let { UserIdHolder.set(it) }
+      runnable.run()
+    } finally {
+      UserIdHolder.clear()
     }
   }
 }

@@ -29,3 +29,10 @@ spring:
     execution:
       thread-name-prefix: "async-"
 ```
+
+### async method ThreadLocal 사용
+- @Async 사용시 thread 가 달라지므로 기존 Thread 에서 사용중인 ThreadLocal 사용 불가.
+- 기존 thread 의 ThreadLocal 사용하려면 ThreadLocal 값을 복사 필요.
+- ThreadPoolTaskExecutor에 TaskDecorator 설정시 비동기 처리 taskExecutor 커스터마이징 가능
+- AsyncConfig.threadPoolTaskExecutorCustomizer 참조
+- test: UserServiceTest.test userIdHolder log 확인
