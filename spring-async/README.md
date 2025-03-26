@@ -36,3 +36,11 @@ spring:
 - ThreadPoolTaskExecutor에 TaskDecorator 설정시 비동기 처리 taskExecutor 커스터마이징 가능
 - AsyncConfig.threadPoolTaskExecutorCustomizer 참조
 - test: UserServiceTest.test userIdHolder log 확인
+
+```
+//SecurityContextHolder 사용하는 경우
+@Bean
+fun threadPoolTaskExecutorCustomizer() = ThreadPoolTaskExecutorCustomizer {
+  it.setTaskDecorator { runnable -> DelegatingSecurityContextRunnable(runnable) }
+}
+```
