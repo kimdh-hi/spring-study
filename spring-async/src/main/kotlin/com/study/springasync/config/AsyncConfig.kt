@@ -13,19 +13,19 @@ import org.springframework.security.concurrent.DelegatingSecurityContextRunnable
 class AsyncConfig {
 
   @Bean
-  fun threadPoolTaskExecutorCustomizer() = ThreadPoolTaskExecutorCustomizer {
-    it.setTaskDecorator(ThreadLocalCopyDecorator())
-    it.setTaskDecorator { runnable -> DelegatingSecurityContextRunnable(runnable) } // securityContextHolder 값 유지
+  fun threadPoolTaskExecutorCustomizer() = ThreadPoolTaskExecutorCustomizer { customizer ->
+    customizer.setTaskDecorator(CustomTaskDecorator())
   }
 }
 
-class ThreadLocalCopyDecorator : TaskDecorator {
+class CustomTaskDecorator : TaskDecorator {
   override fun decorate(runnable: Runnable): Runnable {
+    val securityRunnable = DelegatingSecurityContextRunnable(runnable)
     val userId = UserIdHolder.get()
     return Runnable {
       try {
         userId?.let { UserIdHolder.set(it) }
-        runnable.run()
+        securityRunnable.run()
       } finally {
         UserIdHolder.clear()
       }

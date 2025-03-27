@@ -5,6 +5,8 @@
     - TaskExecutionAutoConfiguration 참고
 - springboot autoconfiguration 미사용 시 SimpleAsyncTaskExecutor (pool x) 사용
 
+---
+
 ### TaskExecutor customizing
 ```yaml
 spring:
@@ -30,9 +32,11 @@ spring:
       thread-name-prefix: "async-"
 ```
 
+---
+
 ### async method ThreadLocal 사용
-- @Async 사용시 thread 가 달라지므로 기존 Thread 에서 사용중인 ThreadLocal 사용 불가.
-- 기존 thread 의 ThreadLocal 사용하려면 ThreadLocal 값을 복사 필요.
+- @Async 사용시 thread 가 달라지므로 기존 thread 에서 사용중인 ThreadLocal 사용 불가.
+- 기존 thread 의 ThreadLocal 사용하려면 ThreadLocal 값 복사 필요.
 - ThreadPoolTaskExecutor에 TaskDecorator 설정시 비동기 처리 taskExecutor 커스터마이징 가능
 - AsyncConfig.threadPoolTaskExecutorCustomizer 참조
 - test: UserServiceTest.test userIdHolder log 확인
@@ -44,3 +48,4 @@ fun threadPoolTaskExecutorCustomizer() = ThreadPoolTaskExecutorCustomizer {
   it.setTaskDecorator { runnable -> DelegatingSecurityContextRunnable(runnable) }
 }
 ```
+- 두 개 이상 taskDecorator 지정시 마지막 taskDecorator 만 지정됨 

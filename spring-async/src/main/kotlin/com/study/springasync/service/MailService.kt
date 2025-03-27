@@ -19,5 +19,7 @@ class MailService {
       UserIdHolder.get(),
       SecurityContextHolder.getContext().authentication,
     )
+
+    throw IllegalArgumentException("mailService error...")
   }
 }
