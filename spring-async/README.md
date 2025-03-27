@@ -49,3 +49,10 @@ fun threadPoolTaskExecutorCustomizer() = ThreadPoolTaskExecutorCustomizer {
 }
 ```
 - 두 개 이상 taskDecorator 지정시 마지막 taskDecorator 만 지정됨 
+
+---
+
+### error handling
+- default: `SimpleAsyncUncaughtExceptionHandler`
+  - error stacktrace logging
+  - 호출 thread 에 영향없음.
