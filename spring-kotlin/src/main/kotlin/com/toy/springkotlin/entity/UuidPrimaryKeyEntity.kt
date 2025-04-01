@@ -6,16 +6,17 @@ import jakarta.persistence.MappedSuperclass
 import jakarta.persistence.PostLoad
 import jakarta.persistence.PostPersist
 import jakarta.persistence.Transient
+import org.hibernate.annotations.UuidGenerator
 import org.hibernate.proxy.HibernateProxy
 import org.springframework.data.domain.Persistable
 import java.util.Objects
-import java.util.UUID
 
 @MappedSuperclass
 abstract class UuidPrimaryKeyEntity(
   @Id
   @Column(length = 50)
-  private val id: String = UUID.randomUUID().toString(),
+  @UuidGenerator
+  private val id: String = "",
 ) : Persistable<String> {
 
   @Transient

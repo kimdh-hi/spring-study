@@ -4,6 +4,7 @@ import com.toy.springkotlin.entity.User
 import jakarta.persistence.EntityManager
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
@@ -15,6 +16,8 @@ class UserRepositoryTest @Autowired constructor(
   private val userRepository: UserRepository,
   private val entityManager: EntityManager,
 ) {
+
+  private val log = LoggerFactory.getLogger(UserRepositoryTest::class.java)
 
   @Test
   fun updateBySave() {
@@ -29,7 +32,24 @@ class UserRepositoryTest @Autowired constructor(
     entityManager.clear()
 
     val updatedUser = userRepository.findByIdOrNull(user.id)!!
-    println(updatedUser)
+    assertThat(updatedUser.name).isEqualTo("updatedName")
+    log.debug("updatedUser={}", updatedUser)
+  }
+
+  @Test
+  fun updateByDirtyCheck() {
+    val user = userRepository.save(User("user"))
+    entityManager.flush()
+    entityManager.clear()
+
+    val findUser = userRepository.findByIdOrNull(user.id)!!
+    findUser.update("updatedName")
+    entityManager.flush()
+    entityManager.clear()
+
+    val updatedUser = userRepository.findByIdOrNull(user.id)!!
+    assertThat(updatedUser.name).isEqualTo("updatedName")
+    log.debug("updatedUser={}", updatedUser)
   }
 
   @Test

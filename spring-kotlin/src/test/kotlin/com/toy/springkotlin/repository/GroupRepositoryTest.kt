@@ -32,7 +32,7 @@ class GroupRepositoryTest @Autowired constructor(
   @Test
   fun find() {
     val group = groupRepository.save(Group(name = "group"))
-    val findGroup = groupRepository.findByIdOrNull(group.id.value)
+    val findGroup = groupRepository.findByIdOrNull(group.id!!.value)
 
     assertAll(
       { assertThat(findGroup).isNotNull },
@@ -46,21 +46,21 @@ class GroupRepositoryTest @Autowired constructor(
     entityManager.flush()
     entityManager.clear()
 
-    val findGroup = groupRepository.findByIdOrNull(savedGroup.id.value)!!
+    val findGroup = groupRepository.findByIdOrNull(savedGroup.id!!.value)!!
 
     val updateGroupName = "updatedGroup"
     findGroup.name = updateGroupName
     entityManager.flush()
     entityManager.clear()
 
-    val updatedGroup = groupRepository.findByIdOrNull(findGroup.id.value)
+    val updatedGroup = groupRepository.findByIdOrNull(findGroup.id!!.value)
     assertThat(updatedGroup!!.name).isEqualTo(updateGroupName)
   }
 
   @Test
   fun findByIdCustom() {
     val savedGroup = groupRepository.save(Group(name = "group"))
-    val findGroup = groupRepository.findByIdCustom(savedGroup.id)
+    val findGroup = groupRepository.findByIdCustom(savedGroup.id!!)
     assertAll(
       { assertThat(findGroup).isNotNull },
       { assertThat(findGroup!!.id).isEqualTo(savedGroup.id) }

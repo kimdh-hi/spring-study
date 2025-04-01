@@ -22,6 +22,6 @@ class User private constructor(
   }
 
   override fun toString(): String {
-    return "User(name='$name')"
+    return "User(id=$id, name='$name')"
   }
 }
