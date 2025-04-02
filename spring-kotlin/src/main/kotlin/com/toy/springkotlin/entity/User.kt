@@ -9,7 +9,7 @@ import jakarta.persistence.Table
 class User private constructor(
   @Column(length = 100, nullable = false)
   var name: String
-) : UuidPrimaryKeyEntity() {
+) : BaseTraceableEntity() {
 
   companion object {
     operator fun invoke(name: String): User {

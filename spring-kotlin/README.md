@@ -42,7 +42,7 @@ public boolean isNew(T entity) {
 - 단순히 entity id 를 non-nullable 로 지정하는 경우 이슈
   - non-nullable 로 지정하는 경우 isNew == false 이므로 persist()가 아닌 merge() 가 호출되고, merge() 는 해당 id 존재여부 판단을 위해 select 쿼리 후 insert 쿼리를 수행한다.
   - 불필요한 select 쿼리가 발생된다.
-- Persistable 구현, isNew override
+- Persistable 구현 v1
   - save 시 isNew true 인 경우 persist 호출
     - isNew 초기값 true 세팅시 merge 아닌 persist 호출 가능
   - save 시 isNew false 인 경우 merge 호출
@@ -52,6 +52,10 @@ public boolean isNew(T entity) {
     - persist 된 entity 대상 delete 시 삭제되도록 @PostPersist 이벤트 시 new false 갱신
     - persist 이후 find (@PostLoad) 없이 entity 제거는 일반적이지는 않음. 
     - `UserRepositoryTest.saveAndDelete` 테스트 참고
+- Persistable 구현 v2 ✅
+  - 일반적으로 jpa auditing 기능은 사용 (레코드 생성시간 기록 등 위함)
+  - createdAt (엔티티 persist 시 값 세팅, @CreatedDate)
+  - isNew 기준 createdAt null 여부로 판단
 ```java
 @Transactional
 public <S extends T> S save(S entity) {

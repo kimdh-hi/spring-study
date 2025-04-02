@@ -1,11 +1,6 @@
 package com.toy.springkotlin.entity
 
-import jakarta.persistence.Column
-import jakarta.persistence.Id
-import jakarta.persistence.MappedSuperclass
-import jakarta.persistence.PostLoad
-import jakarta.persistence.PostPersist
-import jakarta.persistence.Transient
+import jakarta.persistence.*
 import org.hibernate.annotations.UuidGenerator
 import org.hibernate.proxy.HibernateProxy
 import org.springframework.data.domain.Persistable
@@ -18,17 +13,6 @@ abstract class UuidPrimaryKeyEntity(
   @UuidGenerator
   private val id: String = "",
 ) : Persistable<String> {
-
-  @Transient
-  private var new: Boolean = true
-
-  override fun isNew(): Boolean = new
-
-  @PostPersist
-  @PostLoad
-  fun load() {
-    new = false
-  }
 
   override fun equals(other: Any?): Boolean {
     if (other == null) return false
