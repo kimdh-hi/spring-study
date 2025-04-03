@@ -31,3 +31,11 @@ abstract class BaseTraceableEntity : BaseCreateTimestampEntity() {
   @LastModifiedBy
   var updatedBy: String? = null
 }
+
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener::class)
+abstract class BaseCreateTimestampWithoutIdEntity {
+  @Column(updatable = false)
+  @CreatedDate
+  protected var createdAt: Instant? = null
+}
