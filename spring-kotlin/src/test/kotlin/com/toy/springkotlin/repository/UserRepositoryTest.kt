@@ -1,9 +1,11 @@
 package com.toy.springkotlin.repository
 
+import com.toy.springkotlin.base.extensions.findByIdOrThrow
 import com.toy.springkotlin.entity.User
 import jakarta.persistence.EntityManager
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -77,5 +79,19 @@ class UserRepositoryTest @Autowired constructor(
     entityManager.clear()
 
     assertThat(userRepository.findByIdOrNull(user.id)).isNull()
+  }
+
+  @Test
+  fun findByIdOrThrow() {
+    val user = userRepository.save(User("user"))
+    val findUser = userRepository.findByIdOrThrow(user.id)
+    assertThat(findUser).isNotNull
+  }
+
+  @Test
+  fun findByIdOrThrowNotExists() {
+    assertThrows<RuntimeException> {
+      userRepository.findByIdOrThrow("notExistsId")
+    }
   }
 }
