@@ -106,3 +106,26 @@ mockMvc pathVariable id class 포함시 toString() 호출 이슈
    * Actual   :UserTestId(value=user-01)
 - value class toString override 추가 (UserTestId.kt 참고)
 ```
+
+
+```kotlin
+@MappedSuperclass
+abstract class UuidPrimaryKeyEntity(
+  @Id
+  @Column(length = 50)
+  @UuidGenerator
+  private val id: String = "",
+) : Persistable<String> {
+
+  @Transient
+  private var new: Boolean = true
+
+  override fun isNew(): Boolean = new
+
+  @PostLoad
+  fun load() {
+    new = false
+  }
+}
+
+```
