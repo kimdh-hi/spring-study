@@ -1,6 +1,7 @@
 package com.toy.springkotlin.repository
 
 import com.toy.springkotlin.base.extensions.findByIdOrThrow
+import com.toy.springkotlin.base.extensions.get
 import com.toy.springkotlin.entity.User
 import jakarta.persistence.EntityManager
 import org.assertj.core.api.Assertions.assertThat
@@ -85,6 +86,13 @@ class UserRepositoryTest @Autowired constructor(
   fun findByIdOrThrow() {
     val user = userRepository.save(User("user"))
     val findUser = userRepository.findByIdOrThrow(user.id)
+    assertThat(findUser).isNotNull
+  }
+
+  @Test
+  fun get() {
+    val user = userRepository.save(User("user"))
+    val findUser = userRepository[user.id]
     assertThat(findUser).isNotNull
   }
 
