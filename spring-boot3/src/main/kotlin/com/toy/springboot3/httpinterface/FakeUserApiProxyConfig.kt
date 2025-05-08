@@ -17,7 +17,7 @@ class FakeUserApiProxyConfig {
     val webClient = WebClient.create(FAKE_REST_API_URI)
 
     val proxyFactory = HttpServiceProxyFactory
-      .builder(WebClientAdapter.forClient(webClient))
+      .builderFor(WebClientAdapter.create(webClient))
       .build()
 
     return proxyFactory.createClient<FakeUserApi>()

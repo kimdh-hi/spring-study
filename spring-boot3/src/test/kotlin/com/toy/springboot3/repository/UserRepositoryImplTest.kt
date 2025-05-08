@@ -1,6 +1,7 @@
 package com.toy.springboot3.repository
 
 import com.toy.springboot3.domain.User
+import com.toy.springboot3.domain.UserType
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,7 +15,7 @@ class UserRepositoryImplTest @Autowired constructor(
   @Test
   fun customFindById() {
     //given
-    val savedUser = userRepository.save(User(name = "test"))
+    val savedUser = userRepository.save(User(name = "test", userType = UserType.USER))
 
     //when
     val result = userRepository.customFindById(savedUser.id!!)

@@ -1,16 +1,15 @@
 package com.toy.springboot3.domain
 
 import jakarta.persistence.*
-import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.JdbcTypeCode
+import org.hibernate.annotations.UuidGenerator
 import org.hibernate.type.SqlTypes
 
 @Table
 @Entity(name = "tb_user")
 class User(
   @Id
-  @GeneratedValue(generator = "uuid")
-  @GenericGenerator(name = "uuid", strategy = "uuid2")
+  @UuidGenerator
   var id: String? = null,
 
   var name: String?,
