@@ -22,8 +22,36 @@ kotlin string template
 logger.debug("user not found. userId = $userId, username = $username");
 ```
 
+slf4j fluent logging
+- https://www.slf4j.org/manual.html#fluent
+
+```kotlin
+@SpringBootTest
+class FluentLoggingTest {
+
+  private val log = logger()
+
+  @Test
+  fun test() {
+    log.atDebug().log { printLog("data1") } // fluent logging
+    log.debug("{}", printLog("data2"))
+  }
+
+  private fun printLog(data: String): String {
+    return """
+      log..... data=$data
+    """.trimIndent()
+  }
+}
+```
+- 로그수준이 warn 인 경우
+  - `debug()` 사용시 `printLog` 함수 호출되고 내부 연산도 진행됨.
+  - `atDebug().log { }` 사용시 함수 호출 안 됨.
+  - `printLog()` 내 무거운 문자열 연산이 있는 경우 이슈될 수 있음.
+
 ---
 
 reference
 - https://tech.kakaopay.com/post/efficient-logging-with-kotlin/
 - https://github.com/oshai/kotlin-logging
+- https://www.slf4j.org/manual.html#fluent 

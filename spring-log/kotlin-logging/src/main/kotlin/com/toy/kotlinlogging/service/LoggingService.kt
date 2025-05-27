@@ -1,6 +1,7 @@
 package com.toy.kotlinlogging.service
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
