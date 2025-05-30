@@ -3,7 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 plugins {
   kotlin("jvm") version "1.9.25"
   kotlin("plugin.spring") version "1.9.25"
-  id("org.springframework.boot") version "3.4.3"
+  id("org.springframework.boot") version "3.4.5"
   id("io.spring.dependency-management") version "1.1.7"
   kotlin("plugin.jpa") version "1.9.25"
   kotlin("kapt") version "1.9.25"
@@ -41,6 +41,7 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("com.querydsl:querydsl-apt:$querydslVersion:jakarta")
   implementation("com.querydsl:querydsl-jpa:$querydslVersion:jakarta")
+
   kapt("com.querydsl:querydsl-apt:$querydslVersion:jakarta")
   runtimeOnly("com.h2database:h2")
   testImplementation("org.springframework.boot:spring-boot-starter-test")

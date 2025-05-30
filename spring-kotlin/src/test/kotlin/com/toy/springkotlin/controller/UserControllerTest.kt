@@ -62,6 +62,14 @@ class UserControllerTest @Autowired constructor(
     }
   }
 
+  @Test
+  fun get() {
+    val result = mockmvc.get("/users/{userId}", "userId")
+    result.andExpectAll {
+      status { isOk() }
+    }
+  }
+
   /**
    * Expected :user-01
    * Actual   :UserTestId(value=user-01)

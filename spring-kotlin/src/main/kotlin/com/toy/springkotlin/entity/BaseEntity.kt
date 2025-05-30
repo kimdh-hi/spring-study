@@ -14,7 +14,7 @@ import java.time.Instant
 abstract class BaseCreateTimestampEntity : UuidPrimaryKeyEntity() {
   @Column(updatable = false)
   @CreatedDate
-  protected var createdAt: Instant? = null
+  var createdAt: Instant? = null
 
   override fun isNew(): Boolean = createdAt == null
 }
