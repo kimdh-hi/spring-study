@@ -1,8 +1,12 @@
 package com.toy.springkotlin.study
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.convertValue
+import com.fasterxml.jackson.module.kotlin.jsonMapper
+import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -19,7 +23,18 @@ import java.time.LocalDateTime
  *   - 위 모듈 적용되지 않는 경우 LocalDateTime 역직렬화시 리스트 포맷으로 잘못 역직렬화 됨.
  * - kotlin이 확장함수로 제공하는 convertValue, readValue 사용하려면 com.fasterxml.jackson.module:jackson-module-kotlin 의존성 추가 필요
  *
+ *
+ * jsonMapper { }
+ * - com.fasterxml.jackson.module.kotlin 의존성 추가 필요
+ * - objectMapper 생성하여 사용시 dsl 방식으로 설정 커스텀하여 생성 가능
  */
+
+
+private val jsonMapper  = jsonMapper {
+  addModule(kotlinModule())
+  addModule(JavaTimeModule())
+  configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+}
 
 @SpringBootTest
 class ObjectMapperTest @Autowired constructor(private val objectMapper: ObjectMapper) {
@@ -61,6 +76,23 @@ class ObjectMapperTest @Autowired constructor(private val objectMapper: ObjectMa
     // convertValue json string -> object
     assertDoesNotThrow {
       objectMapper.readValue<TestDto>(json)
+    }
+  }
+
+  @Test
+  fun test5() {
+    val dto = TestDto()
+
+    // convertValue object -> object
+    assertDoesNotThrow {
+      val resultJson = jsonMapper.convertValue<TestDto>(dto)
+      println(resultJson)
+    }
+
+    // convertValue json string -> object
+    assertDoesNotThrow {
+      val readDto = jsonMapper.readValue<TestDto>(json)
+      println(readDto)
     }
   }
 }
