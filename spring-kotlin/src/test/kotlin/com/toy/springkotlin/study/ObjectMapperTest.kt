@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinFeature
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.convertValue
 import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.fasterxml.jackson.module.kotlin.kotlinModule
@@ -27,10 +29,41 @@ import java.time.LocalDateTime
  * jsonMapper { }
  * - com.fasterxml.jackson.module.kotlin 의존성 추가 필요
  * - objectMapper 생성하여 사용시 dsl 방식으로 설정 커스텀하여 생성 가능
+ *
+ *
+ * NullIsSameAsDefault
+ * - https://github.com/FasterXML/jackson-module-kotlin/issues/130
+ *
+ * private data class TeestDto3(
+ *   val data: String = "defaultData",
+ *   val number: Int = 0,
+ * )
+ *
+ *     val testJson = """
+ *       {
+ *         "data": null,
+ *         "number": null
+ *       }
+ *     """.trimIndent()
+ *
+ * testJson readValue 시 data, number 는 nullable 타입이 아니므로 에러 발생 (value failed for JSON property data due to missing (therefore NULL) value for creator parameter data which is a non-nullable type)
+ *
+ * KotlinModule NullIsSameAsDefault 설정 추가
+ * KotlinModule.Builder()
+ *   .configure(KotlinFeature.NullIsSameAsDefault, true) // default 값 설정된 non-nullable 필드에 null 전달시 default 값으로 처리
+ *   .build()
+ *
+ *     val testJson = """
+ *       {
+ *         "data": null,
+ *         "number": null
+ *       }
+ *     """.trimIndent()
+ * 요청시 에러 발생 대신 datam, number 기본값으로 역직렬화 성공
  */
 
 
-private val jsonMapper  = jsonMapper {
+private val jsonMapper = jsonMapper {
   addModule(kotlinModule())
   addModule(JavaTimeModule())
   configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
@@ -47,19 +80,19 @@ class ObjectMapperTest @Autowired constructor(private val objectMapper: ObjectMa
     """.trimIndent()
 
   @Test
-  fun test1() {
+  fun readValue() {
     assertDoesNotThrow { objectMapper.readValue<TestDto>(json) }
   }
 
   @Test
-  fun test2() {
+  fun writeValueAsString() {
     val json = assertDoesNotThrow { objectMapper.writeValueAsString(TestDto()) }
     println(json)
   }
 
 
   @Test
-  fun test3() {
+  fun `custom objectMapper readValue`() {
     val myObjectMapper = ObjectMapper()
     assertThrows<InvalidDefinitionException> { myObjectMapper.readValue<TestDto>(json) }
   }
@@ -80,7 +113,7 @@ class ObjectMapperTest @Autowired constructor(private val objectMapper: ObjectMa
   }
 
   @Test
-  fun test5() {
+  fun jsonMapper() {
     val dto = TestDto()
 
     // convertValue object -> object
@@ -95,6 +128,33 @@ class ObjectMapperTest @Autowired constructor(private val objectMapper: ObjectMa
       println(readDto)
     }
   }
+
+  @Test
+  fun nullisSameAsDefault() {
+    val testJsonMapper = jsonMapper {
+      addModule(
+        KotlinModule.Builder()
+          .configure(KotlinFeature.NullIsSameAsDefault, true) // default 값 설정된 non-nullable 필드에 null 전달시 default 값으로 처리
+          .build()
+      )
+      addModule(JavaTimeModule())
+      configure(
+        SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false
+      )
+    }
+
+    val testJson = """
+      {
+        "data": null,
+        "number": null
+      }
+    """.trimIndent()
+
+    assertDoesNotThrow {
+      val resultDto = testJsonMapper.readValue<TeestDto3>(testJson)
+      println(resultDto)
+    }
+  }
 }
 
 private data class TestDto(
@@ -107,3 +167,7 @@ private data class TestDto2(
   val time: LocalDateTime = LocalDateTime.now(),
 )
 
+private data class TeestDto3(
+  val data: String = "defaultData",
+  val number: Int = 0,
+)
