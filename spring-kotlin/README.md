@@ -85,6 +85,28 @@ public void delete(T entity) {
     }
 }
 ```
+```kotlin
+@MappedSuperclass
+abstract class UuidPrimaryKeyEntity(
+  @Id
+  @Column(length = 50)
+  @UuidGenerator
+  private val id: String = "",
+) : Persistable<String> {
+
+  @Transient
+  private var new: Boolean = true
+
+  override fun isNew(): Boolean = new
+
+  @PostLoad
+  fun load() {
+    new = false
+  }
+}
+
+```
+
 
 ---
 
@@ -107,25 +129,17 @@ mockMvc pathVariable id class 포함시 toString() 호출 이슈
 - value class toString override 추가 (UserTestId.kt 참고)
 ```
 
-
+issue3 
 ```kotlin
-@MappedSuperclass
-abstract class UuidPrimaryKeyEntity(
-  @Id
-  @Column(length = 50)
-  @UuidGenerator
-  private val id: String = "",
-) : Persistable<String> {
+@JvmInline
+value class DeviceKey(val value: String)
 
-  @Transient
-  private var new: Boolean = true
 
-  override fun isNew(): Boolean = new
-
-  @PostLoad
-  fun load() {
-    new = false
-  }
-}
-
+data class DeviceDto @QueryProjection constructor(
+  val id: String,
+  val deviceKey: DeviceKey,
+)
 ```
+- `@QueryProjection` 생성자 인자중 value class 포함된 경우 QClass 생성 안 됨. 
+
+---
