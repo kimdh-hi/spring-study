@@ -4,12 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinFeature
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.kotlin.convertValue
-import com.fasterxml.jackson.module.kotlin.jsonMapper
-import com.fasterxml.jackson.module.kotlin.kotlinModule
-import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -157,17 +152,17 @@ class ObjectMapperTest @Autowired constructor(private val objectMapper: ObjectMa
   }
 }
 
-private data class TestDto(
+data class TestDto(
   val data: String = "data",
   val time: LocalDateTime = LocalDateTime.now(),
 )
 
-private data class TestDto2(
+data class TestDto2(
   val data: String = "data",
   val time: LocalDateTime = LocalDateTime.now(),
 )
 
-private data class TeestDto3(
+data class TeestDto3(
   val data: String = "defaultData",
   val number: Int = 0,
 )
