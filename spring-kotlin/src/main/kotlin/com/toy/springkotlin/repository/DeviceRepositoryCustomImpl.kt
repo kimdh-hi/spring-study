@@ -3,7 +3,6 @@ package com.toy.springkotlin.repository
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.toy.springkotlin.entity.Device
 import com.toy.springkotlin.entity.DeviceKey
-import com.toy.springkotlin.entity.QDevice
 import com.toy.springkotlin.entity.QDevice.device
 
 class DeviceRepositoryCustomImpl(

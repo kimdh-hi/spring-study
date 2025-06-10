@@ -47,8 +47,8 @@ private data class TargetDto(
 )
 
 private data class TargetInnerDto(
-  @JsonProperty("addData")
-//  @field:JsonProperty("addData")
+//  @JsonProperty("addData")
+  @field:JsonProperty("addData")
   val additionalData: String,
   val data: TestStringValue
 )

@@ -39,10 +39,16 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.springframework.boot:spring-boot-starter-validation")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
-  implementation("com.querydsl:querydsl-apt:$querydslVersion:jakarta")
-  implementation("com.querydsl:querydsl-jpa:$querydslVersion:jakarta")
 
-  kapt("com.querydsl:querydsl-apt:$querydslVersion:jakarta")
+  //openfeign querydsl
+  implementation("io.github.openfeign.querydsl:querydsl-jpa:7.0")
+  kapt("io.github.openfeign.querydsl:querydsl-apt:7.0:jpa")
+
+  //querydsl
+//  implementation("com.querydsl:querydsl-apt:$querydslVersion:jakarta")
+//  implementation("com.querydsl:querydsl-jpa:$querydslVersion:jakarta")
+//  kapt("com.querydsl:querydsl-apt:$querydslVersion:jakarta")
+
   runtimeOnly("com.h2database:h2")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
