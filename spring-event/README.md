@@ -19,11 +19,13 @@ https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframe
 - `@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)`
   - default
   - commit 후 리스너 동작
+  - listener 에서 예외발생시 이벤트를 발행한 트랜잭션은 rollback 되지 않는다.
 - `@TransactionalEventListener(phase = TransactionPhase.ROLLBACK)`
 
 - `@TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)`
   - commit or rollback 후
 - `@TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)`
+  - listener 에서 예외발생시 이벤트를 발행한 트랜잭션은 rollback 된다.
 
 ### @TransactionalEvent, Propagation.REQUIRES_NEW
 - `@TransactionalEvent` 이 선언된 리스너에서 insert, delete, update 시 transaction propagation 은 `REQUIRES_NEW` 로 선언되어야 한다. 

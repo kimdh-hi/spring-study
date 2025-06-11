@@ -49,3 +49,16 @@ create table tb_user (
     primary key (id)
 ) engine=InnoDB
 ```
+
+---
+
+### webclient
+- https://docs.spring.io/spring-boot/reference/io/rest-client.html#io.rest-client.webclient.configuration
+  - webclient auto-configuration
+```yaml
+spring:
+  http:
+    reactiveclient:
+      connect-timeout: 3s
+      read-timeout: 30s
+```

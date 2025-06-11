@@ -14,10 +14,10 @@ class UserService(
   private val eventPublisher: ApplicationEventPublisher,
 ) {
 
-  @Transactional
-  fun signup(username: String, exception: Boolean = false) {
+  @Transactional()
+  fun signup(username: String, exception: Boolean = false, eventException: Boolean = false) {
     val user = userRepository.save(User.of(username))
-    eventPublisher.publishEvent(UserWelcomeMailSendCommand(user.username))
+    eventPublisher.publishEvent(UserWelcomeMailSendCommand(user.username, eventException))
 
     if (exception) {
       throw RuntimeException("ex...")

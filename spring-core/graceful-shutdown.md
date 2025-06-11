@@ -44,7 +44,19 @@ SIGKILL
 - kill -9
 - signal 에 대한 핸들링 불가. (= graceful shutdown 불가)
 
+
+### shutdown callback (shutdown hook)
+- SIGKILL 과 같은 강제종료가 아닌 SIGTERM 과 같이 gracefull shutdown 이 가능한 정상종료인 경우 callback 을 구성할 수 있다.
+
+```
+- @PreDestroy
+- DisposableBean interface
+- Bean-destroy method
+- Global ServletContextListener
+```
+
 ---
 
 ### referecne
 - https://docs.spring.io/spring-boot/reference/web/graceful-shutdown.html
+- https://www.baeldung.com/spring-shutdown-callbacks

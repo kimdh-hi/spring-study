@@ -18,13 +18,9 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-
+  http:
+    reactiveclient:
+      connect-timeout: 3s
+      read-timeout: 30s
 custom:
   my-key: ${myValue}
-
-webclient:
-  read-write-timeout-seconds: 30
-  response-timeout-seconds: 30
-  connect-timeout-millis: 3000
-  max-idle-and-life-time-seconds: 18
-  max-byte-count: 16777216
