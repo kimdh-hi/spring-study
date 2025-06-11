@@ -7,6 +7,7 @@ plugins {
   id("io.spring.dependency-management") version "1.1.7"
   kotlin("plugin.jpa") version "1.9.25"
   kotlin("kapt") version "1.9.25"
+  id("com.google.devtools.ksp") version "2.1.21-2.0.2"
 }
 
 group = "com.toy"
@@ -32,7 +33,8 @@ repositories {
   mavenCentral()
 }
 
-private val querydslVersion = dependencyManagement.importedProperties["querydsl.version"]
+
+private val queryDslVersion = "7.0"
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -40,11 +42,12 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-validation")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-  //openfeign querydsl
-  implementation("io.github.openfeign.querydsl:querydsl-jpa:7.0")
-  kapt("io.github.openfeign.querydsl:querydsl-apt:7.0:jpa")
+  //openfeign/querydsl
+  implementation("io.github.openfeign.querydsl:querydsl-jpa:$queryDslVersion")
+  kapt("io.github.openfeign.querydsl:querydsl-apt:$queryDslVersion:jpa")
+//  ksp("io.github.openfeign.querydsl:querydsl-ksp-codegen:$queryDslVersion")
 
-  //querydsl
+  //querydsl/querydsl
 //  implementation("com.querydsl:querydsl-apt:$querydslVersion:jakarta")
 //  implementation("com.querydsl:querydsl-jpa:$querydslVersion:jakarta")
 //  kapt("com.querydsl:querydsl-apt:$querydslVersion:jakarta")

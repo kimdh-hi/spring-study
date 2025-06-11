@@ -13,8 +13,14 @@ class Device private constructor(
   var id: String? = null,
 
   @Column(length = 100, nullable = false)
-  var deviceKey: DeviceKey,
-)
+  var deviceKey: String,
+) {
+  companion object {
+    fun of(deviceKey: String) = Device(
+      deviceKey = deviceKey,
+    )
+  }
+}
 
 @JvmInline
 value class DeviceKey(val value: String)
