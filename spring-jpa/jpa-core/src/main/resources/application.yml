@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: jpa-core
+  datasource:
+    url: jdbc:mysql://localhost/study?createDatabaseIfNotExist=true
+    username: root
+    password: 111111
+    hikari:
+      maximum-pool-size: 30
+      connection-timeout: 3000
+      connection-test-query: SELECT 1
+  jpa:
+    hibernate.ddl-auto: create-drop
+    open-in-view: false
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
