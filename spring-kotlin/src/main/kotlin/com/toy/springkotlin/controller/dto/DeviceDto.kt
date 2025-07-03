@@ -6,6 +6,7 @@ data class DeviceDto @QueryProjection constructor(
   val id: String,
   val deviceKey: String,
 ) {
-  var someDefaultValue: String = "default"
+  //kapt -> ksp 적용시 이슈 https://github.com/IceBlizz6/querydsl-ksp/issues/9
+//  var someDefaultValue: String = "default"
 }
 

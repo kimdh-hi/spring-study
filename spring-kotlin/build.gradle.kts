@@ -44,8 +44,8 @@ dependencies {
 
   //openfeign/querydsl
   implementation("io.github.openfeign.querydsl:querydsl-jpa:$queryDslVersion")
-  kapt("io.github.openfeign.querydsl:querydsl-apt:$queryDslVersion:jpa")
 //  ksp("io.github.openfeign.querydsl:querydsl-ksp-codegen:$queryDslVersion")
+  kapt("io.github.openfeign.querydsl:querydsl-apt:$queryDslVersion:jpa")
 
   //querydsl/querydsl
 //  implementation("com.querydsl:querydsl-apt:$querydslVersion:jakarta")
