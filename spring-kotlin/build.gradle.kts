@@ -7,7 +7,6 @@ plugins {
   id("io.spring.dependency-management") version "1.1.7"
   kotlin("plugin.jpa") version "1.9.25"
   kotlin("kapt") version "1.9.25"
-  id("com.google.devtools.ksp") version "2.1.21-2.0.2"
 }
 
 group = "com.toy"

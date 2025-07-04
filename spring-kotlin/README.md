@@ -143,3 +143,20 @@ data class DeviceDto @QueryProjection constructor(
 - `@QueryProjection` 생성자 인자중 value class 포함된 경우 QClass 생성 안 됨. 
 
 ---
+
+### @CreatedDate backing-property
+- 기존 nullable 타입 사용으로 불필요 !! 구문 사용
+- backing property 사용하여 외부에서 접근시 non-nullable 타입으로 접근 
+```kotlin
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener::class)
+abstract class BaseCreateTimestampEntity {
+  @Column(name = "created_at", updatable = false, nullable = false)
+  @CreatedDate
+  private var _createdAt: Instant? = null
+
+  val createdAt: Instant
+    get() = _createdAt ?: throw IllegalStateException("createdAt is null.")
+}
+```
+- querydsl QClass 생성시 _createdAt 으로 생성되는 이슈 해결 필요

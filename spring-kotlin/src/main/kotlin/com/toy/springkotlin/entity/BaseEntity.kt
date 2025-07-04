@@ -12,13 +12,15 @@ import java.time.Instant
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
 abstract class BaseCreateTimestampEntity : UuidPrimaryKeyEntity() {
-  @Column(updatable = false)
+  @Column(name = "created_at", updatable = false, nullable = false)
   @CreatedDate
-  var createdAt: Instant? = null
+  private var _createdAt: Instant? = null
 
-  override fun isNew(): Boolean = createdAt == null
+  val createdAt: Instant
+    get() = _createdAt ?: throw IllegalStateException("createdAt is null.")
+
+  override fun isNew(): Boolean = _createdAt == null
 }
-
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
