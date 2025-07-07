@@ -146,6 +146,8 @@ data class DeviceDto @QueryProjection constructor(
 
 ### @CreatedDate backing-property
 - 기존 nullable 타입 사용으로 불필요 !! 구문 사용
+
+solution1
 - backing property 사용하여 외부에서 접근시 non-nullable 타입으로 접근 
 ```kotlin
 @MappedSuperclass
@@ -159,4 +161,41 @@ abstract class BaseCreateTimestampEntity {
     get() = _createdAt ?: throw IllegalStateException("createdAt is null.")
 }
 ```
-- querydsl QClass 생성시 _createdAt 으로 생성되는 이슈 해결 필요
+- querydsl QClass 생성시 _createdAt 으로 생성되는 이슈 해결 발생
+
+solution2
+- lateinit var 사용
+```kotlin
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener::class)
+abstract class BaseCreateTimestampEntity : UuidPrimaryKeyEntity() {
+  @Column(name = "created_at", updatable = false, nullable = false)
+  @CreatedDate
+  lateinit var createdAt: Instant
+
+  override fun isNew(): Boolean = !this::createdAt.isInitialized
+}
+```
+
+**solution3**
+- var + 초기값 지정 (LocalDateTime.MIN)
+- save 시점에 createdAt 갱신됨
+```kotlin
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener::class)
+abstract class BaseCreateTimestampEntity : UuidPrimaryKeyEntity() {
+  @Column(name = "created_at", updatable = false, nullable = false)
+  @CreatedDate
+  var createdAt: Instant = Instant.MIN
+    protected set
+
+  override fun isNew(): Boolean = createdAt == Instant.MIN
+}
+```
+
+**결론**
+- **solution3 채택**
+- solution1 QClass 생성시 이슈있음, 비교적 복잡한 구조
+- solution2 의 경우에도 @CreatedDate 의 기능과 lateinit var 특징이 잘 맞기 때문에 사용해도 이슈는 없음
+  - 다만, save() 전 createdAt 접근시 uninitialized 에러가 발생할 수 있음
+  - save() 전 createdAt 접근이 비정상적이지만 에러 발생 가능 케이스를 최소화하기 위함

@@ -14,12 +14,10 @@ import java.time.Instant
 abstract class BaseCreateTimestampEntity : UuidPrimaryKeyEntity() {
   @Column(name = "created_at", updatable = false, nullable = false)
   @CreatedDate
-  private var _createdAt: Instant? = null
+  var createdAt: Instant = Instant.MIN
+    protected set
 
-  val createdAt: Instant
-    get() = _createdAt ?: throw IllegalStateException("createdAt is null.")
-
-  override fun isNew(): Boolean = _createdAt == null
+  override fun isNew(): Boolean = createdAt == Instant.MIN
 }
 
 @MappedSuperclass
