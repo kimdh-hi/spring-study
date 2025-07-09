@@ -1,5 +1,0 @@
-okhttp:
-  connect-timeout-seconds: 3
-  write-and-read-timeout-seconds: 30
-  max-idle-connection: 200
-  keep-alive-duration-minutes: 5

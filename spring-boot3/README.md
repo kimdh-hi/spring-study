@@ -62,3 +62,15 @@ spring:
       connect-timeout: 3s
       read-timeout: 30s
 ```
+
+---
+
+### springboot 3.5.1 && tomcat 10.1.42
+```
+This release upgrades to Tomcat 10.1.42 which has introduced limits for part count and header size in multipart/form-data requests. 
+These limits can be customized using server.tomcat.max-part-count and server.tomcat.max-part-header-size respectively.
+```
+tomcat 설정 추가
+- server.tomcat.max-part-count (default: 10)
+  - file, file 외 part 포함 갯수
+- server.tomcat.max-part-header-size (default: 512 bytes)

@@ -37,7 +37,7 @@ dependencies {
   implementation("org.mariadb.jdbc:mariadb-java-client")
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
-  implementation("org.springframework.boot:spring-boot-starter-security")
+//  implementation("org.springframework.boot:spring-boot-starter-security")
 
   implementation("com.querydsl:querydsl-jpa:$querydslVersion:jakarta")  // querydsl-jpa
   implementation("com.querydsl:querydsl-apt:$querydslVersion:jakarta")
@@ -51,7 +51,7 @@ dependencies {
   runtimeOnly("com.h2database:h2")
   runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
-  testImplementation("org.springframework.security:spring-security-test")
+//  testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.withType<KotlinCompile> {

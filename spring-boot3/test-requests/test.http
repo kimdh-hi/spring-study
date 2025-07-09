@@ -1,5 +1,49 @@
-### GET request to example server
-GET https://examples.http-client.intellij.net/get
-    ?generated-in=IntelliJ IDEA
+POST http://localhost:8080/multipart-files
+Content-Type: multipart/form-data; boundary=boundary123
 
-###
+--boundary123
+Content-Disposition: form-data; name="file"; filename="example.txt"
+Content-Type: text/plain
+
+This is the content of the file.
+--boundary123
+Content-Disposition: form-data; name="data1"
+
+data1
+--boundary123
+Content-Disposition: form-data; name="data2"
+
+data2
+--boundary123
+Content-Disposition: form-data; name="data3"
+
+data3
+--boundary123
+Content-Disposition: form-data; name="data4"
+
+data4
+--boundary123
+Content-Disposition: form-data; name="data5"
+
+data5
+--boundary123
+Content-Disposition: form-data; name="data6"
+
+data6
+--boundary123
+Content-Disposition: form-data; name="data7"
+
+data7
+--boundary123
+Content-Disposition: form-data; name="data8"
+
+data8
+--boundary123
+Content-Disposition: form-data; name="data9"
+
+data9
+--boundary123
+Content-Disposition: form-data; name="data10"
+
+data10
+--boundary123--

@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile
 class MultipartFileController {
 
   @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-  fun post(request: MultipartFileRequest) {
+  fun post(request: MultipartFileRequest): ResponseEntity<String> {
     return ResponseEntity.ok("ok")
   }
 }
