@@ -21,7 +21,6 @@
   }
 ```
 
-
 feignClient 관련 자동설정 bean
 - `FeignClientsConfiguration`
 
@@ -46,7 +45,7 @@ if (requestInterceptors != null) {
 
 <br/>
 
-`Spring Cloud OpenFeign 4` 부터 `Feign Apache HttpClient 4`는 더 이상 지원되지 않습니다. 대신 `Apache HttpClient 5`를 사용하는 것이 좋습니다.
+`Spring Cloud OpenFeign 4` 부터 `Feign Apache HttpClient 4`는 더 이상 지원되지 않습니다. 대신 `Apache HttpClient 5`를 사용 권장
 
 ---
 

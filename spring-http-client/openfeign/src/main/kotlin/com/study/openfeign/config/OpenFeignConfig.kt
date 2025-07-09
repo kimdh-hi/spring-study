@@ -5,10 +5,8 @@ import feign.RequestInterceptor
 import feign.Response
 import feign.Retryer
 import feign.codec.ErrorDecoder
-import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.openfeign.EnableFeignClients
-import org.springframework.context.ApplicationContext
+import org.springframework.cloud.openfeign.clientconfig.HttpClient5FeignConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
@@ -16,11 +14,6 @@ import org.springframework.http.HttpStatus
 @Configuration
 @EnableFeignClients(basePackages = ["com.study.openfeign"]) // main 클래스가 아닌 곳에서 설정시 basePackages 설정필요
 class OpenFeignConfig {
-
-  private val log = LoggerFactory.getLogger(OpenFeignConfig::class.java)
-
-  @Autowired
-  lateinit var applicationContext: ApplicationContext
 
   // Retryer.Default(a, b ,c)
   // 재시도 시 최초 a 만큼 대기 후 c 번 재요청 (최대 b 만큼 대기)
@@ -47,7 +40,7 @@ class OpenFeignConfig {
   @Bean
   fun decoder(): ErrorDecoder {
     return ErrorDecoder { _: String, response: Response ->
-      when(response.status()) {
+      when (response.status()) {
         HttpStatus.INTERNAL_SERVER_ERROR.value() -> IllegalStateException("feignClient unknown error")
         else -> IllegalStateException("feignClient generic error")
       }
