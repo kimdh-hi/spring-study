@@ -1,4 +1,6 @@
 package com.study.jpacore.config
 
-class JpaConfig {
-}
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing
+
+@EnableJpaAuditing
+class JpaConfig

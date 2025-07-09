@@ -14,7 +14,7 @@ class User private constructor(
 
   @Column(length = 100, nullable = false)
   var name: String,
-) {
+) : CreatedTimeAuditBaseEntity() {
   companion object {
     fun of(name: String) = User(name = name)
   }

@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Primary
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy
 import javax.sql.DataSource
 
-
 @Configuration(proxyBeanMethods = false)
 class LazyDataSourceConfig {
 
@@ -23,7 +22,7 @@ class LazyDataSourceConfig {
 
   @Bean
   @Primary
-  fun lazyConnectionDataSourceProxy(hikariDataSource: HikariDataSource): DataSource {
+  fun lazyConnectionDataSourceProxy(hikariDataSource: HikariDataSource): LazyConnectionDataSourceProxy {
     return LazyConnectionDataSourceProxy(hikariDataSource)
   }
 }
