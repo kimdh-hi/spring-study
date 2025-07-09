@@ -4,11 +4,11 @@ spring:
   cloud:
     openfeign:
       httpclient:
-        max-connections: 5 # ?? connection pool ? (default: 200)
-        max-connections-per-route: 3 # ?? ???? ?? ??? ? ? ?? connection ? (default: 50)
+        max-connections: 200 # ?? connection pool ? (default: 200)
+        max-connections-per-route: 200 # ?? ???? ?? ??? ? ? ?? connection ? (default: 50)
+        connection-timer-repeat: 3000 # idle connection ?? ?? default: 3000
         hc5:
           connection-request-timeout: 1 # connection lease ?? ? leased ??? ?? ??(minutes) (default: 3m)
-
 logging:
   level:
     feign: DEBUG

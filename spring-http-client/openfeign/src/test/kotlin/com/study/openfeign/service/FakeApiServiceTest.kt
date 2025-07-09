@@ -22,7 +22,7 @@ class FakeApiServiceTest @Autowired constructor(
 
   @Test
   fun getTodos() {
-    fakeApiService.getTodos()
+    fakeApiService.getTodo()
   }
 
   @Disabled
@@ -30,7 +30,7 @@ class FakeApiServiceTest @Autowired constructor(
   fun getTodos100() {
     val measureTime = measureTime {
       repeat(100) {
-        fakeApiService.getTodos()
+        fakeApiService.getTodo()
       }
     }
 
@@ -38,12 +38,12 @@ class FakeApiServiceTest @Autowired constructor(
   }
 
   @Test
-  fun `async`() = runBlocking {
-    val requests = mutableListOf<Deferred<List<TodoResponse>>>()
+  fun async() = runBlocking {
+    val requests = mutableListOf<Deferred<TodoResponse>>()
 
     repeat(10) {
       val deferred = async(Dispatchers.IO) {
-        fakeApiService.getTodos()
+        fakeApiService.getTodo()
       }
       requests.add(deferred)
     }
