@@ -28,4 +28,74 @@ protected final Connection connection() {
 
 ---
 
+### circular-wait deadlock
 
+deadlock 발생 조건
+- 아래 4가지 모두 만족하는 경우 deadlock 발생
+
+1. 상호배제
+2. 점유대기
+3. 비선점
+4. 순환대기
+
+순환대기
+- sessionA: A자원 lock 점유, B자원 lock 대기
+- sessionB: B자원 lock 점유, A자원 lock 대기
+
+순환대기 발생 케이스 
+- CircularWaitDeadlockTestService.kt
+
+| tx1              | tx2              |
+|------------------|------------------|
+| userA xlock 점유   |                  |
+|                  | deviceA xlock 점유 |
+| deviceA xlock 대기 |                  |
+|                  | userA xlock 대기   |
+
+- *deviceA lock(x) 대기, userA lock(x) 대기* 
+
+해결 방안
+- User -> Device 순 갱신
+
+| tx1                   | tx2                |
+|-----------------------|--------------------|
+| userA xlock 점유        |                    |
+|                       | userA xlock 대기     |
+| deviceA xlock 점유      |                    |
+|                       | userA xlock 대기     |
+| commit / lock release |                    |
+|                       | userA xlock 점유     |
+|                       | deviceA xlock 점유   |
+|                       | commit / lock release |
+
+```kotlin
+@Service
+class CircularWaitDeadlockTestService(
+  private val userRepository: UserRepository,
+  private val deviceRepository: DeviceRepository,
+) {
+  @Transactional
+  fun txUserFirst(userId: String, deviceId: String) {
+    val user = userRepository.findById(userId).get()
+    user.updateName("txUserFirst")
+
+    Thread.sleep(100) // for test
+
+    val device = deviceRepository.findById(deviceId).get()
+    device.updateKey("txUserFirstKey")
+  }
+
+   //호출 순서 변경시 deadlock safe
+  @Transactional
+  fun txDeviceFirst(userId: String, deviceId: String) {
+    val user = userRepository.findById(userId).get()
+    user.updateName("txDeviceFirst")
+
+     Thread.sleep(100) // for test
+
+    val device = deviceRepository.findById(deviceId).get()
+    device.updateKey("txDeviceFirstKey")
+  }
+}
+
+```
