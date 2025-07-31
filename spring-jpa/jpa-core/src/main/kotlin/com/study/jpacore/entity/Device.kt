@@ -6,20 +6,23 @@ import jakarta.persistence.Id
 import org.hibernate.annotations.UuidGenerator
 
 @Entity
-class User private constructor(
+class Device private constructor(
   @Id
   @UuidGenerator
   @Column(length = 50)
   var id: String? = null,
 
   @Column(length = 100, nullable = false)
-  var name: String,
-) : CreatedTimeAuditBaseEntity() {
+  var deviceKey: String,
+) {
+
   companion object {
-    fun of(name: String) = User(name = name)
+    fun of(deviceKey: String): Device {
+      return Device(deviceKey = deviceKey)
+    }
   }
 
-  fun updateName(name: String) {
-    this.name = name
+  fun updateKey(deviceKey: String) {
+    this.deviceKey = deviceKey
   }
 }
