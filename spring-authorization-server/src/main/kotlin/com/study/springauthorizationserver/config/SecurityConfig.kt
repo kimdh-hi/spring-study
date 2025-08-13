@@ -7,6 +7,7 @@ import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.annotation.Order
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.oauth2.core.AuthorizationGrantType
 import org.springframework.security.oauth2.core.OAuth2Token
@@ -77,9 +78,6 @@ class SecurityConfig {
   fun authorizationService(): OAuth2AuthorizationService = InMemoryOAuth2AuthorizationService()
 
   @Bean
-  fun jwtDecoder(jwkSource: JWKSource<SecurityContext>): JwtDecoder = OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource)
-
-  @Bean
   fun jwtEncoder(jwkSource: JWKSource<SecurityContext>): JwtEncoder = NimbusJwtEncoder(jwkSource)
 
   @Bean
@@ -105,4 +103,17 @@ class SecurityConfig {
     return ImmutableJWKSet(JWKSet(rsaKey))
   }
 
+
+  @Bean
+  @Order(2)
+  fun resourceServerFilterChain(http: HttpSecurity, jwkSource: JWKSource<SecurityContext>): SecurityFilterChain {
+    http
+      .securityMatcher("/api/**")
+      .authorizeHttpRequests { it.anyRequest().authenticated() }
+      .oauth2ResourceServer { oauth2 ->
+        oauth2.jwt { jwt -> jwt.decoder(OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource)) }
+      }
+
+    return http.build()
+  }
 }
