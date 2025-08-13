@@ -1,0 +1,19 @@
+### 1. client credential accessToken request
+POST http://localhost:8080/v1/oauth2/token
+Authorization: Basic dGVzdENsaWVudElkOnRlc3RTZWNyZXQ=  # base64(testClientId:testSecret)
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+
+### 2. accessToken introspection
+POST http://localhost:8080/oauth2/introspect
+Authorization: Basic dGVzdENsaWVudElkOnRlc3RTZWNyZXQ=  # base64(testClientId:testSecret)
+Content-Type: application/x-www-form-urlencoded
+
+token=eyJraWQiOiIyNDQyZGJmNS05NzU5LTQxNzUtOWVlYy02M2EzNGYxMTc0NGIiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0ZXN0Q2xpZW50SWQiLCJhdWQiOiJ0ZXN0Q2xpZW50SWQiLCJuYmYiOjE3NTUwNjYzMjksImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImV4cCI6MTc1NTA3MzUyOSwiaWF0IjoxNzU1MDY2MzI5LCJqdGkiOiIzYzUyYWExMC1kNTcwLTQ4Y2MtYjM4ZS0zNjZlNzQyNGUyYjYifQ.Q5xc7ir9_Yu0gYlBiwNNeV_UJEqLKFaoK-u9UoH6dhVEOvKs_1lMrO-mcR8yq9dFr3kp_bOSnZ5AJXBoPH2r5q0HvJGDmwn5uP4eQeM5E9qlrqqw806UFupJoYAe5997uA3Ksb-C8qBHBM0ece0CwsJyPxTqMgCkSYc002BY009ttM1YEwzyJ1PCYWalzR65EuuiLPGZneai9gCJ0Gw8BMZ908dqnkuIPkMPWIHS5ZS0xoGZ_rLOmXBIvhSUeguS-JsiDF56PhnRzaV7xto69MbUR_gwvHYxBQTM_BoVxLPoZKJU23_o3kZJYNj485ChINeN6iOCPpJ89yolCRuejw
+
+###
+
+### jwk set
+GET http://localhost:8080/oauth2/jwks
+Accept: application/json
