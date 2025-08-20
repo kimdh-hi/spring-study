@@ -1,5 +1,9 @@
 ## Resilience4j + OpenFeign
 
+```
+If Spring Cloud CircuitBreaker is on the classpath and spring.cloud.openfeign.circuitbreaker.enabled=true, Feign will wrap all methods with a circuit breaker.
+```
+
 ### dependencies
 ```
 implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j")
@@ -19,7 +23,7 @@ implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 | `permittedNumberOfCallsInHalfOpenState` | HALF_OPEN 상태에서 허용되는 호출 수 (호출수 충족 전 실패하는 경우 CLOSE 로 상태 변경, 충족시 OPEN) | 10           |
 
 
-## property base setting
+## property base configuration
 
 ### application.yml
 ```yaml
@@ -45,7 +49,7 @@ resilience4j:
 
 ```
 
-## code bas setting
+## code base configuration
 
 application.yml
 ```yaml
@@ -105,6 +109,25 @@ class TestClientFallback : FallbackFactory<TestClient> {
 }
 
 ```
+
+
+## CircuitBreakerNameResolver
+- https://docs.spring.io/spring-cloud-openfeign/docs/current/reference/html/#spring-cloud-feign-circuitbreaker
+- default: DefaultCircuitBreakerNameResolver
+  - `TestClient#hello(boolean)`
+  `<feignClientClassName>#<calledMethod>(<parameterTypes>)`
+- CircuitBreakerNameResolver 결과 string 마다 circuit 이 할당. (없는 경우 생성)
+  - 즉, default 는 각 feignClient 의 메서드마다 circuit 이 할당.
+```kotlin
+// CircuitBreakerNameResolver custom
+  @Bean
+  fun circuitBreakerNameResolver(): CircuitBreakerNameResolver {
+    return CircuitBreakerNameResolver { feignClientName, target, method ->
+      //...
+    }
+  }
+```
+
 
 ---
 

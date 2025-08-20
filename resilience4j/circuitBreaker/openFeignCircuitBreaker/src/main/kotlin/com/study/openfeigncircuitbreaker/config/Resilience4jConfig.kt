@@ -4,6 +4,7 @@ import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder
 import org.springframework.cloud.client.circuitbreaker.Customizer
+import org.springframework.cloud.openfeign.CircuitBreakerNameResolver
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.time.Duration
@@ -26,6 +27,13 @@ class Resilience4jConfig {
 //          .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
           .build()
       }
+    }
+  }
+
+  @Bean
+  fun circuitBreakerNameResolver(): CircuitBreakerNameResolver {
+    return CircuitBreakerNameResolver { feignClientName, target, method ->
+      feignClientName
     }
   }
 }

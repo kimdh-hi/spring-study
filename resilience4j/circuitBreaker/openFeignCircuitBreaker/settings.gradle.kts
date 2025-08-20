@@ -1,1 +1,1 @@
-rootProject.name = "circuitBreakerOpenFeignSampleA"
+rootProject.name = "openFeignCircuitBreakerApplication"
