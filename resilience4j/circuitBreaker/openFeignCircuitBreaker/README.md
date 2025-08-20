@@ -19,6 +19,8 @@ implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 | `permittedNumberOfCallsInHalfOpenState` | HALF_OPEN 상태에서 허용되는 호출 수 (호출수 충족 전 실패하는 경우 CLOSE 로 상태 변경, 충족시 OPEN) | 10           |
 
 
+## property base setting
+
 ### application.yml
 ```yaml
 spring:
@@ -43,11 +45,46 @@ resilience4j:
 
 ```
 
-### fallback
+## code bas setting
+
+application.yml
+```yaml
+spring:
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+```
 
 ```kotlin
-@FeignClient(name = "aClient", url = "http://localhost:8080/a", fallbackFactory = AClientFallback::class)
-interface AClient {
+@Configuration
+class Resilience4jConfig {
+  @Bean
+  fun defaultCustomizer(): Customizer<Resilience4JCircuitBreakerFactory> {
+    val customConfig = CircuitBreakerConfig.custom()
+      .slidingWindow(5, 5, CircuitBreakerConfig.SlidingWindowType.COUNT_BASED)
+      .failureRateThreshold(100F)
+      .waitDurationInOpenState(Duration.ofSeconds(10))
+      .permittedNumberOfCallsInHalfOpenState(10)
+      .build()
+
+    return Customizer { factory ->
+      factory.configureDefault { id ->
+        Resilience4JConfigBuilder(id)
+          .circuitBreakerConfig(customConfig)
+//          .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+          .build()
+      }
+    }
+  }
+}
+```
+
+## fallback
+
+```kotlin
+@FeignClient(name = "testClient", url = "http://localhost:8080/test", fallbackFactory = TestClientFallback::class)
+interface TestClient {
   @GetMapping("/hello")
   fun hello(): String
 
@@ -56,14 +93,21 @@ interface AClient {
 }
 
 @Component
-class AClientFallback : FallbackFactory<AClient> {
+class TestClientFallback : FallbackFactory<TestClient> {
 
-  override fun create(cause: Throwable): AClient {
-    return object : AClient {
-      override fun hello(): String = "hello fallback response"
+  override fun create(cause: Throwable): TestClient {
+    return object : TestClient {
+      override fun hello(ex: Boolean): String = "hello fallback response"
 
-      override fun hello2(): String = throw cause // fallback ignore
+      override fun hello2(ex: Boolean): String = throw cause // ignore
     }
   }
 }
+
 ```
+
+---
+
+Reference
+- https://docs.spring.io/spring-cloud-circuitbreaker/reference/spring-cloud-circuitbreaker-resilience4j/starters.html
+- https://docs.spring.io/spring-cloud-openfeign/docs/current/reference/html/#spring-cloud-feign-circuitbreaker

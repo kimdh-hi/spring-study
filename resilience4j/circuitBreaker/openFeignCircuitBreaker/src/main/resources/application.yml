@@ -3,17 +3,3 @@ spring:
     openfeign:
       circuitbreaker:
         enabled: true
-
-resilience4j:
-  circuitbreaker:
-    configs:
-      default:
-        slidingWindowSize: 5
-        minimumNumberOfCalls: 5
-        failureRateThreshold: 100
-        waitDurationInOpenState: 10s
-        permittedNumberOfCallsInHalfOpenState: 10
-
-    instances:
-      default:
-        baseConfig: default
