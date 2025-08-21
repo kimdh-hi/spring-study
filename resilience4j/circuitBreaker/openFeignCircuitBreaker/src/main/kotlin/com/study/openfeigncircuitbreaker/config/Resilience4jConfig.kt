@@ -1,5 +1,6 @@
 package com.study.openfeigncircuitbreaker.config
 
+import com.study.openfeigncircuitbreaker.exception.OpenFeignException
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig
 import org.slf4j.LoggerFactory
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory
@@ -22,6 +23,12 @@ class Resilience4jConfig {
       .failureRateThreshold(100F)
       .waitDurationInOpenState(Duration.ofSeconds(10))
       .permittedNumberOfCallsInHalfOpenState(10)
+      .recordException { throwable ->
+        when (throwable) {
+          is OpenFeignException -> throwable.httpStatusCode >= 500
+          else -> false
+        }
+      }
       .build()
 
     return Customizer { factory ->

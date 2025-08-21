@@ -142,6 +142,61 @@ fun circuitBreakerNameResolver(): CircuitBreakerNameResolver {
 }
 ```
 
+## exception record condition
+- feign client 통해 호출한 대상 서버에서 비즈니스 로직에 따라 잘못된 요청인 경우 예외 응답을 할 수 있음.
+  - 위 예외를 circuit 을 열어야 될 지 판단하는 실패율에 포함시킬지 결정 필요.
+  - 예를 들어, 권한이 없는 상태로 연속해서 api 호출하는 경우 호출 대상 서버에는 문제가 없지만 circuit 이 열릴 수 있음. 이게 맞는가 고민 필요.
+- business exception 은 http status code 400, 그 외 서버 내부 에러인 경우 http status code 500 으로 구분되어 있는 경우 아래처럼 실패수 기록되도록 설정 가능
+
+```kotlin
+    @Bean
+    fun defaultCustomizer(): Customizer<Resilience4JCircuitBreakerFactory> {
+      val customConfig = CircuitBreakerConfig.custom()
+        //circuit 에 실패로 기록되는 요청 제한
+        //feignClient 통해 호출한 대상 서버에서 명시적으로 http status code 500 응답
+        //서버 요청간 에러 (IOException)
+        .recordException { throwable ->
+          when (throwable) {
+            is FeignException -> throwable.status() >= 500 || throwable is RetryableException
+            is IOException -> true
+            else -> false
+          }
+        }
+        .build()
+    }
+```
+
+- openFeign errorDecoder 적용된 경우
+  - errorDecoder 이후 recordException 처리 되므로 errorDecoder 에서 적절한 예외객체 반환시 처리 용이
+
+```kotlin
+@Configuration
+@EnableFeignClients("com.study.openfeigncircuitbreaker")
+class OpenFeignConfig {
+  @Bean
+  fun errorDecoder(objectMapper: ObjectMapper) = ErrorDecoder { _, response ->
+    runCatching {
+      val openFeignException = objectMapper.readValue<OpenFeignException>(response.body().asInputStream())
+      OpenFeignException(openFeignException.errorCode, response.status(), openFeignException.message)
+    }.getOrElse {
+      OpenFeignException(9999, response.status(), "unknown feignClient api call.")
+    }
+  }
+}
+
+@Bean
+fun defaultCustomizer(): Customizer<Resilience4JCircuitBreakerFactory> {
+  val customConfig = CircuitBreakerConfig.custom()
+    .recordException { throwable ->
+      when (throwable) {
+        is OpenFeignException -> throwable.httpStatusCode >= 500 // or errorCode 기반 비교
+        else -> false
+      }
+    }
+    .build()
+}
+```
+
 
 ---
 
