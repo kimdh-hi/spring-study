@@ -6,7 +6,7 @@ import org.springframework.web.service.annotation.PostExchange
 
 interface FakeApiCaller {
 
-  @GetExchange("https://fakerestapi.azurewebsites.net/api/v1/Users/{userId}")
+  @GetExchange("/Users/{userId}")
   fun getUsers(@PathVariable userId: String): Map<*, *>
 
 }
