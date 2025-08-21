@@ -118,14 +118,28 @@ class TestClientFallback : FallbackFactory<TestClient> {
   `<feignClientClassName>#<calledMethod>(<parameterTypes>)`
 - CircuitBreakerNameResolver 결과 string 마다 circuit 이 할당. (없는 경우 생성)
   - 즉, default 는 각 feignClient 의 메서드마다 circuit 이 할당.
+- target url 의 host 마다 circuit 생성 가능 
 ```kotlin
 // CircuitBreakerNameResolver custom
-  @Bean
-  fun circuitBreakerNameResolver(): CircuitBreakerNameResolver {
-    return CircuitBreakerNameResolver { feignClientName, target, method ->
-      //...
+@Bean
+fun circuitBreakerNameResolver(): CircuitBreakerNameResolver {
+  return CircuitBreakerNameResolver { _, target, method ->
+    val url = target.url()
+    runCatching {
+      URL(url).host
+    }.getOrElse {
+      log.warn("resolve circuitBreakerName failed. malformed url. url={}", url)
+      Feign.configKey(target.type(), method)
     }
   }
+}
+```
+- 호출 대상 서버가 kubernetes 환경에서 내부통신을 위해 service 를 통하는 경우 혹은 lb 를 통하여 실제 호출 대상 host 등을 식별할 수 없는 경우 대상 마다 feignClient 를 분리하고 feignClientName 마다 circuit 을 생성 가능
+```kotlin
+@Bean
+fun circuitBreakerNameResolver(): CircuitBreakerNameResolver {
+  return CircuitBreakerNameResolver { feignClientName, _, _ -> feignClientName }
+}
 ```
 
 

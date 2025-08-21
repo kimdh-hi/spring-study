@@ -1,6 +1,7 @@
 package com.study.openfeigncircuitbreaker.config
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig
+import org.slf4j.LoggerFactory
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder
 import org.springframework.cloud.client.circuitbreaker.Customizer
@@ -11,6 +12,9 @@ import java.time.Duration
 
 @Configuration
 class Resilience4jConfig {
+
+  private val log = LoggerFactory.getLogger(Resilience4jConfig::class.java)
+
   @Bean
   fun defaultCustomizer(): Customizer<Resilience4JCircuitBreakerFactory> {
     val customConfig = CircuitBreakerConfig.custom()
@@ -32,8 +36,6 @@ class Resilience4jConfig {
 
   @Bean
   fun circuitBreakerNameResolver(): CircuitBreakerNameResolver {
-    return CircuitBreakerNameResolver { feignClientName, target, method ->
-      feignClientName
-    }
+    return CircuitBreakerNameResolver { feignClientName, _, _ -> feignClientName }
   }
 }

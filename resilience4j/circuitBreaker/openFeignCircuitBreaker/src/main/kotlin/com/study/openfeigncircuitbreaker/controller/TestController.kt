@@ -22,4 +22,7 @@ class TestController(
 
   @GetMapping("/test/4")
   fun test4(status: Int) = testClient.test2(status)
+
+  @GetMapping("/test/without-fallback")
+  fun testWithoutFallback(status: Int) = testClient.withoutFallback(status)
 }
