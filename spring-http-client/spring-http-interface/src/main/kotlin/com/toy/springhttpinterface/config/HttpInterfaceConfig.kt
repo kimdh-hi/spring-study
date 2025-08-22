@@ -6,11 +6,13 @@ import com.toy.springhttpinterface.httpinterface.PingPongDto
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.MethodParameter
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.support.RestClientAdapter
 import org.springframework.web.service.invoker.HttpRequestValues
 import org.springframework.web.service.invoker.HttpServiceArgumentResolver
 import org.springframework.web.service.invoker.HttpServiceProxyFactory
+import kotlin.reflect.full.memberProperties
 
 @Configuration
 class HttpInterfaceConfig {
@@ -36,25 +38,40 @@ class HttpInterfaceConfig {
     val adapter = RestClientAdapter.create(restClient)
     val factory = HttpServiceProxyFactory
       .builderFor(adapter)
-      .customArgumentResolver(PingPongQueryArgumentResolver())
+      .customArgumentResolver(QueryMapArgumentResolver())
       .build()
 
     return factory.createClient(MyTestApiClient::class.java)
   }
 }
 
-class PingPongQueryArgumentResolver : HttpServiceArgumentResolver {
+class QueryMapArgumentResolver : HttpServiceArgumentResolver {
+
   override fun resolve(
     argument: Any?,
     parameter: MethodParameter,
     requestValues: HttpRequestValues.Builder
   ): Boolean {
-    if (parameter.getParameterType() == PingPongDto::class.java) {
-      val dto = argument as PingPongDto
-      requestValues.addRequestParameter("data", dto.data)
-        .addRequestParameter("date", dto.date.toString())
-      return true
+    if (argument == null) return false
+    val multiMap = argument.toQueryMap()
+    multiMap.forEach { (key, values) ->
+      requestValues.addRequestParameter(key, *values.toTypedArray())
     }
-    return false
+    return true
   }
+}
+
+fun Any.toQueryMap(): LinkedMultiValueMap<String, String> {
+  val map = LinkedMultiValueMap<String, String>()
+
+  this::class.memberProperties.forEach { property ->
+    val value = property.getter.call(this) ?: return@forEach
+    val key = property.name
+    when (value) {
+      is Iterable<*> -> value.filterNotNull().forEach { map.add(key, it.toString()) }
+      else -> map.add(key, value.toString())
+    }
+  }
+
+  return map
 }

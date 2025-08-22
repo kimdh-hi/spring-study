@@ -11,5 +11,8 @@ interface MyTestApiClient {
 
 data class PingPongDto(
   val data: String,
-  val date: LocalDateTime
+  val date: LocalDateTime,
+  val nullableData: String?,
+  val list: List<String>,
+  val type: String = "AA",
 )
