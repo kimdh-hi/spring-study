@@ -1,8 +1,10 @@
 package com.toy.springhttpinterface.httpinterface
 
 import org.springframework.web.service.annotation.GetExchange
+import org.springframework.web.service.annotation.HttpExchange
 import java.time.LocalDateTime
 
+@HttpExchange("http://localhost:8084/test")
 interface MyTestApiClient {
 
   @GetExchange("/ping-pong")

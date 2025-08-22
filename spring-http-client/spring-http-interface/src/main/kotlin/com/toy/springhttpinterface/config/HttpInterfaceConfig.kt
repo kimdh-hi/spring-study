@@ -2,7 +2,6 @@ package com.toy.springhttpinterface.config
 
 import com.toy.springhttpinterface.httpinterface.FakeApiClient
 import com.toy.springhttpinterface.httpinterface.MyTestApiClient
-import com.toy.springhttpinterface.httpinterface.PingPongDto
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.MethodParameter
@@ -18,29 +17,20 @@ import kotlin.reflect.full.memberProperties
 class HttpInterfaceConfig {
 
   @Bean
-  fun fakeApiCaller(): FakeApiClient {
-    val restClient = RestClient.builder()
-      .baseUrl("https://fakerestapi.azurewebsites.net/api/v1")
-      .build()
-
+  fun httpServiceProxyFactory(restClient: RestClient): HttpServiceProxyFactory {
     val adapter = RestClientAdapter.create(restClient)
-    val factory = HttpServiceProxyFactory.builderFor(adapter).build()
+    return HttpServiceProxyFactory.builderFor(adapter)
+      .customArgumentResolver(QueryMapArgumentResolver())
+      .build()
+  }
 
+  @Bean
+  fun fakeApiCaller(factory: HttpServiceProxyFactory): FakeApiClient {
     return factory.createClient(FakeApiClient::class.java)
   }
 
   @Bean
-  fun myTestApiClient(): MyTestApiClient {
-    val restClient = RestClient.builder()
-      .baseUrl("http://localhost:8084/test")
-      .build()
-
-    val adapter = RestClientAdapter.create(restClient)
-    val factory = HttpServiceProxyFactory
-      .builderFor(adapter)
-      .customArgumentResolver(QueryMapArgumentResolver())
-      .build()
-
+  fun myTestApiClient(factory: HttpServiceProxyFactory): MyTestApiClient {
     return factory.createClient(MyTestApiClient::class.java)
   }
 }
