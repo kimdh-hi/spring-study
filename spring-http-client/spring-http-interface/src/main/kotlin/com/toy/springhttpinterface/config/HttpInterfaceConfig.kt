@@ -5,7 +5,6 @@ import com.toy.springhttpinterface.httpinterface.MyTestApiClient
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.MethodParameter
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.support.RestClientAdapter
 import org.springframework.web.service.invoker.HttpRequestValues
@@ -20,7 +19,7 @@ class HttpInterfaceConfig {
   fun httpServiceProxyFactory(restClient: RestClient): HttpServiceProxyFactory {
     val adapter = RestClientAdapter.create(restClient)
     return HttpServiceProxyFactory.builderFor(adapter)
-      .customArgumentResolver(QueryMapArgumentResolver())
+      .customArgumentResolver(QueryMapHttpServiceArgumentResolver())
       .build()
   }
 
@@ -35,33 +34,30 @@ class HttpInterfaceConfig {
   }
 }
 
-class QueryMapArgumentResolver : HttpServiceArgumentResolver {
+@Target(AnnotationTarget.VALUE_PARAMETER)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class QueryMap
 
-  override fun resolve(
-    argument: Any?,
-    parameter: MethodParameter,
-    requestValues: HttpRequestValues.Builder
-  ): Boolean {
-    if (argument == null) return false
-    val multiMap = argument.toQueryMap()
-    multiMap.forEach { (key, values) ->
-      requestValues.addRequestParameter(key, *values.toTypedArray())
-    }
+private class QueryMapHttpServiceArgumentResolver : HttpServiceArgumentResolver {
+  override fun resolve(argument: Any?, parameter: MethodParameter, requestValues: HttpRequestValues.Builder): Boolean {
+    if (!parameter.hasParameterAnnotation(QueryMap::class.java)) return false
+    requireNotNull(argument) { "argument cannot be null" }
+
+    argument.toQueryMap()
+      .forEach { (key, values) ->
+        values.forEach { value -> requestValues.addRequestParameter(key, value) }
+      }
     return true
   }
-}
 
-fun Any.toQueryMap(): LinkedMultiValueMap<String, String> {
-  val map = LinkedMultiValueMap<String, String>()
-
-  this::class.memberProperties.forEach { property ->
-    val value = property.getter.call(this) ?: return@forEach
-    val key = property.name
-    when (value) {
-      is Iterable<*> -> value.filterNotNull().forEach { map.add(key, it.toString()) }
-      else -> map.add(key, value.toString())
+  private fun Any.toQueryMap(): Map<String, List<String?>> {
+    return this::class.memberProperties.associate { prop ->
+      val values: List<String?> = when (val value = prop.getter.call(this)) {
+        null -> emptyList()
+        is Iterable<*> -> value.mapNotNull { it?.toString() }
+        else -> listOf(value.toString())
+      }
+      prop.name to values
     }
   }
-
-  return map
 }

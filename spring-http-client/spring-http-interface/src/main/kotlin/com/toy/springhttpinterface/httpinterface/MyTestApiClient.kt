@@ -1,5 +1,6 @@
 package com.toy.springhttpinterface.httpinterface
 
+import com.toy.springhttpinterface.config.QueryMap
 import org.springframework.web.service.annotation.GetExchange
 import org.springframework.web.service.annotation.HttpExchange
 import java.time.LocalDateTime
@@ -8,7 +9,7 @@ import java.time.LocalDateTime
 interface MyTestApiClient {
 
   @GetExchange("/ping-pong")
-  fun pingPong(dto: PingPongDto): PingPongDto
+  fun pingPong(@QueryMap dto: PingPongDto): PingPongDto
 }
 
 data class PingPongDto(
