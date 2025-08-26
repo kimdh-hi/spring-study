@@ -1,9 +1,9 @@
 package com.study.resilience4j.httpclient
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class TestClient(
   private val testExchange: TestExchange,
 ) : TestExchange by testExchange {

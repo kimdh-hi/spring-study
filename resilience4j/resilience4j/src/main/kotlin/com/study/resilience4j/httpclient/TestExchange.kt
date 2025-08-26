@@ -1,8 +1,15 @@
 package com.study.resilience4j.httpclient
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.service.annotation.GetExchange
+
+@CircuitBreaker(name = "test1")
 interface TestExchange {
 
-  fun test1(status: Int): String
+  @GetExchange("/test/test1")
+  fun test1(@RequestParam status: Int): String
 
-  fun test2(status: Int): String
+  @GetExchange("/test/test2")
+  fun test2(@RequestParam status: Int): String
 }

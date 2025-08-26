@@ -1,7 +1,6 @@
 package com.study.resilience4j.controller
 
 import com.study.resilience4j.httpclient.TestClient
-import com.study.resilience4j.httpclient.TestRequest
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
