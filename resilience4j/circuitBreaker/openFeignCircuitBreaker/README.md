@@ -1,7 +1,8 @@
 ## Resilience4j + OpenFeign
 
 ```
-If Spring Cloud CircuitBreaker is on the classpath and spring.cloud.openfeign.circuitbreaker.enabled=true, Feign will wrap all methods with a circuit breaker.
+If Spring Cloud CircuitBreaker is on the classpath and spring.cloud.openfeign.circuitbreaker.enabled=true, 
+Feign will wrap all methods with a circuit breaker.
 ```
 
 ### dependencies
@@ -15,7 +16,7 @@ implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
 | name | description                                                         | default      |
 |-----------|---------------------------------------------------------------------|--------------|
- | `slidingWindowType`| COUNT_BASED, TIME_BASED                                             | COUNT_BASED  |
+| `slidingWindowType`| COUNT_BASED, TIME_BASED                                             | COUNT_BASED  |
 | `slidingWindowSize` | 실패율 계산에 사용하는 최근 호출 수 (TIME_BASED 로 설정시 duration 설정)                 | 100          |
 | `minimumNumberOfCalls` | 상태 변경을 평가하기 위한 최소 호출 수                                              | 100          |
 | `failureRateThreshold` | CLOSE -> OPEN 상태 변경 임계값                                             | 50           |
