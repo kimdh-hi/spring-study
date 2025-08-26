@@ -41,41 +41,74 @@ class PingPongQueryArgumentResolver : HttpServiceArgumentResolver {
 ```
 - 매 번 특정 타입에 대한 `HttpServiceArgumentResolver` 작성이 추가되지 않도록 feign 에서 사용하는 방식과 흡사하게 reflection 이용한 방식 적용 필요
 
-general customArgumentResolver
-- reflection 통해 MultiValueMap 구성
-  - list 사용 가능
-- 중첩구조 사용 불가 
+### General customArgumentResolver
+- list 지원
+- 중첩구조 지원x
   - @SpringQueryMap 사용시에도 중첩구조는 지원 안 됨, custom 필요 (https://github.com/spring-cloud/spring-cloud-openfeign/issues/442)
 ```kotlin
-class QueryMapArgumentResolver : HttpServiceArgumentResolver {
+@Target(AnnotationTarget.VALUE_PARAMETER)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class QueryMap
 
-  override fun resolve(
-    argument: Any?,
-    parameter: MethodParameter,
-    requestValues: HttpRequestValues.Builder
-  ): Boolean {
-    if (argument == null) return false
-    val multiMap = argument.toQueryMap()
-    multiMap.forEach { (key, values) ->
-      requestValues.addRequestParameter(key, *values.toTypedArray())
+private class QueryMapHttpServiceArgumentResolver : HttpServiceArgumentResolver {
+  override fun resolve(argument: Any?, parameter: MethodParameter, requestValues: HttpRequestValues.Builder): Boolean {
+    if (!parameter.hasParameterAnnotation(QueryMap::class.java)) return false
+    requireNotNull(argument) { "argument cannot be null" }
+
+    argument.toMap().forEach { (key, values) ->
+      values.forEach { value -> requestValues.addRequestParameter(key, value) }
     }
+
     return true
   }
-}
 
-fun Any.toQueryMap(): LinkedMultiValueMap<String, String> {
-  val map = LinkedMultiValueMap<String, String>()
-
-  this::class.memberProperties.forEach { property ->
-    val value = property.getter.call(this) ?: return@forEach
-    val key = property.name
-    when (value) {
-      is Iterable<*> -> value.filterNotNull().forEach { map.add(key, it.toString()) }
-      else -> map.add(key, value.toString())
+  private fun Any.toMap(): Map<String, List<String?>> {
+    return this::class.memberProperties.associate { prop ->
+      prop.name to prop.toValues(this)
     }
   }
 
-  return map
+  private fun KProperty1<out Any, *>.toValues(prop: Any): List<String?> {
+    val value = getter.call(prop) ?: return emptyList()
+    return when (value) {
+      is Iterable<*> -> value.map { it?.toString() }
+      is Array<*> -> value.map { it?.toString() }
+      else -> listOf(value.toString())
+    }
+  }
+}
+```
+
+- openFeign @SpringQueryMap 과 유사
+```java
+// feign.RequestTemplateFactoryResolver.addQueryMapQueryParameters
+private RequestTemplate addQueryMapQueryParameters(
+    Map<String, Object> queryMap, RequestTemplate mutable) {
+  for (Map.Entry<String, Object> currEntry : queryMap.entrySet()) {
+    Collection<String> values = new ArrayList<String>();
+
+    Object currValue = currEntry.getValue();
+    if (currValue instanceof Iterable<?>) {
+      Iterator<?> iter = ((Iterable<?>) currValue).iterator();
+      while (iter.hasNext()) {
+        Object nextObject = iter.next();
+        values.add(nextObject == null ? null : UriUtils.encode(nextObject.toString()));
+      }
+    } else if (currValue instanceof Object[]) {
+      for (Object value : (Object[]) currValue) {
+        values.add(value == null ? null : UriUtils.encode(value.toString()));
+      }
+    } else {
+      if (currValue != null) {
+        values.add(UriUtils.encode(currValue.toString()));
+      }
+    }
+
+    if (values.size() > 0) {
+      mutable.query(UriUtils.encode(currEntry.getKey()), values);
+    }
+  }
+  return mutable;
 }
 ```
 

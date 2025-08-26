@@ -10,6 +10,7 @@ import org.springframework.web.client.support.RestClientAdapter
 import org.springframework.web.service.invoker.HttpRequestValues
 import org.springframework.web.service.invoker.HttpServiceArgumentResolver
 import org.springframework.web.service.invoker.HttpServiceProxyFactory
+import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
 @Configuration
@@ -43,21 +44,25 @@ private class QueryMapHttpServiceArgumentResolver : HttpServiceArgumentResolver 
     if (!parameter.hasParameterAnnotation(QueryMap::class.java)) return false
     requireNotNull(argument) { "argument cannot be null" }
 
-    argument.toQueryMap()
-      .forEach { (key, values) ->
-        values.forEach { value -> requestValues.addRequestParameter(key, value) }
-      }
+    argument.toMap().forEach { (key, values) ->
+      values.forEach { value -> requestValues.addRequestParameter(key, value) }
+    }
+
     return true
   }
 
-  private fun Any.toQueryMap(): Map<String, List<String?>> {
+  private fun Any.toMap(): Map<String, List<String?>> {
     return this::class.memberProperties.associate { prop ->
-      val values: List<String?> = when (val value = prop.getter.call(this)) {
-        null -> emptyList()
-        is Iterable<*> -> value.mapNotNull { it?.toString() }
-        else -> listOf(value.toString())
-      }
-      prop.name to values
+      prop.name to prop.toValues(this)
+    }
+  }
+
+  private fun KProperty1<out Any, *>.toValues(prop: Any): List<String?> {
+    val value = getter.call(prop) ?: return emptyList()
+    return when (value) {
+      is Iterable<*> -> value.map { it?.toString() }
+      is Array<*> -> value.map { it?.toString() }
+      else -> listOf(value.toString())
     }
   }
 }
