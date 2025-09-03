@@ -7,9 +7,21 @@ resilience4j:
         failureRateThreshold: 100
         waitDurationInOpenState: 30s
         permittedNumberOfCallsInHalfOpenState: 5
-        registerHealthIndicator: true
         record-failure-predicate: com.study.resilience4j.config.RestClientCircuitRecordFailurePredicate
+        register-health-indicator: true
 
     instances:
       default:
         base-config: default
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true

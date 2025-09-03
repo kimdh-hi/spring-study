@@ -4,13 +4,13 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
 import org.springframework.stereotype.Component
 
 @Component
-class TestClient(
-  private val testExchange: TestExchange,
-) : TestExchange by testExchange {
+class Test1Client(
+  private val test1Exchange: Test1Exchange,
+) : Test1Exchange by test1Exchange {
 
   @CircuitBreaker(name = "test1", fallbackMethod = "testFallback")
   override fun test1(status: Int): String {
-    return testExchange.test1(status)
+    return test1Exchange.test1(status)
   }
 
   private fun testFallback(status: Int, throwable: Throwable): String {

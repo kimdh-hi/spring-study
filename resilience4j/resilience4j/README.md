@@ -40,7 +40,7 @@ resilience4j:
 ```
 
 ##### CallNotPermittedException
-- circuit OPEN 된 후 요청시 fallback 지정되지 않은 경우 CallNotPermittedException 응답
+- circuit OPEN or HALF_OPEN 된 경우 요청시 fallback 지정되지 않은 경우 CallNotPermittedException 응답
 - exception handler 추가
 
 ```kotlin
@@ -49,6 +49,69 @@ fun handle(ex: CallNotPermittedException): ResponseEntity<ErrorResponse> {
   log.warn("CallNotPermittedException ex={}", ex.message) // CallNotPermittedException ex=CircuitBreaker 'test1' is OPEN and does not permit further calls
   return ResponseEntity(ErrorResponse(1234, "CallNotPermittedException"), HttpStatus.INTERNAL_SERVER_ERROR)
 }
+```
+
+#### register-health-indicator
+- `/actuator/health`
+
+```yaml
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        register-health-indicator: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+```
+
+```
+components": {
+    "circuitBreakers": {
+      "status": "UP",
+      "details": {
+        "test2": {
+          "status": "CIRCUIT_OPEN",
+          "details": {
+            "failureRate": "100.0%",
+            "failureRateThreshold": "100.0%",
+            "slowCallRate": "0.0%",
+            "slowCallRateThreshold": "100.0%",
+            "bufferedCalls": 5,
+            "slowCalls": 0,
+            "slowFailedCalls": 0,
+            "failedCalls": 5,
+            "notPermittedCalls": 4,
+            "state": "OPEN"
+          }
+        },
+        "test1": {
+          "status": "UP",
+          "details": {
+            "failureRate": "-1.0%",
+            "failureRateThreshold": "100.0%",
+            "slowCallRate": "-1.0%",
+            "slowCallRateThreshold": "100.0%",
+            "bufferedCalls": 3,
+            "slowCalls": 0,
+            "slowFailedCalls": 0,
+            "failedCalls": 3,
+            "notPermittedCalls": 0,
+            "state": "CLOSED"
+          }
+        }
+      }
+    },
+    ...
 ```
 
 ---

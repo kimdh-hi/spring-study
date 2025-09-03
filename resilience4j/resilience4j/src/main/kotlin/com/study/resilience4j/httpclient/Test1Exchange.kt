@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.service.annotation.GetExchange
 
 @CircuitBreaker(name = "test1")
-interface TestExchange {
+interface Test1Exchange {
 
   @GetExchange("/test/test1")
   fun test1(@RequestParam status: Int): String
