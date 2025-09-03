@@ -9,9 +9,11 @@ class TestClient(
 ) : TestExchange by testExchange {
 
   @CircuitBreaker(name = "test1", fallbackMethod = "testFallback")
-  override fun test1(status: Int): String = testExchange.test1(status)
+  override fun test1(status: Int): String {
+    return testExchange.test1(status)
+  }
 
   private fun testFallback(status: Int, throwable: Throwable): String {
-    return "test fallback"
+    return "test fallback status=$status, throwable.message=${throwable.message}"
   }
 }

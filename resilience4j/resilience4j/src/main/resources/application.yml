@@ -7,6 +7,8 @@ resilience4j:
         failureRateThreshold: 100
         waitDurationInOpenState: 30s
         permittedNumberOfCallsInHalfOpenState: 5
+        registerHealthIndicator: true
+        record-failure-predicate: com.study.resilience4j.config.RestClientCircuitRecordFailurePredicate
 
     instances:
       default:
