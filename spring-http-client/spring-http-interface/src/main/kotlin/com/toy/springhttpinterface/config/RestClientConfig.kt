@@ -1,6 +1,5 @@
 package com.toy.springhttpinterface.config
 
-import org.springframework.boot.web.client.RestClientCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -14,12 +13,9 @@ class RestClientConfig {
 
   @Bean
   fun restClient(restClientBuilder: RestClient.Builder): RestClient {
-    return restClientBuilder.build()
-  }
-
-  @Bean
-  fun restClientCustomizer() = RestClientCustomizer { customizer ->
-    customizer.defaultStatusHandler(RestClientErrorHandler())
+    return restClientBuilder
+      .defaultStatusHandler(RestClientErrorHandler())
+      .build()
   }
 }
 

@@ -114,5 +114,12 @@ private RequestTemplate addQueryMapQueryParameters(
 
 ---
 
+## improve
+- spring 7.x autoconfiguration
+  - https://github.com/spring-projects/spring-framework/issues/33992
+- autoconfiguration (HttpExchange Spring Boot Starter)
+  - https://github.com/DanielLiu1123/httpexchange-spring-boot-starter
+
+
 ### reference
 - https://docs.spring.io/spring-framework/reference/integration/rest-clients.html#rest-http-interface
