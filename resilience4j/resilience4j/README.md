@@ -94,6 +94,69 @@ management:
 }
 ```
 
+
+#### CircuitBreaker Event
+- https://resilience4j.readme.io/docs/circuitbreaker
+
+- document example
+```java
+Map <String, String> circuitBreakerTags = Map.of("key1", "value1", "key2", "value2");
+
+CircuitBreakerRegistry circuitBreakerRegistry = CircuitBreakerRegistry.custom()
+    .withCircuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+    .addRegistryEventConsumer(new RegistryEventConsumer() {
+        @Override
+        public void onEntryAddedEvent(EntryAddedEvent entryAddedEvent) {
+            // implementation
+        }
+        @Override
+        public void onEntryRemovedEvent(EntryRemovedEvent entryRemoveEvent) {
+            // implementation
+        }
+        @Override
+        public void onEntryReplacedEvent(EntryReplacedEvent entryReplacedEvent) {
+            // implementation
+        }
+    })
+    .withTags(circuitBreakerTags)
+    .build();
+
+CircuitBreaker circuitBreaker = circuitBreakerRegistry.circuitBreaker("testName");
+```
+
+- fallback 설정된 경우 open 대상으로 요청시에도 CallNotPermittedException 로 핸들링 불가.
+- fallback 이 설정된 경우에도 open 된 경우 인지 가능하도록 로그 및 후처리 가능해야 함
+
+```kotlin
+@Bean
+fun customRegistryEventConsumer(): RegistryEventConsumer<CircuitBreaker> {
+  return object : RegistryEventConsumer<CircuitBreaker> {
+    override fun onEntryAddedEvent(entryAddedEvent: EntryAddedEvent<CircuitBreaker>) {
+      val eventPublisher = entryAddedEvent.addedEntry.eventPublisher
+
+      eventPublisher.onCallNotPermitted {
+        log.error("[CircuitBreakerEvent.callNotPermitted] circuitName={}", it.circuitBreakerName)
+      }
+
+      eventPublisher.onStateTransition {
+        val stateTransition = it.stateTransition
+        log.info(
+          "[CircuitBreakerEvent.stateTransition] {} state {} -> {}",
+          it.circuitBreakerName,
+          stateTransition.fromState,
+          stateTransition.toState
+        )
+      }
+    }
+
+    override fun onEntryRemovedEvent(entryRemoveEvent: EntryRemovedEvent<CircuitBreaker>) {}
+
+    override fun onEntryReplacedEvent(entryReplacedEvent: EntryReplacedEvent<CircuitBreaker>) {}
+  }
+}
+```
+
+
 ---
 
 ## reference

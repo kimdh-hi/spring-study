@@ -4,6 +4,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.service.annotation.GetExchange
 
+@CircuitBreaker(name = "test2")
 interface Test2Client {
 
   @GetExchange("/test/test1")
@@ -15,7 +16,6 @@ interface Test2Client {
   }
 
   @GetExchange("/test/test2")
-  @CircuitBreaker(name = "test2")
   fun test2(@RequestParam status: Int): String
 }
 
