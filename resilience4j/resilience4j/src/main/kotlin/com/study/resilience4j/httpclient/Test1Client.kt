@@ -8,12 +8,13 @@ class Test1Client(
   private val test1Exchange: Test1Exchange,
 ) : Test1Exchange by test1Exchange {
 
-  @CircuitBreaker(name = "test1", fallbackMethod = "testFallback")
-  override fun test1(status: Int): String {
-    return test1Exchange.test1(status)
-  }
+  @CircuitBreaker(name = "test1", fallbackMethod = "fallback")
+  override fun test1(status: Int): String = test1Exchange.test1(status)
 
-  private fun testFallback(status: Int, throwable: Throwable): String {
-    return "test fallback status=$status, throwable.message=${throwable.message}"
+  private fun fallback(status: Int, ex: Throwable): String {
+    return "/test/test1 fallback"
   }
 }
+
+
+

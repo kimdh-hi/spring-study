@@ -4,12 +4,12 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.service.annotation.GetExchange
 
-@CircuitBreaker(name = "test1")
 interface Test1Exchange {
 
   @GetExchange("/test/test1")
   fun test1(@RequestParam status: Int): String
 
   @GetExchange("/test/test2")
+  @CircuitBreaker(name = "test1")
   fun test2(@RequestParam status: Int): String
 }

@@ -1,27 +1,31 @@
+spring:
+  aop:
+    proxy-target-class: true
+
 resilience4j:
   circuitbreaker:
     configs:
       default:
-        slidingWindowSize: 5
-        minimumNumberOfCalls: 5
-        failureRateThreshold: 100
-        waitDurationInOpenState: 30s
-        permittedNumberOfCallsInHalfOpenState: 5
-        record-failure-predicate: com.study.resilience4j.config.RestClientCircuitRecordFailurePredicate
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 5
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 100
+        wait-duration-in-open-state: 10s
+        automatic-transition-from-open-to-half-open-enabled: true
+        permitted-number-of-calls-in-half-open-state: 3
         register-health-indicator: true
+#        ignore-exception-predicate: com.study.resilience4j.config.RestClientCircuitIgnoreExceptionPredicate
+
+# 최근 요청 100개를 대상으로 실패율 계산
+# 실패율이 30% 이상인 경우 CLOSED -> OPEN
+# OPEN 에서 10s 대기 후 OPEN -> HALF_OPEN
+# HALF_OPEN 상태에서 10개 요청 모니터링하여 한 개라도 실패하는 경우 HALF_OPEN -> OPEN
 
     instances:
       default:
         base-config: default
-
 management:
   endpoints:
     web:
       exposure:
-        include: health
-  endpoint:
-    health:
-      show-details: always
-  health:
-    circuitbreakers:
-      enabled: true
+        include: circuitbreakers

@@ -4,14 +4,15 @@
 
 #### circuitBreaker configs
 
-| name | description                                                         | default      |
-|-----------|---------------------------------------------------------------------|--------------|
-| `slidingWindowType`| COUNT_BASED, TIME_BASED                                             | COUNT_BASED  |
-| `slidingWindowSize` | 실패율 계산에 사용하는 최근 호출 수 (TIME_BASED 로 설정시 duration 설정)                 | 100          |
-| `minimumNumberOfCalls` | 상태 변경을 평가하기 위한 최소 호출 수                                              | 100          |
-| `failureRateThreshold` | CLOSE -> OPEN 상태 변경 임계값                                             | 50           |
-| `waitDurationInOpenState` | OPEN -> HALF_OPEN 전환되기 전 대기 시간                                      | 60s          |
-| `permittedNumberOfCallsInHalfOpenState` | HALF_OPEN 상태에서 허용되는 호출 수 (호출수 충족 전 실패하는 경우 CLOSE 로 상태 변경, 충족시 OPEN) | 10           |
+| name                                                  | description                                                         | default     |
+|-------------------------------------------------------|---------------------------------------------------------------------|-------------|
+| `slidingWindowType`                                   | COUNT_BASED, TIME_BASED                                             | COUNT_BASED |
+| `slidingWindowSize`                                   | 실패율 계산에 사용하는 최근 호출 수 (TIME_BASED 로 설정시 duration 설정)                 | 100         |
+| `minimumNumberOfCalls`                                | 상태 변경을 평가하기 위한 최소 호출 수                                              | 100         |
+| `failureRateThreshold`                                | CLOSE -> OPEN 상태 변경 임계값                                             | 50          |
+| `waitDurationInOpenState`                             | OPEN -> HALF_OPEN 전환되기 전 최소 대기 시간                                   | 60s         |
+ | `automatic-transition-from-open-to-half-open-enabled` | waitDurationInOpenState 경과 후 OPEN -> HALF_OPEN 여부                   | false       |
+| `permittedNumberOfCallsInHalfOpenState`               | HALF_OPEN 상태에서 허용되는 호출 수 (호출수 충족 전 실패하는 경우 CLOSE 로 상태 변경, 충족시 OPEN) | 10          |
 
 
 #### exception record condition
@@ -52,69 +53,49 @@ fun handle(ex: CallNotPermittedException): ResponseEntity<ErrorResponse> {
 ```
 
 #### register-health-indicator
-- `/actuator/health`
+- `/actuator/circuitbreakers`
 
 ```yaml
-resilience4j:
-  circuitbreaker:
-    configs:
-      default:
-        register-health-indicator: true
-
 management:
   endpoints:
     web:
       exposure:
-        include: health
-  endpoint:
-    health:
-      show-details: always
-  health:
-    circuitbreakers:
-      enabled: true
+        include: circuitbreakers
 ```
 
 ```
-components": {
-    "circuitBreakers": {
-      "status": "UP",
-      "details": {
-        "test2": {
-          "status": "CIRCUIT_OPEN",
-          "details": {
-            "failureRate": "100.0%",
-            "failureRateThreshold": "100.0%",
-            "slowCallRate": "0.0%",
-            "slowCallRateThreshold": "100.0%",
-            "bufferedCalls": 5,
-            "slowCalls": 0,
-            "slowFailedCalls": 0,
-            "failedCalls": 5,
-            "notPermittedCalls": 4,
-            "state": "OPEN"
-          }
-        },
-        "test1": {
-          "status": "UP",
-          "details": {
-            "failureRate": "-1.0%",
-            "failureRateThreshold": "100.0%",
-            "slowCallRate": "-1.0%",
-            "slowCallRateThreshold": "100.0%",
-            "bufferedCalls": 3,
-            "slowCalls": 0,
-            "slowFailedCalls": 0,
-            "failedCalls": 3,
-            "notPermittedCalls": 0,
-            "state": "CLOSED"
-          }
-        }
-      }
+{
+  "circuitBreakers": {
+    "default": {
+      "failureRate": "-1.0%",
+      "slowCallRate": "-1.0%",
+      "failureRateThreshold": "100.0%",
+      "slowCallRateThreshold": "100.0%",
+      "bufferedCalls": 0,
+      "failedCalls": 0,
+      "slowCalls": 0,
+      "slowFailedCalls": 0,
+      "notPermittedCalls": 0,
+      "state": "CLOSED"
     },
-    ...
+    "test1": {
+      "failureRate": "100.0%",
+      "slowCallRate": "0.0%",
+      "failureRateThreshold": "100.0%",
+      "slowCallRateThreshold": "100.0%",
+      "bufferedCalls": 5,
+      "failedCalls": 5,
+      "slowCalls": 0,
+      "slowFailedCalls": 0,
+      "notPermittedCalls": 6,
+      "state": "OPEN"
+    }
+  }
+}
 ```
 
 ---
 
 ## reference
 - https://docs.spring.io/spring-cloud-circuitbreaker/reference/spring-cloud-circuitbreaker-resilience4j.html
+- https://resilience4j.readme.io/docs/circuitbreaker
