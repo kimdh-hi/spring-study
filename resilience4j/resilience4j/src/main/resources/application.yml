@@ -9,13 +9,12 @@ resilience4j:
         wait-duration-in-open-state: 10s
         automatic-transition-from-open-to-half-open-enabled: true
         permitted-number-of-calls-in-half-open-state: 3
-        register-health-indicator: true
 #        ignore-exception-predicate: com.study.resilience4j.config.RestClientCircuitIgnoreExceptionPredicate
 
-# 최근 요청 100개를 대상으로 실패율 계산
-# 실패율이 30% 이상인 경우 CLOSED -> OPEN
+# 최근 요청 n개를 대상으로 실패율 계산
+# 실패율이 n% 이상인 경우 CLOSED -> OPEN
 # OPEN 에서 10s 대기 후 OPEN -> HALF_OPEN
-# HALF_OPEN 상태에서 10개 요청 모니터링하여 한 개라도 실패하는 경우 HALF_OPEN -> OPEN
+# HALF_OPEN 상태에서 n개 요청 모니터링. 실패율 초과하는 경우 HALF_OPEN -> OPEN 초과하지 않는 경우 HALF_OPEN -> CLOSED
 
     instances:
       default:
@@ -24,4 +23,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: circuitbreakers
+        include: circuitbreakers # circuitbreakers: /actuator/circuitbreakers

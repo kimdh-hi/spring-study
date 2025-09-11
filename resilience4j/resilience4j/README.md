@@ -1,21 +1,21 @@
-## Resilience4J
+# Resilience4J
 
-### CircuitBreaker
+## CircuitBreaker
 
-#### circuitBreaker configs
+### circuitBreaker configs
 
-| name                                                  | description                                                         | default     |
-|-------------------------------------------------------|---------------------------------------------------------------------|-------------|
-| `slidingWindowType`                                   | COUNT_BASED, TIME_BASED                                             | COUNT_BASED |
-| `slidingWindowSize`                                   | 실패율 계산에 사용하는 최근 호출 수 (TIME_BASED 로 설정시 duration 설정)                 | 100         |
-| `minimumNumberOfCalls`                                | 상태 변경을 평가하기 위한 최소 호출 수                                              | 100         |
-| `failureRateThreshold`                                | CLOSE -> OPEN 상태 변경 임계값                                             | 50          |
-| `waitDurationInOpenState`                             | OPEN -> HALF_OPEN 전환되기 전 최소 대기 시간                                   | 60s         |
- | `automatic-transition-from-open-to-half-open-enabled` | waitDurationInOpenState 경과 후 OPEN -> HALF_OPEN 여부                   | false       |
-| `permittedNumberOfCallsInHalfOpenState`               | HALF_OPEN 상태에서 허용되는 호출 수 (호출수 충족 전 실패하는 경우 CLOSE 로 상태 변경, 충족시 OPEN) | 10          |
+| name                                                  | description                                                 | default     |
+|-------------------------------------------------------|-------------------------------------------------------------|-------------|
+| `slidingWindowType`                                   | COUNT_BASED, TIME_BASED                                     | COUNT_BASED |
+| `slidingWindowSize`                                   | 실패율 계산에 사용하는 최근 호출 수 (TIME_BASED 로 설정시 duration 설정)         | 100         |
+| `minimumNumberOfCalls`                                | 상태 변경을 평가하기 위한 최소 호출 수                                      | 100         |
+| `failureRateThreshold`                                | CLOSE -> OPEN 상태 변경 임계값                                     | 50          |
+| `waitDurationInOpenState`                             | OPEN -> HALF_OPEN 전환되기 전 최소 대기 시간                           | 60s         |
+ | `automatic-transition-from-open-to-half-open-enabled` | waitDurationInOpenState 경과 후 OPEN -> HALF_OPEN 여부           | false       |
+| `permittedNumberOfCallsInHalfOpenState`               | HALF_OPEN 상태에서 허용되는 호출 수 (호출수 충족 후 실패율 계산하여 OPEN or CLOSED) | 10          |
 
 
-#### exception record condition
+### exception record condition
 - http client 통해 호출한 대상 서버에서 비즈니스 로직에 따라 잘못된 요청인 경우 예외 응답 가능
   - 위 예외를 circuit의 실패율에 포함시킬지?
   - 예를 들어, 권한이 없는 상태로 연속해서 api 호출하는 경우 호출 대상 서버에는 문제가 없지만 circuit 이 열릴 수 있음. 이게 맞는가 고민 필요.
@@ -40,7 +40,7 @@ resilience4j:
         record-failure-predicate: com.study.resilience4j.config.RestClientCircuitRecordFailurePredicate
 ```
 
-##### CallNotPermittedException
+### CallNotPermittedException
 - circuit OPEN or HALF_OPEN 된 경우 요청시 fallback 지정되지 않은 경우 CallNotPermittedException 응답
 - exception handler 추가
 
@@ -52,50 +52,7 @@ fun handle(ex: CallNotPermittedException): ResponseEntity<ErrorResponse> {
 }
 ```
 
-#### register-health-indicator
-- `/actuator/circuitbreakers`
-
-```yaml
-management:
-  endpoints:
-    web:
-      exposure:
-        include: circuitbreakers
-```
-
-```
-{
-  "circuitBreakers": {
-    "default": {
-      "failureRate": "-1.0%",
-      "slowCallRate": "-1.0%",
-      "failureRateThreshold": "100.0%",
-      "slowCallRateThreshold": "100.0%",
-      "bufferedCalls": 0,
-      "failedCalls": 0,
-      "slowCalls": 0,
-      "slowFailedCalls": 0,
-      "notPermittedCalls": 0,
-      "state": "CLOSED"
-    },
-    "test1": {
-      "failureRate": "100.0%",
-      "slowCallRate": "0.0%",
-      "failureRateThreshold": "100.0%",
-      "slowCallRateThreshold": "100.0%",
-      "bufferedCalls": 5,
-      "failedCalls": 5,
-      "slowCalls": 0,
-      "slowFailedCalls": 0,
-      "notPermittedCalls": 6,
-      "state": "OPEN"
-    }
-  }
-}
-```
-
-
-#### CircuitBreaker Event
+### CircuitBreaker Event
 - https://resilience4j.readme.io/docs/circuitbreaker
 
 - document example
@@ -156,7 +113,7 @@ fun customRegistryEventConsumer(): RegistryEventConsumer<CircuitBreaker> {
 }
 ```
 
-#### interface 내 fallback 함수 저의 이슈 (default implementation in interface issue)
+### interface 내 fallback 함수 저의 이슈 (default implementation in interface issue)
 
 ```kotlin
 interface Test2Client {
@@ -207,7 +164,7 @@ public interface Test2Client {
 }
 ```
 
-fallbackMethod 생성시 이슈
+#### fallbackMethod 생성시 이슈
 - @CircuitBreaker 기준 동일 클래스 내 fallback 메서드 이름, 인자, 반환타입 등으로 fallbackMethod 생성
 - kotlin 에서 구현을 갖는 함수를 interface 에 정의시 위 처럼 별도 class 가 생기고 내부에 선언되므로 위 fallbackMethod 로 찾아질 수 없음.
 - java 의 interface default 와 동일하게 동작 가능하도록 compile option 추가 필요
@@ -252,7 +209,84 @@ public interface AAA {
 
 ```
 
+### actuator monitoring
 
+#### 1. /actuator/health
+
+```yaml
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        register-health-indicator: true
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health
+  health:
+    circuitbreakers:
+      enabled: true
+```
+
+```json
+{
+  "components": {
+    "circuitBreakers": {
+      "status": "UP",
+      "details": {
+        "default": {
+          "status": "UP",
+          "details": {
+            "failureRate": "-1.0%",
+            "failureRateThreshold": "100.0%",
+            "slowCallRate": "-1.0%",
+            "slowCallRateThreshold": "100.0%",
+            "bufferedCalls": 0,
+            "slowCalls": 0,
+            "slowFailedCalls": 0,
+            "failedCalls": 0,
+            "notPermittedCalls": 0,
+            "state": "CLOSED"
+          }
+        }
+      }
+    },
+```
+
+
+#### 1. /actuator/circuitbreakers
+
+```yaml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: circuitbreakers
+```
+
+```json
+{
+  "circuitBreakers": {
+    "default": {
+      "failureRate": "-1.0%",
+      "slowCallRate": "-1.0%",
+      "failureRateThreshold": "100.0%",
+      "slowCallRateThreshold": "100.0%",
+      "bufferedCalls": 0,
+      "failedCalls": 0,
+      "slowCalls": 0,
+      "slowFailedCalls": 0,
+      "notPermittedCalls": 0,
+      "state": "CLOSED"
+    }
+  }
+}
+```
 
 ---
 
