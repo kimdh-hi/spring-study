@@ -41,7 +41,7 @@ dependencyManagement {
 
 kotlin {
   compilerOptions {
-    freeCompilerArgs.addAll("-Xjsr305=strict", "-Xjvm-default=all-compatibility")
+    freeCompilerArgs.addAll("-Xjsr305=strict", "-Xjvm-default=all")
   }
 }
 

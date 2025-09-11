@@ -156,6 +156,103 @@ fun customRegistryEventConsumer(): RegistryEventConsumer<CircuitBreaker> {
 }
 ```
 
+#### interface 내 fallback 함수 저의 이슈 (default implementation in interface issue)
+
+```kotlin
+interface Test2Client {
+
+  @GetExchange("/test/test1")
+  @CircuitBreaker(name = "test2", fallbackMethod = "fallback")
+  fun test1(@RequestParam status: Int): String
+
+  fun fallback(status: Int, ex: Throwable): String {
+    return "/test/test1 fallback"
+  }
+```
+
+java 코드 변환 결과
+
+```java
+public interface Test2Client {
+   @GetExchange("/test/test1")
+   @CircuitBreaker(
+      name = "test2",
+      fallbackMethod = "fallback"
+   )
+   @NotNull
+   String test1(@RequestParam int var1);
+
+   @NotNull
+   String fallback(int var1, @NotNull Throwable var2);
+
+   @GetExchange("/test/test2")
+   @CircuitBreaker(
+      name = "test2"
+   )
+   @NotNull
+   String test2(@RequestParam int var1);
+
+   @Metadata(
+      mv = {1, 9, 0},
+      k = 3,
+      xi = 48
+   )
+   public static final class DefaultImpls {
+      @NotNull
+      public static String fallback(@NotNull Test2Client $this, int status, @NotNull Throwable ex) {
+         Intrinsics.checkNotNullParameter(ex, "ex");
+         return "/test/test1 fallback";
+      }
+   }
+}
+```
+
+fallbackMethod 생성시 이슈
+- @CircuitBreaker 기준 동일 클래스 내 fallback 메서드 이름, 인자, 반환타입 등으로 fallbackMethod 생성
+- kotlin 에서 구현을 갖는 함수를 interface 에 정의시 위 처럼 별도 class 가 생기고 내부에 선언되므로 위 fallbackMethod 로 찾아질 수 없음.
+- java 의 interface default 와 동일하게 동작 가능하도록 compile option 추가 필요
+
+```kotlin
+// kotlin 1.x
+kotlin {
+  compilerOptions {
+    freeCompilerArgs.addAll("-Xjvm-default=all")
+  }
+}
+
+//kotlin 2.x
+//default: JvmDefaultMode.ENABLE
+kotlin {
+  compilerOptions {
+    jvmDefault = JvmDefaultMode.NO_COMPATIBILITY
+  }
+}
+
+//JvmDefaultMode.ENABLE
+// 하위호환 위한 DefaultImpls 와 default 메서드 모두 생성
+// JvmDefaultMode.NO_COMPATIBILITY 는 default 메서드 만 생성 (DefaultImpls x)
+public interface AAA {
+   void aaa();
+
+   @NotNull
+   default String bbb() {
+      System.out.println("bbb");
+      return "bbb";
+   }
+
+   public static final class DefaultImpls {
+      /** @deprecated */
+      @Deprecated
+      @NotNull
+      public static String bbb(@NotNull AAA $this) {
+         return $this.bbb();
+      }
+   }
+}
+
+```
+
+
 
 ---
 
