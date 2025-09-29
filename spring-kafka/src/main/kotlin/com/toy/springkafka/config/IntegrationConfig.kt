@@ -15,6 +15,7 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.KafkaOperations
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer
 import org.springframework.kafka.listener.DefaultErrorHandler
+import org.springframework.kafka.support.ExponentialBackOffWithMaxRetries
 import org.springframework.util.backoff.FixedBackOff
 
 @Configuration
@@ -58,8 +59,14 @@ class IntegrationConfig(
       setHeadersFunction { _, ex -> setCustomHeader(ex) }
     }
 
-    val backOff = FixedBackOff(0, 2)
-    return DefaultErrorHandler(recoverer, backOff)
+//    val backOff = FixedBackOff(0, 2)
+
+//    val backOff = ExponentialBackOffWithMaxRetries(5).apply {
+//      initialInterval = 1000
+//      multiplier = 2.0
+//    }
+
+    return DefaultErrorHandler(recoverer).apply {  }
   }
 
   private fun setCustomHeader(ex: Throwable): RecordHeaders {

@@ -5,8 +5,8 @@ import feign.RequestInterceptor
 import feign.Response
 import feign.Retryer
 import feign.codec.ErrorDecoder
+import org.slf4j.LoggerFactory
 import org.springframework.cloud.openfeign.EnableFeignClients
-import org.springframework.cloud.openfeign.clientconfig.HttpClient5FeignConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
@@ -15,9 +15,8 @@ import org.springframework.http.HttpStatus
 @EnableFeignClients(basePackages = ["com.study.openfeign"]) // main 클래스가 아닌 곳에서 설정시 basePackages 설정필요
 class OpenFeignConfig {
 
-  // Retryer.Default(a, b ,c)
-  // 재시도 시 최초 a 만큼 대기 후 c 번 재요청 (최대 b 만큼 대기)
-  // a * 1.5 후 재시도
+  private val log = LoggerFactory.getLogger(OpenFeignConfig::class.java)
+
   @Bean
   fun retryer(): Retryer.Default {
     return Retryer.Default(1000, 2000, 3)
@@ -45,5 +44,15 @@ class OpenFeignConfig {
         else -> IllegalStateException("feignClient generic error")
       }
     }
+  }
+
+
+  @Bean
+  fun vtLogInterceptor(): RequestInterceptor = RequestInterceptor {
+    val thread = Thread.currentThread()
+    log.info(
+      "feign on virtualThread: {}",
+      thread.isVirtual,
+    )
   }
 }

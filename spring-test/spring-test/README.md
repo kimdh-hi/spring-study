@@ -6,10 +6,17 @@
 - `UserRequestTest.kt` 참조
 
 ## wiremock
+- https://github.com/wiremock/wiremock
 - https://github.com/wiremock/kotlin-wiremock
+
+## mockserver
+- https://github.com/mock-server/mockserver
+
 
 ---
 
 reference
 - https://tech.kakaopay.com/post/katfun-joy-kotlin/
+- https://github.com/wiremock/wiremock
 - https://github.com/wiremock/kotlin-wiremock
+- https://github.com/mock-server/mockserver

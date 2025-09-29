@@ -13,7 +13,7 @@ interface MyTestApiClient {
   fun pingPong(@QueryMap dto: PingPongDto): PingPongDto
 
   @GetExchange("/test3")
-  fun test3(@RequestParam ids: List<String>): List<String>
+  fun test3(@RequestParam(required = false) ids: List<String> = listOf()): List<String>
 }
 
 data class PingPongDto(

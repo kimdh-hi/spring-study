@@ -4,11 +4,16 @@ spring:
   cloud:
     openfeign:
       httpclient:
-        max-connections: 200 # ?? connection pool ? (default: 200)
-        max-connections-per-route: 200 # ?? ???? ?? ??? ? ? ?? connection ? (default: 50)
-        connection-timer-repeat: 3000 # idle connection ?? ?? default: 3000
+        max-connections: 200 # 최대 connection pool 수 (default: 200)
+        max-connections-per-route: 200 # 동일 호스트 대상 최대 connection pool 수 (default: 50)
+        connection-timer-repeat: 3000 # idle connection, expiry connection 정리 주기 default: 3000ms
+#        time-to-live: 900 # connection pool ttl. default: 900s, 실제 적용되지 않음. RequestConfig.connectionKeepAlive 가 사용됨.
         hc5:
-          connection-request-timeout: 1 # connection lease ?? ? leased ??? ?? ??(minutes) (default: 3m)
+          connection-request-timeout: 1 # lease request to connection pool timeout(minutes) (default: 3m)
+          enabled: true # default: true
+  threads:
+    virtual:
+      enabled: true
 logging:
   level:
     feign: DEBUG

@@ -17,7 +17,7 @@ class TestController(
   }
 
   @GetMapping("/test3")
-  fun test3(@RequestParam ids: List<String>): List<String> {
-    return myTestApiClient.test3(ids)
+  fun test3(): List<String> {
+    return myTestApiClient.test3()
   }
 }
