@@ -1,0 +1,16 @@
+services:
+  test-mariadb:
+    container_name: "test-mariadb"
+    image: mariadb:latest
+    restart: always
+    environment:
+      TZ: Asia/Seoul
+      MARIADB_ROOT_PASSWORD: "111111"
+      MARIADB_DATABASE: "testdb"
+    ports:
+      - "3306:3306"
+    command:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+      - "--skip-character-set-client-handshake"
+      - "--lower_case_table_names=0"

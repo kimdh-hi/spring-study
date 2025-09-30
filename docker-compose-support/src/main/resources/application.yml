@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: docker-compose-support
+
+  docker:
+    compose:
+      lifecycle-management: start-and-stop # default: LifecycleManagement.START_AND_STOP
+      start:
+        command: up # default: StartCommand.UP
+      stop:
+        command: down # default: StopCommand.DOWN
+        timeout: 10s # default: 10s (0: force stop)
+      skip:
+        in-tests: false # default: true (test ??? docker compose ?? ??)
+
+  datasource:
+    url: jdbc:mariadb://localhost:3306/testdb?createDatabaseIfNotExist=true
+    username: root
+    password: 111111
+    hikari:
+      maximum-pool-size: 30
+      connection-timeout: 3000
+      connection-test-query: SELECT 1
+  jpa:
+    hibernate.ddl-auto: create-drop
+    open-in-view: false
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
