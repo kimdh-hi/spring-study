@@ -1,7 +1,7 @@
 spring:
   datasource:
-#    url: jdbc:mysql://localhost/test?rewriteBatchedStatements=true&createDatabaseIfNotExist=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=99999
-    url: jdbc:mariadb://localhost/test?rewriteBatchedStatements=true&createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost/test?rewriteBatchedStatements=true&createDatabaseIfNotExist=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=99999
+#    url: jdbc:mariadb://localhost/test?rewriteBatchedStatements=true&createDatabaseIfNotExist=true
     username: root
     password: 111111
     hikari:
@@ -14,3 +14,5 @@ spring:
       hibernate:
         jdbc:
           batch_size: 100
+        order_inserts: true
+        order_updates: true

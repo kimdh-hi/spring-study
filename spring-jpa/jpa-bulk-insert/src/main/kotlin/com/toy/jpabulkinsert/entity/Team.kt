@@ -2,29 +2,17 @@ package com.toy.jpabulkinsert.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
 import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.UuidGenerator
 
 @Entity
-@Table(name = "users")
-class User(
+@Table(name = "teams")
+class Team(
   @Id
   @UuidGenerator
   var id: String? = null,
 
   @Column(nullable = false, length = 100)
   var name: String,
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "team_id")
-  val team: Team
-) {
-
-  override fun toString(): String {
-    return "User(id=$id, name='$name')"
-  }
-}
+)
