@@ -8,3 +8,6 @@ spring:
         core-size: 8 # default: 8
         max-size: 16 # default: Integer.MAX_VALUE
         queue-capacity: 100 # default: Integer.MAX_VALUE
+  threads:
+    virtual:
+      enabled: true

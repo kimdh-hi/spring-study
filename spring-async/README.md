@@ -50,6 +50,17 @@ fun threadPoolTaskExecutorCustomizer() = ThreadPoolTaskExecutorCustomizer {
 ```
 - 두 개 이상 taskDecorator 지정시 마지막 taskDecorator 만 지정됨 
 
+#### virtual thread enabled true
+```kotlin
+@Bean
+fun asyncTaskExecutor(): Executor {
+val taskExecutorAdapter = TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor())
+taskExecutorAdapter.setTaskDecorator(CustomTaskDecorator())
+return taskExecutorAdapter
+}
+
+```
+
 ---
 
 ### error handling

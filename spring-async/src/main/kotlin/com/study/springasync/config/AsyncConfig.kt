@@ -5,17 +5,29 @@ import org.springframework.boot.task.ThreadPoolTaskExecutorCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.task.TaskDecorator
+import org.springframework.core.task.support.TaskExecutorAdapter
 import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.security.concurrent.DelegatingSecurityContextRunnable
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
 @EnableAsync
 @Configuration
 class AsyncConfig {
 
+  //virtual thread
   @Bean
-  fun threadPoolTaskExecutorCustomizer() = ThreadPoolTaskExecutorCustomizer { customizer ->
-    customizer.setTaskDecorator(CustomTaskDecorator())
+  fun asyncTaskExecutor(): Executor {
+    val taskExecutorAdapter = TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor())
+    taskExecutorAdapter.setTaskDecorator(CustomTaskDecorator())
+    return taskExecutorAdapter
   }
+
+  //platform-thread
+  //  @Bean
+//  fun threadPoolTaskExecutorCustomizer() = ThreadPoolTaskExecutorCustomizer { customizer ->
+//    customizer.setTaskDecorator(CustomTaskDecorator())
+//  }
 }
 
 class CustomTaskDecorator : TaskDecorator {
