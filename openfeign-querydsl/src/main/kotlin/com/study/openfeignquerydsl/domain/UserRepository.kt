@@ -23,7 +23,7 @@ class UserRepositoryCustomImpl(
         user.id,
         user.name,
         QTeamDto(team.id, team.name),
-//        user.email,
+        user.email,
       )
     )
       .from(user)

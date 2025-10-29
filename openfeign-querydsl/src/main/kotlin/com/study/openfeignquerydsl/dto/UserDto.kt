@@ -7,7 +7,7 @@ data class UserDto @QueryProjection constructor(
   val id: String,
   val name: String,
   val team: TeamDto,
-//  val email: Email
+  val email: Email
 ) {
 
   val additionalData: String? = null
