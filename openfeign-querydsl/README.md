@@ -49,7 +49,16 @@ github
 
 kapt setting
 ```kotlin
-private val queryDslVersion = "7.0"
+plugins {
+  kotlin("jvm") version "2.2.21"
+  kotlin("plugin.spring") version "2.2.21"
+  kotlin("plugin.jpa") version "2.2.21"
+  id("org.springframework.boot") version "3.5.7"
+  id("io.spring.dependency-management") version "1.1.7"
+  kotlin("kapt") version "2.2.21"
+}
+
+private val queryDslVersion = "7.1"
 dependencies {
   implementation("io.github.openfeign.querydsl:querydsl-jpa:$queryDslVersion")
   kapt("io.github.openfeign.querydsl:querydsl-apt:$queryDslVersion:jpa")
@@ -60,14 +69,27 @@ ksp setting
 - ksp release: https://github.com/google/ksp/releases
 ```kotlin
 plugins {
-  id("com.google.devtools.ksp") version "2.1.21-2.0.2"
+  kotlin("jvm") version "2.2.21"
+  kotlin("plugin.spring") version "2.2.21"
+  kotlin("plugin.jpa") version "2.2.21"
+  id("org.springframework.boot") version "3.5.7"
+  id("io.spring.dependency-management") version "1.1.7"
+  id("com.google.devtools.ksp") version "2.3.0"
 }
 
-private val queryDslVersion = "7.0"
+private val queryDslVersion = "7.1"
 dependencies {
   implementation("io.github.openfeign.querydsl:querydsl-jpa:$queryDslVersion")
   ksp("io.github.openfeign.querydsl:querydsl-ksp-codegen:$queryDslVersion")
 }
 ```
+
+---
+
+QueryDsl 7.1 (ksp)
+- @QueryProjection 외부 프로퍼티 projection 대상에서 제외
+  - https://github.com/OpenFeign/querydsl/pull/1232
+- QClass 생성시 value class 의 경우 내부 타입으로 path 생성
+  - https://github.com/OpenFeign/querydsl/issues/1403
 
 
