@@ -17,3 +17,10 @@ spring:
       hibernate:
         show_sql: false
         format_sql: false
+
+  threads:
+    virtual:
+      enabled: true
+
+custom:
+  use-query-counter: true
