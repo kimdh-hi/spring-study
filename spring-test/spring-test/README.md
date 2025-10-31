@@ -20,3 +20,7 @@ reference
 - https://github.com/wiremock/wiremock
 - https://github.com/wiremock/kotlin-wiremock
 - https://github.com/mock-server/mockserver
+
+fixturemonkey reference
+- https://naver.github.io/fixture-monkey/v1-1-0-kor/docs/get-started/creating-objects-in-kotlin/
+- https://simpleisit.tistory.com/209#google_vignette
