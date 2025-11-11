@@ -11,12 +11,14 @@ import org.springframework.ai.chat.client.advisor.api.CallAdvisor
 import org.springframework.ai.chat.client.advisor.api.CallAdvisorChain
 import org.springframework.ai.chat.memory.ChatMemory
 import org.springframework.ai.chat.prompt.ChatOptions
+import org.springframework.ai.chat.prompt.SystemPromptTemplate
 import org.springframework.core.Ordered
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -59,22 +61,33 @@ class OpenAiController(
   }
 
   @GetMapping("/streaming/{message}", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
-  suspend fun streamingTest(@PathVariable message: String): Flow<String> {
+  suspend fun streamingTest(@PathVariable message: String, @RequestParam language: String): Flow<String> {
     val chatClient = chatClientBuilder
+      .defaultSystem("답변의 가장 앞에 [TEST] 문구를 붙여줘.")
+      .defaultOptions(
+        ChatOptions.builder()
+          .maxTokens(100)
+          .build()
+      )
       .defaultAdvisors(
         MessageChatMemoryAdvisor.builder(chatMemory).build(),
         SimpleLoggerAdvisor()
       )
       .build()
 
+    val systemPromptTemplate = SystemPromptTemplate.builder()
+      .template("질문에 대해 {language} 언어로 답변합니다")
+      .build()
+    val systemPromptMessage = systemPromptTemplate.createMessage(mapOf("language" to language))
+
     return chatClient
       .prompt()
-      .system("질문에 대해 한국어로 답변합니다")
+//      .messages(systemPromptMessage)
+      .system(systemPromptTemplate.render(mapOf("language" to language)))
       .user(message)
       .options(
         ChatOptions.builder()
           .temperature(0.3)
-          .maxTokens(100)
           .build()
       )
       .stream()
