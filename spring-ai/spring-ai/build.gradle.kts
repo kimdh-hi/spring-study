@@ -21,13 +21,19 @@ repositories {
 extra["springAiVersion"] = "1.0.3"
 
 dependencies {
+  implementation("org.springframework.boot:spring-boot-starter-webflux")
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.springframework.ai:spring-ai-starter-model-openai")
+  implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+  implementation("io.netty:netty-resolver-dns-native-macos:4.2.7.Final:osx-aarch_64")
+
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+  testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
 }
 
 dependencyManagement {
