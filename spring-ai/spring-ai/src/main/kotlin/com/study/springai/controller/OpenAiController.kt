@@ -1,5 +1,6 @@
 package com.study.springai.controller
 
+import com.study.springai.common.SimpleLoggerAdvisor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
 import org.slf4j.LoggerFactory
@@ -79,7 +80,6 @@ class OpenAiController(
       .template("질문에 대해 {language} 언어로 답변합니다")
       .build()
     val systemPromptMessage = systemPromptTemplate.createMessage(mapOf("language" to language))
-
     return chatClient
       .prompt()
 //      .messages(systemPromptMessage)
@@ -96,22 +96,3 @@ class OpenAiController(
   }
 }
 
-private class SimpleLoggerAdvisor : CallAdvisor {
-
-  private val logger = LoggerFactory.getLogger(this.javaClass)
-
-  override fun adviseCall(
-    chatClientRequest: ChatClientRequest,
-    callAdvisorChain: CallAdvisorChain
-  ): ChatClientResponse {
-    logger.info("SimpleLoggerAdvisor.adviseCall request={}", chatClientRequest.prompt.contents)
-    val response = callAdvisorChain.nextCall(chatClientRequest)
-    logger.info("SimpleLoggerAdvisor.adviseCall response={}", response.chatResponse()?.result?.output?.text)
-
-    return response
-  }
-
-  override fun getName(): String = this.javaClass::getSimpleName.name
-
-  override fun getOrder(): Int = Ordered.HIGHEST_PRECEDENCE
-}
