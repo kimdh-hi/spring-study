@@ -4,3 +4,7 @@ spring:
   ai:
     openai:
       api-key: ${open-api-key}
+
+logging:
+  level:
+    "[org.springframework.ai.chat.client.advisor]": DEBUG
