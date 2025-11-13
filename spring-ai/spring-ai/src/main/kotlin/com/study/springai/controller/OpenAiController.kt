@@ -5,15 +5,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
 import org.slf4j.LoggerFactory
 import org.springframework.ai.chat.client.ChatClient
-import org.springframework.ai.chat.client.ChatClientRequest
-import org.springframework.ai.chat.client.ChatClientResponse
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor
-import org.springframework.ai.chat.client.advisor.api.CallAdvisor
-import org.springframework.ai.chat.client.advisor.api.CallAdvisorChain
 import org.springframework.ai.chat.memory.ChatMemory
 import org.springframework.ai.chat.prompt.ChatOptions
 import org.springframework.ai.chat.prompt.SystemPromptTemplate
-import org.springframework.core.Ordered
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

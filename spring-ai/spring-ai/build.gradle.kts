@@ -24,8 +24,9 @@ dependencies {
   implementation("org.springframework.ai:spring-ai-starter-model-openai")
   implementation("org.springframework.ai:spring-ai-starter-vector-store-pgvector")
   implementation("org.springframework.ai:spring-ai-advisors-vector-store")
-  implementation("org.springframework.ai:spring-ai-starter-model-chat-memory-repository-jdbc")
-  implementation("org.springframework.ai:spring-ai-starter-model-chat-memory-repository-cassandra")
+//  implementation("org.springframework.ai:spring-ai-starter-model-chat-memory-repository-jdbc")
+//  implementation("org.springframework.ai:spring-ai-starter-model-chat-memory-repository-cassandra")
+  implementation("org.springframework.ai:spring-ai-pdf-document-reader")
 
   implementation("org.springframework.boot:spring-boot-starter-webflux")
   implementation("org.springframework.boot:spring-boot-starter-web")
