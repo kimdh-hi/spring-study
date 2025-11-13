@@ -4,6 +4,19 @@ spring:
   ai:
     openai:
       api-key: ${open-api-key}
+      embedding:
+        options:
+          model: text-embedding-3-small
+      chat:
+        options:
+          model: gpt-4o-mini
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
 
 logging:
   level:

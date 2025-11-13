@@ -18,14 +18,16 @@ repositories {
   mavenCentral()
 }
 
-extra["springAiVersion"] = "1.0.3"
+extra["springAiVersion"] = "1.1.0"
 
 dependencies {
+  implementation("org.springframework.ai:spring-ai-starter-model-openai")
+  implementation("org.springframework.ai:spring-ai-starter-vector-store-pgvector")
+
   implementation("org.springframework.boot:spring-boot-starter-webflux")
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
-  implementation("org.springframework.ai:spring-ai-starter-model-openai")
   implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
   implementation("io.netty:netty-resolver-dns-native-macos:4.2.7.Final:osx-aarch_64")
