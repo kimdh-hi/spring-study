@@ -12,7 +12,7 @@ description = "spring-boot4"
 
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(24)
+    languageVersion = JavaLanguageVersion.of(21)
   }
 }
 

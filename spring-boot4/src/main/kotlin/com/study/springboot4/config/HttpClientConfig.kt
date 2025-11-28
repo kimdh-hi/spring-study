@@ -33,7 +33,13 @@ class HttpClientConfig {
       body: ByteArray,
       execution: ClientHttpRequestExecution
     ): ClientHttpResponse {
-      log.info("httpClient request: [{}] {} groupHeader={}", request.method, request.uri, request.headers["group-name"])
+      log.info(
+        "httpClient request: [{}] {} groupHeader={} version={}",
+        request.method,
+        request.uri,
+        request.headers["group-name"],
+        request.headers["X-Version"]
+      )
       return execution.execute(request, body)
     }
   }

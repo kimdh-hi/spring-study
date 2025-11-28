@@ -1,6 +1,11 @@
 spring:
   application:
     name: spring-boot4
+  mvc:
+    apiversion:
+      default: 1.0.0
+      use:
+        header: X-Version
   datasource:
     url: jdbc:mysql://localhost/springboot4?createDatabaseIfNotExist=true&rewriteBatchedStatements=true
     username: root
@@ -31,3 +36,7 @@ spring:
       test:
         base-url: https://jsonplaceholder.typicode.com/todos
         read-timeout: 10s
+        apiversion:
+          default: 1.0
+          insert:
+            header: X-Version
