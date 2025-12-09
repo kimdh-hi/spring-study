@@ -46,6 +46,12 @@ https://docs.spring.io/spring-boot/4.0-SNAPSHOT/reference/web/servlet.html#web.s
   - JsonMapperBuilderCustomizer
 - kotlin module
   - `implementation("tools.jackson.module:jackson-module-kotlin")`
+
+### Programmatic Bean Registration
+- https://docs.spring.io/spring-framework/reference/core/beans/java/programmatic-bean-registration.html
+- sample: `ProgrammaticBeanRegistrar.kt`
+- test: `ProgrammaticBeanRegistrationTest.kt`
+
 ---
 
 ### reference
