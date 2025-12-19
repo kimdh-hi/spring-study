@@ -1,0 +1,16 @@
+spring:
+  application:
+   name: monolithic
+  datasource:
+    url: jdbc:mysql://localhost/distributed-transaction?createDatabaseIfNotExist=true&rewriteBatchedStatements=true
+    username: root
+    password: 111111
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+    defer-datasource-initialization: true
+    properties:
+      "[hibernate.show_sql]": false
+      "[hibernate.format_sql]": false
