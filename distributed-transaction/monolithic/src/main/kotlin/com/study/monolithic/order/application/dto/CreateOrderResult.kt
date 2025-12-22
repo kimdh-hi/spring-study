@@ -1,5 +1,5 @@
 package com.study.monolithic.order.application.dto
 
-data class PlaceOrderCommand(
+data class CreateOrderResult(
   val orderId: Long,
 )
