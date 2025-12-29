@@ -14,7 +14,11 @@ class Device private constructor(
 
   @Column(length = 100, nullable = false)
   var deviceKey: String,
+
+  @Column(length = 100)
+  var userId: String? = null,
 ) {
+
 
   companion object {
     fun of(deviceKey: String): Device {

@@ -2,7 +2,7 @@ spring:
   application:
     name: jpa-core
   datasource:
-    url: jdbc:mysql://localhost/study?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost/test?createDatabaseIfNotExist=true
     username: root
     password: 111111
     hikari:
@@ -17,6 +17,10 @@ spring:
       hibernate:
         show_sql: false
         format_sql: false
+
+  sql:
+    init:
+      mode: ALWAYS
 
   threads:
     virtual:
