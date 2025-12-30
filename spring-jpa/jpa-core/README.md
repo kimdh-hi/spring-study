@@ -1,5 +1,64 @@
 ## jpa-core
 
+### TransactionSynchronizationManager
+- transaction commit 이후 동작 지정에 용이
+- @TransactionalEventListener 로 별도 이벤트로 분리하지 않고 동일 함수 안에서 모두 처리하고자 하는 경우 사용
+
+```kotlin
+  @Transactional
+  fun save(name: String): User {
+    val user = userRepository.save(User.of(name))
+
+    TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronization {
+      override fun afterCommit() {
+        log.debug("send welcome email...")
+      }
+    })
+
+//    runAfterCommit {
+//      log.debug("send welcome email...")
+//    }
+
+//   TransactionDelegator.runAfterCommit {
+//      log.debug("send welcome email...")
+//   }
+
+    return user
+  }
+```
+
+```kotlin
+// kotlin dsl 사용.
+// 별도 네임스페이스가 없어서 아래 코드 존재를 모르는 사람은 찾아 사용하기 힘들 듯.
+fun runAfterCommit(action: () -> Unit) {
+  if (TransactionSynchronizationManager.isSynchronizationActive()) {
+    TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronization {
+      override fun afterCommit() {
+        action()
+      }
+    })
+  } else {
+    action()
+  }
+}
+
+// 네임스페이스가 필요하다면.
+object TransactionDelegator {
+   fun runAfterCommit(action: () -> Unit) {
+      if (TransactionSynchronizationManager.isSynchronizationActive()) {
+         TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronization {
+            override fun afterCommit() {
+               action()
+            }
+         })
+      } else {
+         action()
+      }
+   }
+}
+
+```
+
 ### LazyConnectionDataSourceProxy
 - 일반적으로 @Transactional 사용시 aop 를 통해 해당 메서드 실행시 db connection 을 맺게 된다.
 - @Transactional 가 적용된 메서드 내에 외부 I/O 등 무거운 연산이 있는 후 쿼리하는 경우 외부 I/O 동안에도 db connection 을 점유하게 된다.

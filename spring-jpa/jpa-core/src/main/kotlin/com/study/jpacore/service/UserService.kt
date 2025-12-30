@@ -1,11 +1,16 @@
 package com.study.jpacore.service
 
+import com.study.jpacore.common.TransactionDelegator
+import com.study.jpacore.common.runAfterCommit
 import com.study.jpacore.entity.User
 import com.study.jpacore.repository.DeviceRepository
 import com.study.jpacore.repository.UserRepository
+import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionSynchronization
+import org.springframework.transaction.support.TransactionSynchronizationManager
 
 @Service
 class UserService(
@@ -13,9 +18,27 @@ class UserService(
   private val deviceRepository: DeviceRepository,
 ) {
 
+  private val log = LoggerFactory.getLogger(UserService::class.java)
+
   @Transactional
   fun save(name: String): User {
-    return userRepository.save(User.of(name))
+    val user = userRepository.save(User.of(name))
+
+    TransactionSynchronizationManager.registerSynchronization(object : TransactionSynchronization {
+      override fun afterCommit() {
+        log.debug("send welcome email...")
+      }
+    })
+
+    runAfterCommit {
+      log.debug("send welcome email...")
+    }
+
+    TransactionDelegator.runAfterCommit {
+      log.debug("send welcome email...")
+    }
+
+    return user
   }
 
   @Transactional(readOnly = true)
