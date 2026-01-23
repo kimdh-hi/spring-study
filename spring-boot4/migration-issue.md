@@ -29,14 +29,15 @@ private String emailAddress;
 ```
 PHYSICAL_NAMING_STRATEGY 물리적 명명 전략
 - 논리적 명명 전략에 의해 결정된 이름을 받아 실제 db 에 반영될 이름을 결정
-
+- springboot 의 경우 snake case 로 변환하는 전략을 default 로 사용
+- PhysicalNamingStrategySnakeCaseImpl(CamelCaseToUnderscoresNamingStrategy, SpringPhysicalNamingStrategy)
 
 //논리 이름: firstName
 //물리 이름: first_name
 private String firstName;
 
 //논리 이름: emailAddress
-//물리 이름: emailAddress
+//물리 이름: email_address
 @Column(name = "emailAddress")
 private String email; 
 ```
