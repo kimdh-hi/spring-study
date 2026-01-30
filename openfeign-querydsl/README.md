@@ -92,9 +92,18 @@ QueryDsl 7.1 (ksp)
 - QClass 생성시 value class 의 경우 내부 타입으로 path 생성
   - https://github.com/OpenFeign/querydsl/issues/1403
 
-7.1 ksp 잔존 이슈
+7.1 ksp 잔존 이슈1
 - @QueryProjection 대상에 value class 포함시 QClass 는 내부 타입으로 정상적으로 생성
 - ConstructorUtils.getConstructorParameters 에서 매칭된 파라미터 수 비교시 예외 발생
 - 매칭 parameter 수 비교 대상에 DefaultConstructorMarker parameter가 포함됨 
 
 <img width="824" height="821" alt="Image" src="https://github.com/user-attachments/assets/75388b23-64e8-4d62-954c-936e09026b3d" />
+
+7.1 ksp 잔존 이슈2
+- abstract class 를 상속하는 클래스가 ksp 스캔 대상(@QueryProjection 등) 인 경우 에러
+  - `[ksp] java.lang.IllegalStateException: Unable to resolve type of entity for com.study.openfeignquerydsl.dto.BaseDto`
+  - @MappedSuperclass 추가시 정상동작
+    - 해당 클래스도 QClass 로 생성함
+    - QClass 생성도 불필요하고 @MappedSuperclass 를 dto 패키지에 선언 필요
+- https://github.com/OpenFeign/querydsl/blob/master/querydsl-tooling/querydsl-ksp-codegen/readme.md
+  - excludedClasses 통해 BaseDto 제외해도 에러 동일함

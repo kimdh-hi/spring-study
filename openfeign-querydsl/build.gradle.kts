@@ -1,10 +1,11 @@
 plugins {
-  kotlin("jvm") version "2.2.21"
-  kotlin("plugin.spring") version "2.2.21"
-  kotlin("plugin.jpa") version "2.2.21"
-  id("org.springframework.boot") version "3.5.7"
+  kotlin("jvm") version "2.3.0"
+  kotlin("plugin.spring") version "2.3.0"
+  kotlin("plugin.jpa") version "2.3.0"
+  id("org.springframework.boot") version "4.0.2"
   id("io.spring.dependency-management") version "1.1.7"
-  id("com.google.devtools.ksp") version "2.3.0"
+  id("com.google.devtools.ksp") version "2.3.5"
+//  kotlin("kapt") version "2.3.0"
 }
 
 group = "com.study"
@@ -12,7 +13,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(21)
+    languageVersion = JavaLanguageVersion.of(25)
   }
 }
 
@@ -24,6 +25,9 @@ private val queryDslVersion = "7.1"
 dependencies {
   implementation("io.github.openfeign.querydsl:querydsl-jpa:$queryDslVersion")
   ksp("io.github.openfeign.querydsl:querydsl-ksp-codegen:$queryDslVersion")
+//  implementation("io.github.openfeign.querydsl:querydsl-jpa:$queryDslVersion")
+//  kapt("io.github.openfeign.querydsl:querydsl-apt:$queryDslVersion:jpa")
+
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -36,7 +40,7 @@ dependencies {
 
 kotlin {
   compilerOptions {
-    freeCompilerArgs.addAll("-Xjsr305=strict")
+    freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
   }
 }
 
