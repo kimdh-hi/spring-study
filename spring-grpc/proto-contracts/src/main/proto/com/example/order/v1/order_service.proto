@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package com.example.order.v1;
+
+option java_multiple_files = true;
+option java_package = "com.example.order.v1";
+option java_outer_classname = "OrderServiceProto";
+
+service OrderService {
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse) {}
+}
+
+message CreateOrderRequest {
+  string product_id = 1;
+  int32 quantity = 2;
+}
+
+message CreateOrderResponse {
+  string order_id = 1;
+  string product_id = 2;
+  string product_name = 3;
+  int32 quantity = 4;
+  int32 unit_price = 5;
+  int32 total_price = 6;
+}

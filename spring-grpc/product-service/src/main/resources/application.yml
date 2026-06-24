@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: product-service
+  grpc:
+    server:
+      port: 9091

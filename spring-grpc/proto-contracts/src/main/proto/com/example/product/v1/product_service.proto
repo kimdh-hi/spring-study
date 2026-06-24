@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package com.example.product.v1;
+
+option java_multiple_files = true;
+option java_package = "com.example.product.v1";
+option java_outer_classname = "ProductServiceProto";
+
+service ProductService {
+  rpc GetProduct(GetProductRequest) returns (GetProductResponse) {}
+}
+
+message GetProductRequest {
+  string product_id = 1;
+}
+
+message GetProductResponse {
+  string product_id = 1;
+  string name = 2;
+  int32 price = 3;
+}

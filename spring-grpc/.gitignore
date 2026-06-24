@@ -1,0 +1,36 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Gradle
+.gradle/
+**/build/
+**/.gradle/
+**/.kotlin/
+
+# JVM / Kotlin outputs
+out/
+target/
+*.class
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Local runtime/tooling state
+.omc/
+.omx/
+
+# Environment files
+.env
+.env.*
+!.env.example

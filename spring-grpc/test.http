@@ -1,0 +1,8 @@
+POST http://localhost:8080/api/test/orders
+authorization: valid token
+Content-Type: application/json
+
+{
+"productId": "P100",
+"quantity": 2
+}
