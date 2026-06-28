@@ -1,0 +1,68 @@
+### 기본 ThreadLocal + SecurityContext 전파 테스트
+GET http://localhost:8080/test/threadlocal
+Accept: application/json
+
+###
+
+### 여러 번 연속 호출 테스트 (RequestId가 매번 달라야 함)
+GET http://localhost:8080/test/threadlocal
+Accept: application/json
+
+###
+
+GET http://localhost:8080/test/threadlocal
+Accept: application/json
+
+###
+
+GET http://localhost:8080/test/threadlocal
+Accept: application/json
+
+###
+
+### 다중 HTTP 호출 테스트 (여러 번 HTTP 클라이언트 호출)
+GET http://localhost:8080/test/threadlocal/multiple
+Accept: application/json
+
+###
+
+### 비동기 처리 테스트 (Virtual Thread + @Async)
+GET http://localhost:8080/test/threadlocal/async
+Accept: application/json
+
+###
+
+### POST 요청 테스트
+POST http://localhost:8080/test/threadlocal
+Content-Type: application/json
+
+{
+  "name": "테스트 사용자",
+  "message": "ThreadLocal 테스트"
+}
+
+###
+
+### 지연 시간 테스트 (Virtual Thread가 많은 요청을 효율적으로 처리하는지)
+GET http://localhost:8080/test/threadlocal/delay?delayMs=2000
+Accept: application/json
+
+###
+
+### 에러 상황 테스트 (에러 발생 시에도 ThreadLocal이 정리되는지)
+GET http://localhost:8080/test/threadlocal/error
+Accept: application/json
+
+###
+
+### ThreadLocal 정보만 조회 (HTTP 호출 없음)
+GET http://localhost:8080/test/threadlocal/info
+Accept: application/json
+
+###
+
+### 헬스 체크
+GET http://localhost:8080/actuator/health
+Accept: application/json
+
+###

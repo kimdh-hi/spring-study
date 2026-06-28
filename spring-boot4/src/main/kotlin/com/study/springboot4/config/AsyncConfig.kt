@@ -1,4 +1,8 @@
 package com.study.springboot4.config
 
-class AsyncConfig {
-}
+import org.springframework.context.annotation.Configuration
+import org.springframework.scheduling.annotation.EnableAsync
+
+@Configuration
+@EnableAsync
+class AsyncConfig

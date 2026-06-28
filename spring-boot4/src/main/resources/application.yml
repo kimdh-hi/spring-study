@@ -1,11 +1,19 @@
 spring:
   application:
     name: spring-boot4
+  threads:
+    virtual:
+      enabled: true
+  main:
+    keep-alive: true
   mvc:
     apiversion:
       default: 1.0.0
       use:
         header: X-Version
+  task:
+    execution:
+      thread-name-prefix: async-executor
   datasource:
     url: jdbc:mysql://localhost/springboot4?createDatabaseIfNotExist=true&rewriteBatchedStatements=true
     username: root
@@ -32,11 +40,20 @@ spring:
     clients:
       connect-timeout: 20s
       read-timeout: 20s
-    serviceclient:
-      test:
-        base-url: https://jsonplaceholder.typicode.com/todos
-        read-timeout: 10s
-        apiversion:
-          default: 1.0
-          insert:
-            header: X-Version
+
+resilience4j:
+  thread-pool-bulkhead:
+    configs:
+      default:
+        maxThreadPoolSize: 10
+        coreThreadPoolSize: 5
+        queueCapacity: 100
+        keepAliveDuration: 20ms
+
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50

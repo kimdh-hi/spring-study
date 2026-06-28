@@ -1,9 +1,9 @@
 plugins {
-  kotlin("jvm") version "2.2.21"
-  kotlin("plugin.spring") version "2.2.21"
-  id("org.springframework.boot") version "4.0.0"
+  kotlin("jvm") version "2.3.21"
+  kotlin("plugin.spring") version "2.3.21"
+  id("org.springframework.boot") version "4.1.0"
   id("io.spring.dependency-management") version "1.1.7"
-  kotlin("plugin.jpa") version "2.2.21"
+  kotlin("plugin.jpa") version "2.3.21"
 }
 
 group = "com.study"
@@ -12,7 +12,7 @@ description = "spring-boot4"
 
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(21)
+    languageVersion = JavaLanguageVersion.of(25)
   }
 }
 
@@ -20,15 +20,17 @@ repositories {
   mavenCentral()
 }
 
-extra["springCloudVersion"] = "2025.1.0"
+extra["springCloudVersion"] = "2025.1.2"
 
 dependencies {
+  implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-webmvc")
-  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("tools.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
-//  implementation("org.springframework.cloud:spring-cloud-starter-config")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+  implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j")
+  implementation("io.micrometer:context-propagation")
 
   runtimeOnly("com.mysql:mysql-connector-j")
   testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
