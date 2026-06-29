@@ -1,0 +1,34 @@
+services:
+  mysql-master:
+    image: bitnamilegacy/mysql:9.4
+    container_name: rws-mysql-master
+    environment:
+      - MYSQL_REPLICATION_MODE=master
+      - MYSQL_REPLICATION_USER=repl_user
+      - MYSQL_REPLICATION_PASSWORD=repl_pass
+      - MYSQL_ROOT_PASSWORD=111111
+      - MYSQL_DATABASE=testdb
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p111111" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  mysql-replica:
+    image: bitnamilegacy/mysql:9.4
+    container_name: rws-mysql-replica
+    depends_on:
+      mysql-master:
+        condition: service_healthy
+    environment:
+      - MYSQL_REPLICATION_MODE=slave
+      - MYSQL_REPLICATION_USER=repl_user
+      - MYSQL_REPLICATION_PASSWORD=repl_pass
+      - MYSQL_MASTER_HOST=mysql-master
+      - MYSQL_MASTER_PORT_NUMBER=3306
+      - MYSQL_MASTER_ROOT_PASSWORD=111111
+      - MYSQL_ROOT_PASSWORD=111111
+    ports:
+      - "3307:3306"

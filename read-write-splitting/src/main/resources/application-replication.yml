@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:mysql:replication://localhost:3306,localhost:3307/testdb
+    username: root
+    password: "111111"
+
+  jpa:
+    properties:
+      hibernate:
+        connection:
+          handling_mode: DELAYED_ACQUISITION_AND_HOLD

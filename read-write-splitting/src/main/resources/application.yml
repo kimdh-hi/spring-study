@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: read-write-splitting
+  profiles:
+    default: replication
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+logging:
+  level:
+    com.study.readwritesplitting.config.ReplicationRoutingDataSource: info
+    org.hibernate.SQL: debug
