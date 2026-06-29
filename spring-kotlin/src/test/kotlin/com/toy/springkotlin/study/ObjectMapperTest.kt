@@ -1,10 +1,9 @@
 package com.toy.springkotlin.study
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.databind.exc.InvalidDefinitionException
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.*
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.cfg.DateTimeFeature
+import tools.jackson.databind.exc.InvalidDefinitionException
+import tools.jackson.module.kotlin.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -60,8 +59,7 @@ import java.time.LocalDateTime
 
 private val jsonMapper = jsonMapper {
   addModule(kotlinModule())
-  addModule(JavaTimeModule())
-  configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+  configure(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 }
 
 @SpringBootTest
@@ -132,9 +130,8 @@ class ObjectMapperTest @Autowired constructor(private val objectMapper: ObjectMa
           .configure(KotlinFeature.NullIsSameAsDefault, true) // default 값 설정된 non-nullable 필드에 null 전달시 default 값으로 처리
           .build()
       )
-      addModule(JavaTimeModule())
       configure(
-        SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false
+        DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS, false
       )
     }
 

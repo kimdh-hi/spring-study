@@ -43,12 +43,11 @@ class OpenAiController(
         ChatOptions.builder()
           .temperature(0.3)
           .maxTokens(100)
-          .build()
       )
       .call()
       .chatResponse()
     val metaData = chatResponse!!.metadata
-    val text = chatResponse.result.output.text
+    val text = chatResponse.result!!.output.text
 
     logger.info("metaData={}", metaData)
     logger.info("text={}", text)
@@ -63,7 +62,6 @@ class OpenAiController(
       .defaultOptions(
         ChatOptions.builder()
           .maxTokens(100)
-          .build()
       )
       .defaultAdvisors(
         MessageChatMemoryAdvisor.builder(chatMemory).build(),
@@ -83,7 +81,6 @@ class OpenAiController(
       .options(
         ChatOptions.builder()
           .temperature(0.3)
-          .build()
       )
       .stream()
       .content()

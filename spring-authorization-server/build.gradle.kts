@@ -1,7 +1,7 @@
 plugins {
-  kotlin("jvm") version "1.9.25"
-  kotlin("plugin.spring") version "1.9.25"
-  id("org.springframework.boot") version "3.5.4"
+  kotlin("jvm") version "2.3.21"
+  kotlin("plugin.spring") version "2.3.21"
+  id("org.springframework.boot") version "4.1.0"
   id("io.spring.dependency-management") version "1.1.7"
 }
 
@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-  implementation("org.springframework.boot:spring-boot-starter-oauth2-authorization-server")
+  implementation("org.springframework.boot:spring-boot-starter-security-oauth2-authorization-server")
   implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -31,7 +31,7 @@ dependencies {
 
 kotlin {
   compilerOptions {
-    freeCompilerArgs.addAll("-Xjsr305=strict")
+    freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
   }
 }
 

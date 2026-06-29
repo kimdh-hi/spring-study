@@ -1,4 +1,4 @@
-package com.study.jpacore.`except-case-test`
+package com.study.jpacore.exceptcasetest
 
 import com.study.jpacore.entity.Friend
 import com.study.jpacore.entity.User

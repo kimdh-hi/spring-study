@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: spring-monitoring
+  datasource:
+    url: jdbc:mysql://localhost:3306/monitoring?createDatabaseIfNotExist=true
+    username: root
+    password: "111111"
+    hikari:
+      maximum-pool-size: 30
+      connection-timeout: 3000
+      connection-test-query: SELECT 1
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    properties:
+      "[hibernate.show_sql]": false
+      "[hibernate.format_sql]": false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus   # metrics scrape endpoint for Prometheus
+  endpoint:
+    prometheus:
+      access: read_only                    # Spring Boot 4: `access` replaces `enabled`
+  metrics:
+    tags:
+      application: ${spring.application.name}   # adds `application` label to every metric
+  tracing:
+    sampling:
+      probability: 1.0                     # sample everything (demo)
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/traces   # Spring Boot 4 key -> Tempo OTLP/HTTP
+
+# PROFILES: Pyroscope server address (continuous profiling push target)
+pyroscope:
+  server-address: http://localhost:4040

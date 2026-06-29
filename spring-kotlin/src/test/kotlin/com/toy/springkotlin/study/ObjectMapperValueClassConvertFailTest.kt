@@ -1,8 +1,8 @@
 package com.toy.springkotlin.study
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.convertValue
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.module.kotlin.convertValue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.springframework.beans.factory.annotation.Autowired

@@ -5,6 +5,7 @@ import org.apache.hc.client5.http.config.ConnectionConfig
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder
 import org.apache.hc.core5.util.TimeValue
+import org.apache.hc.core5.util.Timeout
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
@@ -19,7 +20,7 @@ class RestTemplateConfig {
   fun restTemplate(): RestTemplate {
     val factory = HttpComponentsClientHttpRequestFactory().apply {
       httpClient = createHttpClient()
-      setConnectTimeout(Duration.ofMinutes(2))
+      setConnectionRequestTimeout(Duration.ofMinutes(2))
       setReadTimeout(Duration.ofMinutes(2))
     }
     return RestTemplate(factory)
@@ -32,6 +33,7 @@ class RestTemplateConfig {
       .setDefaultConnectionConfig(
         ConnectionConfig.custom()
           .setTimeToLive(TimeValue.ofMinutes(10))
+          .setConnectTimeout(Timeout.ofMinutes(2))
           .build()
       )
       .build()

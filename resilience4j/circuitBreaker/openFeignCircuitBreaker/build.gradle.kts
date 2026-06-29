@@ -1,7 +1,7 @@
 plugins {
-  kotlin("jvm") version "1.9.25"
-  kotlin("plugin.spring") version "1.9.25"
-  id("org.springframework.boot") version "3.5.4"
+  kotlin("jvm") version "2.3.21"
+  kotlin("plugin.spring") version "2.3.21"
+  id("org.springframework.boot") version "4.1.0"
   id("io.spring.dependency-management") version "1.1.7"
 }
 
@@ -19,11 +19,11 @@ repositories {
   mavenCentral()
 }
 
-extra["springCloudVersion"] = "2025.0.0"
+extra["springCloudVersion"] = "2025.1.2"
 
 dependencies {
-  implementation("org.springframework.boot:spring-boot-starter-web")
-  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+  implementation("org.springframework.boot:spring-boot-starter-webmvc")
+  implementation("tools.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j")
   implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
@@ -41,7 +41,7 @@ dependencyManagement {
 
 kotlin {
   compilerOptions {
-    freeCompilerArgs.addAll("-Xjsr305=strict")
+    freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
   }
 }
 

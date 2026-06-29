@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: multitenancy
+  datasource:
+    url: jdbc:mysql://localhost/multitenancy-test?createDatabaseIfNotExist=true&rewriteBatchedStatements=true
+    username: root
+    password: 111111
+    hikari:
+      maximum-pool-size: 30
+      connection-timeout: 3000
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+    properties:
+      "[hibernate.show_sql]": true
+      "[hibernate.format_sql]": true
+      "[hibernate.auto_quote_keyword]": true
+      "[hibernate.jdbc.batch_size]": 50
+      "[hibernate.order_inserts]": true
+      "[hibernate.order_updates]": true
+      "[hibernate.default_batch_fetch_size]": 50
+      "[hibernate.query.in_clause_parameter_padding]": true
+  sql:
+    init:
+      mode: always
+

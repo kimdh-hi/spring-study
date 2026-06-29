@@ -12,10 +12,13 @@ class Member (
 
   @JoinColumn(name = "team_id")
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  var team: Team
+  var team: Team,
+
+  @Embedded
+  val innerMember: InnerMember? = null,
 ) {
 
-  fun changeTeam(team: Team) {
+  fun changeTeam(team: Team, member: Member) {
     this.team = team
     team.members.add(this)
   }
@@ -24,4 +27,11 @@ class Member (
     return "Member(id=$id, username='$username', age=$age)"
   }
 
+  fun findInnerMemberUsername() = innerMember?.innerMember?.username
 }
+
+@Embeddable
+data class InnerMember(
+  @OneToOne
+  var innerMember: Member? = null
+)

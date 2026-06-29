@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class QuerydslRepositorySupportCustom(domainClass: Class<*>) : QuerydslRepositorySupport(domainClass) {
 
-  fun <T> getPage(
+  fun <T : Any> getPage(
     query: JPAQuery<out Any>,
     selectClause: Expression<T>,
     pageable: Pageable
@@ -21,8 +21,8 @@ class QuerydslRepositorySupportCustom(domainClass: Class<*>) : QuerydslRepositor
     return PageImpl(list, pageable, totalCount)
   }
 
-  fun <T> getSlice(
-    query: JPAQuery<out T>,
+  fun <T : Any> getSlice(
+    query: JPAQuery<T>,
     pageable: Pageable
   ): SliceImpl<T> {
     val list = query
@@ -33,14 +33,14 @@ class QuerydslRepositorySupportCustom(domainClass: Class<*>) : QuerydslRepositor
     return SliceImpl(list, pageable, hasNext(list, pageable.pageSize))
   }
 
-  fun <T> getSlice(
+  fun <T : Any> getSlice(
     list: MutableList<T>,
     pageable: Pageable
   ): SliceImpl<T> {
     return SliceImpl(list, pageable, hasNext(list, pageable.pageSize))
   }
 
-  private fun <T> hasNext(list: MutableList<T>, pageSize: Int): Boolean {
+  private fun <T : Any> hasNext(list: MutableList<T>, pageSize: Int): Boolean {
     return if (list.size > pageSize) {
       list.removeAt(pageSize)
       true

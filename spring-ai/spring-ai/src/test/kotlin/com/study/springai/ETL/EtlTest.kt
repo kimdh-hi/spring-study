@@ -40,7 +40,13 @@ class EtlTest @Autowired constructor(
     val documents = reader.read()
 
     //transform-split
-    val textSplitter = TokenTextSplitter(500, 200, 5, 1000, false)
+    val textSplitter = TokenTextSplitter.builder()
+      .withChunkSize(500)
+      .withMinChunkSizeChars(200)
+      .withMinChunkLengthToEmbed(5)
+      .withMaxNumChunks(1000)
+      .withKeepSeparator(false)
+      .build()
     val splitDocuments = textSplitter.apply(documents)
     //transform-add keyword metadata
 //    val keywordEnricher = KeywordMetadataEnricher(chatModel, 5)

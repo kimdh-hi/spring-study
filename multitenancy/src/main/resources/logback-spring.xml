@@ -3,7 +3,7 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
-    <logger name="com.rsupport.rfice" level="debug"/>
+    <logger name="com.study" level="debug"/>
     <logger name="org.hibernate.SQL" level="debug"/>
     <logger name="org.hibernate.orm.jdbc.bind" level="trace"/>
 

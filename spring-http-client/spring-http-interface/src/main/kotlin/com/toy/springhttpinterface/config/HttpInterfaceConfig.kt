@@ -45,7 +45,7 @@ private class QueryMapHttpServiceArgumentResolver : HttpServiceArgumentResolver 
     requireNotNull(argument) { "argument cannot be null" }
 
     argument.toMap().forEach { (key, values) ->
-      values.forEach { value -> requestValues.addRequestParameter(key, value) }
+      values.filterNotNull().forEach { value -> requestValues.addRequestParameter(key, value) }
     }
 
     return true

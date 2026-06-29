@@ -18,6 +18,6 @@ class TestController(
 
   @GetMapping("/test3")
   fun test3(): List<String> {
-    return myTestApiClient.test3()
+    return myTestApiClient.test3(emptyList())
   }
 }

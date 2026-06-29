@@ -6,20 +6,19 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import com.toy.springquerydsl.common.fetchPaged
 import com.toy.springquerydsl.domain.Member
 import com.toy.springquerydsl.domain.QMember.member
+import com.toy.springquerydsl.vo.MemberProjectionTestVO
 import com.toy.springquerydsl.vo.MemberResponseVO
 import com.toy.springquerydsl.vo.MemberSearchVO
+import com.toy.springquerydsl.vo.QMemberProjectionTestVO
 import com.toy.springquerydsl.vo.QMemberResponseVO
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
-import org.springframework.data.jpa.repository.Modifying
-import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.data.support.PageableExecutionUtils
 import org.springframework.util.StringUtils
-import java.util.function.LongSupplier
 
-interface MemberRepository: CrudRepository<Member, String>, MemberRepositoryCustom
+interface MemberRepository : CrudRepository<Member, String>, MemberRepositoryCustom
 interface MemberRepositoryCustom {
   fun searchV0deprecated(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO>
   fun searchV1deprecated(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO>
@@ -27,11 +26,13 @@ interface MemberRepositoryCustom {
   fun search(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO>
   fun searchV2(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO>
   fun searchV3(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO>
+
+  fun getMemberProjectionTest(excludeUsername: String): List<MemberProjectionTestVO>
 }
 
 class MemberRepositoryImpl(
   val query: JPAQueryFactory
-): MemberRepositoryCustom, QueryDslSupportCustom(Member::class.java) {
+) : MemberRepositoryCustom, QueryDslSupportCustom(Member::class.java) {
 
   override fun searchV0deprecated(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO> {
     val content = getContents(searchVO, pageable)
@@ -43,9 +44,11 @@ class MemberRepositoryImpl(
   override fun searchV1deprecated(pageable: Pageable, searchVO: MemberSearchVO): Page<MemberResponseVO> {
     val content = getContents(searchVO, pageable)
 
-    val countQuery = query.select(QMemberResponseVO(
-      member.username, member.age
-    ))
+    val countQuery = query.select(
+      QMemberResponseVO(
+        member.username, member.age
+      )
+    )
       .from(member)
       .where(memberSearchCondition(searchVO))
       .limit(pageable.pageSize.toLong())
@@ -83,6 +86,17 @@ class MemberRepositoryImpl(
       .from(member)
       .where(memberSearchCondition(searchVO))
       .fetchPaged(pageable, member)
+  }
+
+  override fun getMemberProjectionTest(excludeUsername: String): List<MemberProjectionTestVO> {
+    return query.select(
+      QMemberProjectionTestVO(member)
+    )
+      .from(member)
+      .where(
+        member.username.ne(excludeUsername),
+      )
+      .fetch()
   }
 
   private fun getContents(

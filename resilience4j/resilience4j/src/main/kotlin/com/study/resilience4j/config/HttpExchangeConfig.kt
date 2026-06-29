@@ -1,7 +1,7 @@
 package com.study.resilience4j.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
+import tools.jackson.databind.ObjectMapper
+import tools.jackson.module.kotlin.readValue
 import com.study.resilience4j.controller.ErrorResponse
 import com.study.resilience4j.exception.BaseException
 import com.study.resilience4j.httpclient.Test1Exchange

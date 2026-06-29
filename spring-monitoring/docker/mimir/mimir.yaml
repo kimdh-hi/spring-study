@@ -1,0 +1,34 @@
+# Mimir in monolithic (single-binary) mode for local demo
+target: all,alertmanager,overrides-exporter
+multitenancy_enabled: false
+
+server:
+  http_listen_port: 9009
+  grpc_listen_port: 9095
+  log_level: warn
+
+common:
+  storage:
+    backend: filesystem
+    filesystem:
+      dir: /tmp/mimir/data
+
+blocks_storage:
+  backend: filesystem
+  filesystem:
+    dir: /tmp/mimir/blocks
+  tsdb:
+    dir: /tmp/mimir/tsdb
+
+ingester:
+  ring:
+    replication_factor: 1
+
+ruler_storage:
+  backend: filesystem
+  filesystem:
+    dir: /tmp/mimir/ruler
+
+limits:
+  ingestion_rate: 100000
+  ingestion_burst_size: 200000

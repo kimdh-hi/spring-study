@@ -19,7 +19,9 @@ class Resilience4jConfig {
   @Bean
   fun defaultCustomizer(): Customizer<Resilience4JCircuitBreakerFactory> {
     val customConfig = CircuitBreakerConfig.custom()
-      .slidingWindow(5, 5, CircuitBreakerConfig.SlidingWindowType.COUNT_BASED)
+      .slidingWindowSize(5)
+      .minimumNumberOfCalls(5)
+      .slidingWindowType(CircuitBreakerConfig.SlidingWindowType.COUNT_BASED)
       .failureRateThreshold(100F)
       .waitDurationInOpenState(Duration.ofSeconds(10))
       .permittedNumberOfCallsInHalfOpenState(10)

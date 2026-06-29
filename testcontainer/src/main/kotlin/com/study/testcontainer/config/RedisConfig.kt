@@ -1,7 +1,7 @@
 package com.study.testcontainer.config
 
-import org.springframework.boot.autoconfigure.cache.CacheProperties
-import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer
+import org.springframework.boot.cache.autoconfigure.CacheProperties
+import org.springframework.boot.cache.autoconfigure.RedisCacheManagerBuilderCustomizer
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -27,7 +27,7 @@ class RedisConfig(
 
   private fun redisExpiresConfiguration(duration: Duration): RedisCacheConfiguration {
     return RedisCacheConfiguration.defaultCacheConfig(Thread.currentThread().contextClassLoader)
-      .prefixCacheNameWith(cacheProperties.redis.keyPrefix)
+      .prefixCacheNameWith(cacheProperties.redis.keyPrefix ?: "")
       .entryTtl(duration)
       .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json()))
   }

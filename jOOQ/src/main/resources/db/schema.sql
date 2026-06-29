@@ -1,0 +1,23 @@
+-- Team Table
+CREATE TABLE team (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- User Table
+CREATE TABLE `user` (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    team_id BIGINT NOT NULL,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    full_name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user_team FOREIGN KEY (team_id) REFERENCES team(id)
+);
+
+-- Index for better query performance
+CREATE INDEX idx_user_team_id ON `user`(team_id);

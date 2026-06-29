@@ -1,14 +1,14 @@
 package com.toy.springkotlin.controller
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import tools.jackson.module.kotlin.jacksonObjectMapper
 import com.toy.springkotlin.controller.dto.CompanyId
 import com.toy.springkotlin.controller.dto.UserName
 import com.toy.springkotlin.controller.dto.UserSaveRequest
 import com.toy.springkotlin.controller.dto.UserSaveV1Request
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrint
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
+import org.springframework.boot.webmvc.test.autoconfigure.MockMvcPrint
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc

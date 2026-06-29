@@ -1,7 +1,7 @@
 plugins {
-  kotlin("jvm") version "1.9.25"
-  kotlin("plugin.spring") version "1.9.25"
-  id("org.springframework.boot") version "3.5.7"
+  kotlin("jvm") version "2.3.21"
+  kotlin("plugin.spring") version "2.3.21"
+  id("org.springframework.boot") version "4.1.0"
   id("io.spring.dependency-management") version "1.1.7"
 }
 
@@ -10,7 +10,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(17)
+    languageVersion = JavaLanguageVersion.of(21)
   }
 }
 
@@ -18,19 +18,20 @@ repositories {
   mavenCentral()
 }
 
-extra["springAiVersion"] = "1.1.0"
+extra["springAiVersion"] = "2.0.0-RC1"
 
 dependencies {
   implementation("org.springframework.ai:spring-ai-starter-model-openai")
   implementation("org.springframework.ai:spring-ai-starter-vector-store-pgvector")
-  implementation("org.springframework.ai:spring-ai-advisors-vector-store")
+  implementation("org.springframework.ai:spring-ai-vector-store-advisor")
 //  implementation("org.springframework.ai:spring-ai-starter-model-chat-memory-repository-jdbc")
 //  implementation("org.springframework.ai:spring-ai-starter-model-chat-memory-repository-cassandra")
   implementation("org.springframework.ai:spring-ai-pdf-document-reader")
+  implementation("org.springframework.ai:spring-ai-rag")
 
   implementation("org.springframework.boot:spring-boot-starter-webflux")
-  implementation("org.springframework.boot:spring-boot-starter-web")
-  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+  implementation("org.springframework.boot:spring-boot-starter-webmvc")
+  implementation("tools.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")

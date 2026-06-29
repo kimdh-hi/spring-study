@@ -7,12 +7,10 @@ import org.springframework.ai.chat.prompt.ChatOptions
 import org.springframework.ai.chat.prompt.PromptTemplate
 import org.springframework.ai.converter.BeanOutputConverter
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.ParameterizedTypeReference
 
 @SpringBootTest
-@AutoConfigureMockMvc
 class StructuredOutputTest @Autowired constructor(
   private val chatClientBuilder: ChatClient.Builder,
 ) {
@@ -38,7 +36,6 @@ class StructuredOutputTest @Autowired constructor(
       .options(
         ChatOptions.builder()
           .maxTokens(200)
-          .build()
       )
       .call()
       .content()!!
@@ -54,7 +51,6 @@ class StructuredOutputTest @Autowired constructor(
       .options(
         ChatOptions.builder()
           .maxTokens(200)
-          .build()
       )
       .call()
       .entity(object : ParameterizedTypeReference<List<President>>() {})

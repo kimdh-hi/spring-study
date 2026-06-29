@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: jOOQ
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/jooq_sample?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 111111
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate  # Flyway가 스키마를 관리하므로 validate로 변경
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+
+  jooq:
+    sql-dialect: mysql
+
+  # Schema initialization - disabled (using JPA instead)
+  sql:
+    init:
+      mode: never
+
+logging:
+  level:
+    org.jooq: DEBUG
+    org.springframework.jdbc: DEBUG

@@ -2,6 +2,7 @@ package com.toy.springquerydsl.vo
 
 import com.querydsl.core.annotations.QueryProjection
 import com.toy.springquerydsl.common.NoArg
+import com.toy.springquerydsl.domain.Member
 
 @NoArg
 data class MemberResponseVO @QueryProjection constructor(
@@ -38,3 +39,13 @@ data class MemberTransformVO @QueryProjection constructor(
   val username: String,
   val age: Int,
 )
+
+data class MemberProjectionTestVO(
+  val username: String,
+  val innerMemberUsername: String?,
+) {
+  @QueryProjection constructor(member: Member): this(
+    username = member.username,
+    innerMemberUsername = member.findInnerMemberUsername(),
+  )
+}

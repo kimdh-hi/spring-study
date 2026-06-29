@@ -24,7 +24,7 @@ class AsyncConfig {
   }
 
   //platform-thread
-  //  @Bean
+//  @Bean
 //  fun threadPoolTaskExecutorCustomizer() = ThreadPoolTaskExecutorCustomizer { customizer ->
 //    customizer.setTaskDecorator(CustomTaskDecorator())
 //  }

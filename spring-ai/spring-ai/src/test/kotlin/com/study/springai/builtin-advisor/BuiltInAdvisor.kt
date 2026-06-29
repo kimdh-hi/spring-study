@@ -11,7 +11,6 @@ import org.springframework.ai.chat.client.advisor.api.CallAdvisor
 import org.springframework.ai.chat.client.advisor.api.CallAdvisorChain
 import org.springframework.ai.chat.prompt.ChatOptions
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.Ordered
 
@@ -29,7 +28,6 @@ import org.springframework.core.Ordered
  */
 
 @SpringBootTest
-@AutoConfigureMockMvc
 class BuiltInAdvisor @Autowired constructor(
   private val chatClientBuilder: ChatClient.Builder,
 ) {
@@ -46,7 +44,6 @@ class BuiltInAdvisor @Autowired constructor(
       .defaultOptions(
         ChatOptions.builder()
           .maxTokens(200)
-          .build()
       )
       .build()
 
@@ -71,7 +68,7 @@ private class TestAdvisor : CallAdvisor {
 
     val response = chain.nextCall(request)
 
-    log.info("after execution... response={}", response.chatResponse!!.result.output.text)
+    log.info("after execution... response={}", response.chatResponse!!.result!!.output.text)
 
     return response
   }

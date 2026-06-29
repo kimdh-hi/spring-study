@@ -1,0 +1,86 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: monitoring-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "111111"
+      MYSQL_DATABASE: monitoring
+      TZ: Asia/Seoul
+    ports:
+      - "3306:3306"
+    command:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+
+  # LOGS
+  loki:
+    image: grafana/loki:3.4.2
+    container_name: monitoring-loki
+    command: [ "-config.file=/etc/loki/loki-config.yaml" ]
+    volumes:
+      - ./docker/loki/loki-config.yaml:/etc/loki/loki-config.yaml
+    ports:
+      - "3100:3100"
+
+  # TRACES
+  tempo:
+    image: grafana/tempo:2.7.1
+    container_name: monitoring-tempo
+    command: [ "-config.file=/etc/tempo/tempo.yaml" ]
+    volumes:
+      - ./docker/tempo/tempo.yaml:/etc/tempo/tempo.yaml
+    ports:
+      - "3200:3200"   # tempo query
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+
+  # METRICS storage
+  mimir:
+    image: grafana/mimir:2.15.0
+    container_name: monitoring-mimir
+    command: [ "-config.file=/etc/mimir/mimir.yaml" ]
+    volumes:
+      - ./docker/mimir/mimir.yaml:/etc/mimir/mimir.yaml
+    ports:
+      - "9009:9009"
+
+  # METRICS scrape (-> remote_write to Mimir)
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    container_name: monitoring-prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.enable-remote-write-receiver"
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # so Prometheus can scrape the locally-run app
+
+  # PROFILES
+  pyroscope:
+    image: grafana/pyroscope:2.1.0
+    container_name: monitoring-pyroscope
+    ports:
+      - "4040:4040"
+
+  # DASHBOARDS
+  grafana:
+    image: grafana/grafana:11.5.2
+    container_name: monitoring-grafana
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+      GF_FEATURE_TOGGLES_ENABLE: traceToMetrics
+    volumes:
+      - ./docker/grafana/provisioning:/etc/grafana/provisioning
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+      - mimir
+      - tempo
+      - loki
+      - pyroscope

@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.support.PageableExecutionUtils
 import java.util.function.LongSupplier
 
-fun <T> JPAQuery<T>.fetchPaged(pageable: Pageable, countExpression: SimpleExpression<*>): Page<T> {
+fun <T : Any> JPAQuery<T>.fetchPaged(pageable: Pageable, countExpression: SimpleExpression<*>): Page<T> {
   val contentQuery = this.offset(pageable.offset).limit(pageable.pageSize.toLong())
   return PageableExecutionUtils.getPage(contentQuery.fetch(), pageable, countQuery(this, countExpression))
 }

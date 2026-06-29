@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <springProperty scope="context" name="appName" source="spring.application.name"/>
+
+  <!-- Console: includes traceId/spanId injected into MDC by Micrometer Tracing -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} %-5level [%X{traceId:-},%X{spanId:-}] %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- Loki: push logs directly to Loki via loki4j -->
+  <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+    <http>
+      <url>http://localhost:3100/loki/api/v1/push</url>
+    </http>
+    <format>
+      <label>
+        <pattern>app=${appName},host=${HOSTNAME},level=%level</pattern>
+      </label>
+      <!-- traceId/spanId as structured metadata powers Grafana logs->trace jump -->
+      <structuredMetadata>
+        <pattern>traceId=%mdc{traceId},spanId=%mdc{spanId}</pattern>
+      </structuredMetadata>
+      <message>
+        <pattern>%d{HH:mm:ss.SSS} %-5level [%X{traceId:-},%X{spanId:-}] %logger{36} - %msg%n</pattern>
+      </message>
+    </format>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="LOKI"/>
+  </root>
+</configuration>

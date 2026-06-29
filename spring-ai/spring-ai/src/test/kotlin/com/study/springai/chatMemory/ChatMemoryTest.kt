@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor
-import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor
 import org.springframework.ai.chat.client.advisor.vectorstore.VectorStoreChatMemoryAdvisor
 import org.springframework.ai.chat.memory.ChatMemory
@@ -69,8 +68,7 @@ class ChatMemoryTest @Autowired constructor(
     val chatMemory = MessageWindowChatMemory.builder().maxMessages(2).build()
 
     val chatClient = chatClientBuilder.defaultAdvisors(
-//      MessageChatMemoryAdvisor.builder(chatMemory).build(),
-      PromptChatMemoryAdvisor.builder(chatMemory).build(),
+      MessageChatMemoryAdvisor.builder(chatMemory).build(),
       SimpleLoggerAdvisor(Ordered.LOWEST_PRECEDENCE - 1)
     )
       .build()
