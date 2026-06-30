@@ -29,6 +29,8 @@ dependencies {
   testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
   testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+  testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+  testImplementation("org.testcontainers:testcontainers-mysql")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -46,4 +48,12 @@ allOpen {
 
 tasks.withType<Test> {
   useJUnitPlatform()
+
+  if (System.getenv("DOCKER_HOST") == null) {
+    val rancherSocket = file("${System.getProperty("user.home")}/.rd/docker.sock")
+    if (rancherSocket.exists()) {
+      environment("DOCKER_HOST", "unix://${rancherSocket.absolutePath}")
+      environment("TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE", "/var/run/docker.sock")
+    }
+  }
 }

@@ -1,58 +1,41 @@
 # read-write 분산
 
-read-write 분산 두 방식 비교.
+- `@Transactional(readOnly = true)`를 트리거로 읽기는 replica, 쓰기는 master로 보냄
 
-| 방식 | 프로파일 | 라우팅 주체 | 라우팅 단위 |
-|------|----------|-------------|-------------|
-| A. Replication Driver | `replication` | MySQL JDBC 드라이버 | 커넥션의 read-only 플래그 |
-| B. AbstractRoutingDataSource | `routing` | 애플리케이션(Spring) | 트랜잭션의 readOnly 속성 |
-
-두 방식 모두 `@Transactional(readOnly = true)`가 라우팅의 트리거다.
+| 방식 | 프로파일 | 라우팅 주체 | 추가 설정 |
+|------|----------|-------------|-----------|
+| A. Replication Driver | `replication` | MySQL JDBC 드라이버 | URL 한 줄 |
+| B. AbstractRoutingDataSource | `routing` | 애플리케이션(Spring) | 빈 직접 조립 |
 
 ## 방식 A — Replication Driver
 
-- `jdbc:mysql:replication://master,replica/db` URL만 지정 (첫 호스트=master, 나머지=replica). Kotlin config 0줄
-- 다중 replica 로드밸런싱·페일오버를 드라이버가 자동 처리
-- 라우팅이 드라이버 내부라 제어·관찰이 어렵고, 기준은 read-only로 고정
-- ⚠️ **JPA에선 `hibernate.connection.handling_mode=DELAYED_ACQUISITION_AND_HOLD`가 없으면 라우팅이 동작하지 않는다** (→ [readonly-marking.md](./readonly-marking.md))
+- `jdbc:mysql:replication://master,replica/db` URL만 지정 (첫 호스트=master)
+- 드라이버가 로드밸런싱·페일오버 자동 처리
+- 표준 Spring Boot + JPA면 설정 없이 동작 (Spring이 `setReadOnly` 자동 호출 → [readonly-marking.md](./readonly-marking.md))
+- 라우팅이 드라이버 내부라 관찰·제어 어려움
 
 ## 방식 B — AbstractRoutingDataSource
 
-- `determineCurrentLookupKey()`에서 WRITE/READ 키를 직접 결정 → 라우팅 기준 자유(테넌트·어노테이션 등), 로그로 관찰 용이
-- DataSource·LazyProxy 빈을 직접 조립하고 로드밸런싱·페일오버도 자가 구현
-- ⚠️ **`LazyConnectionDataSourceProxy` 필수** (누락 시 항상 master로 감)
+- `determineCurrentLookupKey()`로 WRITE/READ 직접 결정 → 라우팅 기준 자유, 로그 관찰 용이
+- ⚠️ **`LazyConnectionDataSourceProxy` 필수** (누락 시 항상 master)
 
-## 실행
+## 검증 (권장)
 
-### 1. DB 기동 (master-replica 복제)
+- Testcontainers가 `mysql:8.4` 2개를 GTID 복제로 자동 구성 (Docker 데몬만 필요)
+- 읽기 → replica(2), 쓰기 → master(1) 확인
+- Rancher Desktop이면 `DOCKER_HOST`를 `build.gradle.kts`가 자동 감지
+
 ```bash
-docker compose up -d
+./gradlew test
 ```
-- master: `localhost:3306` / replica: `localhost:3307`
 
-### 2. 방식 A
+## 수동 실행
+
 ```bash
-./gradlew bootRun --args='--spring.profiles.active=replication'
-
+docker compose up -d        # master :3306 / replica :3307
+./gradlew bootRun --args='--spring.profiles.active=replication'   # 또는 routing
 curl -XPOST 'localhost:8080/users?name=alice'   # write → master
-curl localhost:8080/users/where                 # readOnly → replica serverId
+curl localhost:8080/users/where                 # readOnly → replica
 ```
 
-### 3. 방식 B
-```bash
-./gradlew bootRun --args='--spring.profiles.active=routing'
-```
-로그에 라우팅 키 선택이 찍힌다:
-```
-Routing -> WRITE (master)   # POST /users
-Routing -> READ (replica)   # GET /users/where
-```
-
-### 응답 예시
-```json
-{ "routedBy": "READ(readOnly tx)", "serverId": 200, "readOnly": true }
-```
-
-## bitnami 이미지 pull 실패 시
-2025년 bitnami 정책 변경으로 `bitnami/mysql:8.4` pull이 막힐 수 있다.
-이 경우 official `mysql:8.4` 두 인스턴스를 띄우고 init 스크립트로 binlog/GTID + 복제를 구성하면 된다(라우팅 코드는 동일하게 동작).
+- bitnami pull이 막히면 official `mysql:8.4` 2개로 binlog/GTID 복제 직접 구성 (동작 동일)

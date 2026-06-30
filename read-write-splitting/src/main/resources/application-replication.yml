@@ -4,8 +4,4 @@ spring:
     username: root
     password: "111111"
 
-  jpa:
-    properties:
-      hibernate:
-        connection:
-          handling_mode: DELAYED_ACQUISITION_AND_HOLD
+
