@@ -8,10 +8,6 @@ import jakarta.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 
-/**
- * Starts the Pyroscope continuous-profiling agent so JVM profiles are pushed to the Pyroscope server.
- * Completes the four pillars: metrics(Mimir) / logs(Loki) / traces(Tempo) / profiles(Pyroscope).
- */
 @Configuration
 class PyroscopeConfig(
   @Value("\${spring.application.name}")

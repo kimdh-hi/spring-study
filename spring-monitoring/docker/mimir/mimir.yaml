@@ -1,4 +1,3 @@
-# Mimir in monolithic (single-binary) mode for local demo
 target: all,alertmanager,overrides-exporter
 multitenancy_enabled: false
 

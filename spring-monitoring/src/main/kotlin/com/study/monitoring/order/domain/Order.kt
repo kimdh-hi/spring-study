@@ -7,7 +7,7 @@ import jakarta.persistence.Table
 import org.hibernate.annotations.UuidGenerator
 
 @Entity
-@Table(name = "orders") // "order" is a reserved word in MySQL
+@Table(name = "orders")
 class Order private constructor(
   @Id
   @UuidGenerator
