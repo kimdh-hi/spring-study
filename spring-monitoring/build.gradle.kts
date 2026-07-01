@@ -21,23 +21,17 @@ repositories {
 }
 
 dependencies {
-  // web + jpa + kotlin
   implementation("org.springframework.boot:spring-boot-starter-webmvc")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("tools.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-  // --- Observability (LGTM+P) ---
-  // Actuator: /actuator/prometheus, /actuator/health
   implementation("org.springframework.boot:spring-boot-starter-actuator")
-  // METRICS: Prometheus scrape endpoint (Prometheus -> Mimir)
+  implementation("org.springframework.boot:spring-boot-starter-aop")
   implementation("io.micrometer:micrometer-registry-prometheus")
-  // TRACES: Micrometer Tracing -> OpenTelemetry bridge + OTLP exporter (-> Tempo)
   implementation("io.micrometer:micrometer-tracing-bridge-otel")
   implementation("io.opentelemetry:opentelemetry-exporter-otlp")
-  // LOGS: ship directly to Loki (not in Spring Boot BOM -> explicit version)
   implementation("com.github.loki4j:loki-logback-appender:2.0.3")
-  // PROFILES: continuous profiling agent (async-profiler based) -> Pyroscope
   implementation("io.pyroscope:agent:2.5.1")
 
   runtimeOnly("com.mysql:mysql-connector-j")
