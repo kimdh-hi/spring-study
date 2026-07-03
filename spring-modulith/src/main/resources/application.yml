@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: spring-modulith
+  datasource:
+    url: jdbc:h2:mem:modulith;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+  modulith:
+    events:
+      republish-outstanding-events-on-restart: true
+
+logging:
+  level:
+    com.study.springmodulith: debug

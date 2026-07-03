@@ -1,0 +1,4 @@
+POST http://localhost:8080/orders?product=keyboard
+
+###
+POST http://localhost:8080/orders?product=fail
