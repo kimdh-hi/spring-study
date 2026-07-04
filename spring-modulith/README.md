@@ -92,6 +92,23 @@ spring:
 implementation("org.springframework.modulith:spring-modulith-starter-jpa")
 ```
 
+- https://docs.spring.io/spring-modulith/reference/appendix.html
+
+## event 순서 보장
+
+- `spring.modulith.events.externalization.serialize-externalization` 기본값 false
+- 이벤트는 기본적으로 비동기이므로 순서보장 안됨
+- A 서비스에 두 개 트랜잭션이 있고 각각 transactional event 발행이 필요한 경우 트랜잭션이 더 빨리 끝난 이벤트가 더 늦게 발행될수도 있음
+- 순서보장 관련 이슈: https://github.com/spring-projects/spring-modulith/issues/415
+
+```yaml
+spring:
+  modulith: 
+    events:
+      externalization:
+        serialize-externalization: true
+```
+
 
 
 
