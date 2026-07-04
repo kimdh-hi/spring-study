@@ -25,6 +25,7 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-webmvc")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.modulith:spring-modulith-starter-jpa")
+  implementation("org.springframework.modulith:spring-modulith-events-kafka")
   implementation("tools.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   runtimeOnly("com.h2database:h2")

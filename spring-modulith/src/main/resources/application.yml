@@ -15,6 +15,13 @@ spring:
   modulith:
     events:
       republish-outstanding-events-on-restart: true
+      completion-mode: delete
+      staleness:
+        published: 1m
+        processing: 1m
+        resubmitted: 5m
+  kafka:
+    bootstrap-servers: localhost:29092
 
 logging:
   level:
