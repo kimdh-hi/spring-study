@@ -64,9 +64,10 @@ services:
     image: grafana/grafana:11.5.2
     container_name: monitoring-grafana
     environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
       GF_AUTH_ANONYMOUS_ENABLED: "true"
       GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
-      GF_AUTH_DISABLE_LOGIN_FORM: "true"
       GF_FEATURE_TOGGLES_ENABLE: traceToMetrics
     volumes:
       - ./docker/grafana/provisioning:/etc/grafana/provisioning
@@ -79,3 +80,34 @@ services:
       - tempo
       - loki
       - pyroscope
+
+  grafana-sa-bootstrap:
+    image: curlimages/curl:8.11.1
+    container_name: monitoring-grafana-sa-bootstrap
+    environment:
+      GRAFANA_URL: http://grafana:3000
+      ADMIN_USER: admin
+      ADMIN_PASSWORD: admin
+    volumes:
+      - ./docker/grafana/bootstrap-sa.sh:/bootstrap-sa.sh:ro
+      - mcp-token:/shared
+    entrypoint: [ "sh", "/bootstrap-sa.sh" ]
+    depends_on:
+      - grafana
+
+  mcp-grafana:
+    image: grafana/mcp-grafana:latest
+    container_name: monitoring-mcp-grafana
+    environment:
+      GRAFANA_URL: http://grafana:3000
+      GRAFANA_SERVICE_ACCOUNT_TOKEN_FILE: /shared/token
+    volumes:
+      - mcp-token:/shared:ro
+    ports:
+      - "8000:8000"
+    depends_on:
+      grafana-sa-bootstrap:
+        condition: service_completed_successfully
+
+volumes:
+  mcp-token:

@@ -58,6 +58,16 @@ curl localhost:8080/api/orders
 - 프로파일 — Grafana Pyroscope에서 `spring-monitoring` flame graph (`:4040` UI 가능)
 - 연동 — Tempo↔Loki traceId 클릭 이동
 
+## Grafana MCP (dev 자동화)
+
+- `docker compose up -d` 시 함께 기동 — 에이전트가 메트릭·로그·트레이스·대시보드를 프로그램적으로 질의/조작
+- 인증 흐름
+  - `grafana-sa-bootstrap` — Grafana 기동 후 admin API로 서비스 계정 `mcp`(Admin) + 토큰 생성, 공유 볼륨 `mcp-token`의 `/shared/token`에 기록
+  - `mcp-grafana` — `GRAFANA_SERVICE_ACCOUNT_TOKEN_FILE`로 토큰 파일을 읽어 SSE 서버(`:8000`) 구동
+- Claude Code 연결 — 루트 `.mcp.json`에 SSE URL `http://localhost:8000/sse` 등록됨
+- 활용 예 — 배포 후 스모크 체크(target UP·error 로그 0·트레이스 유입·`orders_created_total` 증가), 로그↔트레이스 상관 RCA
+- Grafana 상태는 비영속 — `up` 마다 SA/토큰 새로 생성
+
 ## 정리
 
 - `docker compose down -v`
