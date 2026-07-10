@@ -1,0 +1,25 @@
+### 회사 생성
+POST http://localhost:8080/companies
+Content-Type: application/json
+
+{
+  "name": "rsupport"
+}
+
+### 회사 목록
+GET http://localhost:8080/companies
+
+### 회사 단건
+GET http://localhost:8080/companies/1
+
+### 유저 생성 (companyId=1)
+POST http://localhost:8080/companies/1/users
+Content-Type: application/json
+
+{
+  "name": "kim",
+  "email": "kim@rsupport.com"
+}
+
+### 회사별 유저 목록
+GET http://localhost:8080/companies/1/users

@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: spring-GraalVM
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: jdbc:mysql://localhost/springgraalvm?createDatabaseIfNotExist=true&rewriteBatchedStatements=true
+    username: root
+    password: 111111
+    hikari:
+      maximum-pool-size: 30
+      connection-timeout: 3000
+      connection-test-query: SELECT 1
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      "[hibernate.format_sql]": true
+      "[hibernate.default_batch_fetch_size]": 50
