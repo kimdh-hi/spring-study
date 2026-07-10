@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: spring-sentry
+  datasource:
+    url: jdbc:mysql://localhost:3306/sentry?createDatabaseIfNotExist=true
+    username: root
+    password: "111111"
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 3000
+      connection-test-query: SELECT 1
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+
+sentry:
+  dsn: ${SENTRY_DSN:}
+  environment: ${SENTRY_ENV:local}
+  release: ${SENTRY_RELEASE:spring-sentry@0.0.1}
+  traces-sample-rate: 1.0
+  send-default-pii: false
