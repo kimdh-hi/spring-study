@@ -1,3 +1,6 @@
+app:
+  name-policy: com.study.springgraalvm.nativehint.TrimNamePolicy
+
 spring:
   application:
     name: spring-GraalVM
