@@ -31,7 +31,7 @@ IntegrationFlows deprecated
 
 ---
 
-### JPA
+### jpa, hibernate
 
 3.2.0 이전 Enum data type 이슈
 - 엔티티에서 `enum` 필드 사용시 db data type 으로 `ENUM` 이 사용됨
@@ -49,6 +49,33 @@ create table tb_user (
     primary key (id)
 ) engine=InnoDB
 ```
+
+hibernate 6.6.x detached entity save 예외
+- hibernate 5까지 detached entity `merge()` 시 매칭 row 가 없으면 조용히 `INSERT` 수행
+- 6.6부터 "확실히 detached 인데 row 없음" 감지시 `StaleObjectStateException` (→ spring `ObjectOptimisticLockingFailureException`) 예외
+  - detached entity save 시 insert 발생은 데이터 무결성 위배 가능하므로 예외로 처리
+- detached 판정 조건 (둘 중 하나)
+  - `@GeneratedValue` `@Id` 가 이미 채워짐
+  - non-primitive `@Version` 이 이미 채워짐 (primitive `int/long` 은 0 이 정상 첫 버전이라 unset 표현 불가 → wrapper 타입 필요)
+- spring 경로: `SimpleJpaRepository.save()` 는 `isNew()` false 시 `merge()` 호출 → id/version 채워진 detached entity 는 merge 로 가고 6.6 에선 row 없으면 예외
+
+재현: `IdAssignedEntitySaveErrorTest`
+- `@Id` 수동 할당 후 save() → `OptimisticLockingFailureException`
+- 삭제된 detached entity save() → `OptimisticLockingFailureException`
+
+회피법
+- new entity 의 id/version 은 기본값(`""`, `0L`) 아닌 `null` 로 둘 것 (가장 흔한 원인)
+- `@GeneratedValue` id 수동 할당 금지
+- `Persistable<ID>` 구현 / `isNew()` 오버라이드로 persist 강제
+- 삭제 후 재삽입은 새 transient 인스턴스로
+
+https://docs.jboss.org/hibernate/orm/6.6/migration-guide/migration-guide.html#merge-versioned-deleted
+
+- HHH-18527 (Rejected, 의도된 동작): https://hibernate.atlassian.net/browse/HHH-18527
+- HHH-17634 (Fixed 6.4.3/6.2.22, merge 가 원본 transient 에 generated id 쓰던 회귀): https://hibernate.atlassian.net/browse/HHH-17634
+- spring-boot #37126: https://github.com/spring-projects/spring-boot/issues/37126
+- spring-data-jpa #1862: https://github.com/spring-projects/spring-data-jpa/issues/1862
+- discourse: https://discourse.hibernate.org/t/facing-with-objectoptimisticlocking-failureexception-after-migrating-to-hibernate-6-6-2-final/10725
 
 ---
 
