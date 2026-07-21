@@ -19,7 +19,6 @@ class MultipartFileControllerTest @Autowired constructor(
   @Test
   fun post() {
     val result = mockMvc.multipart("/multipart-files") {
-      part()
       file(MockMultipartFile("file", "filename.txt", "text/plain", "test-content".toByteArray()))
       param("data1", "data1")
       param("data2", "data2")
