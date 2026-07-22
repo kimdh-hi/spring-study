@@ -101,3 +101,18 @@ tomcat 설정 추가
 - server.tomcat.max-part-count (default: 10)
   - file, file 외 part 포함 갯수
 - server.tomcat.max-part-header-size (default: 512 bytes)
+- 배경: multipart DoS (CVE-2025-48988) 대응으로 tomcat 10.1.42 에서 두 제한 도입
+  - https://github.com/advisories/GHSA-h3gc-qfqq-6h8f
+  - boot 프로퍼티 노출: https://github.com/spring-projects/spring-boot/issues/45881
+
+server.tomcat.max-parameter-count (default: 10000, boot 3.5.0~)
+- 요청당 파라미터 총 개수 상한 (파라미터 파싱 DoS 방어)
+- 쿼리스트링 + `application/x-www-form-urlencoded` 바디 + `multipart` 필드(업로드 파일 포함) 수 **합산**
+- 임베디드 tomcat 은 server.xml 이 없어 코드 기본값 10000 적용 (standalone server.xml 은 10.1.8 부터 1000)
+- 초과분은 예외 없이 조용히 버려짐 → `@RequestParam`/바인딩 null·누락 (part-count 와 달리 400 아님)
+  - `FailedRequestFilter` 적용시 400 으로 거부 가능
+- 3.5.16 (tomcat 10.1.55) 에서도 soft fail 잔존. tomcat 11(boot 4.0)부터 hard fail(요청 거부)로 변경
+
+- 프로퍼티 추가(3.5.0): https://github.com/spring-projects/spring-boot/pull/43286
+- tomcat maxParameterCount 문서: https://tomcat.apache.org/tomcat-10.1-doc/config/http.html
+- 10.1.x soft / 11.0.x hard fail (dev list, Mark Thomas): https://www.mail-archive.com/dev@tomcat.apache.org/msg176564.html
