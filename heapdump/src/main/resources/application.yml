@@ -1,0 +1,28 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: heapdump
+  datasource:
+    url: jdbc:h2:file:./data/heapdump
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: heapdump,health,metrics
+  endpoint:
+    heapdump:
+      access: unrestricted
+
+logging:
+  level:
+    com.study.heapdump: INFO
