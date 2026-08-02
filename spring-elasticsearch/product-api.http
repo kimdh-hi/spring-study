@@ -1,0 +1,22 @@
+### 상품 등록 (JPA 저장 + ES 색인)
+POST http://localhost:8080/products
+Content-Type: application/json
+
+{
+  "name": "무선 이어폰",
+  "description": "노이즈 캔슬링 무선 블루투스 이어폰",
+  "category": "음향기기",
+  "price": 189000
+}
+
+### ES 검색 - 관련도 순 + 하이라이트
+GET http://localhost:8080/products/search?q=무선
+
+### ES 검색 - 여러 단어 (순서 무관)
+GET http://localhost:8080/products/search?q=마우스 무선
+
+### JPA LIKE 검색 - 문자열 포함 여부만
+GET http://localhost:8080/products/search/like?q=마우스 무선
+
+### 카테고리 집계
+GET http://localhost:8080/products/facet?q=무선
