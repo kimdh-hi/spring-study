@@ -9,11 +9,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "products")
-class Product private constructor(
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  var id: Long? = null,
-
+class Product(
   @Column(nullable = false, length = 200)
   var name: String,
 
@@ -25,13 +21,8 @@ class Product private constructor(
 
   @Column(nullable = false)
   var price: Int,
-) {
-  companion object {
-    fun of(name: String, description: String, category: String, price: Int) = Product(
-      name = name,
-      description = description,
-      category = category,
-      price = price,
-    )
-  }
-}
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  var id: Long? = null,
+)

@@ -15,7 +15,7 @@ class ProductService(
 
   @Transactional
   fun register(name: String, description: String, category: String, price: Int): Product {
-    val product = productRepository.save(Product.of(name, description, category, price))
+    val product = productRepository.save(Product(name, description, category, price))
     productSearchRepository.index(product)
     return product
   }

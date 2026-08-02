@@ -44,9 +44,9 @@ class ProductSearchTest {
 
   @BeforeEach
   fun setUp() {
-    productRepository.deleteAll()
-
     val indexOperations = operations.indexOps(ProductDocument::class.java)
+
+    productRepository.deleteAll()
     indexOperations.delete()
     indexOperations.createWithMapping()
 
@@ -63,7 +63,7 @@ class ProductSearchTest {
 
     assertEquals(2, results.size)
     assertTrue(results[0].score >= results[1].score)
-    assertTrue(results.all { it.highlights.any { highlight -> highlight.contains("<em>마우스</em>") } })
+    assertTrue(results.all { result -> result.highlights.any { it.contains("<em>마우스</em>") } })
   }
 
   @Test

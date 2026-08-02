@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchAggregations
 import org.springframework.data.elasticsearch.client.elc.NativeQuery
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations
+import org.springframework.data.elasticsearch.core.SearchHit
 import org.springframework.data.elasticsearch.core.query.HighlightQuery
 import org.springframework.data.elasticsearch.core.query.highlight.Highlight
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightField
@@ -35,46 +36,56 @@ class ElasticsearchProductSearchRepository(
 
   override fun search(keyword: String, size: Int): List<ProductSearchResult> {
     val query = NativeQuery.builder()
-      .withQuery(matchQuery(keyword))
-      .withHighlightQuery(
-        HighlightQuery(
-          Highlight(listOf(HighlightField("name"), HighlightField("description"))),
-          ProductDocument::class.java,
-        ),
-      )
+      .withQuery(multiMatch(keyword))
+      .withHighlightQuery(highlightOn("name", "description"))
       .withPageable(PageRequest.ofSize(size))
       .build()
 
     return operations.search(query, ProductDocument::class.java)
-      .map { hit ->
-        ProductSearchResult(
-          id = hit.content.id.toLong(),
-          name = hit.content.name,
-          category = hit.content.category,
-          price = hit.content.price,
-          score = hit.score,
-          highlights = hit.highlightFields.values.flatten(),
-        )
-      }
+      .map { it.toSearchResult() }
       .toList()
   }
 
   override fun countByCategory(keyword: String): Map<String, Long> {
     val query = NativeQuery.builder()
-      .withQuery(matchQuery(keyword))
-      .withAggregation("byCategory", Aggregation.of { it.terms { terms -> terms.field("category") } })
+      .withQuery(multiMatch(keyword))
+      .withAggregation(CATEGORY_AGGREGATION, termsOn("category"))
       .withMaxResults(0)
       .build()
 
     val aggregations = operations.search(query, ProductDocument::class.java)
       .aggregations as ElasticsearchAggregations
+    val buckets = aggregations.aggregationsAsMap()
+      .getValue(CATEGORY_AGGREGATION)
+      .aggregation().aggregate
+      .sterms().buckets().array()
 
-    return aggregations.aggregationsAsMap()["byCategory"]!!
-      .aggregation().aggregate.sterms().buckets().array()
-      .associate { it.key().stringValue() to it.docCount() }
+    return buckets.associate { it.key().stringValue() to it.docCount() }
   }
 
-  private fun matchQuery(keyword: String): Query = Query.of { query ->
+  private fun multiMatch(keyword: String): Query = Query.of { query ->
     query.multiMatch { it.fields("name^3", "description").query(keyword) }
+  }
+
+  private fun highlightOn(vararg fields: String): HighlightQuery = HighlightQuery(
+    Highlight(fields.map { HighlightField(it) }),
+    ProductDocument::class.java,
+  )
+
+  private fun termsOn(field: String): Aggregation = Aggregation.of { aggregation ->
+    aggregation.terms { it.field(field) }
+  }
+
+  private fun SearchHit<ProductDocument>.toSearchResult() = ProductSearchResult(
+    id = content.id.toLong(),
+    name = content.name,
+    category = content.category,
+    price = content.price,
+    score = score,
+    highlights = highlightFields.values.flatten(),
+  )
+
+  companion object {
+    private const val CATEGORY_AGGREGATION = "byCategory"
   }
 }

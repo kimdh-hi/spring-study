@@ -16,8 +16,10 @@ class ProductController(
 ) {
 
   @PostMapping
-  fun register(@RequestBody request: ProductRegisterRequest): ProductResponse =
-    ProductResponse.from(productService.register(request.name, request.description, request.category, request.price))
+  fun register(@RequestBody request: ProductRegisterRequest): ProductResponse {
+    val product = productService.register(request.name, request.description, request.category, request.price)
+    return ProductResponse.from(product)
+  }
 
   @GetMapping("/search")
   fun search(@RequestParam q: String, @RequestParam(defaultValue = "10") size: Int): List<ProductSearchResult> =
