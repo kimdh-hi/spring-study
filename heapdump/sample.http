@@ -1,0 +1,14 @@
+### 시드 데이터 (올바른 배치 패턴: 1,000건마다 flush + clear)
+GET http://localhost:8080/seed?count=500000
+
+### 시나리오 1 — findAll 대량 로딩 (OOM 유발)
+GET http://localhost:8080/leak/find-all
+
+### 시나리오 2 — 영속성 컨텍스트 비대화 (flush/clear 없는 대량 insert)
+GET http://localhost:8080/leak/persistence-context?count=500000
+
+### 시나리오 3 — static 컬렉션 점진 누수 (반복 호출)
+GET http://localhost:8080/leak/static-cache?count=10000
+
+### 힙덤프 다운로드 (actuator)
+GET http://localhost:8080/actuator/heapdump
