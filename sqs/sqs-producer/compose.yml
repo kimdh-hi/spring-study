@@ -1,0 +1,11 @@
+services:
+  localstack:
+    image: localstack/localstack:4
+    ports:
+      - "4566:4566"
+    environment:
+      SERVICES: sqs
+      DEBUG: 0
+      AWS_DEFAULT_REGION: ap-northeast-2
+    volumes:
+      - ./localstack/init:/etc/localstack/init/ready.d
