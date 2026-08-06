@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: sqs-consumer
+  datasource:
+    url: jdbc:h2:mem:order
+    driver-class-name: org.h2.Driver
+    username: sa
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  cloud:
+    aws:
+      region:
+        static: ap-northeast-2
+      credentials:
+        access-key: test
+        secret-key: test
+      endpoint: http://localhost:4566
+      sqs:
+        queue-not-found-strategy: fail
+        listener:
+          max-concurrent-messages: 10
+          max-messages-per-poll: 10
+          poll-timeout: 10s
+
+logging:
+  level:
+    io.awspring.cloud.sqs: debug
