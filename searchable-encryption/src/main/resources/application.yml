@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: searchable-encryption
+  datasource:
+    url: jdbc:h2:mem:study
+    driver-class-name: org.h2.Driver
+    username: sa
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+
+app:
+  crypto:
+    data-key: 7f3c1a9e2b8d4f60a5c7e9d1b3f5a7c92e4d6b8a0c2e4f60817293a4b5c6d7e8
+    salt: 5c0744940b5c369b
+    index-key: 1b6d4c2a8f0e3d5b7a9c1e3f5d7b9a0c2e4f6a8b0d2c4e6f8a1b3d5c7e9f0a2b
