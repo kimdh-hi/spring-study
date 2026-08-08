@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: hierarchical-query
+  datasource:
+    url: jdbc:h2:mem:hierarchy
+    driver-class-name: org.h2.Driver
+    username: sa
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    show-sql: true
+    properties:
+      "[hibernate.format_sql]": true
+      "[hibernate.generate_statistics]": true
