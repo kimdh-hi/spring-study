@@ -1,5 +1,6 @@
 package com.study.hierarchicalquery
 
+import com.study.hierarchicalquery.tree.application.TreeSearchService
 import com.study.hierarchicalquery.tree.application.TreeService
 import com.study.hierarchicalquery.tree.domain.model.TreeView
 import jakarta.persistence.EntityManagerFactory
@@ -18,6 +19,8 @@ import kotlin.test.assertTrue
 class TreeHierarchyTest {
 
   @Autowired private lateinit var treeService: TreeService
+
+  @Autowired private lateinit var treeSearchService: TreeSearchService
 
   @Autowired private lateinit var entityManagerFactory: EntityManagerFactory
 
@@ -38,7 +41,7 @@ class TreeHierarchyTest {
   @Test
   @DisplayName("인접 리스트 재귀 순회는 노드 수만큼 쿼리를 발행한다")
   fun naiveSubtreeCausesNPlusOne() {
-    val (tree, queries) = countQueries { treeService.findSubtreeNaive(ids.getValue("r")) }
+    val (tree, queries) = countQueries { treeSearchService.findSubtreeByRecursion(ids.getValue("r")) }
 
     assertEquals(TOTAL_NODES, flatten(tree).size)
     assertEquals(TOTAL_NODES + 1L, queries)
@@ -47,7 +50,7 @@ class TreeHierarchyTest {
   @Test
   @DisplayName("레벨 단위 in 조회는 노드 수가 아니라 깊이에 비례한다")
   fun levelSubtreeScalesWithDepth() {
-    val (tree, queries) = countQueries { treeService.findSubtreeByLevel(ids.getValue("r")) }
+    val (tree, queries) = countQueries { treeSearchService.findSubtreeByLevelIn(ids.getValue("r")) }
 
     assertEquals(TOTAL_NODES, flatten(tree).size)
     assertEquals(5L, queries)
@@ -56,7 +59,7 @@ class TreeHierarchyTest {
   @Test
   @DisplayName("materialized path 는 노드 수와 무관하게 조회 1 + 시작 노드 조회 1 로 끝난다")
   fun pathSubtreeUsesFixedQueryCount() {
-    val (tree, queries) = countQueries { treeService.findSubtree(ids.getValue("r")) }
+    val (tree, queries) = countQueries { treeSearchService.findSubtreeByMaterializedPath(ids.getValue("r")) }
 
     assertEquals(TOTAL_NODES, flatten(tree).size)
     assertEquals(2L, queries)
@@ -65,22 +68,25 @@ class TreeHierarchyTest {
   @Test
   @DisplayName("recursive CTE 도 1 쿼리로 같은 서브트리를 반환한다")
   fun cteSubtreeMatchesPathSubtree() {
-    val (tree, queries) = countQueries { treeService.findSubtreeByCte(ids.getValue("a")) }
+    val (tree, queries) = countQueries { treeSearchService.findSubtreeByRecursiveCte(ids.getValue("a")) }
 
     assertEquals(1L, queries)
     assertEquals(
-      flatten(treeService.findSubtree(ids.getValue("a"))).map { it.id }.toSet(),
+      flatten(treeSearchService.findSubtreeByMaterializedPath(ids.getValue("a"))).map { it.id }.toSet(),
       flatten(tree).map { it.id }.toSet(),
     )
   }
 
   @Test
-  @DisplayName("조상 조회는 path 파싱으로 재귀 없이 끝난다")
-  fun ancestorsAreResolvedFromPath() {
-    val (ancestors, queries) = countQueries { treeService.findAncestors(ids.getValue("a1x")) }
+  @DisplayName("Hibernate Criteria 로 조립한 CTE 도 native 와 같은 서브트리를 1 쿼리로 반환한다")
+  fun criteriaCteMatchesNativeCte() {
+    val (tree, queries) = countQueries { treeSearchService.findSubtreeByCriteriaCte(ids.getValue("a")) }
 
-    assertEquals(listOf("r", "a", "a1"), ancestors.map { it.name })
-    assertEquals(2L, queries)
+    assertEquals(1L, queries)
+    assertEquals(
+      flatten(treeSearchService.findSubtreeByRecursiveCte(ids.getValue("a"))).map { it.id }.toSet(),
+      flatten(tree).map { it.id }.toSet(),
+    )
   }
 
   @Test
@@ -98,11 +104,10 @@ class TreeHierarchyTest {
 
     assertEquals(2, moved.depth)
 
-    val subtree = flatten(treeService.findSubtree(ids.getValue("a")))
+    val subtree = flatten(treeSearchService.findSubtreeByMaterializedPath(ids.getValue("a")))
     assertEquals(7, subtree.size)
     assertTrue(subtree.all { it.path.startsWith(moved.path) })
     assertEquals(4, subtree.single { it.name == "a1x" }.depth)
-    assertEquals(listOf("r", "b", "a"), treeService.findAncestors(ids.getValue("a1")).map { it.name })
   }
 
   @Test

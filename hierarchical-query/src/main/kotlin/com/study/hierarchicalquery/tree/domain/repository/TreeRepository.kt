@@ -12,12 +12,12 @@ interface TreeRepository : JpaRepository<Tree, String> {
 
   @Query(
     value = """
-      with recursive sub(id) as (
-        select n.id from tree n where n.id = :id
+      with recursive sub(id, name, path, parent_id) as (
+        select n.id, n.name, n.path, n.parent_id from tree n where n.id = :id
         union all
-        select c.id from tree c join sub s on c.parent_id = s.id
+        select c.id, c.name, c.path, c.parent_id from tree c join sub s on c.parent_id = s.id
       )
-      select n.* from tree n where n.id in (select id from sub)
+      select * from sub
     """,
     nativeQuery = true,
   )
