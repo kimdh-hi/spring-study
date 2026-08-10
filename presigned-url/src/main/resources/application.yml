@@ -21,4 +21,6 @@ spring:
 
 app:
   bucket: sample-bucket
-  url-ttl: 5m
+  ttl:
+    upload: 10m
+    download: 1m

@@ -17,6 +17,22 @@ class FileService(
     return file.id to s3Storage.uploadUrl(file.objectKey)
   }
 
+  fun issueMultipartUrls(
+    originalName: String,
+    contentType: String,
+    partCount: Int,
+  ): Triple<Long, String, List<String>> {
+    val file = fileObjectRepository.save(FileObject(originalName, contentType))
+    val uploadId = s3Storage.startMultipart(file.objectKey, contentType)
+    return Triple(file.id, uploadId, s3Storage.partUrls(file.objectKey, uploadId, partCount))
+  }
+
+  fun completeMultipart(id: Long, uploadId: String, parts: List<Pair<Int, String>>) {
+    val file = find(id)
+    s3Storage.completeMultipart(file.objectKey, uploadId, parts)
+    file.markUploaded()
+  }
+
   fun completeUpload(id: Long) {
     val file = find(id)
     require(s3Storage.exists(file.objectKey)) { "업로드되지 않은 파일: $id" }

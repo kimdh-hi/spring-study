@@ -1,6 +1,10 @@
 package com.study.presignedurl
 
 import com.study.presignedurl.ui.DownloadUrlResponse
+import com.study.presignedurl.ui.MultipartCompleteRequest
+import com.study.presignedurl.ui.MultipartUrlRequest
+import com.study.presignedurl.ui.MultipartUrlResponse
+import com.study.presignedurl.ui.PartRequest
 import com.study.presignedurl.ui.UploadUrlRequest
 import com.study.presignedurl.ui.UploadUrlResponse
 import org.junit.jupiter.api.BeforeEach
@@ -61,6 +65,32 @@ class PresignedUrlTest {
 
     val body = rest.get().uri(URI.create(download.url)).retrieve().body(String::class.java)
     assertEquals("hello presigned", body)
+  }
+
+  @Test
+  fun `멀티파트로 파트별 URL을 발급받아 나눠 올린 뒤 하나의 객체로 합친다`() {
+    val part1 = ByteArray(5 * 1024 * 1024) { 'a'.code.toByte() }
+    val part2 = "tail".toByteArray()
+
+    val issued = rest.post().uri(app("/files/multipart-url"))
+      .body(MultipartUrlRequest("large.bin", "application/octet-stream", 2))
+      .retrieve().body(MultipartUrlResponse::class.java)!!
+
+    val parts = listOf(part1, part2).mapIndexed { index, bytes ->
+      val etag = rest.put().uri(URI.create(issued.urls[index])).body(bytes)
+        .retrieve().toBodilessEntity().headers.getFirst("ETag")!!
+      PartRequest(index + 1, etag)
+    }
+
+    rest.post().uri(app("/files/${issued.id}/multipart-complete"))
+      .body(MultipartCompleteRequest(issued.uploadId, parts))
+      .retrieve().toBodilessEntity()
+
+    val download = rest.post().uri(app("/files/${issued.id}/download-url"))
+      .retrieve().body(DownloadUrlResponse::class.java)!!
+
+    val body = rest.get().uri(URI.create(download.url)).retrieve().body(ByteArray::class.java)!!
+    assertEquals(part1.size + part2.size, body.size)
   }
 
   @Test
