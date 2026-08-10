@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: presigned-url
+  datasource:
+    url: jdbc:h2:mem:file
+    driver-class-name: org.h2.Driver
+    username: sa
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  cloud:
+    aws:
+      region:
+        static: ap-northeast-2
+      credentials:
+        access-key: test
+        secret-key: test
+      endpoint: http://localhost:4566
+      s3:
+        path-style-access-enabled: true
+
+app:
+  bucket: sample-bucket
+  url-ttl: 5m
