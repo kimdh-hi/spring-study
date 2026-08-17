@@ -21,9 +21,10 @@ spring:
     defer-datasource-initialization: true
   cache:
     type: REDIS
-  redis:
-    host: localhost
-    port: 6379
+  data:
+    redis:
+      host: localhost
+      port: 6379
   session:
     store-type: redis
 

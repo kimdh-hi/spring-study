@@ -1,10 +1,9 @@
 package com.toy.springcacheex.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.toy.springcacheex.common.CustomRedisSerializer
 import com.toy.springcacheex.common.CacheConstants
 import org.slf4j.LoggerFactory
-import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer
+import org.springframework.boot.cache.autoconfigure.RedisCacheManagerBuilderCustomizer
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
@@ -14,10 +13,11 @@ import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
+import org.springframework.data.redis.serializer.GenericJacksonJsonRedisSerializer
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializationContext
 import org.springframework.data.redis.serializer.RedisSerializer
+import tools.jackson.databind.ObjectMapper
 import java.time.Duration
 
 @Configuration
@@ -40,7 +40,7 @@ class RedisConfig(
     return RedisTemplate<String, Any>().apply {
       connectionFactory = redisConnectionFactory
       keySerializer = RedisSerializer.string()
-      valueSerializer = GenericJackson2JsonRedisSerializer(objectMapper)
+      valueSerializer = GenericJacksonJsonRedisSerializer(objectMapper)
 //      valueSerializer = RedisSerializer.json() // README 사용시 이슈 참고
     }
   }
@@ -61,7 +61,7 @@ class RedisConfig(
       .entryTtl(duration)
       .serializeValuesWith(
         RedisSerializationContext.SerializationPair.fromSerializer(JdkSerializationRedisSerializer())
-//        RedisSerializationContext.SerializationPair.fromSerializer(GenericJackson2JsonRedisSerializer(objectMapper))
+//        RedisSerializationContext.SerializationPair.fromSerializer(GenericJacksonJsonRedisSerializer(objectMapper))
 //        RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json())
       )
   }

@@ -1,6 +1,5 @@
 package com.toy.springcacheex.test
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.toy.springcacheex.domain.enums.UserStatus
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
