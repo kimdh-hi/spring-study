@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: spring-oidc
+  datasource:
+    url: jdbc:h2:mem:oidc;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  h2:
+    console:
+      enabled: true
+
+server:
+  port: 9000
+
+oidc:
+  issuer: http://localhost:9000
+
+logging:
+  level:
+    org.springframework.security: debug

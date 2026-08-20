@@ -1,0 +1,48 @@
+### discovery
+GET http://localhost:9000/.well-known/openid-configuration
+
+### jwks
+GET http://localhost:9000/oauth2/jwks
+
+### 1. authorization_code + PKCE 없이: 브라우저에서 아래 URL 접속 (user/password 로그인 -> consent)
+# http://localhost:9000/oauth2/authorize?response_type=code&client_id=oidc-client&scope=openid%20profile%20email%20read&redirect_uri=http://127.0.0.1:9000/authorized&state=xyz
+
+### 2. code -> token
+POST http://localhost:9000/oauth2/token
+Authorization: Basic oidc-client oidc-secret
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&code={{code}}&redirect_uri=http://127.0.0.1:9000/authorized
+
+### 3. userinfo (OIDC)
+GET http://localhost:9000/userinfo
+Authorization: Bearer {{accessToken}}
+
+### 4. resource server
+GET http://localhost:9000/api/me
+Authorization: Bearer {{accessToken}}
+
+### 5. resource server - read scope 필요
+GET http://localhost:9000/api/scoped/resource
+Authorization: Bearer {{accessToken}}
+
+### refresh_token
+POST http://localhost:9000/oauth2/token
+Authorization: Basic oidc-client oidc-secret
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&refresh_token={{refreshToken}}
+
+### client_credentials (machine to machine)
+POST http://localhost:9000/oauth2/token
+Authorization: Basic service-client service-secret
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&scope=read
+
+### token introspection
+POST http://localhost:9000/oauth2/introspect
+Authorization: Basic service-client service-secret
+Content-Type: application/x-www-form-urlencoded
+
+token={{accessToken}}
