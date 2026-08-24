@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: hexagonal-architecture
+  datasource:
+    url: jdbc:h2:mem:hexagonal
+    username: sa
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  h2:
+    console:
+      enabled: true

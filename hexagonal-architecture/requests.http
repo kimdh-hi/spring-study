@@ -1,0 +1,52 @@
+### 작성자 등록
+POST http://localhost:8080/authors
+Content-Type: application/json
+
+{
+  "name": "daehyun",
+  "email": "dh@example.com"
+}
+
+### 작성자 조회
+GET http://localhost:8080/authors/1
+
+### 게시글 작성
+POST http://localhost:8080/posts
+Content-Type: application/json
+
+{
+  "authorId": 1,
+  "title": "헥사고날 아키텍처 정리",
+  "content": "포트와 어댑터로 도메인을 보호한다"
+}
+
+### 게시글 목록
+GET http://localhost:8080/posts
+
+### 게시글 상세
+GET http://localhost:8080/posts/1
+
+### 게시글 수정 (작성자만)
+PUT http://localhost:8080/posts/1
+Content-Type: application/json
+
+{
+  "editorId": 1,
+  "title": "수정한 제목",
+  "content": "수정한 본문"
+}
+
+### 게시글 삭제 (작성자만)
+DELETE http://localhost:8080/posts/1?requesterId=1
+
+### 댓글 작성
+POST http://localhost:8080/posts/1/comments
+Content-Type: application/json
+
+{
+  "authorId": 2,
+  "content": "좋은 글입니다"
+}
+
+### 댓글 삭제 (댓글 작성자 또는 게시글 작성자)
+DELETE http://localhost:8080/posts/1/comments/1?requesterId=1
