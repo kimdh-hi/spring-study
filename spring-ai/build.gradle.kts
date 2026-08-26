@@ -21,6 +21,7 @@ repositories {
 extra["springAiVersion"] = "2.0.1"
 
 dependencies {
+  implementation("org.springframework.ai:spring-ai-starter-mcp-server-webmvc")
   implementation("org.springframework.ai:spring-ai-starter-model-openai")
   implementation("org.springframework.ai:spring-ai-starter-vector-store-pgvector")
   implementation("org.springframework.ai:spring-ai-vector-store-advisor")

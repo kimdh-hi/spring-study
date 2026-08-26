@@ -2,6 +2,9 @@ spring:
   application:
     name: spring-ai
   ai:
+    mcp:
+      server:
+        protocol: STREAMABLE
     openai:
       api-key: ${open-api-key}
       embedding:
