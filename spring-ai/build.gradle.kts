@@ -18,7 +18,7 @@ repositories {
   mavenCentral()
 }
 
-extra["springAiVersion"] = "2.0.0-RC1"
+extra["springAiVersion"] = "2.0.1"
 
 dependencies {
   implementation("org.springframework.ai:spring-ai-starter-model-openai")
