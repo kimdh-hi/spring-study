@@ -2,7 +2,6 @@ package com.study.configserver
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.web.SecurityFilterChain
 
@@ -13,9 +12,8 @@ class SecurityConfig {
   fun filterChain(http: HttpSecurity): SecurityFilterChain =
     http
       .csrf { it.disable() }
-      .httpBasic(Customizer.withDefaults())
       .authorizeHttpRequests {
-        it.anyRequest().authenticated()
+        it.anyRequest().permitAll()
       }
       .build()
 }

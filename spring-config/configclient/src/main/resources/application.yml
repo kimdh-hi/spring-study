@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: configclient
+  config:
+    import: "configserver:http://localhost:8888"
+  cloud:
+    config:
+      username: ${CONFIG_USER:configserver}
+      password: ${CONFIG_PASSWORD}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
