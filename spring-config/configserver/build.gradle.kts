@@ -26,6 +26,7 @@ dependencyManagement {
 
 dependencies {
   implementation("org.springframework.cloud:spring-cloud-config-server")
+  implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -33,7 +34,7 @@ dependencies {
 
 kotlin {
   compilerOptions {
-    freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
+    freeCompilerArgs.addAll("-Xjsr305=strict")
   }
 }
 

@@ -1,21 +1,9 @@
 # Config Server
 
-- Spring Cloud Config Server 샘플 — 원격 git repo 를 설정 저장소로 사용
-- Spring Boot 4.0.8 / Spring Cloud 2025.1.3 / Kotlin 2.3.21
-
 ## 구성
 
-- `@EnableConfigServer` 하나로 서버 활성화
 - 설정 저장소는 `CONFIG_GIT_URI` 환경변수로 지정
-- 기본값은 공개 샘플 repo `https://github.com/spring-cloud-samples/config-repo`
 - 파일명 규칙: `{application}.yml`, `{application}-{profile}.yml`
-- commit 된 내용만 반영
-
-## 실행
-
-```bash
-./gradlew bootRun
-```
 
 ## 확인
 
@@ -28,16 +16,11 @@ curl localhost:8888/foo-dev.yml
 - 엔드포인트 형식: `/{application}/{profile}[/{label}]`
 - `label` 은 git branch — 기본값은 `default-label: main`
 
-## repo 바꾸기
-
-- `CONFIG_GIT_URI` 환경변수로 override, 미지정 시 공개 샘플 repo 사용
+## 실행
 
 ```bash
 CONFIG_GIT_URI=https://github.com/{org}/{repo} ./gradlew bootRun
 ```
-
-- 로컬 repo: `CONFIG_GIT_URI=file:///path/to/repo`
-- private repo: `username`/`password`(PAT) 또는 SSH URL + `private-key` 추가
 
 ```yaml
 spring:
@@ -48,6 +31,43 @@ spring:
           username: ${GIT_USERNAME}
           password: ${GIT_TOKEN}
 ```
+
+## 암호화 (대칭키)
+
+- `encrypt.key` 가 설정되면 `/encrypt`, `/decrypt` 엔드포인트가 활성화됨
+- `org.springframework.cloud.bootstrap.encrypt.KeyProperties` 참고
+  - 대칭키, 비대칭키 모두 지원 
+- 키는 커밋하지 않고 환경변수로만 주입 — 미지정 시 기동 실패
+
+```bash
+CONFIG_ENCRYPT_KEY={key} ./gradlew bootRun
+```
+
+### 값 암호화
+
+```bash
+curl -s --data-urlencode "=my-db-password" localhost:8888/encrypt
+```
+
+- 출력된 문자열을 repo 의 `{application}.yml` 에 `{cipher}` prefix 로 저장
+
+```yaml
+datasource:
+  password: '{cipher}AQBx...'
+```
+
+- 따옴표 필수 — YAML 이 `{` 를 flow mapping 으로 해석함
+
+### 복호화 위치
+
+- 기본값: **서버가 복호화**해서 평문을 클라이언트로 전달 — 키는 서버에만 있으면 됨
+- `spring.cloud.config.server.encrypt.enabled: false` 로 두면 `{cipher}` 그대로 전달, 클라이언트가 각자 복호화 (모든 클라이언트에 키 배포 필요)
+- 복호화 실패 시 해당 키는 `invalid.` prefix 가 붙어 내려감 — 조용히 틀린 값이 나가지 않음
+
+### 주의
+
+- `/encrypt`, `/decrypt` 는 인증 없이 열려 있으면 누구나 복호화 가능 — 인증 적용 또는 운영에서 차단
+- 전송 구간은 평문이므로 HTTPS 필수
 
 ## 클라이언트 연결
 

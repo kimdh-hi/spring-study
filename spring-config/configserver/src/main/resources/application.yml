@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: configserver
+  security:
+    user:
+      name: ${CONFIG_USER:configserver}
+      password: ${CONFIG_PASSWORD}
   cloud:
     config:
       server:
@@ -11,3 +15,7 @@ spring:
           uri: ${CONFIG_GIT_URI:https://github.com/spring-cloud-samples/config-repo}
           default-label: main
           clone-on-start: false # false: 첫 요청 시 clone, true: 부팅 시 clone
+
+encrypt:
+  key: ${CONFIG_ENCRYPT_KEY}
+  salt: ${CONFIG_ENCRYPT_SALT:deadbeef}
