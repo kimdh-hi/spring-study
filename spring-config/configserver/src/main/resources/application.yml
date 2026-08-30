@@ -7,15 +7,17 @@ spring:
   security:
     user:
       name: ${CONFIG_USER:configserver}
-      password: ${CONFIG_PASSWORD}
+      password: ${CONFIG_PASSWORD:configserver}
   cloud:
     config:
       server:
         git:
           uri: ${CONFIG_GIT_URI:https://github.com/spring-cloud-samples/config-repo}
+          username: ${CONFIG_GIT_USERNAME:}
+          password: ${CONFIG_GIT_TOKEN:}
           default-label: main
           clone-on-start: false # false: 첫 요청 시 clone, true: 부팅 시 clone
 
 encrypt:
-  key: ${CONFIG_ENCRYPT_KEY}
+  key: ${CONFIG_ENCRYPT_KEY:local-dev-encrypt-key}
   salt: ${CONFIG_ENCRYPT_SALT:deadbeef}

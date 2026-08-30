@@ -15,8 +15,7 @@ class SecurityConfig {
       .csrf { it.disable() }
       .httpBasic(Customizer.withDefaults())
       .authorizeHttpRequests {
-        it.requestMatchers("/decrypt").denyAll()
-          .anyRequest().authenticated()
+        it.anyRequest().authenticated()
       }
       .build()
 }
