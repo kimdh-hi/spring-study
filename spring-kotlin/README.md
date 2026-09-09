@@ -199,3 +199,33 @@ abstract class BaseCreateTimestampEntity : UuidPrimaryKeyEntity() {
 - solution2 의 경우에도 @CreatedDate 의 기능과 lateinit var 특징이 잘 맞기 때문에 사용해도 이슈는 없음
   - 다만, save() 전 createdAt 접근시 uninitialized 에러가 발생할 수 있음
   - save() 전 createdAt 접근이 비정상적이지만 에러 발생 가능 케이스를 최소화하기 위함
+
+---
+
+### allOpen / noArg 설정 제거 (Kotlin 2.3.20+)
+- 기존 `build.gradle.kts` 에 JPA 엔티티용 `allOpen`, `noArg` 대상 annotation 을 직접 명시
+```kotlin
+allOpen {
+  annotation("jakarta.persistence.Entity")
+  annotation("jakarta.persistence.Embeddable")
+  annotation("jakarta.persistence.MappedSuperclass")
+}
+
+noArg {
+  annotation("jakarta.persistence.Entity")
+}
+```
+- Kotlin 2.3.20 부터 `kotlin("plugin.jpa")` 가 `no-arg` 플러그인뿐 아니라 `all-open` 플러그인까지 JPA preset 으로 자동 적용
+  - 대상: `jakarta.persistence.Entity`, `Embeddable`, `MappedSuperclass` (+ `javax.persistence.*` 동일)
+  - 엔티티가 자동으로 `open` 처리되어 lazy 연관관계가 eager 로 동작하며 추가 쿼리 발생하는 이슈 방지
+  - https://kotlinlang.org/docs/whatsnew2320.html
+- 즉, 위 두 블록은 preset 과 완전히 중복되어 제거
+- 검증: 블록 제거 후 컴파일된 엔티티에 `open`(비 final) + no-arg 생성자 모두 유지 확인
+```
+$ javap -cp build/classes/kotlin/main com.toy.springkotlin.entity.User
+public class com.toy.springkotlin.entity.User extends com.toy.springkotlin.entity.BaseTraceableEntity {
+  ...
+  public com.toy.springkotlin.entity.User();
+}
+```
+- `kotlin("plugin.spring")` 은 별개로 `@Component`, `@Transactional`, `@SpringBootTest` 등 spring preset 담당하므로 유지 필요
