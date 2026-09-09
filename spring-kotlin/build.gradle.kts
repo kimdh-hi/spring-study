@@ -1,12 +1,12 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 
 plugins {
-  kotlin("jvm") version "2.3.21"
-  kotlin("plugin.spring") version "2.3.21"
-  id("org.springframework.boot") version "4.1.0"
+  kotlin("jvm") version "2.4.20"
+  kotlin("plugin.spring") version "2.4.20"
+  id("org.springframework.boot") version "4.1.1"
   id("io.spring.dependency-management") version "1.1.7"
-  kotlin("plugin.jpa") version "2.3.21"
-  kotlin("kapt") version "2.3.21"
+  kotlin("plugin.jpa") version "2.4.20"
+  kotlin("kapt") version "2.4.20"
 }
 
 group = "com.toy"
@@ -24,7 +24,7 @@ noArg {
 
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(21)
+    languageVersion = JavaLanguageVersion.of(25)
   }
 }
 
@@ -60,7 +60,7 @@ dependencies {
 
 kotlin {
   compilerOptions {
-    freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
+    freeCompilerArgs.addAll("-Xjsr305=strict")
   }
 }
 

@@ -1,12 +1,12 @@
 package com.toy.springkotlin.study
 
 import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.DeserializationFeature
 import tools.jackson.databind.cfg.DateTimeFeature
-import tools.jackson.databind.exc.InvalidDefinitionException
 import tools.jackson.module.kotlin.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
-import org.junit.jupiter.api.assertThrows
+import kotlin.test.assertEquals
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import java.time.LocalDateTime
@@ -87,7 +87,8 @@ class ObjectMapperTest @Autowired constructor(private val objectMapper: ObjectMa
   @Test
   fun `custom objectMapper readValue`() {
     val myObjectMapper = ObjectMapper()
-    assertThrows<InvalidDefinitionException> { myObjectMapper.readValue<TestDto>(json) }
+    val dto = assertDoesNotThrow { myObjectMapper.readValue<TestDto>(json) }
+    assertEquals(TestDto("data", LocalDateTime.of(2025, 1, 1, 0, 0)), dto)
   }
 
   @Test
@@ -133,6 +134,7 @@ class ObjectMapperTest @Autowired constructor(private val objectMapper: ObjectMa
       configure(
         DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS, false
       )
+      configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false)
     }
 
     val testJson = """
@@ -142,10 +144,8 @@ class ObjectMapperTest @Autowired constructor(private val objectMapper: ObjectMa
       }
     """.trimIndent()
 
-    assertDoesNotThrow {
-      val resultDto = testJsonMapper.readValue<TeestDto3>(testJson)
-      println(resultDto)
-    }
+    val resultDto = assertDoesNotThrow { testJsonMapper.readValue<TeestDto3>(testJson) }
+    assertEquals(TeestDto3(), resultDto)
   }
 }
 
