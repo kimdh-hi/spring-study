@@ -15,9 +15,9 @@ Prefix, Version, Description <br/>
 
 Prefix
 - V, U, R 세 개 prefix 를 지원한다.
-- V 는 새로운 버전으로 업데이트 하는 경우
-- U 는 현재 버전을 이전 버전으로 되돌리는 경우
-- R 은 버전과 관계없이 매 번 실행하는 경우
+- V: 새로운 버전으로 업데이트
+- U: 현재 버전을 이전 버전으로 되돌리는 경우
+- R: 버전 관계없이 매 번 실행
 
 Version
 - Prefix 중 V와 U 는 Version 을 필요로 한다.
@@ -32,5 +32,46 @@ Description
 - version 과 description 사이는 반드시 언더바(_) 가 두 개여야 한다.
 - version 이 없다면 Prefix 와 description 사이 또한 언더바(_) 가 두 개여야 한다.
 
+### baseline-on-migrate
+- https://documentation.red-gate.com/fd/baselines-273973441.html
+- flyway_schema_history 테이블이 없는 상태에서 비어있지 않은 DB에 migrate 시 baseline 을 먼저 호출할지 여부를 결정
+  - 이미 운영중인 DB를 flyway 관리 대상으로 편입시키기 위한 장치
+  - 완전히 새로운 DB(greenfield) 대상으로는 baseline 신경쓸 것 없음.
+- 
+- default: false
+- baseline 활성화 시 동작
+```
+1. flyway_schema_history 테이블 생성
+2. baselineVersion(default: 1) 으로 BASELINE 행 insert
+3. baselineVersion 이하 마이그레이션은 이미 적용된 것으로 간주하고 스킵
+4. baselineVersion 보다 높은 버전의 마이그레이션만 실행
+```
+- 관련 설정 예시
+```
+spring:
+  flyway:
+    baseline-on-migrate: true
+    baseline-version: 20260910
+    baseline-description: "Existing production schema"
+```
+- 
+
+### 샘플 데이터
+- 스키마, 샘플 데이터 분리 필요한 경우 분리 후 `spring.flyway.locations` 로 지정
+
+```
+src/main/resources/db/
+├── migration/          # 스키마
+└── seed/               # 샘플 데이터
+```
+
+- 샘플 데이터는 `R__` prefix 를 사용해 매 실행마다 반영
+- `R__` 은 versioned 마이그레이션이 모두 끝난 뒤 실행
+- 체크섬이 바뀔 때만 재실행되므로 멱등하게 작성
+- 버전을 올리지 않고 파일 하나를 계속 수정해서 사용
+- 여러 `R__` 의 실행 순서는 파일 추가 순서가 아닌 description 알파벳 순
+
 ### 참고
-https://tecoble.techcourse.co.kr/post/2021-10-23-flyway/
+- https://documentation.red-gate.com/fd/flyway-concepts-271583830.html
+- https://tecoble.techcourse.co.kr/post/2021-10-23-flyway/
+- https://www.red-gate.com/hub/product-learning/flyway/managing-static-data-in-flyway-database-development/
