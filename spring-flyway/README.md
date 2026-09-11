@@ -1,43 +1,115 @@
 ## Spring flyway
 
 ### Flyway
+- https://documentation.red-gate.com/flyway
+- Redgate 에서 개발한 데이터베이스 마이그레이션(스키마 버전 관리) 도구
+- 데이터베이스 변경사항에 버전을 부여하고 배포 자동화 하는 것으로 목적으로 함
+- 동작 원리
+  - flyway는 스키마 히스토리 테이블을 관리 (flyway_schema_history)
+  - flyway_schema_history 를 통해 테이블 변경 이력을 추적
+  - 기본적으로 flyway_schema_history 의 변경사항 기록 중 성공한 가장 높은 버전을 찾고, 해당 버전보다 높은 버전을 버전 순차대로 migrate 적용
+- 일반적으로 spring flyway 의 경우 서버 구동시 `migrate` 가 실행되므로 버전별 flyway script 만 관리한다면 DB 변경사항 이력관리와 마이그레이션 자동화 가능
 
-Flyway 는 DB 마이그레이션 툴로 DB 형상관리에 사용된다.<br/>
+### script prefix
+- flyway 스크립트 파일명은 `접두사 + 버전 + 구분자 + 설명 + 확장자` 구조
+- 접두사가 스크립의 종류를 결정
+  - V(Versioned), R(Repeatable), U(Undo)
 
-로컬, 개발환경이 아닌 경우 데이터가 쌓여있는 서비스에서 스키마를 변경해야 하는 경우 flyway 를 사용하지 않는다면 직접 DB 서버에 스키마 변경에 대한 DDL 을 날려야 한다.<br/>
-추가로 DDL 변경 이력을 쌓으므로 이를 통해 변경사항을 추적할 수 있다.<br/>
+#### V (Versioned)
+- 각 스크립트는 정확히 한 번만 적용
+- 버전은 반드시 고유해야 하고, 숫자순 정렬됨 (점 표기법, 언더스코어 표기법 모두 허용)
+- 버전은 단순 증가되는 정수 또는 타임스탬프 등 팀 컨벤션에 맞추어 지정
+- `__` 는 버전과 설명 부분을 구분 (커스텀 가능하고 `__` 가 기본값)
+- migrate 이후 이전 스크립트 파일 내용에 수정이 생기는 경우 체크섬이 달라져 migrate 실패
+- 테이블, 인덱스, 제약조건 생성 및 변경, 컬럼 추가/삭제 및 일회성 데이터 보정 시 사용
+  - 거의 일반적으로 V만 사용.
+
+```
+V1__migration.sql
+V202609111322__migration.sql
+V001.002__migration.sql
+V2_202609111322__migration.sql
+```
+
+#### R (Repeatable)
+- 버전 없음
+- 파일 내용이 바뀌어 체크섬이 달라질 때마다 실행
+- Versioned script migrate가 모두 끝난 이후 R script 순차적으로 실행
+  - 여러 개 인 경우 파일명 중 description 순으로 실행 
+- 파일 내용이 바뀌면 flyway 는 다시 실행하므로 멱득성은 사용자가 보장해야 함
+- 뷰, 프로시저, 함수, 트리거 관리시 사용
+
+```
+R__repeatable.sql
+```
+
+#### U (Undo)
+- `migrate` 가 아닌 `undo` 명령으로 실행
+  - `undo`: 기본적으로 마지막 적용 versioned 로 롤백
+- Teams 이상 티어 사용가능 Community 사용불가
+- 사용할 일 없을 듯.
+
+```
+U1__migrate.sql
+U001.002__migrate.sql
+```
+
+#### B (Baseline)
+- 쌓인 script 압축
+- 오랜 기간 flyway 를 사용하게 되면 수많은 V, R 파일들이 쌓일 수 있음
+  - 로컬 DB에 구성시 script 수백개를 순서대로 실행해야 함.
+  - validate 시 수백개 체크섬을 검사해야 함.
+  - 그냥 좀 지저분함.
+- 현재 스키마 전체를 덤프해서 파일 하나로 생성
+  - `B202609111342__baseline.sql`
+  - 202609111342 이후 버전부터 migrate, validate 대상이 됨.
+- baseline 이전 버전 기존 script들은 별도 경로에 archive 
+
+```
+B001__baseline.sql
+B20240601__production_snapshot.sql
+```
 
 
-### 네이밍 컨벤션
-flyway 스크립트 파일의 이름은 3개 영역으로 구성된다.<br/>
-Prefix, Version, Description <br/>
-<br/>
-
-Prefix
-- V, U, R 세 개 prefix 를 지원한다.
-- V: 새로운 버전으로 업데이트
-- U: 현재 버전을 이전 버전으로 되돌리는 경우
-- R: 버전 관계없이 매 번 실행
-
-Version
-- Prefix 중 V와 U 는 Version 을 필요로 한다.
-- 새로운 스크립트르 작성한다면 스크립트의 버전은 이 전 스크립트보다 높아야 한다.
-- 만약 더 낮은 버전의 스크립트를 추가한다면 flyway 는 이를 무시한다.
-- 버전은 1.0, 2.0 과 같은 형태일수도 있고 20220221 과 같은 날짜 형태일수도 있다.
-
-Description
-- 스크립트의 내용을 표현한다. (띄어쓰기가 필요하다면 언더바 한 개를 사용한다.)
-
-주의
-- version 과 description 사이는 반드시 언더바(_) 가 두 개여야 한다.
-- version 이 없다면 Prefix 와 description 사이 또한 언더바(_) 가 두 개여야 한다.
+### flyway_schema_history
+- 언제, 누구에 의해 스키마 변경사항이 적용되었는지 추적하기 위해 대상 스키마에 전용 이력 테이블을 생성
+  - 테이블 이름: flyway_schema_history
+- 빈 DB에서 실행시 flyway 는 flyway_schema_history 을 찾고 없으면 생성
+```
+mysql> select * from flyway_schema_history;
++----------------+----------+-------------+------+---------------------------+-------------+--------------+---------------------+----------------+---------+
+| installed_rank | version  | description | type | script                    | checksum    | installed_by | installed_on        | execution_time | success |
++----------------+----------+-------------+------+---------------------------+-------------+--------------+---------------------+----------------+---------+
+|              1 | 20230221 | init        | SQL  | V20230221__init.sql       |  1211654660 | root         | 2026-09-10 16:17:11 |             21 |       1 |
+|              2 | 20230225 | add column  | SQL  | V20230225__add_column.sql | -1105085253 | root         | 2026-09-10 16:17:11 |             26 |       1 |
+|              3 | NULL     | sample data | SQL  | R__sample_data.sql        | -2132993113 | root         | 2026-09-10 16:17:11 |             10 |       1 |
+|              4 | NULL     | sample data | SQL  | R__sample_data.sql        | -2128645744 | root         | 2026-09-10 16:18:01 |             14 |       1 |
+|              5 | NULL     | sample data | SQL  | R__sample_data.sql        | -2132993113 | root         | 2026-09-10 16:18:11 |             12 |       1 |
++----------------+----------+-------------+------+---------------------------+-------------+--------------+---------------------+----------------+---------+
+```
+- installed_rank
+  -  적용 순서를 의미. 1부터 시작하는 일련번호이자 PK
+- type
+  - 마이그레이션 종류
+  - SQL, JDBC, SCRIPT, BASELINE, DELETE, SCHEMA
+- checksum
+  - 스크립트 내용에 대한 CRC32 체크섬
+  - 스크립트 변경여부 감지용도
+- success
+  - 성공 여부
+  - 실패한 마이그레이션도 행으로 남을 수 있음
+  - success false 가 있는 경우 이후 migrate 는 거부되고 repair 필요
 
 ### baseline-on-migrate
 - https://documentation.red-gate.com/fd/baselines-273973441.html
 - flyway_schema_history 테이블이 없는 상태에서 비어있지 않은 DB에 migrate 시 baseline 을 먼저 호출할지 여부를 결정
   - 이미 운영중인 DB를 flyway 관리 대상으로 편입시키기 위한 장치
   - 완전히 새로운 DB(greenfield) 대상으로는 baseline 신경쓸 것 없음.
-- 
+- flyway script 중 특정 버전(V...)를 baseline 으로 설정하면 해당 script 이후 버전의 스크립트만 migrate 대상이 됨.
+- 운영중인 DB에 flyway 최초 도입시 migrate 시 한 번 사용
+  - 운영중인 db의 현재 상태의 DDL을 v1 flyway script 에 기록하고, baseline은 1(v1) 으로 설정한다.
+  - 이후 스키마 변경사항은 v1 이후 버전으로 작성하면 v1 이후 버전(baseline 이후 버전)부터 migrate 대상이 된다.
+- 운영 DB에 flyway 도입시 1회만 사용하고 baseline-on-migrate 설정은 비활성화 필요
 - default: false
 - baseline 활성화 시 동작
 ```
@@ -54,22 +126,6 @@ spring:
     baseline-version: 20260910
     baseline-description: "Existing production schema"
 ```
-- 
-
-### 샘플 데이터
-- 스키마, 샘플 데이터 분리 필요한 경우 분리 후 `spring.flyway.locations` 로 지정
-
-```
-src/main/resources/db/
-├── migration/          # 스키마
-└── seed/               # 샘플 데이터
-```
-
-- 샘플 데이터는 `R__` prefix 를 사용해 매 실행마다 반영
-- `R__` 은 versioned 마이그레이션이 모두 끝난 뒤 실행
-- 체크섬이 바뀔 때만 재실행되므로 멱등하게 작성
-- 버전을 올리지 않고 파일 하나를 계속 수정해서 사용
-- 여러 `R__` 의 실행 순서는 파일 추가 순서가 아닌 description 알파벳 순
 
 ### 참고
 - https://documentation.red-gate.com/fd/flyway-concepts-271583830.html
