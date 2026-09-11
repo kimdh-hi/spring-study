@@ -127,6 +127,25 @@ spring:
     baseline-description: "Existing production schema"
 ```
 
+### vs hibernate ddl-auto: update
+- 우선 `ddl-auto: update`는 엔티티와 DB 스키마 싱크를 맞추지 않고, 엔티티에 있는데 DB에 없는 것들만 만들어 붙이는 방식이다.
+  - 반대 방향으로 DB에 있는 Entity 에 없는 것은 맞추지 못한다.
+  - 엔티티 필드 삭제시 => 아무것도 안 함
+  - 엔티티 필드 rename 시 => rename 되는 컬럼 신규 추가하고 기존 컬럼 유지됨 (데이터 이관도 없음. 신규컬럼으로 조회하면 null)
+  - @Column length 조정 => 아무것도 안 함
+  - ...
+  - ddl-auto: validate 의 경우 기동 시점에 예외를 발생시켜주지만, update 는 조용히 오동작 발생됨.
+- ddl-auto: update 는 배포 전 실제 실행될 DDL을 알 수 없음.
+- 이러한 이유로 개발, 테스트 환경 외에 update 비권장.
+
+### flyway + ddl-auto: validate
+- flyway 가 마이그레이션을 끝내기 전에 validate가 먼저 돌아서 실패하지 않나?
+- https://docs.spring.io/spring-boot/how-to/data-initialization.html
+- `ddl-auto: validate` 는 `AbstractEntityManagerFactoryBean` 빈 초기화 시점에 실행됨
+- `DatabaseInitializationDependencyConfigurer` 통해 dependsOn 조정하여 flyway 마이그레이션이 선행되는 것을 보장한다.
+- 단, `defer-datasource-initialization: true` 사용중인 경우 위 보장이 안 됨
+- flyway 사용시 `ddl-auto: validate` 지정하지 않는 경우 none 이므로 영향 없겠지만, validate 사용시 defer-datasource-initialization: true 지정시 migrate, validate 순서 보장 안되는 것에 주의할 것.
+
 ### 참고
 - https://documentation.red-gate.com/fd/flyway-concepts-271583830.html
 - https://tecoble.techcourse.co.kr/post/2021-10-23-flyway/
