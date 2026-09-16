@@ -8,8 +8,7 @@ spring:
     openai:
       api-key: ${open-api-key}
       embedding:
-        options:
-          model: text-embedding-3-small
+        model: text-embedding-3-small
       chat:
         options:
           model: gpt-4o-mini

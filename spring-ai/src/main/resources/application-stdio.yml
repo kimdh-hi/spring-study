@@ -1,0 +1,29 @@
+spring:
+  main:
+    web-application-type: none
+    banner-mode: "off"
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration
+      - org.springframework.ai.vectorstore.pgvector.autoconfigure.PgVectorStoreAutoConfiguration
+  ai:
+    openai:
+      api-key: ${open-api-key:stdio-unused}
+    mcp:
+      server:
+        stdio: true
+        name: spring-ai-stdio
+        version: 0.0.1
+        instructions: Spring AI stdio MCP sample server
+
+sample:
+  stdio:
+    root: ${user.dir}
+
+logging:
+  console:
+    enabled: false
+  file:
+    name: ./logs/mcp-stdio.log
+  level:
+    root: INFO
