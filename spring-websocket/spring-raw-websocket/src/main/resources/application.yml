@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-raw-websocket
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:chat
+    username: sa
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  h2:
+    console:
+      enabled: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
