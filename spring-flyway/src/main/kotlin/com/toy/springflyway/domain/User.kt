@@ -17,5 +17,7 @@ class User(
   @Column(nullable = false, unique = true)
   var name: String,
 
-  var age: Int
+  var age: Int,
+
+  var email: String? = null
 )

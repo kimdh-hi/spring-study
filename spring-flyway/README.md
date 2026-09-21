@@ -146,6 +146,56 @@ spring:
 - 단, `defer-datasource-initialization: true` 사용중인 경우 위 보장이 안 됨
 - flyway 사용시 `ddl-auto: validate` 지정하지 않는 경우 none 이므로 영향 없겠지만, validate 사용시 defer-datasource-initialization: true 지정시 migrate, validate 순서 보장 안되는 것에 주의할 것.
 
+### Flyway Plugin
+- https://documentation.red-gate.com/fd/gradle-task-184127407.html
+- 서버 기동과 무관하게 gradle task 로 `migrate`, `validate`, `clean`, `baseline` 실행
+- 스키마 변경을 배포 파이프라인 단계로 분리 가능
+
+#### 설정
+```kotlin
+buildscript {
+  repositories { mavenCentral() }
+  dependencies {
+    classpath("org.flywaydb:flyway-mysql:13.7.0")
+    classpath("com.mysql:mysql-connector-j:9.7.0")
+  }
+}
+
+plugins {
+  id("org.flywaydb.flyway") version "13.7.0"
+}
+
+flyway {
+  locations = arrayOf("filesystem:src/main/resources/db/migration")
+  baselineOnMigrate = true
+}
+```
+- DB 모듈과 JDBC 드라이버는 `buildscript` classpath 에 추가 (서버 classpath 는 플러그인이 참조하지 않음)
+- `locations` 는 `classpath:` 가 아닌 `filesystem:` 사용 (리소스 처리 없이 소스 경로를 그대로 읽음)
+- db 접속정보는 `flyway.*` gradle property 에 지정
+```
+./gradlew flywayMigrate -Pflyway.url=jdbc:mysql://host:3306/app -Pflyway.user=app -Pflyway.password=****
+```
+
+#### 주요 task
+- `flywayInfo`: 적용 이력과 `Pending` 스크립트 확인
+- `flywayMigrate`: 서버 기동 없이 `Pending` 적용
+- `flywayValidate`: 적용된 스크립트 수정 시 체크섬 불일치 검출
+
+#### 버전 주의
+- 플러그인은 자기 버전의 flyway, 앱은 Spring Boot 관리 버전을 사용
+```
+플러그인: org.flywaydb.flyway 13.7.0 -> flyway-core 13.7.0
+런타임  : Spring Boot 4.1.1        -> flyway-core 12.4.0
+```
+- 같은 `flyway_schema_history` 를 다른 버전이 다루므로 한쪽으로 통일하거나 버전 고정 필요
+
+#### 런타임 migrate vs gradle plugin
+- 런타임 migrate
+  - 배포와 스키마 변경을 원자적으로 묶을 수 있음
+- plugin migrate
+  - 스키마 변경사항 적용을 별도 단계로 분리 가능
+
 ### 참고
 - https://documentation.red-gate.com/fd/flyway-concepts-271583830.html
 - https://tecoble.techcourse.co.kr/post/2021-10-23-flyway/

@@ -1,9 +1,20 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath("org.flywaydb:flyway-mysql:13.7.0")
+    classpath("com.mysql:mysql-connector-j:9.7.0")
+  }
+}
+
 plugins {
   kotlin("jvm") version "2.4.20"
   kotlin("plugin.spring") version "2.4.20"
   kotlin("plugin.jpa") version "2.4.20"
   id("org.springframework.boot") version "4.1.1"
   id("io.spring.dependency-management") version "1.1.7"
+  id("org.flywaydb.flyway") version "13.7.0"
 }
 
 group = "com.toy"
@@ -33,6 +44,12 @@ dependencies {
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+flyway {
+  locations = arrayOf("filesystem:src/main/resources/db/migration")
+  baselineOnMigrate = true
+  cleanDisabled = false
 }
 
 kotlin {
