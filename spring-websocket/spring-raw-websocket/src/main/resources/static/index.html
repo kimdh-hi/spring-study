@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>raw websocket chat</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; max-width: 760px; }
+    fieldset { margin-bottom: 12px; }
+    input { padding: 4px 6px; }
+    #log { height: 360px; overflow-y: auto; border: 1px solid #ccc; padding: 8px; white-space: pre-wrap; font: 12px monospace; }
+  </style>
+</head>
+<body>
+<h1>spring raw websocket chat</h1>
+
+<fieldset>
+  <legend>connect</legend>
+  userId <input id="userId" value="user-1">
+  deviceId <input id="deviceId" value="device-1">
+  <button id="connect">connect</button>
+  <button id="disconnect">disconnect</button>
+</fieldset>
+
+<fieldset>
+  <legend>room user (REST)</legend>
+  roomId <input id="roomId" value="room-1">
+  <button id="join">join</button>
+  <button id="leave">leave</button>
+  <button id="rooms">my rooms</button>
+</fieldset>
+
+<fieldset>
+  <legend>message</legend>
+  <input id="text" size="50" placeholder="message">
+  <button id="send">send</button>
+  <button id="backfill">backfill</button>
+</fieldset>
+
+<div id="log"></div>
+
+<script>
+  let socket = null;
+  let lastMessageId = 0;
+  const value = (id) => document.getElementById(id).value;
+  const log = (line) => {
+    const el = document.getElementById('log');
+    el.textContent += line + '\n';
+    el.scrollTop = el.scrollHeight;
+  };
+  const send = (type, body) => {
+    if (socket?.readyState !== WebSocket.OPEN) return log('not connected');
+    socket.send(JSON.stringify({ type, roomId: value('roomId'), ...body }));
+  };
+  const call = async (method, path) => {
+    const response = await fetch(path, {
+      method,
+      headers: { 'X-User-Id': value('userId') },
+    });
+    const text = await response.text();
+    log(`${method} ${path} -> ${response.status} ${text}`);
+
+    return response.ok && text ? JSON.parse(text) : null;
+  };
+  const roomPath = () => `/api/rooms/${encodeURIComponent(value('roomId'))}`;
+
+  document.getElementById('connect').onclick = async () => {
+    const query = `userId=${encodeURIComponent(value('userId'))}&deviceId=${encodeURIComponent(value('deviceId'))}`;
+    socket = new WebSocket(`ws://${location.host}/ws/chat?${query}`);
+    socket.onopen = () => log('open');
+    socket.onmessage = (event) => {
+      log('< ' + event.data);
+      const frame = JSON.parse(event.data);
+      if (frame.type === 'chat.message') lastMessageId = Math.max(lastMessageId, frame.id ?? 0);
+    };
+    socket.onclose = (event) => log(`close code=${event.code} reason=${event.reason}`);
+    socket.onerror = () => log('error');
+  };
+
+  document.getElementById('disconnect').onclick = () => socket?.close();
+  document.getElementById('join').onclick = () => call('PUT', `${roomPath()}/me`);
+  document.getElementById('leave').onclick = () => call('DELETE', `${roomPath()}/me`);
+  document.getElementById('rooms').onclick = () => call('GET', '/api/me/rooms');
+  document.getElementById('send').onclick = () => send('chat.send', { text: value('text') });
+  document.getElementById('backfill').onclick = () =>
+    call('GET', `${roomPath()}/messages?afterId=${lastMessageId}`);
+</script>
+</body>
+</html>
