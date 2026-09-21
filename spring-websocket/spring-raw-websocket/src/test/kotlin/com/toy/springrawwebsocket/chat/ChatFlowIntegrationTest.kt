@@ -6,7 +6,6 @@ import com.toy.springrawwebsocket.infra.ws.SessionEntry
 import com.toy.springrawwebsocket.infra.ws.SessionRegistry
 import com.toy.springrawwebsocket.support.RecordingWebSocketHandler
 import com.toy.springrawwebsocket.support.RedisTestContainer
-import com.toy.springrawwebsocket.ui.api.constants.X_DEVICE_ID
 import com.toy.springrawwebsocket.ui.api.constants.X_USER_ID
 import com.toy.springrawwebsocket.ui.api.dto.ChatMessageResponse
 import org.junit.jupiter.api.AfterEach
@@ -181,10 +180,9 @@ class ChatFlowIntegrationTest : RedisTestContainer() {
   }
 
   private fun connect(userId: String, deviceId: String): Connection {
-    val ticket = issueTicket(userId, deviceId)
     val handler = RecordingWebSocketHandler(jsonMapper)
     val session = StandardWebSocketClient()
-      .execute(handler, "ws://localhost:$port/ws/chat?ticket=$ticket")
+      .execute(handler, "ws://localhost:$port/ws/chat?userId=$userId&deviceId=$deviceId")
       .get(5, TimeUnit.SECONDS)
     openSessions.add(session)
     awaitRegistered(userId)
@@ -215,17 +213,6 @@ class ChatFlowIntegrationTest : RedisTestContainer() {
   }
 
   private fun sessionEntryOf(userId: String): SessionEntry = sessionRegistry.findEntriesByUserId(userId).single()
-
-  private fun issueTicket(userId: String, deviceId: String): String {
-    val issued = restClient.post()
-      .uri("/api/ws-tickets")
-      .header(X_USER_ID, userId)
-      .header(X_DEVICE_ID, deviceId)
-      .retrieve()
-      .body(object : ParameterizedTypeReference<Map<String, String>>() {})
-
-    return requireNotNull(issued?.get("ticket"))
-  }
 
   private data class Connection(
     val session: WebSocketSession,

@@ -14,7 +14,7 @@
 <h1>spring raw websocket chat</h1>
 
 <fieldset>
-  <legend>connect (ticket handshake)</legend>
+  <legend>connect</legend>
   userId <input id="userId" value="user-1">
   deviceId <input id="deviceId" value="device-1">
   <button id="connect">connect</button>
@@ -54,7 +54,7 @@
   const call = async (method, path) => {
     const response = await fetch(path, {
       method,
-      headers: { 'X-User-Id': value('userId'), 'X-Device-Id': value('deviceId') },
+      headers: { 'X-User-Id': value('userId') },
     });
     const text = await response.text();
     log(`${method} ${path} -> ${response.status} ${text}`);
@@ -64,9 +64,8 @@
   const roomPath = () => `/api/rooms/${encodeURIComponent(value('roomId'))}`;
 
   document.getElementById('connect').onclick = async () => {
-    const issued = await call('POST', '/api/ws-tickets');
-    if (!issued) return;
-    socket = new WebSocket(`ws://${location.host}/ws/chat?ticket=${encodeURIComponent(issued.ticket)}`);
+    const query = `userId=${encodeURIComponent(value('userId'))}&deviceId=${encodeURIComponent(value('deviceId'))}`;
+    socket = new WebSocket(`ws://${location.host}/ws/chat?${query}`);
     socket.onopen = () => log('open');
     socket.onmessage = (event) => {
       log('< ' + event.data);
