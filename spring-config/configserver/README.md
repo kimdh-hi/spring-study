@@ -32,6 +32,23 @@ spring:
           password: ${GIT_TOKEN}
 ```
 
+## git fetch 주기
+
+- 기본값 `refresh-rate: 0` — config 조회 요청마다 git fetch
+- 클라이언트가 짧은 주기로 폴링하면 그만큼 원격 저장소 호출이 늘어남
+- `refresh-rate` 를 초 단위로 올리면 해당 시간 내 요청은 로컬 clone 으로 응답
+
+```yaml
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          refresh-rate: 30
+```
+
+- 반영 지연 = 클라이언트 폴링 주기 + `refresh-rate`
+
 ## 암호화 (대칭키)
 
 - `encrypt.key` 가 설정되면 `/encrypt`, `/decrypt` 엔드포인트가 활성화됨

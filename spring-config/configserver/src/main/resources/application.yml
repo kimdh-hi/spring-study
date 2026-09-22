@@ -4,16 +4,36 @@ server:
 spring:
   application:
     name: configserver
+  profiles:
+    active: composite
+    group:
+      native-only: composite
   cloud:
     config:
       server:
-        git:
-          uri: ${CONFIG_GIT_URI:https://github.com/kimdh-hi/spring-cloud-config-test}
-          username: ${CONFIG_GIT_USERNAME:kimdh-hi}
-          password: ${CONFIG_GIT_TOKEN:settings>personal-access-tokens>content-read-permission>pat-token}
-          default-label: main
-          clone-on-start: true # default: true, config-server 서버 시작시 git clone 여부. false 인 경우 config 조회시점에 lazy하게 clone
+        composite:
+          - type: git
+            uri: ${CONFIG_GIT_URI:https://github.com/kimdh-hi/spring-cloud-config-test}
+            username: ${CONFIG_GIT_USERNAME:kimdh-hi}
+            password: ${CONFIG_GIT_TOKEN:settings>personal-access-tokens>content-read-permission>pat-token}
+            default-label: main
+            clone-on-start: true # default: true, config-server 서버 시작시 git clone 여부. false 인 경우 config 조회시점에 lazy하게 clone
+            refresh-rate: ${CONFIG_GIT_REFRESH_RATE:0}
+          - type: native
+            search-locations: ${CONFIG_NATIVE_SEARCH_LOCATIONS:file:./config,file:./configserver/config,classpath:/config}
 
 encrypt:
   key: ${CONFIG_ENCRYPT_KEY:local-dev-encrypt-key}
   salt: ${CONFIG_ENCRYPT_SALT:deadbeef}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: native-only
+  cloud:
+    config:
+      server:
+        composite:
+          - type: native
+            search-locations: ${CONFIG_NATIVE_SEARCH_LOCATIONS:file:./config,file:./configserver/config,classpath:/config}
