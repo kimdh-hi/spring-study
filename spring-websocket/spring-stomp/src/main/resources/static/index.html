@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>spring stomp chat</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; max-width: 760px; }
+    fieldset { margin-bottom: 12px; }
+    input { padding: 4px 6px; }
+    #log { height: 360px; overflow-y: auto; border: 1px solid #ccc; padding: 8px; white-space: pre-wrap; font: 12px monospace; }
+  </style>
+</head>
+<body>
+<h1>spring stomp chat</h1>
+
+<fieldset>
+  <legend>connect</legend>
+  userId <input id="userId" value="user-1">
+  deviceId <input id="deviceId" value="device-1">
+  <button id="connect">connect</button>
+  <button id="disconnect">disconnect</button>
+</fieldset>
+
+<fieldset>
+  <legend>room user (REST)</legend>
+  roomId <input id="roomId" value="room-1">
+  <button id="join">join</button>
+  <button id="leave">leave</button>
+  <button id="rooms">my rooms</button>
+</fieldset>
+
+<fieldset>
+  <legend>message</legend>
+  <input id="text" size="50" placeholder="message">
+  <button id="send">send</button>
+  <button id="backfill">backfill</button>
+</fieldset>
+
+<div id="log"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7/bundles/stomp.umd.min.js"></script>
+<script>
+  let client = null;
+  let lastMessageId = 0;
+  const roomSubscriptions = new Map();
+  const value = (id) => document.getElementById(id).value;
+  const log = (line) => {
+    const el = document.getElementById('log');
+    el.textContent += line + '\n';
+    el.scrollTop = el.scrollHeight;
+  };
+  const call = async (method, path) => {
+    const response = await fetch(path, {
+      method,
+      headers: { 'X-User-Id': value('userId') },
+    });
+    const text = await response.text();
+    log(`${method} ${path} -> ${response.status} ${text}`);
+
+    return response.ok && text ? JSON.parse(text) : null;
+  };
+  const roomPath = () => `/api/rooms/${encodeURIComponent(value('roomId'))}`;
+
+  const subscribeRoom = (roomId) => {
+    if (roomSubscriptions.has(roomId)) return;
+    const subscription = client.subscribe(`/topic/rooms/${roomId}`, (frame) => {
+      log('< MESSAGE ' + frame.body);
+      const message = JSON.parse(frame.body);
+      lastMessageId = Math.max(lastMessageId, message.id ?? 0);
+    });
+    roomSubscriptions.set(roomId, subscription);
+    log(`SUBSCRIBE /topic/rooms/${roomId} (id=${subscription.id})`);
+  };
+
+  const unsubscribeRoom = (roomId) => {
+    const subscription = roomSubscriptions.get(roomId);
+    if (!subscription) return;
+    subscription.unsubscribe();
+    roomSubscriptions.delete(roomId);
+    log(`UNSUBSCRIBE /topic/rooms/${roomId}`);
+  };
+
+  document.getElementById('connect').onclick = () => {
+    const query = `userId=${encodeURIComponent(value('userId'))}&deviceId=${encodeURIComponent(value('deviceId'))}`;
+    client = new StompJs.Client({
+      brokerURL: `ws://${location.host}/ws/chat?${query}`,
+      heartbeatIncoming: 10000,
+      heartbeatOutgoing: 10000,
+      reconnectDelay: 0,
+      debug: (line) => log('. ' + line),
+    });
+    client.onConnect = async () => {
+      log('CONNECTED');
+      roomSubscriptions.clear();
+      (await call('GET', '/api/me/rooms') ?? []).forEach(subscribeRoom);
+    };
+    client.onStompError = (frame) => log(`ERROR ${frame.headers['message']} ${frame.body}`);
+    client.onWebSocketClose = (event) => log(`close code=${event.code} reason=${event.reason}`);
+    client.activate();
+  };
+
+  document.getElementById('disconnect').onclick = () => client?.deactivate();
+  document.getElementById('join').onclick = async () => {
+    await call('PUT', `${roomPath()}/me`);
+    if (client?.connected) subscribeRoom(value('roomId'));
+  };
+  document.getElementById('leave').onclick = async () => {
+    unsubscribeRoom(value('roomId'));
+    await call('DELETE', `${roomPath()}/me`);
+  };
+  document.getElementById('rooms').onclick = () => call('GET', '/api/me/rooms');
+  document.getElementById('send').onclick = () => client?.publish({
+    destination: `/app/rooms/${encodeURIComponent(value('roomId'))}`,
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ text: value('text') }),
+  });
+  document.getElementById('backfill').onclick = () =>
+    call('GET', `${roomPath()}/messages?afterId=${lastMessageId}`);
+</script>
+</body>
+</html>
