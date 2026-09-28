@@ -159,4 +159,27 @@ class CircularWaitDeadlockTestService(
 
 ```
 
-### 
+### Scrolling (Window / ScrollPosition)
+- 참고: https://docs.spring.io/spring-data/jpa/reference/data-commons/repositories/scrolling.html
+  - spring data 3.1(springboot 3.1) 추가 (2023/5)
+- 반환 타입 `Window<T>`, 파라미터 `ScrollPosition` 필수
+  - limit 지정: limit 파라미터 or FirstN/TopN 
+  - limit 지정하지 않고 반환타입, 파라미터만 지정하는 경우 조회조건애 맞는 모든 데이터가 한 개 window 에 조회됨
+- `ScrollPosition.offset()`: `limit n offset m` 방식 (뒤 페이지로 갈수록 느림, offset 수만큼 읽어야 됨.)
+- `ScrollPosition.keyset()`: 정렬된 컬럼 기준 `where id > ?` 방식 (offset 만큼 읽지 않고, 시작 지점으로 바로 갈 수 있으므로 성능상 유리)
+- `window.positionAt(index)`: 다음 조회 시작 position 계산
+- `window.hasNext()`: 다음 window 존재 여부
+- `WindowIterator`: position 계산 없이 전체 결과 순회
+
+```kotlin
+interface PostRepository : JpaRepository<Post, Long> {
+  fun findFirst3ByOrderByIdAsc(position: ScrollPosition): Window<Post>
+}
+
+val first = postRepository.findFirst3ByOrderByIdAsc(ScrollPosition.keyset())
+val next = postRepository.findFirst3ByOrderByIdAsc(first.positionAt(first.size() - 1))
+
+WindowIterator.of<Post> { postRepository.findFirst3ByOrderByIdAsc(it) }
+  .startingAt(ScrollPosition.keyset())
+  .forEach { println(it.title) }
+```

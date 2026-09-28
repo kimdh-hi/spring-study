@@ -9,3 +9,6 @@ insert into friend(id, from_user_id, to_user_id) values
 insert into device(id, device_key, user_id) values
 ('d1', 'key1', 'u1'),
 ('d2', 'key2', 'u2');
+
+insert into post(title) values
+('post-1'), ('post-2'), ('post-3'), ('post-4'), ('post-5'), ('post-6'), ('post-7');

@@ -1,0 +1,8 @@
+### 첫 페이지
+GET localhost:8080/api/posts?size=3
+
+### 다음 페이지 (이전 응답의 nextCursor)
+GET localhost:8080/api/posts?size=3&cursor=3
+
+### 마지막 페이지 (nextCursor = null)
+GET localhost:8080/api/posts?size=3&cursor=6
