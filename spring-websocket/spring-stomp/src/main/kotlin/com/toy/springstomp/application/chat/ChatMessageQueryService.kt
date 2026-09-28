@@ -14,12 +14,12 @@ class ChatMessageQueryService(
   private val roomUserService: RoomUserService,
 ) {
   @Transactional(readOnly = true)
-  fun findRoomMessages(roomId: String, userId: String, afterId: Long, limit: Int): List<ChatMessage>? {
+  fun findRoomMessages(roomId: String, userId: String, lastMessageId: Long, limit: Int): List<ChatMessage>? {
     if (!roomUserService.isMember(roomId, userId)) return null
 
     return messageRepository.findByRoomIdAndIdGreaterThanOrderByIdAsc(
       roomId,
-      afterId,
+      lastMessageId,
       PageRequest.of(0, limit.coerceIn(1, MAX_LIMIT)),
     )
   }

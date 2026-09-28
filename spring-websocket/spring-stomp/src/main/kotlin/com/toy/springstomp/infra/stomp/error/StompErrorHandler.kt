@@ -10,8 +10,9 @@ import org.springframework.web.socket.messaging.StompSubProtocolErrorHandler
 import tools.jackson.databind.json.JsonMapper
 
 /**
- * Renders every ERROR frame as a JSON [ErrorResponse] and copies its message into the `message` header.
+ * Renders ERROR frames caused by client messages as a JSON [ErrorResponse] and copies its message into the `message` header.
  * Exceptions thrown from inbound channel interceptors arrive wrapped, so the cause carries the [StompException].
+ * ERROR frames the server sends on its own, such as the ones SessionCloser sends, have no cause and pass through unchanged.
  */
 @Component
 class StompErrorHandler(
@@ -25,6 +26,7 @@ class StompErrorHandler(
     cause: Throwable?,
     clientHeaderAccessor: StompHeaderAccessor?,
   ): Message<ByteArray> {
+    if (cause == null) return MessageBuilder.createMessage(errorPayload, errorHeaderAccessor.messageHeaders)
     val response = ErrorResponse.of(errorCodeOf(cause, clientHeaderAccessor))
     errorHeaderAccessor.message = response.message
     errorHeaderAccessor.setContentType(MediaType.APPLICATION_JSON)
@@ -32,7 +34,7 @@ class StompErrorHandler(
     return MessageBuilder.createMessage(jsonMapper.writeValueAsBytes(response), errorHeaderAccessor.messageHeaders)
   }
 
-  private fun errorCodeOf(cause: Throwable?, clientHeaderAccessor: StompHeaderAccessor?): ErrorCode {
+  private fun errorCodeOf(cause: Throwable, clientHeaderAccessor: StompHeaderAccessor?): ErrorCode {
     val stompException = generateSequence(cause) { it.cause }.filterIsInstance<StompException>().firstOrNull()
     if (stompException != null) {
       log.warn(

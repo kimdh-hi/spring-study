@@ -4,7 +4,7 @@ private const val ROOMS_SEGMENT = "/rooms/"
 private const val ROOM_TOPIC_PREFIX = "/topic$ROOMS_SEGMENT"
 
 object Destinations {
-  const val ROOM_SEND_MAPPING = "$ROOMS_SEGMENT{roomId}"
+  const val ROOM_SEND = "$ROOMS_SEGMENT{roomId}"
 
   fun roomTopic(roomId: String): String = ROOM_TOPIC_PREFIX + roomId
 

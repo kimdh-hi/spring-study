@@ -160,6 +160,7 @@ class ChatFlowIntegrationTest : RedisTestContainer() {
 
     connect("user-1", "device-1")
 
+    assertEquals(ErrorResponse.of(ErrorCode.DUPLICATE_SESSION), previous.handler.awaitError()?.response)
     assertTrue(previous.handler.awaitDisconnect())
   }
 
@@ -207,7 +208,7 @@ class ChatFlowIntegrationTest : RedisTestContainer() {
     assertNotNull(received.awaitFrame())
 
     val backfilled = restClient.get()
-      .uri("/api/rooms/room-1/messages?afterId={afterId}", first.id)
+      .uri("/api/rooms/room-1/messages?lastMessageId={lastMessageId}", first.id)
       .header(X_USER_ID, "user-2")
       .retrieve()
       .body(object : ParameterizedTypeReference<List<MessageFrame>>() {})
@@ -247,7 +248,7 @@ class ChatFlowIntegrationTest : RedisTestContainer() {
   }
 
   private fun awaitRegistered(deviceId: String) =
-    await("session of $deviceId is registered") { sessionRegistry.findEntryByDeviceId(deviceId) != null }
+    await("session of $deviceId is registered") { sessionRegistry.findSessionIdByDeviceId(deviceId) != null }
 
   private fun awaitSubscribed(userId: String, roomId: String) =
     await("session of $userId subscribes $roomId") {

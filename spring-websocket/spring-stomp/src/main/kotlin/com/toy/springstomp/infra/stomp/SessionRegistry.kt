@@ -5,22 +5,20 @@ import java.util.concurrent.ConcurrentHashMap
 
 @Component
 class SessionRegistry {
-  private val entriesBySessionId = ConcurrentHashMap<String, SessionEntry>()
-  private val entriesByDeviceId = ConcurrentHashMap<String, SessionEntry>()
+  private val deviceIdsBySessionId = ConcurrentHashMap<String, String>()
+  private val sessionIdsByDeviceId = ConcurrentHashMap<String, String>()
 
-  fun register(entry: SessionEntry): SessionEntry? {
-    entriesBySessionId[entry.sessionId] = entry
-    val duplicatedDeviceEntry = entriesByDeviceId.put(entry.deviceId, entry)
+  /** Returns the session id previously bound to the same device, if it was a different session. */
+  fun register(sessionId: String, deviceId: String): String? {
+    deviceIdsBySessionId[sessionId] = deviceId
 
-    return duplicatedDeviceEntry?.takeUnless { it.isSameSession(entry) }
+    return sessionIdsByDeviceId.put(deviceId, sessionId)?.takeUnless { it == sessionId }
   }
 
-  fun remove(sessionId: String): SessionEntry? {
-    val entry = entriesBySessionId.remove(sessionId) ?: return null
-    entriesByDeviceId.remove(entry.deviceId, entry)
-
-    return entry
+  fun remove(sessionId: String) {
+    val deviceId = deviceIdsBySessionId.remove(sessionId) ?: return
+    sessionIdsByDeviceId.remove(deviceId, sessionId)
   }
 
-  fun findEntryByDeviceId(deviceId: String): SessionEntry? = entriesByDeviceId[deviceId]
+  fun findSessionIdByDeviceId(deviceId: String): String? = sessionIdsByDeviceId[deviceId]
 }

@@ -13,7 +13,7 @@ import java.security.Principal
 class ChatStompController(
   private val chatService: ChatService,
 ) {
-  @MessageMapping(Destinations.ROOM_SEND_MAPPING)
+  @MessageMapping(Destinations.ROOM_SEND)
   fun send(
     @DestinationVariable roomId: String,
     @Payload request: ChatSendRequest,

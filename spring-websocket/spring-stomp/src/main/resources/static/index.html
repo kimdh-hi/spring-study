@@ -115,7 +115,7 @@
     body: JSON.stringify({ text: value('text') }),
   });
   document.getElementById('backfill').onclick = () =>
-    call('GET', `${roomPath()}/messages?afterId=${lastMessageId}`);
+    call('GET', `${roomPath()}/messages?lastMessageId=${lastMessageId}`);
 </script>
 </body>
 </html>

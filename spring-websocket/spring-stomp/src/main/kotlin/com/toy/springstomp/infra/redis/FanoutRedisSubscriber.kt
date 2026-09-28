@@ -2,8 +2,9 @@ package com.toy.springstomp.infra.redis
 
 import com.toy.springstomp.infra.redis.dto.DuplicateSessionMessage
 import com.toy.springstomp.infra.stomp.MessageSender
+import com.toy.springstomp.infra.stomp.SessionCloser
 import com.toy.springstomp.infra.stomp.SessionRegistry
-import com.toy.springstomp.infra.stomp.constants.DUPLICATE_SESSION
+import com.toy.springstomp.infra.stomp.error.ErrorCode
 import com.toy.springstomp.infra.stomp.dto.MessageFrame
 import jakarta.annotation.PostConstruct
 import org.springframework.data.redis.connection.Message
@@ -17,6 +18,7 @@ import tools.jackson.databind.json.JsonMapper
 class FanoutRedisSubscriber(
   private val listenerContainer: RedisMessageListenerContainer,
   private val localSessionRegistry: SessionRegistry,
+  private val sessionCloser: SessionCloser,
   private val messageSender: MessageSender,
   private val jsonMapper: JsonMapper,
 ) : MessageListener {
@@ -36,9 +38,9 @@ class FanoutRedisSubscriber(
 
   private fun onDuplicateSession(body: String) {
     val duplicateSession = jsonMapper.readValue(body, DuplicateSessionMessage::class.java)
-    val entry = localSessionRegistry.findEntryByDeviceId(duplicateSession.deviceId) ?: return
-    if (entry.sessionId == duplicateSession.sessionId) return
-    entry.close(DUPLICATE_SESSION)
+    val sessionId = localSessionRegistry.findSessionIdByDeviceId(duplicateSession.deviceId) ?: return
+    if (sessionId == duplicateSession.sessionId) return
+    sessionCloser.close(sessionId, ErrorCode.DUPLICATE_SESSION)
   }
 
   private fun onRoomMessage(body: String) =

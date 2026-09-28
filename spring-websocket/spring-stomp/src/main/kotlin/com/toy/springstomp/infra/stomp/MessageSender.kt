@@ -5,13 +5,12 @@ import com.toy.springstomp.infra.redis.RedisChannels
 import com.toy.springstomp.infra.redis.RedisPublisher
 import com.toy.springstomp.infra.stomp.constants.Destinations
 import com.toy.springstomp.infra.stomp.dto.MessageFrame
-import org.springframework.context.annotation.Lazy
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Component
 
 @Component
 class MessageSender(
-  @Lazy private val messagingTemplate: SimpMessagingTemplate,
+  private val messagingTemplate: SimpMessagingTemplate,
   private val publisher: RedisPublisher,
 ) {
   fun sendToRoom(message: ChatMessage) {

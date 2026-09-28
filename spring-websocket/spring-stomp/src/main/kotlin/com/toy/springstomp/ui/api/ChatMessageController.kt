@@ -19,9 +19,9 @@ class ChatMessageController(
   fun findRoomMessages(
     @PathVariable roomId: String,
     @RequestHeader(X_USER_ID) userId: String,
-    @RequestParam(defaultValue = "0") afterId: Long,
+    @RequestParam(defaultValue = "0") lastMessageId: Long,
     @RequestParam(defaultValue = "100") limit: Int,
   ): List<MessageFrame> =
-    messageQueryService.findRoomMessages(roomId, userId, afterId, limit)?.map { MessageFrame.from(it) }
+    messageQueryService.findRoomMessages(roomId, userId, lastMessageId, limit)?.map { MessageFrame.from(it) }
       ?: throw ResponseStatusException(HttpStatus.FORBIDDEN)
 }
