@@ -64,6 +64,31 @@ object TransactionDelegator {
 - @Transactional 가 적용된 메서드 내에 외부 I/O 등 무거운 연산이 있는 후 쿼리하는 경우 외부 I/O 동안에도 db connection 을 점유하게 된다.
 - LazyConnectionDataSourceProxy 는 실제 쿼리가 필요할 때까지 db connection 을 유예시킨다.
 
+#### 설정 방법
+- Spring Boot 4.1+: `spring.datasource.connection-fetch: lazy`
+  - `spring.datasource.connection-fetch` default: eager
+  - auto-configured `dataSource` 빈을 BeanPostProcessor 로 LazyConnectionDataSourceProxy 로 래핑
+- Spring Boot 4.1 이전: 수동 빈 등록 (`LazyDataSourceConfig.kt`, `custom.use-legacy-lazy-datasource: true` 로 활성화)
+  - HikariDataSource 빈과 `@Primary` LazyConnectionDataSourceProxy 빈 직접 등록
+
+```kotlin
+@Bean
+@ConfigurationProperties(prefix = "spring.datasource.hikari")
+fun hikariDataSource(dataSourceProperties: DataSourceProperties): HikariDataSource =
+  dataSourceProperties.initializeDataSourceBuilder().type(HikariDataSource::class.java).build()
+
+@Bean
+@Primary
+fun lazyConnectionDataSourceProxy(hikariDataSource: HikariDataSource) =
+  LazyConnectionDataSourceProxy(hikariDataSource)
+```
+
+#### 주의사항
+- 커넥션 획득 실패가 트랜잭션 시작이 아닌 첫 쿼리 시점에 발생
+- 기본 auto-commit/격리수준 감지를 위해 기동 시 커넥션 1회 획득
+- 첫 쿼리 이후 커밋까지 커넥션 점유 유지로 외부 I/O 는 쿼리 이전에 배치 필요
+- `provider_disables_autocommit` 대비 readOnly/격리수준 설정 트랜잭션까지 획득 지연
+
 #### @Transactional flow
 1. TransactionInterceptor
 2. TransactionAspectSupport

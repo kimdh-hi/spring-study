@@ -5,6 +5,7 @@ spring:
     url: jdbc:mysql://localhost/test?createDatabaseIfNotExist=true
     username: root
     password: 111111
+    connection-fetch: lazy
     hikari:
       maximum-pool-size: 30
       connection-timeout: 3000
@@ -28,3 +29,4 @@ spring:
 
 custom:
   use-query-counter: true
+  use-legacy-lazy-datasource: false
