@@ -1,0 +1,280 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "User API",
+        "description": "User CRUD API generated from Spring REST Docs",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/"
+        }
+    ],
+    "tags": [
+        
+    ],
+    "paths": {
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Find all users",
+                "description": "Find all users",
+                "operationId": "users-find-all",
+                "responses": {
+                    "200": {
+                        "description": "200",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/api-users-1359368325"
+                                },
+                                "examples": {
+                                    "users-find-all": {
+                                        "value": "[{\"id\":1,\"name\":\"Kim\",\"email\":\"kim@example.com\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create user",
+                "description": "Create user",
+                "operationId": "users-create",
+                "requestBody": {
+                    "content": {
+                        "application/json;charset=UTF-8": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRequest"
+                            },
+                            "examples": {
+                                "users-create": {
+                                    "value": "{\"name\":\"Kim\",\"email\":\"kim@example.com\"}"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "201",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                },
+                                "examples": {
+                                    "users-create": {
+                                        "value": "{\"id\":1,\"name\":\"Kim\",\"email\":\"kim@example.com\"}"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Find user",
+                "description": "Find user",
+                "operationId": "users-find-by-id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                },
+                                "examples": {
+                                    "users-find-by-id": {
+                                        "value": "{\"id\":1,\"name\":\"Kim\",\"email\":\"kim@example.com\"}"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user",
+                "description": "Update user",
+                "operationId": "users-update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json;charset=UTF-8": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRequest"
+                            },
+                            "examples": {
+                                "users-update": {
+                                    "value": "{\"name\":\"Lee\",\"email\":\"lee@example.com\"}"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "200",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                },
+                                "examples": {
+                                    "users-update": {
+                                        "value": "{\"id\":1,\"name\":\"Lee\",\"email\":\"lee@example.com\"}"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete user",
+                "description": "Delete user",
+                "operationId": "users-delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "204"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "api-users-1359368325": {
+                "type": "array",
+                "items": {
+                    "required": [
+                        "email",
+                        "id",
+                        "name"
+                    ],
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "User name"
+                        },
+                        "id": {
+                            "type": "number",
+                            "description": "User id"
+                        },
+                        "email": {
+                            "type": "string",
+                            "description": "User email"
+                        }
+                    }
+                }
+            },
+            "UserResponse": {
+                "title": "UserResponse",
+                "required": [
+                    "email",
+                    "id",
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "User name"
+                    },
+                    "id": {
+                        "type": "number",
+                        "description": "User id"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "User email"
+                    }
+                }
+            },
+            "UserRequest": {
+                "title": "UserRequest",
+                "required": [
+                    "email",
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "User name"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "User email"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "ApiKey": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-API-KEY"
+            }
+        }
+    },
+    "security": [
+        {
+            "ApiKey": [
+                
+            ]
+        }
+    ]
+}
