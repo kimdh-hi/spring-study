@@ -56,8 +56,41 @@ public ConcurrentWebSocketSessionDecorator(
 
 ---
 
+## spring websocket(raw websocket, netty)
+
+- https://docs.spring.io/spring-framework/reference/web/webflux-websocket.html
+- spring-raw-websocket 과 동일 기능을 webflux(reactor netty) + r2dbc + reactive redis 로 구현
+
+### tomcat + virtual thread 대비 이점
+
+- 유휴 연결 수용량은 차이 없음 (tomcat NIO 도 유휴 연결에 스레드 미점유)
+- 차이는 쓰기 경로: 전송이 채널 outbound 버퍼 적재로 끝나 느린 클라이언트가 방 전체 팬아웃을 지연시키지 않음
+- 채널은 단일 event loop 에 귀속되어 쓰기가 직렬화됨 (ConcurrentWebSocketSessionDecorator 불필요)
+- 세션별 backpressure 정책 직접 선택 가능 (buffer/drop/latest)
+- 연결 수명주기가 하나의 Mono 로 표현되어 정리 지점이 doFinally 하나로 수렴
+- 블로킹 코드(JPA/JDBC)를 event loop 에서 실행하면 서버 전체가 멈추므로 r2dbc 등 논블로킹 스택 필수
+
+---
+
 ## spring stomp
 - https://docs.spring.io/spring-framework/reference/web/websocket/stomp.html
+
+### simple broker
+- 별도 프로세스나 외부 릴레이 서버 없이 spring 애플리케이션 내에서 동작하는 인메모리 브로커
+- 구독 정보 저장, destination 매칭, 메세지 분배 등을 spring 애플리케이션이 직접 처리
+- 구독 목록은 전부 서버 메모리에 있으니 특정 destination 으로 메세지 발행되는 경우 해당 destination 구독 목록을 보고 구독자에게 메세지 중계
+- 서버가 늘어나는 경우 대응 불가
+  - 서버1 의 room/1 destination 에 A, B 접속
+  - 서버2 의 room/1 destination 에 C 접속
+  - 서버1의 A가 room/1로 메세지 발송시 서버1은 C가 해당 destination 을 구독한다는 사실을 알 수 없음
+
+### STOMP broker relay
+- 구독 정보를 서버 메모리에 두지 않고, 모든 서버가 동일한 브로커 서버를 보도록 함
+- 이 때 이 브로커 서버는 stomp 를 지원해야 함 (RabbitMQ, ActiveMQ 가 대표적)
+- 서버는 stomp 메세지 수신시 그대로 broker 로 넘기고, 브로커에서 구독 정보에 따라 각 서버로 다시 중계
+
+### simple broker + bridge(kafka, redis...)
+- stomp 를 지원하는 외부 브로커를 둘 수 없는 경우 (이미 메세징 브로커로써 다른 인프라를 갖고 있는 경우) 각 서버는 simple broker 방식으로 메모리에 구독 정보를 저장하되, stomp 메세지를 kafka, redis(pub/sub) 등을 통해 각 서버로 릴레이
 
 ### stomp (Simple Text Oriented Messaging Protocol)
 - https://docs.spring.io/spring-framework/reference/web/websocket/stomp/overview.html
@@ -182,7 +215,6 @@ destination:/topic/news
 
 ^@
 
-
 UNSUBSCRIBE
 id:sub-0 // 구독시 client가 임의로 정한 값 (required)
 
@@ -201,5 +233,3 @@ id:sub-0 // 구독시 client가 임의로 정한 값 (required)
 - 서버는 RECEIPT 프레임에 이전 receipt 헤더와 동일한 값을 설정하여 응답
 - client 는 RECEIPT 프레임 수신시 이전 발행한 프레임들이 정상적으로 서버에 도달했음을 인지하고 연결 종료
 - recepit 헤더와 RECEPIT 프레임은 graceful DISCONNECT 뿐만이 아니라 SEND 프레임에 대한 도돨 여부 확인에도 사용 가능
-
-
