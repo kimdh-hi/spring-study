@@ -8,7 +8,7 @@ plugins {
 
 group = "com.toy"
 version = "0.0.1-SNAPSHOT"
-description = "spring-stomp"
+description = "spring-stomp-bridge"
 
 java {
   toolchain {

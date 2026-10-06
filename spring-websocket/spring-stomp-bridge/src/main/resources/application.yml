@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: spring-stomp
+    name: spring-stomp-bridge
   threads:
     virtual:
       enabled: true
