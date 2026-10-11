@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-stomp-broker-relay
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:chat
+    username: sa
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  h2:
+    console:
+      enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+stomp:
+  relay-port: 61613
