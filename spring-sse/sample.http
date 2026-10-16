@@ -1,0 +1,29 @@
+### subscribe (브라우저 http://localhost:8080 또는 curl -N 권장)
+GET http://localhost:8080/sse/subscribe/client-1
+Accept: text/event-stream
+
+### send to client
+POST http://localhost:8080/sse/send/client-1
+Content-Type: text/plain
+
+hello client-1
+
+### broadcast
+POST http://localhost:8080/sse/broadcast
+Content-Type: text/plain
+
+hello all
+
+### stream (curl -N 권장)
+POST http://localhost:8080/sse/stream
+Content-Type: text/plain
+Accept: text/event-stream
+
+hello streaming response from spring sse
+
+### stream (Flux, curl -N 권장)
+POST http://localhost:8080/sse/stream-flux
+Content-Type: text/plain
+Accept: text/event-stream
+
+hello streaming response from spring sse

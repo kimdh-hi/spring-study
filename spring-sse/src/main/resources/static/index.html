@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>spring-sse</title>
+</head>
+<body>
+<input id="clientId" value="client-1">
+<button onclick="subscribe()">subscribe</button>
+<button onclick="source?.close()">close</button>
+<br>
+<input id="prompt" value="hello streaming response from spring sse">
+<button onclick="stream('/sse/stream')">stream</button>
+<button onclick="stream('/sse/stream-flux')">stream-flux</button>
+<button onclick="controller?.abort()">abort</button>
+<pre id="log"></pre>
+
+<script>
+  let source;
+  let controller;
+  const log = (line) => document.getElementById('log').textContent += line + '\n';
+
+  function subscribe() {
+    const clientId = document.getElementById('clientId').value;
+    source = new EventSource(`/sse/subscribe/${clientId}`);
+    source.addEventListener('connect', (e) => log(`[connect] ${e.data}`));
+    source.addEventListener('message', (e) => log(`[message #${e.lastEventId}] ${e.data}`));
+    source.onerror = () => log('[error] reconnecting...');
+  }
+
+  async function stream(path) {
+    controller = new AbortController();
+    const response = await fetch(path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain', 'Accept': 'text/event-stream' },
+      body: document.getElementById('prompt').value,
+      signal: controller.signal,
+    });
+
+    const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+    let buffer = '';
+    try {
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += value;
+        const events = buffer.split('\n\n');
+        buffer = events.pop();
+        events.forEach((raw) => onStreamEvent(parseEvent(raw)));
+      }
+    } catch (e) {
+      log(`[stream] ${e.name}`);
+    }
+  }
+
+  function parseEvent(raw) {
+    const event = { name: 'message', data: [] };
+    raw.split('\n').forEach((line) => {
+      const [field, ...rest] = line.split(':');
+      const value = rest.join(':').replace(/^ /, '');
+      if (field === 'event') event.name = value;
+      if (field === 'data') event.data.push(value);
+    });
+    return { name: event.name, data: event.data.join('\n') };
+  }
+
+  function onStreamEvent({ name, data }) {
+    log(`[${name}] ${data}`);
+  }
+</script>
+</body>
+</html>
