@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: warmup
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:warmup
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 10
+  jpa:
+    open-in-view: false
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always

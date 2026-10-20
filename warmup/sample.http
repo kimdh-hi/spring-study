@@ -1,0 +1,23 @@
+### readiness (웜업 중 OUT_OF_SERVICE, 완료 후 UP)
+GET http://localhost:8080/actuator/health/readiness
+
+### 카테고리별 상품 목록
+GET http://localhost:8080/products?category=BOOK
+
+### 상품 상세
+GET http://localhost:8080/products/1
+
+### 상품 등록
+POST http://localhost:8080/products
+Content-Type: application/json
+
+{"name": "new-product", "category": "BOOK", "price": 1000}
+
+### 상품 수정
+PUT http://localhost:8080/products/1
+Content-Type: application/json
+
+{"name": "updated-product", "category": "TOY", "price": 2000}
+
+### 상품 삭제
+DELETE http://localhost:8080/products/1
