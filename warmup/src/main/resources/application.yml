@@ -19,6 +19,10 @@ spring:
       ddl-auto: create
 
 management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics
   endpoint:
     health:
       probes:
