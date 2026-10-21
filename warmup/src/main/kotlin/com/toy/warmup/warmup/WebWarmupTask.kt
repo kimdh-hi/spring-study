@@ -9,14 +9,13 @@ class WebWarmupTask(
   private val environment: Environment,
 ) : WarmupTask {
 
-  private val client by lazy {
+  override fun run() {
     val port = environment.getRequiredProperty("local.server.port")
-    RestClient.create("http://localhost:$port")
+    val client = RestClient.create("http://localhost:$port")
+    repeat(REPEAT) { call(client, it) }
   }
 
-  override fun run() = repeat(REPEAT, ::call)
-
-  private fun call(iteration: Int) {
+  private fun call(client: RestClient, iteration: Int) {
     val category = CATEGORIES[iteration % CATEGORIES.size]
     val productId = iteration % PRODUCT_COUNT + 1
 

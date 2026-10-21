@@ -33,6 +33,18 @@ ApplicationRunner (WarmupRunner)
 - 신규 대상은 `WarmupTask` 구현 빈 추가로 자동 등록
 - 변경 API 첫 호출: 요청 역직렬화, JPA 쓰기 경로 초기화 비용 잔존
 
+## API 스펙 변경 대응
+
+| 수단 | 검출 대상 | 검출 시점 |
+|---|---|---|
+| `WarmupRunner` fail-fast | 경로·파라미터 불일치, 404, 400 등 호출 실패 | 기동 |
+| `WarmupIntegrationTest` | 위 항목 전체 | CI |
+
+- 웜업 전용 API 계약(HTTP Interface) 미도입, 운영 코드 구조 변경 회피
+- `submit` + `Future.get()`으로 태스크 예외 전파, 기동 실패 처리
+- 웜업 실패 시 readiness 미전환, 롤링 배포 중단
+- 기존 `execute` 방식: 가상 스레드 예외가 stderr 출력 후 무시되어 웜업 0회로 트래픽 수신
+
 ## 측정
 
 ```shell

@@ -5,6 +5,7 @@ import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
+import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import kotlin.time.TimeSource
 
@@ -20,9 +21,8 @@ class WarmupRunner(
     val started = TimeSource.Monotonic.markNow()
 
     Executors.newVirtualThreadPerTaskExecutor().use { executor ->
-      tasks.forEach { task ->
-        executor.execute(task::run)
-      }
+      tasks.map { task -> executor.submit(Callable { task.run() }) }
+        .forEach { it.get() }
     }
 
     log.info("warmup completed. elapsed={}", started.elapsedNow())
