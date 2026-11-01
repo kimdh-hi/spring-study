@@ -2,7 +2,9 @@ package com.study.jwtkeyrotate.domain.model
 
 import com.nimbusds.jose.JWSAlgorithm
 import com.nimbusds.jose.jwk.OctetSequenceKey
+import com.study.jwtkeyrotate.common.SecretConverter
 import com.study.jwtkeyrotate.domain.model.enums.JwtKeyStatus
+import jakarta.persistence.Convert
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
@@ -17,6 +19,7 @@ class JwtKey(
   @UuidGenerator
   var kid: String? = null,
 
+  @Convert(converter = SecretConverter::class)
   val secret: ByteArray = randomSecret(),
 
   @Enumerated(EnumType.STRING)

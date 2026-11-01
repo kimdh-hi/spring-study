@@ -2,3 +2,4 @@ jwt:
   ttl: PT30M
   refresh-ttl: P14D
   rotation-cron: "0 0 3 * * *"
+  kek: ${JWT_KEK}
