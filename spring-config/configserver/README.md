@@ -86,6 +86,34 @@ datasource:
 - `/encrypt`, `/decrypt` 는 인증 없이 열려 있으면 누구나 복호화 가능 — 인증 적용 또는 운영에서 차단
 - 전송 구간은 평문이므로 HTTPS 필수
 
+## Composite (다중 저장소)
+
+- `spring.profiles.active: composite` 로 활성화, 항목별 `type` 으로 백엔드 지정 (git, native, vault, jdbc 등)
+- 하나를 고르는 방식이 아니라 모든 저장소 결과를 `propertySources` 목록에 순서대로 담아 응답
+- 클라이언트가 목록 순서대로 적용 
+  - 같은 키는 앞쪽 우선, 앞쪽에 없는 키는 뒤쪽 값 사용 (키 단위 fallback)
+- 기본 순서는 목록 순서, 항목별 `order` 로 변경 가능
+
+```yaml
+spring:
+  profiles:
+    active: composite
+  cloud:
+    config:
+      server:
+        composite:
+          - type: git     # 우선
+            uri: ${CONFIG_GIT_URI}
+          - type: native
+            search-locations: file:./config
+```
+
+### 실패 처리
+
+- `spring.cloud.config.server.fail-on-composite-error` 기본값 `true` (저장소 하나만 실패해도 요청 전체 실패)
+- `false` 이면 실패한 저장소를 건너뛰고 나머지 결과로 응답
+- `clone-on-start: true` 상태에서 git 인증 실패 시 서버 기동 자체 실패
+
 ## 클라이언트 연결
 
 ```yaml
