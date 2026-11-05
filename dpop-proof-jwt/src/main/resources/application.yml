@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: dpop-proof-jwt
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:dpop-proof-jwt
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
