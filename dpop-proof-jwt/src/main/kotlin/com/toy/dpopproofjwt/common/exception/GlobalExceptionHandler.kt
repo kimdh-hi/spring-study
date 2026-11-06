@@ -13,6 +13,10 @@ class GlobalExceptionHandler {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   fun invalidDPoPProof(ex: InvalidDPoPProofException) = ErrorResponse("invalid_dpop_proof", ex.message)
 
+  @ExceptionHandler(UseDPoPNonceException::class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  fun useDPoPNonce(ex: UseDPoPNonceException) = ErrorResponse("use_dpop_nonce", ex.message)
+
   @ExceptionHandler(MissingRequestHeaderException::class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   fun missingHeader(ex: MissingRequestHeaderException) =
