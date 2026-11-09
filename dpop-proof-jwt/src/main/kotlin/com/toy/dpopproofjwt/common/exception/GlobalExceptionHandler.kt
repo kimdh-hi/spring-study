@@ -1,5 +1,6 @@
 package com.toy.dpopproofjwt.common.exception
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MissingRequestHeaderException
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -19,12 +20,10 @@ class GlobalExceptionHandler {
 
   @ExceptionHandler(MissingRequestHeaderException::class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  fun missingHeader(ex: MissingRequestHeaderException) =
-    if (ex.headerName == "DPoP") ErrorResponse("invalid_dpop_proof", "DPoP proof is missing.")
-    else ErrorResponse("invalid_request", ex.message)
+  fun missingHeader(ex: MissingRequestHeaderException) = ErrorResponse("invalid_request", ex.message)
 
   @ExceptionHandler(InvalidCredentialsException::class)
-  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
   fun invalidCredentials(ex: InvalidCredentialsException) = ErrorResponse("invalid_grant", ex.message)
 
   @ExceptionHandler(NotFoundException::class)
@@ -34,5 +33,5 @@ class GlobalExceptionHandler {
 
 data class ErrorResponse(
   val error: String,
-  val errorDescription: String?,
+  @JsonProperty("error_description") val errorDescription: String?,
 )

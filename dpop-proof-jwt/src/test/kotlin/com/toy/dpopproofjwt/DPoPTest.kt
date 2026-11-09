@@ -90,7 +90,20 @@ class DPoPTest {
       header("DPoP", proof(clientKey, "POST", LOGIN))
       contentType = MediaType.APPLICATION_JSON
       content = """{"username":"user","password":"wrong"}"""
-    }.andExpect { status { isUnauthorized() }; jsonPath("$.error") { value("invalid_grant") } }
+    }.andExpect { status { isBadRequest() }; jsonPath("$.error") { value("invalid_grant") } }
+  }
+
+  @Test
+  fun `login endpoint rejects multiple dpop headers`() {
+    mockMvc.post(LOGIN) {
+      header("DPoP", proof(clientKey, "POST", LOGIN), proof(clientKey, "POST", LOGIN))
+      contentType = MediaType.APPLICATION_JSON
+      content = CREDENTIALS
+    }.andExpect {
+      status { isBadRequest() }
+      jsonPath("$.error") { value("invalid_dpop_proof") }
+      jsonPath("$.error_description") { exists() }
+    }
   }
 
   @Test
@@ -212,9 +225,11 @@ class DPoPTest {
       content = CREDENTIALS
     }.andExpect {
       status { isOk() }
-      jsonPath("$.tokenType") { value("DPoP") }
+      jsonPath("$.token_type") { value("DPoP") }
+      jsonPath("$.expires_in") { value(300) }
+      header { string("Cache-Control", containsString("no-store")) }
     }.andReturn().response.contentAsString
-    return JsonPath.read(body, "$.accessToken")
+    return JsonPath.read(body, "$.access_token")
   }
 
   private fun getItems(token: String, proof: String): ResultActionsDsl =
