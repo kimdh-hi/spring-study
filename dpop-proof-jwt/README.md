@@ -239,6 +239,20 @@ DPoP 방식 적용시 AccessToken 탈취된 경우 클라이언트의 개인키�
 - secret 없이 HMAC 계산 불가로 위조·미래 nonce 생성 불가
 - secret 은 기동 시 랜덤 생성이므로 인스턴스 간 secret 공유 필요
 
+## Refresh Token 관리방안
+
+- 로그인 시 AT/RT 를 모두 공개키 지문(jkt) 에 묶어서 발급
+    - AT 는 cnf.jkt 클레임에 jkt 를 넣어서 묶음
+    - RT 는 DB에 RT, jkt 를 함께 저장하여 묶음
+- RT 로 AT 재발급 시 DB 로부터 RT 조회하고 jkt 와 비교
+- RT 를 공개키에 묶지 않는 경우 이슈
+    - 공격자는 RT 를 탈취
+    - 공격자는 본인의 개인키/공개키 쌍 생성
+    - RT 로 AT 발급시 본인의 proof 를 포함시킴
+    - RT 탈취시 DPoP 관계없이 본인의 proof 로 AT 사용 가능
+- RT 로 AT 재발급시 proof 의 공개키 지문과 RT 발급시 공개키 지문에 대한 검증 필수
+
+
 ## 구현 클래스
 
 - `SecurityConfig`: resource server + DPoP 설정, proof 검증 팩토리에 nonce 검증 추가
