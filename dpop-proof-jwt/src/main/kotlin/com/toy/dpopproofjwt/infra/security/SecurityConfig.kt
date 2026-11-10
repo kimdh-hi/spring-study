@@ -43,6 +43,7 @@ class SecurityConfig {
       sessionManagement { sessionCreationPolicy = SessionCreationPolicy.STATELESS }
       authorizeHttpRequests {
         authorize("/login", permitAll)
+        authorize("/token/refresh", permitAll)
         authorize(anyRequest, authenticated)
       }
       oauth2ResourceServer {

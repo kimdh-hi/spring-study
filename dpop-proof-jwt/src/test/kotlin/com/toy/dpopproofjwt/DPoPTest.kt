@@ -10,6 +10,8 @@ import com.nimbusds.jose.jwk.ECKey
 import com.nimbusds.jose.jwk.gen.ECKeyGenerator
 import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.SignedJWT
+import com.toy.dpopproofjwt.domain.model.RefreshToken
+import com.toy.dpopproofjwt.domain.repository.RefreshTokenRepository
 import com.toy.dpopproofjwt.infra.security.DPoPNonceProvider
 import org.hamcrest.Matchers.containsString
 import org.junit.jupiter.api.Test
@@ -29,6 +31,7 @@ import java.time.Instant
 import java.util.Base64
 import java.util.Date
 import java.util.UUID
+import kotlin.test.assertNotEquals
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,6 +42,9 @@ class DPoPTest {
 
   @Autowired
   lateinit var nonceProvider: DPoPNonceProvider
+
+  @Autowired
+  lateinit var refreshTokenRepository: RefreshTokenRepository
 
   private val clientKey: ECKey = newKey()
 
@@ -218,7 +224,93 @@ class DPoPTest {
     }.andExpect { status { isBadRequest() }; jsonPath("$.error") { value("invalid_dpop_proof") } }
   }
 
-  private fun login(): String {
+  @Test
+  fun `refresh token issues new tokens bound to the same key`() {
+    val (_, refreshToken) = loginTokens()
+
+    val body = refresh(refreshToken, proof(clientKey, "POST", REFRESH)).andExpect {
+      status { isOk() }
+      jsonPath("$.token_type") { value("DPoP") }
+      jsonPath("$.refresh_token") { exists() }
+    }.andReturn().response.contentAsString
+
+    val accessToken = JsonPath.read<String>(body, "$.access_token")
+    val rotated = JsonPath.read<String>(body, "$.refresh_token")
+    assertNotEquals(refreshToken, rotated)
+    getItems(accessToken, proof(clientKey, "GET", ITEMS, accessToken)).andExpect { status { isOk() } }
+  }
+
+  @Test
+  fun `refresh token with proof signed by another key is rejected and revoked`() {
+    val (_, refreshToken) = loginTokens()
+
+    refresh(refreshToken, proof(newKey(), "POST", REFRESH)).andExpect {
+      status { isBadRequest() }
+      jsonPath("$.error") { value("invalid_grant") }
+    }
+    refresh(refreshToken, proof(clientKey, "POST", REFRESH)).andExpect {
+      status { isBadRequest() }
+      jsonPath("$.error") { value("invalid_grant") }
+    }
+  }
+
+  @Test
+  fun `used refresh token cannot be reused`() {
+    val (_, refreshToken) = loginTokens()
+
+    refresh(refreshToken, proof(clientKey, "POST", REFRESH)).andExpect { status { isOk() } }
+    refresh(refreshToken, proof(clientKey, "POST", REFRESH)).andExpect {
+      status { isBadRequest() }
+      jsonPath("$.error") { value("invalid_grant") }
+    }
+  }
+
+  @Test
+  fun `expired refresh token is rejected`() {
+    val (_, refreshToken) = loginTokens()
+    refreshTokenRepository.findAll().forEach {
+      refreshTokenRepository.save(RefreshToken(it.tokenHash, it.username, it.jkt, Instant.now().minusSeconds(1), it.id))
+    }
+
+    refresh(refreshToken, proof(clientKey, "POST", REFRESH)).andExpect {
+      status { isBadRequest() }
+      jsonPath("$.error") { value("invalid_grant") }
+    }
+  }
+
+  @Test
+  fun `refresh without nonce is challenged and keeps refresh token`() {
+    val (_, refreshToken) = loginTokens()
+
+    refresh(refreshToken, proof(clientKey, "POST", REFRESH, nonce = null)).andExpect {
+      status { isBadRequest() }
+      jsonPath("$.error") { value("use_dpop_nonce") }
+      header { exists("DPoP-Nonce") }
+    }
+    refresh(refreshToken, proof(clientKey, "POST", REFRESH)).andExpect { status { isOk() } }
+  }
+
+  @Test
+  fun `refresh with proof for another uri is rejected and keeps refresh token`() {
+    val (_, refreshToken) = loginTokens()
+
+    refresh(refreshToken, proof(clientKey, "POST", LOGIN)).andExpect {
+      status { isBadRequest() }
+      jsonPath("$.error") { value("invalid_dpop_proof") }
+    }
+    refresh(refreshToken, proof(clientKey, "POST", REFRESH)).andExpect { status { isOk() } }
+  }
+
+  private fun refresh(refreshToken: String, proof: String): ResultActionsDsl =
+    mockMvc.post(REFRESH) {
+      header("DPoP", proof)
+      contentType = MediaType.APPLICATION_JSON
+      content = """{"refresh_token":"$refreshToken"}"""
+    }
+
+  private fun login(): String = loginTokens().first
+
+  private fun loginTokens(): Pair<String, String> {
     val body = mockMvc.post(LOGIN) {
       header("DPoP", proof(clientKey, "POST", LOGIN))
       contentType = MediaType.APPLICATION_JSON
@@ -229,7 +321,7 @@ class DPoPTest {
       jsonPath("$.expires_in") { value(300) }
       header { string("Cache-Control", containsString("no-store")) }
     }.andReturn().response.contentAsString
-    return JsonPath.read(body, "$.access_token")
+    return JsonPath.read<String>(body, "$.access_token") to JsonPath.read<String>(body, "$.refresh_token")
   }
 
   private fun getItems(token: String, proof: String): ResultActionsDsl =
@@ -270,6 +362,7 @@ class DPoPTest {
     const val BASE = "http://localhost"
     const val LOGIN = "/login"
     const val ITEMS = "/api/items"
+    const val REFRESH = "/token/refresh"
     const val CREDENTIALS = """{"username":"user","password":"password"}"""
 
     fun newKey(): ECKey = ECKeyGenerator(Curve.P_256).generate()

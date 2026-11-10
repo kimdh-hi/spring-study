@@ -26,6 +26,10 @@ class GlobalExceptionHandler {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   fun invalidCredentials(ex: InvalidCredentialsException) = ErrorResponse("invalid_grant", ex.message)
 
+  @ExceptionHandler(InvalidRefreshTokenException::class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  fun invalidRefreshToken(ex: InvalidRefreshTokenException) = ErrorResponse("invalid_grant", ex.message)
+
   @ExceptionHandler(NotFoundException::class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   fun notFound(ex: NotFoundException) = ErrorResponse("not_found", ex.message)

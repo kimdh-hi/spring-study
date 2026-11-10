@@ -7,26 +7,26 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional(readOnly = true)
 class LoginService(
   private val userRepository: UserRepository,
   private val passwordEncoder: PasswordEncoder,
-  private val tokenIssuer: TokenIssuer,
+  private val proofVerifier: DPoPProofVerifier,
+  private val refreshTokenService: RefreshTokenService,
 ) {
 
+  @Transactional
   fun login(command: LoginCommand): IssuedToken {
     val user = userRepository.findByUsername(command.username)
       ?.takeIf { passwordEncoder.matches(command.password, it.password) }
       ?: throw InvalidCredentialsException()
 
-    return tokenIssuer.issue(user.username, command.dPoPProof, command.method, command.targetUri)
+    val jkt = proofVerifier.verify(command.proof)
+    return refreshTokenService.issue(user.username, jkt)
   }
 }
 
 data class LoginCommand(
   val username: String,
   val password: String,
-  val dPoPProof: String,
-  val method: String,
-  val targetUri: String,
+  val proof: DPoPProof,
 )
