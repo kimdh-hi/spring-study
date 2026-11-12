@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>spring-mfa</title>
+  <style>
+    body { font-family: sans-serif; max-width: 720px; margin: 24px auto; padding: 0 16px; }
+    section { margin-bottom: 16px; }
+    button { margin: 2px; }
+    pre { background: #f4f4f4; padding: 8px; white-space: pre-wrap; word-break: break-all; }
+  </style>
+</head>
+<body>
+<h1>spring-mfa</h1>
+<section>
+  <input id="username" value="admin"> <input id="password" type="password" value="password">
+  <button onclick="login()">login</button>
+</section>
+<section>
+  <button onclick="call('GET', '/admin/me')">/admin/me</button>
+</section>
+<section>
+  <button onclick="registerPasskey()">passkey 등록</button>
+  <button onclick="authenticatePasskey()">passkey 인증</button>
+</section>
+<pre id="out"></pre>
+<script>
+  let accessToken = null;
+  const out = (v) => document.getElementById('out').textContent = typeof v === 'string' ? v : JSON.stringify(v, null, 2);
+
+  async function call(method, path, body) {
+    const res = await fetch(path, {
+      method,
+      headers: {
+        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+        ...(body && { 'Content-Type': 'application/json' }),
+      },
+      body: body && JSON.stringify(body),
+    });
+    const text = await res.text();
+    const json = text ? JSON.parse(text) : null;
+    if (json?.accessToken) accessToken = json.accessToken;
+    out({ status: res.status, wwwAuthenticate: res.headers.get('WWW-Authenticate'), body: json });
+    return json;
+  }
+
+  const login = () => call('POST', '/auth/login', {
+    username: document.getElementById('username').value,
+    password: document.getElementById('password').value,
+  });
+
+  async function registerPasskey() {
+    const options = await call('POST', '/mfa/passkeys/registration/options');
+    const credential = await navigator.credentials.create({ publicKey: PublicKeyCredential.parseCreationOptionsFromJSON(options) });
+    await call('POST', '/mfa/passkeys/registration', { publicKey: { credential: credential.toJSON(), label: 'browser' } });
+  }
+
+  async function authenticatePasskey() {
+    const options = await call('POST', '/mfa/passkeys/authentication/options');
+    const credential = await navigator.credentials.get({ publicKey: PublicKeyCredential.parseRequestOptionsFromJSON(options) });
+    await call('POST', '/mfa/passkeys/authentication', credential.toJSON());
+  }
+</script>
+</body>
+</html>

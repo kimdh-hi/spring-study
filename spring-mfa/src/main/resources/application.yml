@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-mfa
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:spring-mfa
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+
+mfa:
+  jwt:
+    issuer: spring-mfa
+    access-token-ttl: 30m
+  factor-valid-duration: 10m
+  webauthn:
+    rp-id: localhost
+    rp-name: spring-mfa
+    allowed-origins: http://localhost:8080

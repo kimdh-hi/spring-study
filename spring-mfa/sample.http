@@ -1,0 +1,13 @@
+### login (password factor)
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{"username": "admin", "password": "password"}
+
+> {% client.global.set("accessToken", response.body.accessToken); %}
+
+### admin api, 401 insufficient_user_authentication until second factor
+GET http://localhost:8080/admin/me
+Authorization: Bearer {{accessToken}}
+
+### passkey needs a browser, open http://localhost:8080
