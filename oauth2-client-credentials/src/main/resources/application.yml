@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: oauth2-client-credentials
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:oauth2-client-credentials
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+
+app:
+  security:
+    issuer: http://localhost:8080
+    admin-token-ttl: 30m
+    client-token-ttl: 10m
