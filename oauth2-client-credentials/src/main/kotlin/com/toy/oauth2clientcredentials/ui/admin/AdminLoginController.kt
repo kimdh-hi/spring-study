@@ -1,7 +1,7 @@
 package com.toy.oauth2clientcredentials.ui.admin
 
 import com.toy.oauth2clientcredentials.application.admin.AdminLoginService
-import com.toy.oauth2clientcredentials.infra.security.IssuedToken
+import com.toy.oauth2clientcredentials.infra.security.admin.IssuedToken
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping

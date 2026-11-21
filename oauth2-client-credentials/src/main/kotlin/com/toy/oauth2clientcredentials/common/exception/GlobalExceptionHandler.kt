@@ -13,6 +13,10 @@ class GlobalExceptionHandler {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   fun invalidScope(ex: InvalidScopeException) = ErrorResponse("invalid_scope", ex.message)
 
+  @ExceptionHandler(InvalidClientMetadataException::class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  fun invalidClientMetadata(ex: InvalidClientMetadataException) = ErrorResponse("invalid_client_metadata", ex.message)
+
   @ExceptionHandler(InvalidCredentialsException::class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   fun invalidCredentials(ex: InvalidCredentialsException) = ErrorResponse("invalid_credentials", ex.message)

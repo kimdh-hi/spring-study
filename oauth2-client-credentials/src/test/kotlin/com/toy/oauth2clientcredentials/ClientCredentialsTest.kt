@@ -1,6 +1,13 @@
 package com.toy.oauth2clientcredentials
 
 import com.jayway.jsonpath.JsonPath
+import com.nimbusds.jose.JWSAlgorithm
+import com.nimbusds.jose.JWSHeader
+import com.nimbusds.jose.crypto.RSASSASigner
+import com.nimbusds.jose.jwk.RSAKey
+import com.nimbusds.jose.jwk.gen.RSAKeyGenerator
+import com.nimbusds.jwt.JWTClaimsSet
+import com.nimbusds.jwt.SignedJWT
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -11,7 +18,10 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
+import java.time.Instant
 import java.util.Base64
+import java.util.Date
+import java.util.UUID
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -51,6 +61,44 @@ class ClientCredentialsTest {
       contentType = MediaType.APPLICATION_FORM_URLENCODED
       content = "grant_type=client_credentials&scope=service-b"
     }.andExpect { status { isBadRequest() }; jsonPath("$.error") { value("invalid_scope") } }
+  }
+
+  @Test
+  fun `client authenticates with private_key_jwt using registered public key`() {
+    val admin = adminToken()
+    val key = RSAKeyGenerator(2048).keyID("k1").generate()
+    val pem = "-----BEGIN PUBLIC KEY-----\n" +
+      Base64.getEncoder().encodeToString(key.toRSAPublicKey().encoded) +
+      "\n-----END PUBLIC KEY-----"
+    val clientId = registerClient(admin, """"authMethod":"PUBLIC_KEY","publicKey":${jsonString(pem)}""")
+
+    val token = assertionToken(clientId, key)
+    mockMvc.get("/api/service-a") { bearer(token) }.andExpect { status { isOk() } }
+
+    assertionTokenRequest(clientId, RSAKeyGenerator(2048).keyID("k1").generate())
+      .andExpect { status { isUnauthorized() }; jsonPath("$.error") { value("invalid_client") } }
+  }
+
+  @Test
+  fun `private_key_jwt client cannot use secret`() {
+    val key = RSAKeyGenerator(2048).generate()
+    val pem = Base64.getEncoder().encodeToString(key.toRSAPublicKey().encoded)
+    val clientId = registerClient(adminToken(), """"authMethod":"PUBLIC_KEY","publicKey":"$pem"""")
+
+    mockMvc.post("/oauth2/token") {
+      basicAuth(Client(clientId, "anything"))
+      contentType = MediaType.APPLICATION_FORM_URLENCODED
+      content = "grant_type=client_credentials&scope=service-a"
+    }.andExpect { status { isUnauthorized() } }
+  }
+
+  @Test
+  fun `invalid public key cannot be registered`() {
+    mockMvc.post("/admin/clients") {
+      bearer(adminToken())
+      contentType = MediaType.APPLICATION_JSON
+      content = """{"name":"c","scopes":["service-a"],"authMethod":"PUBLIC_KEY","publicKey":"nope"}"""
+    }.andExpect { status { isBadRequest() }; jsonPath("$.error") { value("invalid_client_metadata") } }
   }
 
   @Test
@@ -143,6 +191,44 @@ class ClientCredentialsTest {
     return Client(JsonPath.read(body, "$.client.clientId"), JsonPath.read(body, "$.clientSecret"))
   }
 
+  private fun registerClient(adminToken: String, authFields: String): String {
+    val body = mockMvc.post("/admin/clients") {
+      bearer(adminToken)
+      contentType = MediaType.APPLICATION_JSON
+      content = """{"name":"partner","scopes":["service-a"],$authFields}"""
+    }.andExpect { status { isCreated() }; jsonPath("$.clientSecret") { doesNotExist() } }
+      .andReturn().response.contentAsString
+    return JsonPath.read(body, "$.client.clientId")
+  }
+
+  private fun assertionTokenRequest(clientId: String, key: RSAKey) =
+    mockMvc.post("/oauth2/token") {
+      contentType = MediaType.APPLICATION_FORM_URLENCODED
+      content = "grant_type=client_credentials&scope=service-a&client_id=$clientId" +
+        "&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer" +
+        "&client_assertion=${clientAssertion(clientId, key)}"
+    }
+
+  private fun assertionToken(clientId: String, key: RSAKey): String = JsonPath.read(
+    assertionTokenRequest(clientId, key).andExpect { status { isOk() } }.andReturn().response.contentAsString,
+    "$.access_token",
+  )
+
+  private fun clientAssertion(clientId: String, key: RSAKey): String {
+    val claims = JWTClaimsSet.Builder()
+      .issuer(clientId)
+      .subject(clientId)
+      .audience("http://localhost:8080/oauth2/token")
+      .jwtID(UUID.randomUUID().toString())
+      .expirationTime(Date.from(Instant.now().plusSeconds(60)))
+      .build()
+    return SignedJWT(JWSHeader.Builder(JWSAlgorithm.RS256).keyID(key.keyID).build(), claims)
+      .apply { sign(RSASSASigner(key)) }
+      .serialize()
+  }
+
+  private fun jsonString(value: String) = "\"" + value.replace("\n", "\\n") + "\""
+
   private fun clientToken(client: Client, scope: String): String = JsonPath.read(
     mockMvc.post("/oauth2/token") {
       basicAuth(client)
@@ -161,5 +247,5 @@ class ClientCredentialsTest {
     header(HttpHeaders.AUTHORIZATION, "Basic $encoded")
   }
 
-  data class Client(val id: String, val secret: String)
+  data class Client(val id: String, val secret: String?)
 }

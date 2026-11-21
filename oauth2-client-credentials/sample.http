@@ -18,6 +18,19 @@ Content-Type: application/json
   client.global.set("clientSecret", response.body.clientSecret);
 %}
 
+### create client (private_key_jwt, registered public key)
+POST http://localhost:8080/admin/clients
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{"name": "partner-c", "scopes": ["service-a"], "authMethod": "PUBLIC_KEY", "publicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBg...\n-----END PUBLIC KEY-----"}
+
+### client credentials token (private_key_jwt)
+POST http://localhost:8080/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&scope=service-a&client_id={{clientId}}&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer&client_assertion={{clientAssertion}}
+
 ### list clients
 GET http://localhost:8080/admin/clients
 Authorization: Bearer {{adminToken}}

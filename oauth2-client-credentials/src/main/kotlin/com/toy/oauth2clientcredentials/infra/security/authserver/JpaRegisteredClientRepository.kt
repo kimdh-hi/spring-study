@@ -1,11 +1,15 @@
-package com.toy.oauth2clientcredentials.infra.security
+package com.toy.oauth2clientcredentials.infra.security.authserver
 
+import com.toy.oauth2clientcredentials.domain.model.ClientAuthMethod
 import com.toy.oauth2clientcredentials.domain.model.OAuthClient
 import com.toy.oauth2clientcredentials.domain.repository.OAuthClientRepository
+import com.toy.oauth2clientcredentials.infra.security.SecurityProperties
 import org.springframework.security.oauth2.core.AuthorizationGrantType
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository
+import org.springframework.security.oauth2.server.authorization.settings.ClientSettings
 import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings
 import org.springframework.stereotype.Component
@@ -27,14 +31,11 @@ class JpaRegisteredClientRepository(
   override fun findByClientId(clientId: String): RegisteredClient? =
     clientRepository.findByClientId(clientId)?.toRegisteredClient()
 
-  private fun OAuthClient.toRegisteredClient(): RegisteredClient =
-    RegisteredClient.withId(id.toString())
+  private fun OAuthClient.toRegisteredClient(): RegisteredClient {
+    val builder = RegisteredClient.withId(id.toString())
       .clientId(clientId)
-      .clientSecret(clientSecretHash)
       .clientName(name)
       .clientIdIssuedAt(createdAt)
-      .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-      .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
       .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
       .scopes { it.addAll(scopes) }
       .tokenSettings(
@@ -43,5 +44,22 @@ class JpaRegisteredClientRepository(
           .accessTokenTimeToLive(properties.clientTokenTtl)
           .build(),
       )
-      .build()
+
+    when (authMethod) {
+      ClientAuthMethod.SECRET -> builder
+        .clientSecret(checkNotNull(clientSecretHash))
+        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+
+      ClientAuthMethod.PUBLIC_KEY -> builder
+        .clientAuthenticationMethod(ClientAuthenticationMethod.PRIVATE_KEY_JWT)
+        .clientSettings(
+          ClientSettings.builder()
+            .tokenEndpointAuthenticationSigningAlgorithm(SignatureAlgorithm.RS256)
+            .setting(ClientAssertionDecoderFactory.PUBLIC_KEY_SETTING, checkNotNull(publicKeyPem))
+            .build(),
+        )
+    }
+    return builder.build()
+  }
 }

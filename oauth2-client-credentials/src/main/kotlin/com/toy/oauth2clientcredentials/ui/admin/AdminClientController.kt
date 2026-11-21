@@ -4,6 +4,7 @@ import com.toy.oauth2clientcredentials.application.client.ClientInfo
 import com.toy.oauth2clientcredentials.application.client.ClientService
 import com.toy.oauth2clientcredentials.application.client.CreateClientCommand
 import com.toy.oauth2clientcredentials.application.client.CreatedClient
+import com.toy.oauth2clientcredentials.domain.model.ClientAuthMethod
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -23,7 +24,9 @@ class AdminClientController(
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   fun create(@RequestBody request: CreateClientRequest): CreatedClient =
-    clientService.create(CreateClientCommand(request.name, request.scopes))
+    clientService.create(
+      CreateClientCommand(request.name, request.scopes, request.authMethod, request.publicKey),
+    )
 
   @GetMapping
   fun findAll(): List<ClientInfo> = clientService.findAll()
@@ -39,4 +42,6 @@ class AdminClientController(
 data class CreateClientRequest(
   val name: String,
   val scopes: Set<String>,
+  val authMethod: ClientAuthMethod = ClientAuthMethod.SECRET,
+  val publicKey: String? = null,
 )

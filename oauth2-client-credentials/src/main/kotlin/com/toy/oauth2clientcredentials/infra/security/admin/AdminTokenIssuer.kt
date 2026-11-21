@@ -1,5 +1,7 @@
-package com.toy.oauth2clientcredentials.infra.security
+package com.toy.oauth2clientcredentials.infra.security.admin
 
+import com.toy.oauth2clientcredentials.infra.security.AdminJwtCodec
+import com.toy.oauth2clientcredentials.infra.security.SecurityProperties
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm
 import org.springframework.security.oauth2.jwt.JwsHeader
 import org.springframework.security.oauth2.jwt.JwtClaimsSet
