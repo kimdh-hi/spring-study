@@ -1,6 +1,6 @@
 package com.toy.oauth2clientcredentials.infra.security.authserver
 
-import com.toy.oauth2clientcredentials.domain.model.ClientAuthMethod
+import com.toy.oauth2clientcredentials.domain.model.ClientCredential
 import com.toy.oauth2clientcredentials.domain.model.OAuthClient
 import com.toy.oauth2clientcredentials.domain.repository.OAuthClientRepository
 import com.toy.oauth2clientcredentials.infra.security.SecurityProperties
@@ -45,21 +45,25 @@ class JpaRegisteredClientRepository(
           .build(),
       )
 
-    when (authMethod) {
-      ClientAuthMethod.SECRET -> builder
-        .clientSecret(checkNotNull(clientSecretHash))
+    when (val credential = credential) {
+      is ClientCredential.Secret -> builder
+        .clientSecret(credential.hash)
         .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
         .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
 
-      ClientAuthMethod.PUBLIC_KEY -> builder
+      is ClientCredential.PublicKey -> builder
         .clientAuthenticationMethod(ClientAuthenticationMethod.PRIVATE_KEY_JWT)
-        .clientSettings(
-          ClientSettings.builder()
-            .tokenEndpointAuthenticationSigningAlgorithm(SignatureAlgorithm.RS256)
-            .setting(ClientAssertionDecoderFactory.PUBLIC_KEY_SETTING, checkNotNull(publicKeyPem))
-            .build(),
-        )
+        .clientSettings(privateKeyJwtSettings(credential))
     }
     return builder.build()
+  }
+
+  private fun privateKeyJwtSettings(key: ClientCredential.PublicKey): ClientSettings {
+    val settings = ClientSettings.builder().tokenEndpointAuthenticationSigningAlgorithm(SignatureAlgorithm.RS256)
+    when (key) {
+      is ClientCredential.Pem -> settings.setting(ClientAssertionDecoderFactory.PUBLIC_KEY_PEM_SETTING, key.pem)
+      is ClientCredential.JwkSetUrl -> settings.jwkSetUrl(key.url)
+    }
+    return settings.build()
   }
 }

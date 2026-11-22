@@ -27,14 +27,7 @@ class OAuthClient(
   @Column(name = "scope", nullable = false)
   val scopes: Set<String>,
 
-  @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
-  val authMethod: ClientAuthMethod,
-
-  val clientSecretHash: String? = null,
-
-  @Column(length = 4096)
-  val publicKeyPem: String? = null,
+  credential: ClientCredential,
 
   @Column(nullable = false)
   val createdAt: Instant = Instant.now(),
@@ -42,10 +35,29 @@ class OAuthClient(
   @Id @GeneratedValue
   val id: Long? = null,
 ) {
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private val credentialType: CredentialType
+
+  @Column(nullable = false, length = 4096)
+  private val credentialValue: String
+
   init {
-    when (authMethod) {
-      ClientAuthMethod.SECRET -> require(clientSecretHash != null && publicKeyPem == null)
-      ClientAuthMethod.PUBLIC_KEY -> require(publicKeyPem != null && clientSecretHash == null)
+    val (type, value) = when (credential) {
+      is ClientCredential.Secret -> CredentialType.SECRET to credential.hash
+      is ClientCredential.Pem -> CredentialType.PEM to credential.pem
+      is ClientCredential.JwkSetUrl -> CredentialType.JWK_SET_URL to credential.url
     }
+    credentialType = type
+    credentialValue = value
   }
+
+  val credential: ClientCredential
+    get() = when (credentialType) {
+      CredentialType.SECRET -> ClientCredential.Secret(credentialValue)
+      CredentialType.PEM -> ClientCredential.Pem(credentialValue)
+      CredentialType.JWK_SET_URL -> ClientCredential.JwkSetUrl(credentialValue)
+    }
+
+  enum class CredentialType { SECRET, PEM, JWK_SET_URL }
 }

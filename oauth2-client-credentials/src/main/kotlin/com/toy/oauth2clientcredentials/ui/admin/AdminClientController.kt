@@ -25,7 +25,7 @@ class AdminClientController(
   @ResponseStatus(HttpStatus.CREATED)
   fun create(@RequestBody request: CreateClientRequest): CreatedClient =
     clientService.create(
-      CreateClientCommand(request.name, request.scopes, request.authMethod, request.publicKey),
+      CreateClientCommand(request.name, request.scopes, request.authMethod, request.publicKey, request.jwkSetUrl),
     )
 
   @GetMapping
@@ -44,4 +44,5 @@ data class CreateClientRequest(
   val scopes: Set<String>,
   val authMethod: ClientAuthMethod = ClientAuthMethod.SECRET,
   val publicKey: String? = null,
+  val jwkSetUrl: String? = null,
 )

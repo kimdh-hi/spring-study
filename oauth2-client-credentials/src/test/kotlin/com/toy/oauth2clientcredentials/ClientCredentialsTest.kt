@@ -4,10 +4,12 @@ import com.jayway.jsonpath.JsonPath
 import com.nimbusds.jose.JWSAlgorithm
 import com.nimbusds.jose.JWSHeader
 import com.nimbusds.jose.crypto.RSASSASigner
+import com.nimbusds.jose.jwk.JWKSet
 import com.nimbusds.jose.jwk.RSAKey
 import com.nimbusds.jose.jwk.gen.RSAKeyGenerator
 import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.SignedJWT
+import com.sun.net.httpserver.HttpServer
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -18,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
+import java.net.InetSocketAddress
 import java.time.Instant
 import java.util.Base64
 import java.util.Date
@@ -70,7 +73,7 @@ class ClientCredentialsTest {
     val pem = "-----BEGIN PUBLIC KEY-----\n" +
       Base64.getEncoder().encodeToString(key.toRSAPublicKey().encoded) +
       "\n-----END PUBLIC KEY-----"
-    val clientId = registerClient(admin, """"authMethod":"PUBLIC_KEY","publicKey":${jsonString(pem)}""")
+    val clientId = registerClient(admin, """"authMethod":"PRIVATE_KEY_JWT","publicKey":${jsonString(pem)}""")
 
     val token = assertionToken(clientId, key)
     mockMvc.get("/api/service-a") { bearer(token) }.andExpect { status { isOk() } }
@@ -80,10 +83,49 @@ class ClientCredentialsTest {
   }
 
   @Test
+  fun `client authenticates with private_key_jwt using jwks url`() {
+    val admin = adminToken()
+    val key = RSAKeyGenerator(2048).keyID("k1").generate()
+    val jwks = JWKSet(key.toPublicJWK()).toString().toByteArray()
+    val server = HttpServer.create(InetSocketAddress("127.0.0.1", 0), 0).apply {
+      createContext("/jwks") { exchange ->
+        exchange.responseHeaders.add("Content-Type", "application/json")
+        exchange.sendResponseHeaders(200, jwks.size.toLong())
+        exchange.responseBody.use { it.write(jwks) }
+      }
+      start()
+    }
+    try {
+      val url = "http://127.0.0.1:${server.address.port}/jwks"
+      val clientId = registerClient(admin, """"authMethod":"PRIVATE_KEY_JWT","jwkSetUrl":"$url"""")
+
+      val token = assertionToken(clientId, key)
+      mockMvc.get("/api/service-a") { bearer(token) }.andExpect { status { isOk() } }
+    } finally {
+      server.stop(0)
+    }
+  }
+
+  @Test
+  fun `private_key_jwt requires exactly one of public key or jwks url`() {
+    val admin = adminToken()
+    listOf(
+      """"authMethod":"PRIVATE_KEY_JWT"""",
+      """"authMethod":"PRIVATE_KEY_JWT","publicKey":"x","jwkSetUrl":"https://a/jwks"""",
+    ).forEach { fields ->
+      mockMvc.post("/admin/clients") {
+        bearer(admin)
+        contentType = MediaType.APPLICATION_JSON
+        content = """{"name":"c","scopes":["service-a"],$fields}"""
+      }.andExpect { status { isBadRequest() }; jsonPath("$.error") { value("invalid_client_metadata") } }
+    }
+  }
+
+  @Test
   fun `private_key_jwt client cannot use secret`() {
     val key = RSAKeyGenerator(2048).generate()
     val pem = Base64.getEncoder().encodeToString(key.toRSAPublicKey().encoded)
-    val clientId = registerClient(adminToken(), """"authMethod":"PUBLIC_KEY","publicKey":"$pem"""")
+    val clientId = registerClient(adminToken(), """"authMethod":"PRIVATE_KEY_JWT","publicKey":"$pem"""")
 
     mockMvc.post("/oauth2/token") {
       basicAuth(Client(clientId, "anything"))
@@ -97,7 +139,7 @@ class ClientCredentialsTest {
     mockMvc.post("/admin/clients") {
       bearer(adminToken())
       contentType = MediaType.APPLICATION_JSON
-      content = """{"name":"c","scopes":["service-a"],"authMethod":"PUBLIC_KEY","publicKey":"nope"}"""
+      content = """{"name":"c","scopes":["service-a"],"authMethod":"PRIVATE_KEY_JWT","publicKey":"nope"}"""
     }.andExpect { status { isBadRequest() }; jsonPath("$.error") { value("invalid_client_metadata") } }
   }
 

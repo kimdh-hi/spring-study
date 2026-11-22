@@ -5,9 +5,9 @@ import com.toy.oauth2clientcredentials.common.exception.InvalidScopeException
 import com.toy.oauth2clientcredentials.common.exception.NotFoundException
 import com.toy.oauth2clientcredentials.domain.model.ApiScope
 import com.toy.oauth2clientcredentials.domain.model.ClientAuthMethod
+import com.toy.oauth2clientcredentials.domain.model.ClientCredential
 import com.toy.oauth2clientcredentials.domain.model.OAuthClient
 import com.toy.oauth2clientcredentials.domain.repository.OAuthClientRepository
-import com.toy.oauth2clientcredentials.infra.security.authserver.RsaPublicKeys
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -30,18 +30,16 @@ class ClientService(
     val unsupported = command.scopes.filterNot(ApiScope::isSupported)
     if (unsupported.isNotEmpty()) throw InvalidScopeException("unsupported scopes: $unsupported")
 
-    val (clientSecret, publicKeyPem) = when (command.authMethod) {
-      ClientAuthMethod.SECRET -> newSecret() to null
-      ClientAuthMethod.PUBLIC_KEY -> null to validPublicKey(command.publicKey)
+    val (credential, clientSecret) = when (command.authMethod) {
+      ClientAuthMethod.SECRET -> newSecret().let { ClientCredential.Secret(passwordEncoder.encode(it)!!) to it }
+      ClientAuthMethod.PRIVATE_KEY_JWT -> publicKey(command.publicKey, command.jwkSetUrl) to null
     }
     val client = clientRepository.save(
       OAuthClient(
         clientId = UUID.randomUUID().toString().replace("-", ""),
         name = command.name,
         scopes = command.scopes,
-        authMethod = command.authMethod,
-        clientSecretHash = clientSecret?.let { passwordEncoder.encode(it) },
-        publicKeyPem = publicKeyPem,
+        credential = credential,
       ),
     )
     return CreatedClient(ClientInfo.from(client), clientSecret)
@@ -62,11 +60,10 @@ class ClientService(
     return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes)
   }
 
-  private fun validPublicKey(pem: String?): String {
-    if (pem == null || runCatching { RsaPublicKeys.parse(pem) }.isFailure) {
-      throw InvalidClientMetadataException("valid RSA publicKey (X.509 PEM) is required")
-    }
-    return pem
+  private fun publicKey(pem: String?, jwkSetUrl: String?): ClientCredential.PublicKey = when {
+    pem != null && jwkSetUrl == null -> ClientCredential.Pem(pem)
+    jwkSetUrl != null && pem == null -> ClientCredential.JwkSetUrl(jwkSetUrl)
+    else -> throw InvalidClientMetadataException("exactly one of publicKey or jwkSetUrl is required")
   }
 }
 
@@ -75,6 +72,7 @@ data class CreateClientCommand(
   val scopes: Set<String>,
   val authMethod: ClientAuthMethod = ClientAuthMethod.SECRET,
   val publicKey: String? = null,
+  val jwkSetUrl: String? = null,
 )
 
 data class ClientInfo(
@@ -89,7 +87,7 @@ data class ClientInfo(
       clientId = client.clientId,
       name = client.name,
       scopes = client.scopes.toSortedSet(),
-      authMethod = client.authMethod,
+      authMethod = client.credential.authMethod,
       createdAt = client.createdAt,
     )
   }
