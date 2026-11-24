@@ -95,6 +95,25 @@
     - 즉, 변수 이름 영역에 `|` 포함시 PatternParseException 예외 발생
 - https://github.com/spring-projects/spring-framework/blob/main/spring-web/src/main/java/org/springframework/web/util/pattern/InternalPathPatternParser.java
 
+## PathPatternParser 전환시 OPTIONS 관련 이슈
+
+```
+.requestMatchers("/admins/**").hasRole("ADMIN")
+.anyRequest().permitAll()                        
+```
+
+- 위 경우 AntPathMatcher 인 경우 OPTIONS 요청 아래와 같이 처리
+    - cors 헤더 2종을 포함하는 preflight 요청인 경우 실제 요청 메서드 + 경로로 매핑
+    - 그냥 OPTIONS 요청인 경우 매핑안함 (=anyRequest 로 처리)
+    - RequestMatcherDelegatingAuthorizationManager → MvcRequestMatcher.matches()
+- 위 경우 PathPatternParser 인 경우 OPTIONS 요청 아래와 같이 처리
+    - OPTIONS /admins/** 요청도 경로만 보고 `requestMatchers("/admins/**").hasRole("ADMIN")` 에 매핑됨
+    - MvcRequestMatcher.matches() → HandlerMappingIntrospector → PathPatternMatchableHandlerMapping.match()
+- OPTIONS 는 일반적으로 CORS preflight 요청이므로 AntPathMatcher 든 PathPatternParser이든 메서드를 지정하지 않은 패턴에 대해 경로로 판단하는 것은 동일함
+- 또한 `http.cors()` 사용시 CorsFilter 는 AuthorizationFilter 보다 앞에 등록되므로 애초에 고려 대상이 아니긴 함.
+- OPTIONS 를 preflight 용도로 사용하지 않는 경우 PathPatternParser 와 AntPathMatcher 의 동작이 달라질 수 있음만 유의 (일반적이지 않음)
+    - http.cors() 가 없는 경우에도 동일
+
 ## Reference
 
 - https://github.com/spring-projects/spring-framework/issues/29643
