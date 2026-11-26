@@ -2,11 +2,11 @@ package com.toy.springmfa.auth
 
 import com.toy.springmfa.support.IntegrationTestSupport
 import com.toy.springmfa.support.VirtualPasskey
+import java.time.Duration
 import org.hamcrest.Matchers.containsString
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.post
-import java.time.Duration
 
 class PasskeyMfaTest : IntegrationTestSupport() {
 
@@ -14,17 +14,35 @@ class PasskeyMfaTest : IntegrationTestSupport() {
 
   @Test
   fun `wrong password is rejected`() {
-    mockMvc.post("/auth/login") {
+    mockMvc.post("/login") {
       contentType = MediaType.APPLICATION_JSON
-      content = """{"username":"admin","password":"wrong"}"""
+      content = """{"username":"user","password":"wrong"}"""
     }.andExpect { status { isUnauthorized() } }
   }
 
   @Test
-  fun `admin api without passkey returns step-up challenge`() {
-    val token = login("admin")
+  fun `first login requires passkey registration`() {
+    loginResult("user").andExpect {
+      status { isOk() }
+      jsonPath("$.nextStep") { value("PASSKEY_REGISTRATION") }
+    }
+  }
 
-    get("/admin/me", token).andExpect {
+  @Test
+  fun `login after registration requires passkey authentication`() {
+    registerPasskey(login("user"))
+
+    loginResult("user").andExpect {
+      status { isOk() }
+      jsonPath("$.nextStep") { value("PASSKEY_AUTHENTICATION") }
+    }
+  }
+
+  @Test
+  fun `password-only token cannot access api`() {
+    val pendingToken = login("user")
+
+    get("/me", pendingToken).andExpect {
       status { isUnauthorized() }
       header { string("WWW-Authenticate", containsString("insufficient_user_authentication")) }
       jsonPath("$.requiredFactors[0].authority") { value("FACTOR_WEBAUTHN") }
@@ -33,13 +51,13 @@ class PasskeyMfaTest : IntegrationTestSupport() {
   }
 
   @Test
-  fun `admin api is allowed after passkey step-up`() {
-    val token = login("admin")
-    registerPasskey(token)
+  fun `first login completes after registering and authenticating passkey`() {
+    val pendingToken = login("user")
+    registerPasskey(pendingToken)
 
-    val mfaToken = stepUp(token)
+    val accessToken = authenticatePasskey(pendingToken)
 
-    get("/admin/me", mfaToken).andExpect {
+    get("/me", accessToken).andExpect {
       status { isOk() }
       jsonPath("$.factors.FACTOR_PASSWORD") { exists() }
       jsonPath("$.factors.FACTOR_WEBAUTHN") { exists() }
@@ -47,13 +65,46 @@ class PasskeyMfaTest : IntegrationTestSupport() {
   }
 
   @Test
-  fun `challenge is one-time`() {
-    val token = login("admin")
-    registerPasskey(token)
-    val assertion = assertion(token)
-    post("/mfa/passkeys/authentication", token, assertion).andExpect { status { isOk() } }
+  fun `next login completes with passkey authentication`() {
+    registerPasskey(login("user"))
+    val pendingToken = login("user")
 
-    post("/mfa/passkeys/authentication", token, assertion).andExpect { status { isUnauthorized() } }
+    get("/me", authenticatePasskey(pendingToken)).andExpect { status { isOk() } }
+  }
+
+  @Test
+  fun `password alone cannot register another passkey`() {
+    registerPasskey(login("user"))
+    val pendingToken = login("user")
+
+    post("/mfa/passkeys/registration/options", pendingToken).andExpect { status { isForbidden() } }
+  }
+
+  @Test
+  fun `additional passkey can be registered after mfa`() {
+    registerPasskey(login("user"))
+    val accessToken = authenticatePasskey(login("user"))
+
+    registerPasskey(accessToken)
+  }
+
+  @Test
+  fun `pending token expires`() {
+    val pendingToken = login("user")
+
+    clock.advance(Duration.ofMinutes(7))
+
+    post("/mfa/passkeys/registration/options", pendingToken).andExpect { status { isUnauthorized() } }
+  }
+
+  @Test
+  fun `challenge is one-time`() {
+    val pendingToken = login("user")
+    registerPasskey(pendingToken)
+    val assertion = assertion(pendingToken)
+    post("/mfa/passkeys/authentication", pendingToken, assertion).andExpect { status { isOk() } }
+
+    post("/mfa/passkeys/authentication", pendingToken, assertion).andExpect { status { isUnauthorized() } }
   }
 
   @Test
@@ -69,29 +120,6 @@ class PasskeyMfaTest : IntegrationTestSupport() {
     }
   }
 
-  @Test
-  fun `passkey factor expires after valid duration`() {
-    val token = login("admin")
-    registerPasskey(token)
-    val mfaToken = stepUp(token)
-
-    clock.advance(Duration.ofMinutes(11))
-
-    get("/admin/me", mfaToken).andExpect {
-      status { isUnauthorized() }
-      jsonPath("$.requiredFactors[0].authority") { value("FACTOR_WEBAUTHN") }
-      jsonPath("$.requiredFactors[0].reason") { value("expired") }
-    }
-  }
-
-  @Test
-  fun `mfa does not grant admin role`() {
-    val token = login("user")
-    registerPasskey(token)
-
-    get("/admin/me", stepUp(token)).andExpect { status { isForbidden() } }
-  }
-
   private fun registerPasskey(token: String) {
     val options = post("/mfa/passkeys/registration/options", token)
       .andExpect { status { isOk() } }.andReturn().response.contentAsString
@@ -105,6 +133,6 @@ class PasskeyMfaTest : IntegrationTestSupport() {
     return passkey.authenticate(options)
   }
 
-  private fun stepUp(token: String): String =
+  private fun authenticatePasskey(token: String): String =
     tokenOf(post("/mfa/passkeys/authentication", token, assertion(token)))
 }

@@ -1,8 +1,13 @@
 package com.toy.springmfa.support
 
 import com.jayway.jsonpath.JsonPath
-import com.toy.springmfa.auth.passkey.PasskeyCredentialRepository
-import com.toy.springmfa.auth.passkey.PasskeyUserRepository
+import com.toy.springmfa.domain.repository.PasskeyCredentialRepository
+import com.toy.springmfa.domain.repository.PasskeyUserRepository
+import java.time.Clock
+import java.time.Duration
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZoneOffset
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -16,11 +21,6 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActionsDsl
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
-import java.time.Clock
-import java.time.Duration
-import java.time.Instant
-import java.time.ZoneId
-import java.time.ZoneOffset
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -47,12 +47,13 @@ abstract class IntegrationTestSupport {
   }
 
   protected fun login(username: String, password: String = "password"): String =
-    tokenOf(
-      mockMvc.post("/auth/login") {
-        contentType = MediaType.APPLICATION_JSON
-        content = """{"username":"$username","password":"$password"}"""
-      },
-    )
+    tokenOf(loginResult(username, password))
+
+  protected fun loginResult(username: String, password: String = "password"): ResultActionsDsl =
+    mockMvc.post("/login") {
+      contentType = MediaType.APPLICATION_JSON
+      content = """{"username":"$username","password":"$password"}"""
+    }
 
   protected fun get(path: String, accessToken: String): ResultActionsDsl =
     mockMvc.get(path) { bearer(accessToken) }

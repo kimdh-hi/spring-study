@@ -23,6 +23,7 @@ repositories {
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-webmvc")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+  implementation("org.springframework.boot:spring-boot-starter-data-redis")
   implementation("org.springframework.boot:spring-boot-starter-security-oauth2-resource-server")
   implementation("org.springframework.security:spring-security-webauthn")
   implementation("com.webauthn4j:webauthn4j-core")
@@ -33,7 +34,6 @@ dependencies {
 
   testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-  // authenticator emulator for passkey tests
   testImplementation("com.webauthn4j:webauthn4j-test:0.31.10.RELEASE")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
