@@ -32,6 +32,8 @@ class SecurityConfig {
       csrf { disable() }
       sessionManagement { sessionCreationPolicy = SessionCreationPolicy.STATELESS }
       authorizeHttpRequests {
+        authorize("/", permitAll)
+        authorize("/index.html", permitAll)
         authorize("/login", permitAll)
         authorize("/mfa/passkeys/**", authenticated)
         authorize(anyRequest, mfa.authenticated())

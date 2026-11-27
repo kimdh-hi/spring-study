@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spring MFA Tester</title>
+  <style>
+    :root { color-scheme: light dark; --border: #8884; --muted: #888; --accent: #2563eb; --ok: #16a34a; --err: #dc2626; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 14px/1.5 system-ui, sans-serif; }
+    main { max-width: 960px; margin: 0 auto; padding: 24px 16px; display: grid; gap: 16px; }
+    h1 { font-size: 20px; margin: 0; }
+    h2 { font-size: 15px; margin: 0 0 12px; }
+    section { border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    input { padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; font: inherit; background: transparent; color: inherit; }
+    button { padding: 6px 12px; border: 1px solid var(--accent); border-radius: 6px; background: var(--accent); color: #fff; font: inherit; cursor: pointer; }
+    button.secondary { background: transparent; color: var(--accent); }
+    button:disabled { opacity: .5; cursor: default; }
+    .token { font-family: ui-monospace, monospace; font-size: 12px; word-break: break-all; color: var(--muted); }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; border: 1px solid var(--border); }
+    .badge.on { border-color: var(--ok); color: var(--ok); }
+    pre { margin: 0; padding: 12px; border-radius: 6px; background: #8881; overflow: auto; max-height: 420px; font-size: 12px; }
+    .log-entry { border-top: 1px solid var(--border); padding: 8px 0; }
+    .log-entry:first-child { border-top: none; }
+    .status-ok { color: var(--ok); font-weight: 600; }
+    .status-err { color: var(--err); font-weight: 600; }
+    #log { display: grid; gap: 4px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Spring MFA Tester</h1>
+
+  <section>
+    <h2>1. 비밀번호 로그인</h2>
+    <div class="row">
+      <input id="username" value="user" placeholder="username">
+      <input id="password" value="password" type="password" placeholder="password">
+      <button id="login">로그인</button>
+      <button class="secondary" data-fill="user">user</button>
+      <button class="secondary" data-fill="admin">admin</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>2. 패스키</h2>
+    <div class="row">
+      <span>nextStep: <b id="next-step">-</b></span>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <input id="label" value="browser key" placeholder="label">
+      <button id="register">패스키 등록</button>
+      <button id="authenticate">패스키 인증</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. 토큰 상태</h2>
+    <div class="row">
+      <span class="badge" id="factor-password">FACTOR_PASSWORD</span>
+      <span class="badge" id="factor-webauthn">FACTOR_WEBAUTHN</span>
+      <button class="secondary" id="me">GET /me</button>
+      <button class="secondary" id="reset">초기화</button>
+    </div>
+    <p class="token" id="token">토큰 없음</p>
+  </section>
+
+  <section>
+    <h2>요청 로그</h2>
+    <div id="log"></div>
+  </section>
+</main>
+
+<script>
+  const state = { token: null };
+  const $ = (id) => document.getElementById(id);
+
+  const toBytes = (value) => {
+    const base64 = value.replace(/-/g, '+').replace(/_/g, '/');
+    const padded = base64 + '='.repeat((4 - base64.length % 4) % 4);
+    return Uint8Array.from(atob(padded), (c) => c.charCodeAt(0));
+  };
+
+  const toBase64Url = (buffer) =>
+    btoa(String.fromCharCode(...new Uint8Array(buffer))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+
+  const decodeJwt = (token) => {
+    try {
+      return JSON.parse(new TextDecoder().decode(toBytes(token.split('.')[1])));
+    } catch {
+      return null;
+    }
+  };
+
+  const log = (method, path, status, body) => {
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    const ok = status >= 200 && status < 300;
+    entry.innerHTML = `<div><span class="${ok ? 'status-ok' : 'status-err'}">${status}</span> <b>${method}</b> ${path} <span style="color:var(--muted)">${new Date().toLocaleTimeString()}</span></div>`;
+    const pre = document.createElement('pre');
+    pre.textContent = typeof body === 'string' ? body : JSON.stringify(body, null, 2);
+    entry.appendChild(pre);
+    $('log').prepend(entry);
+  };
+
+  const call = async (method, path, body) => {
+    const headers = { 'Content-Type': 'application/json' };
+    if (state.token) headers.Authorization = `Bearer ${state.token}`;
+    const response = await fetch(path, { method, headers, body: body === undefined ? undefined : JSON.stringify(body) });
+    const text = await response.text();
+    let data = text;
+    try { data = text ? JSON.parse(text) : ''; } catch {}
+    const authenticate = response.headers.get('WWW-Authenticate');
+    log(method, path, response.status, authenticate ? { 'WWW-Authenticate': authenticate, body: data } : data);
+    if (!response.ok) throw new Error(`${method} ${path} -> ${response.status}`);
+    return data;
+  };
+
+  const setToken = (token) => {
+    state.token = token;
+    const claims = token ? decodeJwt(token) : null;
+    $('token').textContent = token ? `${token}\n\n${JSON.stringify(claims, null, 2)}` : '토큰 없음';
+    $('token').style.whiteSpace = 'pre-wrap';
+    const text = JSON.stringify(claims ?? {});
+    $('factor-password').classList.toggle('on', text.includes('FACTOR_PASSWORD'));
+    $('factor-webauthn').classList.toggle('on', text.includes('FACTOR_WEBAUTHN'));
+  };
+
+  const guard = (fn) => async () => {
+    try { await fn(); } catch (error) { log('ERROR', '', 0, String(error)); }
+  };
+
+  $('login').onclick = guard(async () => {
+    const result = await call('POST', '/login', { username: $('username').value, password: $('password').value });
+    setToken(result.accessToken);
+    $('next-step').textContent = result.nextStep;
+  });
+
+  $('register').onclick = guard(async () => {
+    const options = await call('POST', '/mfa/passkeys/registration/options');
+    const credential = await navigator.credentials.create({
+      publicKey: {
+        ...options,
+        challenge: toBytes(options.challenge),
+        user: { ...options.user, id: toBytes(options.user.id) },
+        excludeCredentials: (options.excludeCredentials ?? []).map((c) => ({ ...c, id: toBytes(c.id) })),
+      },
+    });
+    await call('POST', '/mfa/passkeys/registration', {
+      publicKey: {
+        label: $('label').value,
+        credential: {
+          id: credential.id,
+          rawId: toBase64Url(credential.rawId),
+          type: credential.type,
+          response: {
+            attestationObject: toBase64Url(credential.response.attestationObject),
+            clientDataJSON: toBase64Url(credential.response.clientDataJSON),
+            transports: credential.response.getTransports?.() ?? [],
+          },
+          clientExtensionResults: credential.getClientExtensionResults(),
+          authenticatorAttachment: credential.authenticatorAttachment,
+        },
+      },
+    });
+    $('next-step').textContent = 'PASSKEY_AUTHENTICATION';
+  });
+
+  $('authenticate').onclick = guard(async () => {
+    const options = await call('POST', '/mfa/passkeys/authentication/options');
+    const credential = await navigator.credentials.get({
+      publicKey: {
+        ...options,
+        challenge: toBytes(options.challenge),
+        allowCredentials: (options.allowCredentials ?? []).map((c) => ({ ...c, id: toBytes(c.id) })),
+      },
+    });
+    const result = await call('POST', '/mfa/passkeys/authentication', {
+      id: credential.id,
+      rawId: toBase64Url(credential.rawId),
+      type: credential.type,
+      response: {
+        authenticatorData: toBase64Url(credential.response.authenticatorData),
+        clientDataJSON: toBase64Url(credential.response.clientDataJSON),
+        signature: toBase64Url(credential.response.signature),
+        userHandle: credential.response.userHandle ? toBase64Url(credential.response.userHandle) : null,
+      },
+      clientExtensionResults: credential.getClientExtensionResults(),
+      authenticatorAttachment: credential.authenticatorAttachment,
+    });
+    setToken(result.accessToken);
+    $('next-step').textContent = 'DONE';
+  });
+
+  $('me').onclick = guard(() => call('GET', '/me'));
+
+  $('reset').onclick = () => {
+    setToken(null);
+    $('next-step').textContent = '-';
+    $('log').replaceChildren();
+  };
+
+  document.querySelectorAll('[data-fill]').forEach((button) => {
+    button.onclick = () => { $('username').value = button.dataset.fill; $('password').value = 'password'; };
+  });
+</script>
+</body>
+</html>
